@@ -174,11 +174,11 @@ public static class PlaceObjectSlot_Patch
                     if (PugDatabase.HasComponent<SeedCD>(item))
                     {
                         SeedCD seedCd = PugDatabase.GetComponent<SeedCD>(item);
-                        if (seedCd.rarePlantVariation > 0)
+                        if (seedCd.rarePlantVariation > 0 && conditionValue > 0)
                         {
-                            if (conditionValue > 0 && conditionValue / 100f > PugRandom.GetRng().NextFloat())
+                            if (conditionValue / 100f > PugRandom.GetRng().NextFloat())
                             {
-                                variation = seedCd.rarePlantVariation;
+                                variation = seedCd.rareSeedVariation;
                             }
                         }
                     }
