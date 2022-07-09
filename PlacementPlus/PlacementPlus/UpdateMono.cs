@@ -48,6 +48,19 @@ public class UpdateMono : MonoBehaviour
             {
                 BrushExtension.ChangeSize(-1);
             }
+
+            if (PlacementPlusPlugin.forceKeyMode.Value == KeyMode.HOLD)
+            {
+                BrushExtension.forceRotation = !player.GetButton(PlacementPlusPlugin.FORCEADJACENT);
+            }
+            else
+            {
+                if (player.GetButtonDown(PlacementPlusPlugin.FORCEADJACENT))
+                {
+                    BrushExtension.forceRotation = !BrushExtension.forceRotation;
+                }
+            }
+            
         }
     }
 }

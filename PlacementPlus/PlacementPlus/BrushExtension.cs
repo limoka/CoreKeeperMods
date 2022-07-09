@@ -10,6 +10,8 @@ public static class BrushExtension
 {
     public static int size = 0;
     public static int currentRotation = 0;
+    public static bool forceRotation = true;
+
     public static BrushMode mode = BrushMode.SQUARE;
 
     public static bool brushChanged;

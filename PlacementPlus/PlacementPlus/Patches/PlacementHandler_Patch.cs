@@ -30,7 +30,7 @@ public static class PlacementHandler_Patch
         {
             PlacementHandler.SetAllowPlacingAnywhere(false);
 
-            if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
+            if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item) && BrushExtension.forceRotation)
             {
                 SetStateWithArrow(__instance.placeableIcon, __instance.canPlaceObject, BrushExtension.currentRotation);
             }
@@ -69,6 +69,9 @@ public static class PlacementHandler_Patch
     [HarmonyPostfix]
     public static void GetObjectVariation(ref int __result)
     {
-        __result = BrushExtension.currentRotation;
+        if (BrushExtension.forceRotation)
+        {
+            __result = BrushExtension.currentRotation;
+        }
     }
 }

@@ -32,6 +32,8 @@ namespace PlacementPlus
 
         public const string INCREASE_SIZE = "PlacementPlus_IncreaseSize";
         public const string DECREASE_SIZE = "PlacementPlus_DecreaseSize";
+        
+        public const string FORCEADJACENT = "PlacementPlus_ForceAdjacent";
 
         public static ManualLogSource logger;
         public new static ConfigFile Config;
@@ -108,7 +110,8 @@ namespace PlacementPlus
 
         public static ConfigEntry<string> excludeString;
         public static ConfigEntry<int> maxSize;
- 
+        public static ConfigEntry<KeyMode> forceKeyMode; 
+
         public override void Load()
         {
             logger = Log;
@@ -117,6 +120,8 @@ namespace PlacementPlus
 
             maxSize = Config.Bind("General", "MaxBrushSize", 7, new ConfigDescription("Max range the brush will have", new AcceptableValueRange<int>(3, 9)));
 
+            forceKeyMode = Config.Bind("General", "ForceRotationKeyMode", KeyMode.HOLD, "Which mode should 'Force adjacent belt rotation' keybind use");
+            
             excludeString = Config.Bind("General", "ExcludeItems", userExclude.Join(),
                 "List of comma delimited items to automatically disable the area placement feature. You can reference 'ItemIDs.txt' file for all existing item ID's");
 
@@ -127,6 +132,7 @@ namespace PlacementPlus
             RewiredKeybinds.AddKeybind(INCREASE_SIZE, "Increase Size", KeyboardKeyCode.KeypadPlus);
             RewiredKeybinds.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
             RewiredKeybinds.AddKeybind(ROTATE, "Rotate", KeyboardKeyCode.V);
+            RewiredKeybinds.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             bundle = AssetBundle.LoadFromFile($"{pluginfolder}/placementplusbundle");
