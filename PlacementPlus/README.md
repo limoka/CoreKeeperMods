@@ -7,7 +7,7 @@ Unlock full potential of your placement! With this mod you can place seeds, wall
 List of features:<br/>
 - Place almost any item in grids of 2x2 up to 7x7. To increase grid size use `Numpad +` and `Numpad -` buttons.
 - Place almost any item in lines with length of 2 up to 7. To toggle between placement modes use `C` button.
-- Select belts, drills or mechanical arms placement direction before placing anything! Use `V` button to select their rotation. When placing in lines mode select changes direction pattern instead of axis
+- Select belts, drills or mechanical arms placement direction before placing anything! Use `V` button to select their rotation. When placing in lines mode select changes direction pattern instead of axis. Hold `Ctrl` to use vanilla placement logic with 1x1 place mode.
 
 All Keybinds are rebindable in the options menu!<br/>
 
@@ -34,6 +34,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.1.1
+- Allow using vanilla belt placement logic when holding a button
 
 ### v1.1.0
 - Added even grid sizes of 2x2, 4x4 and 6x6
