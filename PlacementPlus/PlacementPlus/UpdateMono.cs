@@ -31,17 +31,22 @@ public class UpdateMono : MonoBehaviour
         {
             if (player.GetButtonDown(PlacementPlusPlugin.CHANGE_ORIENTATION))
             {
-                PlaceObjectSlot_Patch.ToggleMode();
+                BrushExtension.ToggleMode();
+            }
+            
+            if (player.GetButtonDown(PlacementPlusPlugin.ROTATE))
+            {
+                BrushExtension.ChangeRotation(1);
             }
 
             if (player.GetButtonDown(PlacementPlusPlugin.INCREASE_SIZE))
             {
-                PlaceObjectSlot_Patch.ChangeRadius(1);
+                BrushExtension.ChangeSize(1);
             }
 
             if (player.GetButtonDown(PlacementPlusPlugin.DECREASE_SIZE))
             {
-                PlaceObjectSlot_Patch.ChangeRadius(-1);
+                BrushExtension.ChangeSize(-1);
             }
         }
     }

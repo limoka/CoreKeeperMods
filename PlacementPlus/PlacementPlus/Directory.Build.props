@@ -12,7 +12,7 @@
         <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
         <CKGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKGameDir>
         <CKAssemblyDir>$(CKGameDir)BepInEx\unhollowed\</CKAssemblyDir>
-        <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
+        <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir> 
 
         <SteamDir>$([MSBuild]::EnsureTrailingSlash('$(SteamDir)'))</SteamDir>
         <BepInExDir>$(CKGameDir)BepInEx\core\</BepInExDir>
@@ -47,7 +47,7 @@
         <PackageReference Include="BepInEx.Core" Version="6.0.0-*" PrivateAssets="all"/>
 
         <Reference Include="$(BepInExDir)BepInEx.IL2CPP.dll" Private="false" SpecificVersion="true"/> 
-        <Reference Include="$(BepInExDir)LibAssemblyUnhollower.dll" Private="false" SpecificVersion="true"/> 
+        <Reference Include="$(BepInExDir)AssemblyUnhollower.dll" Private="false" SpecificVersion="true"/> 
         <Reference Include="$(BepInExDir)UnhollowerBaseLib.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(BepInExDir)UnhollowerRuntimeLib.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Il2Cppmscorlib.dll" Private="false" SpecificVersion="true"/>
@@ -80,7 +80,7 @@
         <Reference Include="$(CKAssemblyDir)Rewired.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Rewired_Core.dll" Private="false" SpecificVersion="true"/>
 
-        <Reference Include="$(BepPlugins)CoreMods-CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(BepPlugins)CoreMods-CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/> 
 
     </ItemGroup>
 

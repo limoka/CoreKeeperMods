@@ -33,6 +33,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 <details>
 <summary>Changelog</summary>
 
+### v1.0.2
+- Allow spawner tiles to be placed in a grid
+
 ### v1.0.1
 - Fixed golden plants not being planted
 
