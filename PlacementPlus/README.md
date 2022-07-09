@@ -1,13 +1,15 @@
 # Placement Plus
-![PlacementPlus](https://raw.githubusercontent.com/kremnev8/CoreKeeperMods/master/Content/PlacementPlusPreview.gif)
+![PlacementPlus Preview](https://raw.githubusercontent.com/kremnev8/CoreKeeperMods/master/Content/PlacementPlusPreview.gif)
+![PlacementPlus Preview](https://raw.githubusercontent.com/kremnev8/CoreKeeperMods/master/Content/PlacementPlusBeltPreview.gif)
 
 Unlock full potential of your placement! With this mod you can place seeds, walls, ground and tiles in grids and lines!
 
 List of features:<br/>
-- Place almost any item in grids of 3x3, 5x5 and 7x7. To increase grid size use `Numpad +` and `Numpad -` buttons.
-- Place almost any item in lines with length of 3, 5 and 7. To toggle between placement modes use `C` button.
+- Place almost any item in grids of 2x2 up to 7x7. To increase grid size use `Numpad +` and `Numpad -` buttons.
+- Place almost any item in lines with length of 2 up to 7. To toggle between placement modes use `C` button.
+- Select belts, drills or mechanical arms placement direction before placing anything! Use `V` button to select their rotation. When placing in lines mode select changes direction pattern instead of axis
 
-All Keybinds are rebindable<br/>
+All Keybinds are rebindable in the options menu!<br/>
 
 More features might come in the future. If you have any feature you would like to see added, message me on Discord
 
@@ -32,6 +34,11 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.1.0
+- Added even grid sizes of 2x2, 4x4 and 6x6
+- Added feature to select rotation of belts, drills or mechanical arms
+- Allow placing rails in a grid
 
 ### v1.0.2
 - Allow spawner tiles to be placed in a grid
