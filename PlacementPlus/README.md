@@ -35,6 +35,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 <details>
 <summary>Changelog</summary>
 
+### v1.1.2
+- Fixed rotation not applying for drills and mechanical arms if grid size was 1x1
+
 ### v1.1.1
 - Allow using vanilla belt placement logic when holding a button
 
