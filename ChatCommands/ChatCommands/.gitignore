@@ -1,0 +1,5 @@
+/bin
+/libs
+/obj
+.vs
+*.zip

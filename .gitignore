@@ -2,6 +2,7 @@ CK_InfiniteOreBoulder/
 CK_ChunkLoader/
 .idea/
 unhollow/
+DevEnv.targets
 
 # User-specific files
 *.rsuser

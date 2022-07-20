@@ -4,6 +4,6 @@
     <!--Replace the path to your Steam installation folder-->
     <SteamDir>C:\Program Files (x86)\Steam\</SteamDir>
     <!--Replace the path to your Core Keeper installation folder-->
-    <CKGameDir>C:\SteamLibrary\steamapps\common\Core Keeper\</CKGameDir>
+    <CKGameDir>C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
   </PropertyGroup>
 </Project>
