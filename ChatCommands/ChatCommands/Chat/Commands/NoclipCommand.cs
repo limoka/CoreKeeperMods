@@ -55,7 +55,7 @@ public class NoclipCommand : IChatCommandHandler
 
     public string GetDescription()
     {
-        return "noclip - move freely without physical limitations!\nnoclip speed <multilplier> - set noclip speed multiplier";
+        return "Use /noclip to move freely without physical limitations!\n/noclip speed {multilplier} - set noclip speed multiplier";
     }
 
     public string[] GetTriggerNames()

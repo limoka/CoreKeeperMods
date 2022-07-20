@@ -22,7 +22,7 @@ public class ClearInvCommandHandler:IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Clear player inventory.";
+        return "Use /clear to clear player inventory.";
     }
 
     public string[] GetTriggerNames()

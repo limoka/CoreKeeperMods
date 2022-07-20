@@ -34,7 +34,7 @@ public class SetSkillCommandHandler : IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Sets the given skill to the given level.\n/setSkill {skillName} {level}";
+        return "Use /setSkill to set the given skill to the given level. Usage:\n/setSkill {skillName} {level}";
     }
 
     public string[] GetTriggerNames()

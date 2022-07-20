@@ -14,7 +14,7 @@ public class MaxSkillsCommandHandler: IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Maxes out all skills.";
+        return "Use /maxSkills to maxes out all skills.";
     }
 
     public string[] GetTriggerNames()

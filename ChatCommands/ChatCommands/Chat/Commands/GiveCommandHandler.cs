@@ -33,7 +33,7 @@ public class GiveCommandHandler : IChatCommandHandler
     public string GetDescription()
     {
         return
-            "Give yourself any item. Options:\n/give name:{itemName} [count]\n/give id:{itemId} [count]\nThe count parameter defaults to 1.";
+            "Use /give to give yourself any item. \n/give {itemName} [count]\nThe count parameter defaults to 1.";
     }
 
     public string[] GetTriggerNames()

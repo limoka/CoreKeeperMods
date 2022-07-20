@@ -14,7 +14,7 @@ public class ToggleInvincibleCommandHandler:IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Toggles invincibility for the player.";
+        return "Use /invincible to toggle invincibility for the player.";
     }
 
     public string[] GetTriggerNames()

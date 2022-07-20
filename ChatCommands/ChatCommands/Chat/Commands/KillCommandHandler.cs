@@ -14,7 +14,7 @@ public class KillCommandHandler:IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Kills the player. Kinda self explanatory.";
+        return "Use /kill to kill the player.";
     }
 
     public string[] GetTriggerNames()

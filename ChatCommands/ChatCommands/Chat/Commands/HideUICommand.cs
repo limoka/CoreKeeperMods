@@ -43,8 +43,6 @@ public class HideUICommand : IChatCommandHandler
                     return new CommandOutput($"Target {target} is not valid! Valid targets:\nplayer, ui, inventory", Color.red);
                 }
 
-                break;
-
             default:
                 return new CommandOutput("Incorrect argument count. Usage:\nhide <target> [state]", Color.red);
         }
@@ -146,7 +144,7 @@ public class HideUICommand : IChatCommandHandler
 
     public string GetDescription()
     {
-        return "hide <target> [state] - hide UI elements\nPossible targets: player, ui, inventory";
+        return "Use /hide to hide elements of user interface. Usage:\n/hide {target} [state]\nPossible targets: player, ui, inventory";
     }
 
     public string[] GetTriggerNames()

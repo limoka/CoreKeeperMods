@@ -14,7 +14,7 @@ public class ResetSkillsCommandHandler:IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Resets all skills to 0.";
+        return "Use /resetSkills to reset all skills to 0.";
     }
 
     public string[] GetTriggerNames()
