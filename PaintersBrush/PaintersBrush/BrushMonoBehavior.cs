@@ -5,12 +5,11 @@ using CoreLib.Util;
 using Rewired;
 using UnityEngine;
 
-namespace PlacementPlus;
+namespace PaintersBrush;
 
-public class UpdateMono : MonoBehaviour
+public class BrushMonoBehavior : MonoBehaviour
 {
     private Player player;
-    
     private static int lastColorIndex = -1;
 
     private static readonly Dictionary<int, int> colorIndexLookup = new Dictionary<int, int>
@@ -25,7 +24,7 @@ public class UpdateMono : MonoBehaviour
         { 8, 77 }
     };
 
-    public UpdateMono(IntPtr ptr) : base(ptr)
+    public BrushMonoBehavior(IntPtr ptr) : base(ptr)
     {
         
     }
@@ -44,19 +43,10 @@ public class UpdateMono : MonoBehaviour
     {
         if (player != null)
         {
-            if (player.GetButtonDown(PlacementPlusPlugin.CHANGE_ORIENTATION))
+            if (player.GetButtonDown(PaintersBrushPlugin.CHANGE_COLOR))
             {
-                BrushExtension.ToggleMode();
-            }
-            
-            if (player.GetButtonDown(PlacementPlusPlugin.ROTATE))
-            {
-                Manager manager = GameManagers.GetMainManager();
-                if (manager == null) return;
-                PlayerController pc = manager.player;
-                if (pc == null) return;
+                PlayerController pc = GameManagers.GetMainManager().player;
                 InventoryHandler inventory = pc.playerInventoryHandler;
-                if (inventory == null) return;
 
                 ObjectDataCD item = inventory.GetObjectData(pc.equippedSlotIndex);
                 if (PugDatabase.HasComponent<PaintToolCD>(item))
@@ -77,33 +67,8 @@ public class UpdateMono : MonoBehaviour
                     inventory.DestroyObject(pc.equippedSlotIndex, item.objectID);
                     inventory.CreateItem(pc.equippedSlotIndex, newObjectId, 1, pc.WorldPosition);
                 }
-                else
-                {
-                    BrushExtension.ChangeRotation(1);
-                }
-            }
-
-            if (player.GetButtonDown(PlacementPlusPlugin.INCREASE_SIZE))
-            {
-                BrushExtension.ChangeSize(1);
-            }
-
-            if (player.GetButtonDown(PlacementPlusPlugin.DECREASE_SIZE))
-            {
-                BrushExtension.ChangeSize(-1);
-            }
-
-            if (PlacementPlusPlugin.forceKeyMode.Value == KeyMode.HOLD)
-            {
-                BrushExtension.forceRotation = !player.GetButton(PlacementPlusPlugin.FORCEADJACENT);
-            }
-            else
-            {
-                if (player.GetButtonDown(PlacementPlusPlugin.FORCEADJACENT))
-                {
-                    BrushExtension.forceRotation = !BrushExtension.forceRotation;
-                }
             }
         }
     }
+
 }

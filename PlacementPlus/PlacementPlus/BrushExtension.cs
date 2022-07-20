@@ -88,6 +88,8 @@ public static class BrushExtension
             info.tileType != TileType.chrysalis &&
             info.tileType != TileType.litFloor &&
             info.tileType != TileType.rail &&
+            info.tileType != TileType.rug &&
+            info.tileType != TileType.fence &&
             info.tileType != TileType.none) return false;
 
         if (info.prefabTileSize.x != 1 || info.prefabTileSize.y != 1) return false;

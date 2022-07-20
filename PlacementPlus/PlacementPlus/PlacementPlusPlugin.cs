@@ -25,7 +25,7 @@ namespace PlacementPlus
 
         public const string MODGUID = "org.kremnev8.plugin.PlacementPlus";
 
-        public const string VERSION = "1.1.2";
+        public const string VERSION = "1.1.3";
 
         public const string CHANGE_ORIENTATION = "PlacementPlus_ChangeOrientation";
         public const string ROTATE = "PlacementPlus_Rotate";
@@ -131,8 +131,9 @@ namespace PlacementPlus
             RewiredKeybinds.AddKeybind(CHANGE_ORIENTATION, "Change Orientation", KeyboardKeyCode.C);
             RewiredKeybinds.AddKeybind(INCREASE_SIZE, "Increase Size", KeyboardKeyCode.KeypadPlus);
             RewiredKeybinds.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
-            RewiredKeybinds.AddKeybind(ROTATE, "Rotate", KeyboardKeyCode.V);
+            RewiredKeybinds.AddKeybind(ROTATE, "Rotate/Change Brush Color", KeyboardKeyCode.V);
             RewiredKeybinds.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
+
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             bundle = AssetBundle.LoadFromFile($"{pluginfolder}/placementplusbundle");

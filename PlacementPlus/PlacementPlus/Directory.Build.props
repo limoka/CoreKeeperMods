@@ -80,7 +80,7 @@
         <Reference Include="$(CKAssemblyDir)Rewired.dll" Private="false" SpecificVersion="true"/>
         <Reference Include="$(CKAssemblyDir)Rewired_Core.dll" Private="false" SpecificVersion="true"/>
 
-        <Reference Include="$(BepPlugins)CoreMods-CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/> 
+        <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/> 
 
     </ItemGroup>
 
