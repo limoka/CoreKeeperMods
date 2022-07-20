@@ -1,4 +1,5 @@
-﻿using CoreLib;
+﻿using System;
+using CoreLib;
 using UnityEngine;
 
 namespace ChatCommands.Chat.Commands;
@@ -7,53 +8,32 @@ public class GiveCommandHandler : IChatCommandHandler
 {
     public CommandOutput Execute(string[] parameters)
     {
-        string[] argType = parameters[0].Split(':');
-        switch (argType.Length)
+        if (Enum.TryParse(parameters[0], out ObjectID objId))
         {
-            case 2 when argType[0] == "id":
-                try
-                {
-                    ObjectID objId = (ObjectID)int.Parse(argType[1]);
-                    try
-                    {
-                        int count = (parameters.Length == 2) ? int.Parse(parameters[1]) : 0;
-                        AddToInventory(objId, count);
-                        return $"Successfully added {count} {argType[1]}";
-                    }
-                    catch
-                    {
-                        AddToInventory(objId, 1);
-                        return $"Successfully added 1 {argType[1]}";
-                    }
-                }
-                catch
-                {
-                    return new CommandOutput("Invalid object Id", Color.red);
-                }
-            case 2 when argType[0] == "name":
+            int count = 1;
+            if (parameters.Length == 2)
             {
-                ObjectID.TryParse(argType[1], out ObjectID objId);
-                try
+                if (int.TryParse(parameters[1], out int val))
                 {
-                    int count = (parameters.Length == 2) ? int.Parse(parameters[1]) : 0;
-                    AddToInventory(objId, count);
-                    return $"Successfully added {count} {argType[1]}";
+                    count = val;
                 }
-                catch
+                else
                 {
-                    AddToInventory(objId, 1);
-                    return $"Successfully added {1} {argType[1]}";
+                    return new CommandOutput($"Invalid count: {parameters[1]}", Color.red);
                 }
             }
-            default:
-                return new CommandOutput("Invalid command. Try /give name:{itemName} {count?} or /give id:{itemId} {count?}", Color.red);
+
+            AddToInventory(objId, count);
+            return $"Successfully added {count} {parameters[0]}";
         }
+
+        return new CommandOutput($"Invalid item: {parameters[0]}", Color.red);
     }
 
     public string GetDescription()
     {
         return
-            "Give yourself any item. Options:\n/give name:{itemName} {count?}\n/give id:{itemId} {count?}\nThe count parameter defaults to 1.";
+            "Give yourself any item. Options:\n/give name:{itemName} [count]\n/give id:{itemId} [count]\nThe count parameter defaults to 1.";
     }
 
     public string[] GetTriggerNames()

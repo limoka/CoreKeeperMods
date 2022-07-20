@@ -27,6 +27,7 @@ namespace ChatCommands.Chat
             {
                 chat = __instance;
             }
+
             if (history.Count <= 0) return;
 
             bool pressedUpOrDown = false;
@@ -51,6 +52,7 @@ namespace ChatCommands.Chat
                 {
                     currentHistoryIndex = 0;
                 }
+
                 pressedUpOrDown = true;
             }
 
@@ -62,10 +64,7 @@ namespace ChatCommands.Chat
                 {
                     string cmdName = args[0].Substring(1);
                     IChatCommandHandler[] commandHandlers = CommandRegistry.CommandHandlers
-                        .Where(handler =>
-                        {
-                            return handler.GetTriggerNames().Any(name => name.StartsWith(cmdName));
-                        }).ToArray();
+                        .Where(handler => { return handler.GetTriggerNames().Any(name => name.StartsWith(cmdName)); }).ToArray();
                     if (commandHandlers.Length == 1)
                     {
                         string fullName = commandHandlers[0].GetTriggerNames().First(name => name.StartsWith(cmdName));
@@ -73,11 +72,10 @@ namespace ChatCommands.Chat
                         pressedTab = true;
                     }
                 }
-                
             }
 
             if (!pressedUpOrDown && !pressedTab) return;
-            
+
             if (currentHistoryIndex >= 0 && currentHistoryIndex < history.Count && pressedUpOrDown)
             {
                 newText = history[currentHistoryIndex];
@@ -98,20 +96,33 @@ namespace ChatCommands.Chat
                 string cmdName = args[0].Substring(1);
                 IChatCommandHandler commandHandler = CommandRegistry.CommandHandlers.Find(handler => handler.GetTriggerNames().Contains(cmdName));
                 string[] parameters = args.Skip(1).ToArray();
-                CommandOutput output = commandHandler.Execute(parameters);
 
-                history.Add(input);
-                if (history.Count > maxHistoryLen)
+                try
                 {
-                    history.RemoveAt(0);
+                    CommandOutput output = commandHandler.Execute(parameters);
+
+                    history.Add(input);
+                    if (history.Count > maxHistoryLen)
+                    {
+                        history.RemoveAt(0);
+                    }
+
+                    currentHistoryIndex = history.Count;
+
+                    text.textString = $"{input}\n{output.feedback}";
+                    text.defaultStyle.color = output.color;
+                    text.Render();
+                    return true;
                 }
+                catch (Exception e)
+                {
+                    ChatCommandsPlugin.logger.LogWarning($"Error executing command {cmdName}:\n{e}");
 
-                currentHistoryIndex = history.Count;
-
-                text.textString = $"{input}\n{output.feedback}";
-                text.defaultStyle.color = output.color;
-                text.Render();
-                return true;
+                    text.textString = $"{input}\nError executing command";
+                    text.defaultStyle.color = Color.red;
+                    text.Render();
+                    return true;
+                }
             }
             catch
             {

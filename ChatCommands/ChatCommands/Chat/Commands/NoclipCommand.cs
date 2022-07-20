@@ -18,45 +18,39 @@ public class NoclipCommand : IChatCommandHandler
     {
         PlayerController player = Players.GetCurrentPlayer();
 
-        try
+        switch (parameters.Length)
         {
-            switch (parameters.Length)
-            {
-                case 0:
-                    noclipActive = !noclipActive;
-                    break;
-                case 1:
-                    if (bool.TryParse(parameters[0], out bool value))
-                    {
-                        noclipActive = value;
-                    }
-                    break;
-                case 2 when parameters[0].Equals("speed"):
-                    if (float.TryParse(parameters[1], out float multiplier))
-                    {
-                        multiplier = Math.Clamp(multiplier, 0.5f, 10f);
-                        player.noClipMovementSpeedMultipler = 6.25f*multiplier;
-                        return $"noclip speed multiplier now is {multiplier}";
-                    }
-                    return new CommandOutput($"{parameters[1]} is not a valid number!", Color.red);
-            }
+            case 0:
+                noclipActive = !noclipActive;
+                break;
+            case 1:
+                if (bool.TryParse(parameters[0], out bool value))
+                {
+                    noclipActive = value;
+                }
 
-            if (noclipActive)
-            {
-                player.EnterState(player.sNoClip);
-            }
-            else
-            {
-                player.EnterState(player.sWalk);
-            }
+                break;
+            case 2 when parameters[0].Equals("speed"):
+                if (float.TryParse(parameters[1], out float multiplier))
+                {
+                    multiplier = Math.Clamp(multiplier, 0.5f, 10f);
+                    player.noClipMovementSpeedMultipler = 6.25f * multiplier;
+                    return $"noclip speed multiplier now is {multiplier}";
+                }
 
-            return $"Noclip is {noclipActive}";
+                return new CommandOutput($"{parameters[1]} is not a valid number!", Color.red);
         }
-        catch (Exception e)
+
+        if (noclipActive)
         {
-            ChatCommandsPlugin.logger.LogWarning($"Failed to execute command noclip: \n{e}");
-            return new CommandOutput("Failed to execute!", Color.red);
+            player.EnterState(player.sNoClip);
         }
+        else
+        {
+            player.EnterState(player.sWalk);
+        }
+
+        return $"Noclip is {noclipActive}";
     }
 
     public string GetDescription()

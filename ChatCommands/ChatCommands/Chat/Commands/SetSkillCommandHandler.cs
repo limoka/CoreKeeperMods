@@ -10,29 +10,26 @@ public class SetSkillCommandHandler : IChatCommandHandler
     {
         if (parameters.Length != 2)
             return new CommandOutput("Invalid arguments for command. Correct format:\n/setSkill {skillName} {level}", Color.red);
-        try
+
+        if (int.TryParse(parameters[1], out int level))
         {
-            int level = int.Parse(parameters[1]);
             if (level is < 0 or > 100) return "Invalid level provided. Should be a number 0-100.";
             PlayerController player = Players.GetCurrentPlayer();
             if (player == null) return "There was an issue, try again later.";
 
-            try
+            if (Enum.TryParse(parameters[0], out SkillID skillID))
             {
-                SkillID skillID = Enum.Parse<SkillID>(parameters[0]);
                 player.SetSkillLevel(skillID, level);
             }
-            catch (ArgumentException)
+            else
             {
                 return new CommandOutput($"Skill '{parameters[0]}' is not valid!", Color.red);
             }
 
             return $"{parameters[0]} successfully set to level {level}";
         }
-        catch
-        {
-            return new CommandOutput("Invalid level provided. Should be a number 0-100.", Color.red);
-        }
+
+        return new CommandOutput("Invalid level provided. Should be a number 0-100.", Color.red);
     }
 
     public string GetDescription()

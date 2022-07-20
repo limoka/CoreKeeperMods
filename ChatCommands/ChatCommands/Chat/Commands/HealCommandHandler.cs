@@ -18,7 +18,7 @@ public class HealCommandHandler: IChatCommandHandler
 
     public string GetDescription()
     {
-        return "Use /heal to fully heal player.\n/heal {amount} for a specific amount.";
+        return "Use /heal to fully heal player.\n/heal [amount] for a specific amount.";
     }
 
     public string[] GetTriggerNames()
@@ -29,7 +29,6 @@ public class HealCommandHandler: IChatCommandHandler
     private CommandOutput Heal(int amount = -1)
     {
         PlayerController player = Players.GetCurrentPlayer();
-        if (player == null) return new CommandOutput("\nThere was an issue, try again later.", Color.red);
         int healAmount = amount < 0 ? (player.GetMaxHealth() - player.currentHealth) : amount;
         player.HealPlayer(healAmount);
         return $"Successfully healed {healAmount} HP";

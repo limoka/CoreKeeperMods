@@ -17,34 +17,27 @@ public class DisableAICommand : IChatCommandHandler
         World serverWorld = Manager._instance._ecsManager.ServerWorld;
         EntityManager entityManager = serverWorld.EntityManager;
 
-        try
+        allowAttack = !allowAttack;
+
+        EntityQuery query =
+            serverWorld.EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PheromoneAdderCD>());
+
+        NativeArray<Entity> result = query.ToEntityArray(Allocator.Temp);
+
+        foreach (Entity playerEntity in result)
         {
-            allowAttack = !allowAttack;
-            
-            EntityQuery query =
-                serverWorld.EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PheromoneAdderCD>());
-
-            NativeArray<Entity> result = query.ToEntityArray(Allocator.Temp);
-
-            foreach (Entity playerEntity in result)
-            {
-                FactionCD faction = entityManager.GetComponentData<FactionCD>(playerEntity);
-                faction.faction = allowAttack ? FactionID.Player : FactionID.AttacksAllButNotAttacked;
-                faction.originalFaction = faction.faction;
-                entityManager.SetComponentData(playerEntity, faction);
-            }
-
-            return allowAttack ? "Enemy AI is no longer passive" : "Enemy AI is passive";
+            FactionCD faction = entityManager.GetComponentData<FactionCD>(playerEntity);
+            faction.faction = allowAttack ? FactionID.Player : FactionID.AttacksAllButNotAttacked;
+            faction.originalFaction = faction.faction;
+            entityManager.SetComponentData(playerEntity, faction);
         }
-        catch (Exception e)
-        {
-            return new CommandOutput("Failed to execute!", Color.red);
-        }
+
+        return allowAttack ? "Enemy AI is no longer passive" : "Enemy AI is passive";
     }
 
     public string GetDescription()
     {
-        return "Use passive to stop enemies from targeting you.";
+        return "Use /passive to stop enemies from targeting you.";
     }
 
     public string[] GetTriggerNames()
