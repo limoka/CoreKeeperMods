@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Kremnev8",
+  "classifications": [ "Core Keeper Modding", "BepInEx" ],
+  "identity": "org.kremnev8.CKModTemplate",
+  "name": "Core Keeper mod template",
+  "shortName": "ckmodtemplate",
+  "sourceName": "CKModTemplate",
+  "preferNameDirectory":true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}
