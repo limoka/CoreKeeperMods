@@ -8,6 +8,7 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
 using CoreLib;
+using CoreLib.Submodules.RewiredExtension;
 using HarmonyLib;
 using Rewired;
 using UnhollowerBaseLib;
@@ -18,7 +19,8 @@ using Object = UnityEngine.Object;
 namespace PlacementPlus
 {
     [BepInPlugin(MODGUID, MODNAME, VERSION)]
-    [BepInDependency(CoreLib.CoreLib.GUID)]
+    [BepInDependency(CoreLibPlugin.GUID)]
+    [CoreLibSubmoduleDependency(nameof(RewiredExtensionModule))]
     public class PlacementPlusPlugin : BasePlugin
     {
         public const string MODNAME = "Placement Plus";
@@ -128,11 +130,11 @@ namespace PlacementPlus
             ParseConfigString();
             WriteReferenceFile();
 
-            RewiredKeybinds.AddKeybind(CHANGE_ORIENTATION, "Change Orientation", KeyboardKeyCode.C);
-            RewiredKeybinds.AddKeybind(INCREASE_SIZE, "Increase Size", KeyboardKeyCode.KeypadPlus);
-            RewiredKeybinds.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
-            RewiredKeybinds.AddKeybind(ROTATE, "Rotate/Change Brush Color", KeyboardKeyCode.V);
-            RewiredKeybinds.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
+            RewiredExtensionModule.AddKeybind(CHANGE_ORIENTATION, "Change Orientation", KeyboardKeyCode.C);
+            RewiredExtensionModule.AddKeybind(INCREASE_SIZE, "Increase Size", KeyboardKeyCode.KeypadPlus);
+            RewiredExtensionModule.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
+            RewiredExtensionModule.AddKeybind(ROTATE, "Rotate/Change Brush Color", KeyboardKeyCode.V);
+            RewiredExtensionModule.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
 
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CoreLib;
+using CoreLib.Submodules.ChatCommands;
 using UnityEngine;
 using Object = Il2CppSystem.Object;
 
@@ -151,4 +152,5 @@ public class HideUICommand : IChatCommandHandler
     {
         return new[] { "hide" };
     }
+    
 }

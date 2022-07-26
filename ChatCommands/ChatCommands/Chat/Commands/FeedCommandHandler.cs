@@ -1,4 +1,5 @@
 ﻿using CoreLib;
+using CoreLib.Submodules.ChatCommands;
 using UnityEngine;
 
 namespace ChatCommands.Chat.Commands;

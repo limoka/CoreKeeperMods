@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib;
+using CoreLib.Submodules.RewiredExtension;
 using CoreLib.Util;
 using Rewired;
 using UnityEngine;
@@ -32,7 +33,7 @@ public class UpdateMono : MonoBehaviour
 
     private void Awake()
     {
-        RewiredKeybinds.rewiredStart += OnRewiredStart;
+        RewiredExtensionModule.rewiredStart += OnRewiredStart;
     }
 
     private void OnRewiredStart()

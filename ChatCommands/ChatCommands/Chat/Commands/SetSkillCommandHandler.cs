@@ -1,5 +1,6 @@
 ﻿using System;
 using CoreLib;
+using CoreLib.Submodules.ChatCommands;
 using UnityEngine;
 
 namespace ChatCommands.Chat.Commands;
@@ -41,4 +42,5 @@ public class SetSkillCommandHandler : IChatCommandHandler
     {
         return new[] { "setSkill" };
     }
+    
 }

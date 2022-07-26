@@ -1,5 +1,6 @@
 ﻿using System;
 using CoreLib;
+using CoreLib.Submodules.ChatCommands;
 using Il2CppSystem.Runtime.InteropServices;
 using UnhollowerRuntimeLib;
 using Unity.Collections;
@@ -44,4 +45,5 @@ public class DisableAICommand : IChatCommandHandler
     {
         return new[] { "passive" };
     }
+   
 }

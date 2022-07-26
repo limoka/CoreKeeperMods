@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using CoreLib;
+using CoreLib.Submodules.ChatCommands;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
@@ -62,4 +63,5 @@ public class NoclipCommand : IChatCommandHandler
     {
         return new[] { "noclip" };
     }
+    
 }

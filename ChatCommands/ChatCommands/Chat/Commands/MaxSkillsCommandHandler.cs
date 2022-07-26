@@ -1,4 +1,5 @@
 ﻿using CoreLib;
+using CoreLib.Submodules.ChatCommands;
 using UnityEngine;
 
 namespace ChatCommands.Chat.Commands;
@@ -21,4 +22,5 @@ public class MaxSkillsCommandHandler: IChatCommandHandler
     {
         return new[] {"maxSkills"};
     }
+    
 }
