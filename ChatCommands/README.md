@@ -4,11 +4,6 @@ This mod adds different chat commands, that help mod developers and others can u
 
 Commands list:<br>
 
-- `/help` Get information about commands. Variations:<br>
-  `/help` Get list of all commands<br>
-  `/help {command}` Get more info about command<br>
-
-
 - `/give {itemName} [count]`: Give yourself any item.
 - `/clearInv`: Clear the player inventory.
 - `/heal [amount]`: Use to fully heal player.
