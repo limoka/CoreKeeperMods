@@ -36,6 +36,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 <details>
 <summary>Changelog</summary>
 
+### v1.2.0
+- Migrate to CoreLib 1.0.0
+
 ### v1.1.3
 - Added ability to change paint brush colors with a key
 - Allow placing fences and rugs in a grid

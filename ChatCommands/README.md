@@ -54,6 +54,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\ChatCommands/` (Create folder 
 <details>
 <summary>Changelog</summary>
 
+### v1.1.0
+- Migrate to CoreLib 1.0.0
+
 ### v1.0.0
 - Initial Release
 </details>
