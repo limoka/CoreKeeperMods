@@ -9,6 +9,8 @@ using BepInEx.IL2CPP;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using CoreLib;
+using CoreLib.Submodules.Audio;
+using CoreLib.Submodules.ModResources;
 using CoreLib.Submodules.RewiredExtension;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
@@ -21,7 +23,7 @@ namespace PlacementPlus
 {
     [BepInPlugin(MODGUID, MODNAME, VERSION)]
     [BepInDependency(CoreLibPlugin.GUID)]
-    [CoreLibSubmoduleDependency(nameof(RewiredExtensionModule))]
+    [CoreLibSubmoduleDependency(nameof(RewiredExtensionModule), nameof(AudioModule))]
     public class PlacementPlusPlugin : BasePlugin
     {
         public const string MODNAME = "Placement Plus";
@@ -41,7 +43,7 @@ namespace PlacementPlus
         public static ManualLogSource logger;
         public new static ConfigFile Config;
 
-        public static AssetBundle bundle;
+        public static ResourceData resource;
 
         private static Il2CppReferenceArray<Object> m_iconSprites;
 
@@ -116,6 +118,8 @@ namespace PlacementPlus
         public static ConfigEntry<KeyMode> forceKeyMode;
         public static ConfigEntry<float> minHoldTime;
 
+        public static MusicManager.MusicRosterType customRoster;
+
         public override void Load()
         {
             logger = Log;
@@ -143,10 +147,15 @@ namespace PlacementPlus
             RewiredExtensionModule.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            bundle = AssetBundle.LoadFromFile($"{pluginfolder}/placementplusbundle");
+            resource = new ResourceData(MODNAME, "PlacementPlus", pluginfolder);
+            resource.LoadAssetBundle("placementplusbundle");
+            ResourcesModule.AddResource(resource);
 
-            m_iconSprites = bundle.LoadAssetWithSubAssets("Assets/PlacementPlus/Textures/arrow_cursor.png", Il2CppType.Of<Sprite>());
+            m_iconSprites = resource.bundle.LoadAssetWithSubAssets("Assets/PlacementPlus/Textures/arrow_cursor.png", Il2CppType.Of<Sprite>());
 
+            customRoster = AudioModule.AddMusicRoster();
+            AudioModule.AddRosterMusic(customRoster, "Assets/PlacementPlus/Music/LocalCluster");
+            
             AddComponent<UpdateMono>();
 
             Harmony harmony = new Harmony(MODGUID);
@@ -159,7 +168,7 @@ namespace PlacementPlus
         {
             if (m_iconSprites == null || m_iconSprites[index] == null)
             {
-                m_iconSprites = bundle.LoadAssetWithSubAssets("Assets/PlacementPlus/Textures/arrow_cursor.png", Il2CppType.Of<Sprite>());
+                m_iconSprites = resource.bundle.LoadAssetWithSubAssets("Assets/PlacementPlus/Textures/arrow_cursor.png", Il2CppType.Of<Sprite>());
             }
 
             return m_iconSprites[index].Cast<Sprite>();
