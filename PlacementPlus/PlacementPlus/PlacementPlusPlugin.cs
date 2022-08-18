@@ -7,12 +7,13 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using CoreLib;
 using CoreLib.Submodules.RewiredExtension;
 using HarmonyLib;
+using Il2CppInterop.Runtime;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Rewired;
-using UnhollowerBaseLib;
-using UnhollowerRuntimeLib;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -112,7 +113,8 @@ namespace PlacementPlus
 
         public static ConfigEntry<string> excludeString;
         public static ConfigEntry<int> maxSize;
-        public static ConfigEntry<KeyMode> forceKeyMode; 
+        public static ConfigEntry<KeyMode> forceKeyMode;
+        public static ConfigEntry<float> minHoldTime;
 
         public override void Load()
         {
@@ -127,6 +129,10 @@ namespace PlacementPlus
             excludeString = Config.Bind("General", "ExcludeItems", userExclude.Join(),
                 "List of comma delimited items to automatically disable the area placement feature. You can reference 'ItemIDs.txt' file for all existing item ID's");
 
+            minHoldTime = Config.Bind("General", "MinHoldTime", 0.15f,
+                "Minimal hold time before your plus or minus presses are incremented automatically");
+
+            
             ParseConfigString();
             WriteReferenceFile();
 
@@ -135,7 +141,6 @@ namespace PlacementPlus
             RewiredExtensionModule.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
             RewiredExtensionModule.AddKeybind(ROTATE, "Rotate/Change Brush Color", KeyboardKeyCode.V);
             RewiredExtensionModule.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
-
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             bundle = AssetBundle.LoadFromFile($"{pluginfolder}/placementplusbundle");

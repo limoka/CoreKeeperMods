@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using BepInEx;
-using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using CoreLib;
 using CoreLib.Submodules.ChatCommands;
 using HarmonyLib;

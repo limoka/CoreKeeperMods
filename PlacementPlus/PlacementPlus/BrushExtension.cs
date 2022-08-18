@@ -1,8 +1,10 @@
 ﻿using System;
 using PlacementPlus.Util;
 using PugTilemap;
+using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
+using Math = System.Math;
 
 namespace PlacementPlus;
 
@@ -40,7 +42,7 @@ public static class BrushExtension
         int newMode = (int)mode + 1;
         if (newMode >= (int)BrushMode.MAX)
         {
-            newMode = (int)BrushMode.HORIZONTAL;
+            newMode = (int)BrushMode.NONE;
         }
 
         mode = (BrushMode)newMode;
@@ -51,7 +53,7 @@ public static class BrushExtension
     {
         int width;
         int height;
-        
+
         if (withRotation && !mode.IsSquare())
         {
             float angle = currentRotation * Mathf.PI / 2f;
@@ -60,15 +62,15 @@ public static class BrushExtension
                 angle += Mathf.PI / 2f;
             }
 
-            width = (int)MathF.Abs(MathF.Cos(angle)) * size; 
+            width = (int)MathF.Abs(MathF.Cos(angle)) * size;
             height = (int)MathF.Abs(MathF.Sin(angle)) * size;
         }
         else
         {
-            width = mode.IsHorizontal() ? size : 0; 
+            width = mode.IsHorizontal() ? size : 0;
             height = mode.IsVertical() ? size : 0;
         }
-        
+
 
         int xOffset = (int)MathF.Floor(width / 2f);
         int yOffset = (int)MathF.Floor(height / 2f);
@@ -127,7 +129,7 @@ public static class BrushExtension
 
     internal static void PlaceGrid(PlaceObjectSlot slot, Vector3Int center, ObjectDataCD item, ObjectInfo itemInfo)
     {
-        slot.StartCooldownForItem(slot.SLOT_COOLDOWN );
+        slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
         PlayerController pc = slot.slotOwner;
         int consumeAmount = 0;
 
@@ -251,5 +253,101 @@ public static class BrushExtension
         {
             pc.PlaceObject(initialPos);
         }
+    }
+
+    internal static void DigGrid(ShovelSlot slot, Vector3Int center, PlacementHandlerDigging placementHandler)
+    {
+        slot.StartCooldownForItem(ShovelSlot.DIG_COOLDOWN);
+        PlayerController pc = slot.slotOwner;
+        int addAmount = 0;
+
+        pc.EnterState(pc.sDig);
+
+
+        BrushRect extents = GetExtents(false);
+        for (int x = extents.minX; x <= extents.maxX; x++)
+        {
+            for (int y = extents.minY; y <= extents.maxY; y++)
+            {
+                Vector3Int pos = center + new Vector3Int(x, 0, y);
+                ObjectDataCD shovel = pc.GetHeldObject();
+
+                if (placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) continue;
+                if (placementHandler.diggableObjects.Count <= 0) continue;
+                
+                PlacementHandlerDigging.DiggableEntityAndInfo info = placementHandler.diggableObjects._items[0];
+                TileType type = info.diggableObjectInfo.tileType;
+
+                if (type == TileType.ground ||
+                    type == TileType.dugUpGround ||
+                    type == TileType.wateredGround)
+                {
+                    DigUpAtPosition(slot, pos, placementHandler);
+                }
+                else
+                {
+                    if (slot.world.EntityManager.Exists(info.diggableEntity))
+                    {
+                        if (EntityUtility.HasComponentData(info.diggableEntity, slot.world, ComponentType.ReadOnly<DestructibleObjectCD>()))
+                        {
+                            pc.playerCommandSystem.DropDestructible(info.diggableEntity, pc.entity);
+                        }
+                        else
+                        {
+                            pc.IncreaseSkillIfEntityIsPlant(info.diggableEntity, true);
+                            pc.playerCommandSystem.DestroyEntity(info.diggableEntity, pc.entity);
+                        }
+                    }
+                    else
+                    {
+                        pc.DigUpTile(info.diggableObjectInfo.tileType, info.diggableObjectInfo.tileset, pos);
+                    }
+                }
+                
+                pc.ReduceDurabilityOfHeldEquipment();
+                pc.DealCritterDamageAtTile(pos, false, false);
+            }
+        }
+    }
+
+    internal static void DigUpAtPosition(ShovelSlot slot, Vector3Int position, PlacementHandlerDigging placementHandler)
+    {
+        PlayerController pc = slot.slotOwner;
+
+        int digging = EntityUtility.GetConditionEffectValue(ConditionEffect.Digging, pc.entity, slot.world);
+
+        /*
+        CollisionWorld world = PhysicsManager.GetCollisionWorld();
+        PhysicsManager physicsManager = Manager.physics;
+
+        float3 pos = position.ToFloat3();
+
+        PhysicsCollider collider = physicsManager.GetSphereCollider(pos, 1, 0);
+        ColliderCastInput input = PhysicsManager.GetColliderCastInput(pos, pos, collider);
+        
+        
+        
+        world.CastCollider(input, )*/
+
+
+        foreach (PlacementHandlerDigging.DiggableEntityAndInfo info in placementHandler.diggableObjects)
+        {
+            ComponentType tileType = ComponentType.ReadWrite<TileCD>();
+
+
+            if (EntityUtility.HasComponentData(info.diggableEntity, slot.world, tileType))
+            {
+                TileCD tileCd = EntityUtility.GetComponentData<TileCD>(info.diggableEntity, slot.world);
+
+                if (tileCd.tileType == TileType.ground)
+                {
+                    HealthCD healthCd = EntityUtility.GetComponentData<HealthCD>(info.diggableEntity, slot.world);
+                    
+                    //Do something about pc.playerCommandSystem.DealDamageToEntity()
+                }
+                
+            }
+        }
+
     }
 }

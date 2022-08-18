@@ -13,6 +13,9 @@ public class UpdateMono : MonoBehaviour
     private Player player;
     
     private static int lastColorIndex = -1;
+    private static float plusHoldTime;
+    private static float minusHoldTime;
+
 
     private static readonly Dictionary<int, int> colorIndexLookup = new Dictionary<int, int>
     {
@@ -87,11 +90,33 @@ public class UpdateMono : MonoBehaviour
             if (player.GetButtonDown(PlacementPlusPlugin.INCREASE_SIZE))
             {
                 BrushExtension.ChangeSize(1);
+                plusHoldTime = 0;
+            }
+
+            if (player.GetButton(PlacementPlusPlugin.INCREASE_SIZE))
+            {
+                plusHoldTime += Time.deltaTime;
+                if (plusHoldTime > PlacementPlusPlugin.minHoldTime.Value)
+                {
+                    plusHoldTime = 0;
+                    BrushExtension.ChangeSize(1);
+                }
             }
 
             if (player.GetButtonDown(PlacementPlusPlugin.DECREASE_SIZE))
             {
                 BrushExtension.ChangeSize(-1);
+                minusHoldTime = 0;
+            }
+            
+            if (player.GetButton(PlacementPlusPlugin.DECREASE_SIZE))
+            {
+                minusHoldTime += Time.deltaTime;
+                if (minusHoldTime > PlacementPlusPlugin.minHoldTime.Value)
+                {
+                    minusHoldTime = 0;
+                    BrushExtension.ChangeSize(-1);
+                }
             }
 
             if (PlacementPlusPlugin.forceKeyMode.Value == KeyMode.HOLD)

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using CoreLib;
+﻿using CoreLib;
 using CoreLib.Submodules.ChatCommands;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Physics;
 using UnityEngine;
 using Math = System.Math;
 
@@ -13,7 +8,6 @@ namespace ChatCommands.Chat.Commands;
 public class NoclipCommand : IChatCommandHandler
 {
     public bool noclipActive = false;
-    public static CollisionFilter defaultFilter;
 
     public CommandOutput Execute(string[] parameters)
     {
