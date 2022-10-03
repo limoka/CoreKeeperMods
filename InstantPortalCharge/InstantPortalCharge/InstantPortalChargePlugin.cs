@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
 using BepInEx;
-using BepInEx.IL2CPP;
 using BepInEx.Logging;
+using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
-using UnhollowerRuntimeLib;
+using Il2CppInterop.Runtime.Injection;
 
 namespace InstantPortalCharge
 {
@@ -14,7 +14,7 @@ namespace InstantPortalCharge
 
         public const string MODGUID = "org.kremnev8.plugin.InstantPortalChargePlugin";
 
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.1";
 
         public static ManualLogSource logger;
 

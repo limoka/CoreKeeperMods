@@ -13,6 +13,11 @@ public class NoclipCommand : IChatCommandHandler
     {
         PlayerController player = Players.GetCurrentPlayer();
 
+        if (player.state != player.sNoClip)
+        {
+            noclipActive = false;
+        }
+        
         switch (parameters.Length)
         {
             case 0:

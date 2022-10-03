@@ -1,6 +1,7 @@
 ﻿using System;
 using PlacementPlus.Util;
 using PugTilemap;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
@@ -254,7 +255,7 @@ public static class BrushExtension
             pc.PlaceObject(initialPos);
         }
     }
-
+/*
     internal static void DigGrid(ShovelSlot slot, Vector3Int center, PlacementHandlerDigging placementHandler)
     {
         slot.StartCooldownForItem(ShovelSlot.DIG_COOLDOWN);
@@ -262,6 +263,11 @@ public static class BrushExtension
         int addAmount = 0;
 
         pc.EnterState(pc.sDig);
+
+        ObjectDataCD dt = new ObjectDataCD()
+        {
+            objectID = (ObjectID)33011
+        };
 
 
         BrushRect extents = GetExtents(false);
@@ -327,7 +333,7 @@ public static class BrushExtension
         
         
         
-        world.CastCollider(input, )*/
+        world.CastCollider(input, )*//*
 
 
         foreach (PlacementHandlerDigging.DiggableEntityAndInfo info in placementHandler.diggableObjects)
@@ -341,13 +347,28 @@ public static class BrushExtension
 
                 if (tileCd.tileType == TileType.ground)
                 {
+                    var cond = new NativeArray<SummarizedConditionEffectsBuffer>(0, Allocator.Temp);
                     HealthCD healthCd = EntityUtility.GetComponentData<HealthCD>(info.diggableEntity, slot.world);
                     
+                    pc.GetTileDamageValues(info.diggableEntity, cond, digging, out float normHealth, out int damageDone, out int damageDoneBeforeReduction, false, true);
+                    
                     //Do something about pc.playerCommandSystem.DealDamageToEntity()
+                    pc.playerCommandSystem.DealDamageToEntity(info.diggableEntity, 
+                        new NativeArray<SummarizedConditionEffectsBuffer>(0, Allocator.Temp), 
+                        digging, 
+                        false, 
+                        pc.entity,
+                        info.pos.ToFloat3(), 
+                        out int _, 
+                        out int _, 
+                        out bool _, 
+                        out bool _, 
+                        out bool _, 
+                        out bool _);
                 }
                 
             }
         }
 
-    }
+    }*/
 }

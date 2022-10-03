@@ -48,11 +48,6 @@ public class UpdateMono : MonoBehaviour
     {
         if (player != null)
         {
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                GameManagers.GetMainManager()._musicManager.SetNewMusicPlaylist(PlacementPlusPlugin.customRoster);
-            }
-            
             
             if (player.GetButtonDown(PlacementPlusPlugin.CHANGE_ORIENTATION))
             {

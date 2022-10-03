@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace PlacementPlus;
-
+/*
 public static class ShovelSlot_Patch
 {
     [HarmonyPatch(typeof(ShovelSlot), nameof(ShovelSlot.Dig))]
@@ -28,4 +28,4 @@ public static class ShovelSlot_Patch
         return false;
     }
     
-}
+}*/

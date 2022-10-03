@@ -36,6 +36,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 <details>
 <summary>Changelog</summary>
 
+### v1.3.0
+- Migrate to BepInEx BE builds
+
 ### v1.2.0
 - Migrate to CoreLib 1.0.0
 

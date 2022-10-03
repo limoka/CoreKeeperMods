@@ -5,6 +5,7 @@ This mod adds different chat commands, that help mod developers and others can u
 Commands list:<br>
 
 - `/give {itemName} [count]`: Give yourself any item.
+- `/spawn {entityName}`: Spawn any entity at your position.
 - `/clearInv`: Clear the player inventory.
 - `/heal [amount]`: Use to fully heal player.
 - `/feed [amount]`: Use to fully feed player.
@@ -12,7 +13,7 @@ Commands list:<br>
 - `/resetSkills`: Reset all skills to 0.
 - `/setSkill {skillName} {level}`: Set the given skill to the given level (0-100).
 - `/kill`: Kill the player.
-- `/invincibility`: Toggle the player's invincibility.
+- `/invincible`: Toggle the player's invincibility.
 - `/passive` Toggle enemy AI passive behavior.
 - `/noclip` Move freely without physical limitations. Variations:<br>
   `/noclip` Toggle noclip state<br>
@@ -48,6 +49,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\ChatCommands/` (Create folder 
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.2.0
+- Migrate to BepInEx BE builds
 
 ### v1.1.0
 - Migrate to CoreLib 1.0.0

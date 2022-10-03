@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using BepInEx;
 using BepInEx.Configuration;
@@ -23,14 +24,14 @@ namespace PlacementPlus
 {
     [BepInPlugin(MODGUID, MODNAME, VERSION)]
     [BepInDependency(CoreLibPlugin.GUID)]
-    [CoreLibSubmoduleDependency(nameof(RewiredExtensionModule), nameof(AudioModule))]
+    [CoreLibSubmoduleDependency(nameof(RewiredExtensionModule))]
     public class PlacementPlusPlugin : BasePlugin
     {
         public const string MODNAME = "Placement Plus";
 
         public const string MODGUID = "org.kremnev8.plugin.PlacementPlus";
 
-        public const string VERSION = "1.2.0";
+        public const string VERSION = "1.2.1";
 
         public const string CHANGE_ORIENTATION = "PlacementPlus_ChangeOrientation";
         public const string ROTATE = "PlacementPlus_Rotate";
@@ -46,6 +47,7 @@ namespace PlacementPlus
         public static ResourceData resource;
 
         private static Il2CppReferenceArray<Object> m_iconSprites;
+        private static GCHandle m_spritesHandle;
 
         #region Excludes
 
@@ -119,6 +121,7 @@ namespace PlacementPlus
         public static ConfigEntry<float> minHoldTime;
 
         public static MusicManager.MusicRosterType customRoster;
+        public static SfxID customEffect;
 
         public override void Load()
         {
@@ -152,9 +155,7 @@ namespace PlacementPlus
             ResourcesModule.AddResource(resource);
 
             m_iconSprites = resource.bundle.LoadAssetWithSubAssets("Assets/PlacementPlus/Textures/arrow_cursor.png", Il2CppType.Of<Sprite>());
-
-            customRoster = AudioModule.AddMusicRoster();
-            AudioModule.AddRosterMusic(customRoster, "Assets/PlacementPlus/Music/LocalCluster");
+            m_spritesHandle = GCHandle.Alloc(m_iconSprites);
             
             AddComponent<UpdateMono>();
 
@@ -168,6 +169,7 @@ namespace PlacementPlus
         {
             if (m_iconSprites == null || m_iconSprites[index] == null)
             {
+                logger.LogDebug("Had to reallocate the array!");
                 m_iconSprites = resource.bundle.LoadAssetWithSubAssets("Assets/PlacementPlus/Textures/arrow_cursor.png", Il2CppType.Of<Sprite>());
             }
 

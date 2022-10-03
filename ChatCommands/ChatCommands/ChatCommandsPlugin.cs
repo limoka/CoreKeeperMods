@@ -4,6 +4,7 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using CoreLib;
 using CoreLib.Submodules.ChatCommands;
+using CoreLib.Submodules.CustomEntity;
 using HarmonyLib;
 
 namespace ChatCommands
