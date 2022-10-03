@@ -13,14 +13,26 @@ public class SpawnCommandHandler : IChatCommandHandler
     {
         PlayerController player = GameManagers.GetMainManager().player;
         if (player == null) return new CommandOutput("Internal error", Color.red);
+        bool hasSpawnablePrefab = true;
+        string fullName = String.Concat(parameters).ToLower().Replace(" ", "");
+        var successfulParse = Enum.TryParse(fullName, true, out ObjectID objId);
+        try
+        {
+            
+            hasSpawnablePrefab = Manager._instance._ecsManager.ecsPrefabTable.prefabList[0].GetComponent<PugDatabaseAuthoring>().prefabList._items.Where(x => x.name.ToLower().Replace("entity", "") == fullName).Select(x => x.objectInfo.prefabInfos[0].prefab).First() != null;
+            ChatCommandsPlugin.logger.LogInfo($"{fullName} has spawnable prefab: {hasSpawnablePrefab}, successful parse: {successfulParse}");
+        } catch (Exception ex) { hasSpawnablePrefab = true; ChatCommandsPlugin.logger.LogInfo($"{fullName} {ex.Message}"); }
 
-        string fullName = parameters.Take(parameters.Length).Join(null, " ");
-        fullName = fullName.ToLower();
+        if (!hasSpawnablePrefab)
+        {
+            player.playerCommandSystem.CreateAndDropEntity(objId, player.RenderPosition);
+            return $"Spawned entity {objId}";
+        }
 
-        if (Enum.TryParse(fullName, out ObjectID objId))
+        if (successfulParse)
         {
             player.playerCommandSystem.CreateEntity(objId, player.RenderPosition);
-            return $"Spawned entity {objId.ToString()}";
+            return $"Spawned entity {objId}";
         }
 
         string[] keys = GiveCommandHandler.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
@@ -37,7 +49,7 @@ public class SpawnCommandHandler : IChatCommandHandler
         objId = GiveCommandHandler.friendlyNameDict[keys[0]];
         
         player.playerCommandSystem.CreateEntity(objId, player.RenderPosition);
-        return $"Spawned entity {objId.ToString()}";
+        return $"Spawned entity {objId}";
     }
 
     public string GetDescription()
