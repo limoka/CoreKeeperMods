@@ -18,10 +18,8 @@ public class SpawnCommandHandler : IChatCommandHandler
         var successfulParse = Enum.TryParse(fullName, true, out ObjectID objId);
         try
         {
-            
             hasSpawnablePrefab = Manager._instance._ecsManager.ecsPrefabTable.prefabList[0].GetComponent<PugDatabaseAuthoring>().prefabList._items.Where(x => x.name.ToLower().Replace("entity", "") == fullName).Select(x => x.objectInfo.prefabInfos[0].prefab).First() != null;
-            ChatCommandsPlugin.logger.LogInfo($"{fullName} has spawnable prefab: {hasSpawnablePrefab}, successful parse: {successfulParse}");
-        } catch (Exception ex) { hasSpawnablePrefab = true; ChatCommandsPlugin.logger.LogInfo($"{fullName} {ex.Message}"); }
+        } catch (Exception ex) { hasSpawnablePrefab = true; ChatCommandsPlugin.logger.LogError($"{fullName} {ex.Message}"); }
 
         if (!hasSpawnablePrefab)
         {
