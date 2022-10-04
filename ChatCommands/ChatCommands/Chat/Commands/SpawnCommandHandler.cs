@@ -29,7 +29,7 @@ public class SpawnCommandHandler : IChatCommandHandler
         if (keys.Length > 1)
         {
             return new CommandOutput(
-                $"Ambigous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
+                $"Ambiguous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
                 Color.red);
         }
 
@@ -46,7 +46,7 @@ public class SpawnCommandHandler : IChatCommandHandler
         if (!hasSpawnablePrefab)
         {
             player.playerCommandSystem.CreateAndDropEntity(objId, player.RenderPosition);
-            return $"Spawned entity {objId}";
+            return $"Spawned item {objId}";
         }
 
         player.playerCommandSystem.CreateEntity(objId, player.RenderPosition);
