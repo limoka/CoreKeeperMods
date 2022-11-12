@@ -32,6 +32,7 @@
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
         <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog</DefaultItemExcludes>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 
         <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>

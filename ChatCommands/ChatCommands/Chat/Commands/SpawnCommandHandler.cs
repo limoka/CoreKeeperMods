@@ -13,16 +13,13 @@ public class SpawnCommandHandler : IChatCommandHandler
     {
         PlayerController player = GameManagers.GetMainManager().player;
         if (player == null) return new CommandOutput("Internal error", Color.red);
-
-        string fullName = parameters.Take(parameters.Length).Join(null, " ");
-        fullName = fullName.ToLower();
-
-        if (Enum.TryParse(fullName, out ObjectID objId))
+        string fullName = parameters.Join(null, " ");
+        var successfulParse = Enum.TryParse(fullName, true, out ObjectID objId);
+        if (successfulParse)
         {
-            player.playerCommandSystem.CreateEntity(objId, player.RenderPosition);
-            return $"Spawned entity {objId.ToString()}";
+            return SpawnID(player, objId);
         }
-
+        
         string[] keys = GiveCommandHandler.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
         if (keys.Length == 0)
         {
@@ -31,13 +28,29 @@ public class SpawnCommandHandler : IChatCommandHandler
 
         if (keys.Length > 1)
         {
-            return new CommandOutput($"Ambigous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
+            return new CommandOutput(
+                $"Ambiguous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
                 Color.red);
         }
+
         objId = GiveCommandHandler.friendlyNameDict[keys[0]];
+
+        return SpawnID(player, objId);
+    }
+
+    private static CommandOutput SpawnID(PlayerController player, ObjectID objId)
+    {
+        ObjectInfo info = PugDatabase.GetObjectInfo(objId);
+        bool hasSpawnablePrefab = info.prefabInfos._items[0].prefab != null;
         
+        if (!hasSpawnablePrefab)
+        {
+            player.playerCommandSystem.CreateAndDropEntity(objId, player.RenderPosition);
+            return $"Spawned item {objId}";
+        }
+
         player.playerCommandSystem.CreateEntity(objId, player.RenderPosition);
-        return $"Spawned entity {objId.ToString()}";
+        return $"Spawned entity {objId}";
     }
 
     public string GetDescription()
@@ -47,6 +60,6 @@ public class SpawnCommandHandler : IChatCommandHandler
 
     public string[] GetTriggerNames()
     {
-        return new[] { "spawn" };
+        return new[] {"spawn"};
     }
 }
