@@ -36,6 +36,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 <details>
 <summary>Changelog</summary>
 
+### v1.4.0
+- Fixed compatibility with game version 0.5.0.0 and higher
+
 ### v1.3.0
 - Migrate to BepInEx BE builds
 

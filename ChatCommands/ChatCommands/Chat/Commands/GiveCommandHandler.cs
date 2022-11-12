@@ -15,9 +15,14 @@ public class GiveCommandHandler : IChatCommandHandler
 
     public CommandOutput Execute(string[] parameters)
     {
+        if (parameters.Length == 0)
+        {
+            return new CommandOutput("Please enter item name", Color.red);
+        }
+        
         int count = 1;
         int nameArgCount = parameters.Length;
-        if (int.TryParse(parameters[^1], out int val))
+        if (nameArgCount > 1 && int.TryParse(parameters[^1], out int val))
         {
             count = val;
             nameArgCount--;

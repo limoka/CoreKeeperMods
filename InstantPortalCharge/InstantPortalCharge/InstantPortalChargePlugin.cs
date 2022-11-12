@@ -14,7 +14,7 @@ namespace InstantPortalCharge
 
         public const string MODGUID = "org.kremnev8.plugin.InstantPortalChargePlugin";
 
-        public const string VERSION = "1.0.1";
+        public const string VERSION = "1.2.0";
 
         public static ManualLogSource logger;
 

@@ -50,6 +50,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\ChatCommands/` (Create folder 
 <details>
 <summary>Changelog</summary>
 
+### v1.3.0
+- Fixed compatibility with game version 0.5.0.0 and higher
+
 ### v1.2.0
 - Migrate to BepInEx BE builds
 

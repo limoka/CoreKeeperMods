@@ -19,25 +19,26 @@ namespace ChatCommands.Chat
             {
                 if (LocalizationManager.Sources.Count > 0)
                 {
-                    LanguageSourceData source = LocalizationManager.Sources._items[0];
-
-                    TermData[] filteredTerms = source.mTerms._items.Where(data => data != null && data.Term != null && data.Term.StartsWith("Items/")).ToArray();
-                    foreach (TermData term in filteredTerms)
+                    foreach (LanguageSourceData source in LocalizationManager.Sources)
                     {
-                        try
+                        TermData[] filteredTerms = source.mTerms._items.Where(data => data != null && data.Term != null && data.Term.StartsWith("Items/")).ToArray();
+                        foreach (TermData term in filteredTerms)
                         {
-                            if (term.Term.Contains("Desc")) continue;
+                            try
+                            {
+                                if (term.Term.Contains("Desc")) continue;
                             
-                            string objIdName = term.Term[6..];
-                            ObjectID objectID = Enum.Parse<ObjectID>(objIdName);
-                            GiveCommandHandler.friendlyNameDict.Add(term.Languages[0].ToLower(), objectID);
+                                string objIdName = term.Term[6..];
+                                ObjectID objectID = Enum.Parse<ObjectID>(objIdName);
+                                GiveCommandHandler.friendlyNameDict.Add(term.Languages[0].ToLower(), objectID);
+                            }
+                            catch (Exception)
+                            {
+                                ChatCommandsPlugin.logger.LogWarning($"Failed to add item freindly name for term {term.Term}");
+                            }
                         }
-                        catch (Exception)
-                        {
-                            ChatCommandsPlugin.logger.LogWarning($"Failed to add item freindly name for term {term.Term}");
-                        }
+                        ChatCommandsPlugin.logger.LogInfo($"Got {GiveCommandHandler.friendlyNameDict.Keys.Count} friendly name entries  !");
                     }
-                    ChatCommandsPlugin.logger.LogInfo($"Got {GiveCommandHandler.friendlyNameDict.Keys.Count} friendly name entries!");
                 }
 
                 initialized = true;
