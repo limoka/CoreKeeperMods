@@ -41,7 +41,7 @@
         
         <BepInExPluginGuid>org.kremnev8.plugin.ChatCommands</BepInExPluginGuid>
         <BepInExPluginName>Chat Commands</BepInExPluginName>
-        <BepInExPluginVersion>1.3.0</BepInExPluginVersion>
+        <BepInExPluginVersion>1.3.1</BepInExPluginVersion>
     </PropertyGroup>
 
 

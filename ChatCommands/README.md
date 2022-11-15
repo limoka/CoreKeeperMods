@@ -4,8 +4,10 @@ This mod adds different chat commands, that help mod developers and others can u
 
 Commands list:<br>
 
-- `/give {itemName} [count]`: Give yourself any item.
+- `/give {itemName} [count] [variation]`: Give yourself any item.
+- `/give food {item1} + {item2} [count]`: Give yourself any food.
 - `/spawn {entityName}`: Spawn any entity at your position.
+- `/remove {objectID} [all|slow]`: Remove closest matching entity from world.
 - `/clearInv`: Clear the player inventory.
 - `/heal [amount]`: Use to fully heal player.
 - `/feed [amount]`: Use to fully feed player.
@@ -22,7 +24,9 @@ Commands list:<br>
 
 - `/hide <target> [state]` Hide User Interface, Inventory and Player visual elements. Possible targets: player, ui, inventory
 
-Arguments in curly brackets (`{}`) are mandatory and you must specify them, while arguments in square brackets (`[]`) are optional and if you don't specify them, their value will be automatically inferred.
+Arguments in curly brackets (`{}`) are mandatory and you must specify them, while arguments in square brackets (`[]`) are optional and if you don't specify them, their value will be automatically inferred. 
+
+If there are two optional arguments, to specify second, you must specify first one. If optional argument lists a number of possible values with `|` that means you can enter any or all of them.
 
 This mod was originally written by `cato1001#8659`, original source code can be found on [github](https://github.com/PatelRahil/TestingUtils). Since original author didn't upload it to Thunderstore, I have decided to improve the mod and publish it on Thunderstore.
 
@@ -49,6 +53,10 @@ Unzip all files into `Core Keeper\BepInEx\plugins\ChatCommands/` (Create folder 
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.3.1
+- Added `/remove` command
+- Improved `/give` command. Now you can give items with variation, and even food.
 
 ### v1.3.0
 - Fixed compatibility with game version 0.5.0.0 and higher
