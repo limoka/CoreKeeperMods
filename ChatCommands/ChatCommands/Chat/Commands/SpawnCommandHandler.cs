@@ -40,6 +40,11 @@ public class SpawnCommandHandler : IChatCommandHandler
 
     private static CommandOutput SpawnID(PlayerController player, ObjectID objId)
     {
+        if (objId == ObjectID.Player)
+        {
+            return new CommandOutput("I'm going to pretend you did not ask for this. You don't know what you are doing!", Color.red);
+        }
+        
         ObjectInfo info = PugDatabase.GetObjectInfo(objId);
         bool hasSpawnablePrefab = info.prefabInfos._items[0].prefab != null;
         
