@@ -48,7 +48,6 @@ public class UpdateMono : MonoBehaviour
     {
         if (player != null)
         {
-            
             if (player.GetButtonDown(PlacementPlusPlugin.CHANGE_ORIENTATION))
             {
                 BrushExtension.ToggleMode();
@@ -122,15 +121,17 @@ public class UpdateMono : MonoBehaviour
 
             if (PlacementPlusPlugin.forceKeyMode.Value == KeyMode.HOLD)
             {
-                BrushExtension.forceRotation = !player.GetButton(PlacementPlusPlugin.FORCEADJACENT);
+                BrushExtension.forceRotation = !player.GetButton(PlacementPlusPlugin.FORCE_ADJACENT);
             }
             else
             {
-                if (player.GetButtonDown(PlacementPlusPlugin.FORCEADJACENT))
+                if (player.GetButtonDown(PlacementPlusPlugin.FORCE_ADJACENT))
                 {
                     BrushExtension.forceRotation = !BrushExtension.forceRotation;
                 }
             }
+
+            BrushExtension.replaceTiles = player.GetButton(PlacementPlusPlugin.REPLACE_BUTTON);
         }
     }
 }

@@ -14,10 +14,13 @@ public static class BrushExtension
     public static int size = 0;
     public static int currentRotation = 0;
     public static bool forceRotation = true;
+    public static bool replaceTiles = false;
 
     public static BrushMode mode = BrushMode.SQUARE;
 
     public static bool brushChanged;
+
+    private static PugDatabase.DatabaseBankCD databaseBlob;
 
     public static void ChangeRotation(int polarity)
     {
@@ -40,13 +43,13 @@ public static class BrushExtension
 
     public static void ToggleMode()
     {
-        int newMode = (int)mode + 1;
-        if (newMode >= (int)BrushMode.MAX)
+        int newMode = (int) mode + 1;
+        if (newMode >= (int) BrushMode.MAX)
         {
-            newMode = (int)BrushMode.NONE;
+            newMode = (int) BrushMode.NONE;
         }
 
-        mode = (BrushMode)newMode;
+        mode = (BrushMode) newMode;
         brushChanged = true;
     }
 
@@ -63,8 +66,8 @@ public static class BrushExtension
                 angle += Mathf.PI / 2f;
             }
 
-            width = (int)MathF.Abs(MathF.Cos(angle)) * size;
-            height = (int)MathF.Abs(MathF.Sin(angle)) * size;
+            width = (int) MathF.Abs(MathF.Cos(angle)) * size;
+            height = (int) MathF.Abs(MathF.Sin(angle)) * size;
         }
         else
         {
@@ -73,8 +76,8 @@ public static class BrushExtension
         }
 
 
-        int xOffset = (int)MathF.Floor(width / 2f);
-        int yOffset = (int)MathF.Floor(height / 2f);
+        int xOffset = (int) MathF.Floor(width / 2f);
+        int yOffset = (int) MathF.Floor(height / 2f);
 
         return new BrushRect(xOffset, yOffset, width, height);
     }
@@ -206,7 +209,7 @@ public static class BrushExtension
         slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
 
         PaintToolCD paintTool = PugDatabase.GetComponent<PaintToolCD>(item);
-        int tileset = (int)slot.PaintIndexToTileset(paintTool.paintIndex);
+        int tileset = (int) slot.PaintIndexToTileset(paintTool.paintIndex);
 
         Vector3Int initialPos = slot.placementHandler.bestPositionToPlaceAt;
         Vector3Int worldPos = new Vector3Int(pc.pugMapPosX, 0, pc.pugMapPosZ);
@@ -220,7 +223,7 @@ public static class BrushExtension
         int width = extents.width + 1;
         int height = extents.height + 1;
 
-        float effectChance = 5 / (float)(width * height);
+        float effectChance = 5 / (float) (width * height);
 
         for (int x = extents.minX; x <= extents.maxX; x++)
         {
@@ -255,6 +258,7 @@ public static class BrushExtension
             pc.PlaceObject(initialPos);
         }
     }
+
 /*
     internal static void DigGrid(ShovelSlot slot, Vector3Int center, PlacementHandlerDigging placementHandler)
     {
@@ -333,7 +337,7 @@ public static class BrushExtension
         
         
         
-        world.CastCollider(input, )*//*
+        world.CastCollider(input, )*/ /*
 
 
         foreach (PlacementHandlerDigging.DiggableEntityAndInfo info in placementHandler.diggableObjects)
@@ -371,4 +375,83 @@ public static class BrushExtension
         }
 
     }*/
+    public static bool HandleDirectionLogic(PlaceObjectSlot slot, Vector3Int initialPos, Vector3Int worldPos)
+    {
+        PlayerController pc = slot.slotOwner;
+        ObjectDataCD item = pc.GetHeldObject();
+
+        DirectionBasedOnVariationCD variationCd = PugDatabase.GetComponent<DirectionBasedOnVariationCD>(item);
+        if (!variationCd.alignWithNearbyAffectorsWhenPlaced)
+        {
+            PlayEffects(slot, initialPos, slot.placementHandler.infoAboutObjectToPlace);
+            slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
+
+            Vector3Int pos = worldPos + initialPos;
+
+            if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
+            if (!pc.CanConsumeEntityInSlot(slot, 1)) return false;
+
+            ObjectDataCD newObj = item;
+            newObj.variation = currentRotation;
+            float3 targetPos = pos.ToFloat3();
+
+            pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
+            pc.playerCommandSystem.CreateEntity(newObj.objectID, targetPos, newObj.variation);
+
+            pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
+            pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static bool HandleReplaceLogic(PlaceObjectSlot slot, Vector3Int initialPos, Vector3Int worldPos)
+    {
+        PlayerController pc = slot.slotOwner;
+        ObjectDataCD item = pc.GetHeldObject();
+        Vector3Int pos = worldPos + initialPos;
+
+        TileCD itemTile = PugDatabase.GetComponent<TileCD>(item);
+
+        if (databaseBlob == null)
+        {
+            EntityQuery query = slot.world.EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PugDatabase.DatabaseBankCD>());
+            databaseBlob = query.GetSingleton<PugDatabase.DatabaseBankCD>();
+        }
+
+        int2 position = pos.ToInt2();
+        if (Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out TileInfo tile))
+        {
+            if (tile.tileset != itemTile.tileset)
+            {
+                ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, databaseBlob.databaseBankBlob);
+                if (objectID != ObjectID.None)
+                {
+                    //ObjectInfo info = PugDatabase.GetObjectInfo(objectID);
+                    /*DamageReductionCD damageReduction = PugDatabase.GetComponent<DamageReductionCD>(new ObjectDataCD()
+                    {
+                        objectID = objectID,
+                        amount = 1,
+                        variation = 0
+                    });
+                    if (damageReduction.reduction < 100000)
+                    {*/
+                        pc.pugMapSystem.RemoveTileOverride(position, tile.tileType);
+                        pc.pugMapSystem.AddTileOverride(position, itemTile.tileset, itemTile.tileType);
+                        pc.playerCommandSystem.AddTile(position, itemTile.tileset, itemTile.tileType);
+                       
+                        pc.playerInventoryHandler.CreateItem(0, objectID, 1, pc.WorldPosition, 0);
+                        pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
+                        pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
+                        
+                        return false;
+                    //}
+                }
+            }
+        }
+
+        return true;
+    }
 }

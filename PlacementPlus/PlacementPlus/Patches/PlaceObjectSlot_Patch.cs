@@ -24,29 +24,12 @@ public static class PlaceObjectSlot_Patch
         {
             if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
             {
-                DirectionBasedOnVariationCD variationCd = PugDatabase.GetComponent<DirectionBasedOnVariationCD>(item);
-                if (!variationCd.alignWithNearbyAffectorsWhenPlaced)
-                {
-                    BrushExtension.PlayEffects(__instance, initialPos, __instance.placementHandler.infoAboutObjectToPlace);
-                    __instance.StartCooldownForItem(__instance.SLOT_COOLDOWN );
+                return BrushExtension.HandleDirectionLogic(__instance, initialPos, worldPos);
+            }
 
-                    Vector3Int pos = worldPos + initialPos;
-                    
-                    if (__instance.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
-                    if (!pc.CanConsumeEntityInSlot(__instance, 1)) return false;
-                    
-                    ObjectDataCD newObj = item;
-                    newObj.variation = BrushExtension.currentRotation;
-                    float3 targetPos = pos.ToFloat3();
-
-                    pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
-                    pc.playerCommandSystem.CreateEntity(newObj.objectID, targetPos, newObj.variation);
-                    
-                    pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
-                    pc.SetEquipmentSlotToNonUsableIfEmptySlot(__instance);
-
-                    return false;
-                }
+            if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
+            {
+                return BrushExtension.HandleReplaceLogic(__instance, initialPos, worldPos);
             }
             
             return true;

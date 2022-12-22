@@ -1,5 +1,8 @@
 ﻿using System;
 using HarmonyLib;
+using PugTilemap;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace PlacementPlus;
 
@@ -35,6 +38,11 @@ public static class PlacementHandler_Patch
                 SetStateWithArrow(__instance.placeableIcon, __instance.canPlaceObject, BrushExtension.currentRotation);
             }
 
+            if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
+            {
+                if (HandleTileReplace(__instance, item)) return;
+            }
+
             return;
         }
 
@@ -63,6 +71,25 @@ public static class PlacementHandler_Patch
         }
 
         PlacementHandler.SetAllowPlacingAnywhere(false);
+    }
+
+    private static bool HandleTileReplace(PlacementHandler __instance, ObjectDataCD item)
+    {
+        TileCD itemTileCD = PugDatabase.GetComponent<TileCD>(item);
+        Vector3Int initialPos = __instance.bestPositionToPlaceAt;
+        Vector3Int worldPos = new Vector3Int(__instance.slotOwner.pugMapPosX, 0, __instance.slotOwner.pugMapPosZ);
+        Vector3Int pos = worldPos + initialPos;
+
+        if (Manager.multiMap.GetTileTypeAt(pos.ToInt2(), itemTileCD.tileType, out TileInfo tile))
+        {
+            if (tile.tileset != itemTileCD.tileset)
+            {
+                PlacementHandler.SetAllowPlacingAnywhere(true);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.GetVelocityAffectorAlignmentVariation))]

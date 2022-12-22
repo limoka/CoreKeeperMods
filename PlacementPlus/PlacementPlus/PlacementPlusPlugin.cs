@@ -39,7 +39,8 @@ namespace PlacementPlus
         public const string INCREASE_SIZE = "PlacementPlus_IncreaseSize";
         public const string DECREASE_SIZE = "PlacementPlus_DecreaseSize";
         
-        public const string FORCEADJACENT = "PlacementPlus_ForceAdjacent";
+        public const string FORCE_ADJACENT = "PlacementPlus_ForceAdjacent";
+        public const string REPLACE_BUTTON = "PlacementPlus_ReplaceButton";
 
         public static ManualLogSource logger;
         public new static ConfigFile Config;
@@ -147,7 +148,8 @@ namespace PlacementPlus
             RewiredExtensionModule.AddKeybind(INCREASE_SIZE, "Increase Size", KeyboardKeyCode.KeypadPlus);
             RewiredExtensionModule.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
             RewiredExtensionModule.AddKeybind(ROTATE, "Rotate/Change Brush Color", KeyboardKeyCode.V);
-            RewiredExtensionModule.AddKeybind(FORCEADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
+            RewiredExtensionModule.AddKeybind(FORCE_ADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
+            RewiredExtensionModule.AddKeybind(REPLACE_BUTTON, "Hold to replace tiles", KeyboardKeyCode.LeftShift);
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             resource = new ResourceData(MODNAME, "PlacementPlus", pluginfolder);
