@@ -13,11 +13,21 @@ public class SpawnCommandHandler : IChatCommandHandler
     {
         PlayerController player = GameManagers.GetMainManager().player;
         if (player == null) return new CommandOutput("Internal error", Color.red);
-        string fullName = parameters.Join(null, " ");
+
+        int variation = 0;
+        
+        int nameArgCount = parameters.Length;
+        if (nameArgCount > 1 && int.TryParse(parameters[^1], out int val))
+        {
+            variation = val;
+            nameArgCount--;
+        }
+        
+        string fullName = parameters.Take(nameArgCount).Join(null, " ");
         var successfulParse = Enum.TryParse(fullName, true, out ObjectID objId);
         if (successfulParse)
         {
-            return SpawnID(player, objId);
+            return SpawnID(player, objId, variation);
         }
         
         string[] keys = GiveCommandHandler.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
@@ -35,10 +45,10 @@ public class SpawnCommandHandler : IChatCommandHandler
 
         objId = GiveCommandHandler.friendlyNameDict[keys[0]];
 
-        return SpawnID(player, objId);
+        return SpawnID(player, objId, variation);
     }
 
-    private static CommandOutput SpawnID(PlayerController player, ObjectID objId)
+    private static CommandOutput SpawnID(PlayerController player, ObjectID objId, int variation)
     {
         if (objId == ObjectID.Player)
         {
@@ -50,11 +60,11 @@ public class SpawnCommandHandler : IChatCommandHandler
         
         if (!hasSpawnablePrefab)
         {
-            player.playerCommandSystem.CreateAndDropEntity(objId, player.RenderPosition);
+            player.playerCommandSystem.CreateAndDropEntity(objId, player.RenderPosition, variation);
             return $"Spawned item {objId}";
         }
 
-        player.playerCommandSystem.CreateEntity(objId, player.RenderPosition);
+        player.playerCommandSystem.CreateEntity(objId, player.RenderPosition, variation);
         return $"Spawned entity {objId}";
     }
 
