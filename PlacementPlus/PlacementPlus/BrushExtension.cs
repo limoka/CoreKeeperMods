@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using CoreLib.Util.Data;
 using PlacementPlus.Util;
 using PugTilemap;
 using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Physics;
+using Unity.Transforms;
 using UnityEngine;
 using Math = System.Math;
 
@@ -11,8 +16,8 @@ namespace PlacementPlus;
 
 public static class BrushExtension
 {
-    public static int size = 0;
-    public static int currentRotation = 0;
+    public static int size;
+    public static int currentRotation;
     public static bool forceRotation = true;
     public static bool replaceTiles = false;
 
@@ -20,7 +25,20 @@ public static class BrushExtension
 
     public static bool brushChanged;
 
-    private static PugDatabase.DatabaseBankCD databaseBlob;
+    #region GridSize
+
+    internal static int GetMaxSize()
+    {
+        int maxSize = PlacementPlusPlugin.maxSize.Value - 1;
+        PlayerController player = Manager.main.player;
+        if (player == null) return maxSize;
+
+        ObjectDataCD item = player.GetHeldObject();
+        int damage = Extensions.GetShovelDamage(item);
+        if (damage == 0) return maxSize;
+
+        return GetShovelLevel(damage);
+    }
 
     public static void ChangeRotation(int polarity)
     {
@@ -35,21 +53,33 @@ public static class BrushExtension
 
     public static void ChangeSize(int polarity)
     {
+        int maxSize = GetMaxSize();
+
         size += polarity;
-        size = Math.Clamp(size, 0, PlacementPlusPlugin.maxSize.Value - 1);
+        size = Math.Clamp(size, 0, maxSize);
 
         brushChanged = true;
     }
 
+    public static void CheckSize()
+    {
+        int maxSize = GetMaxSize();
+        if (size > maxSize)
+        {
+            size = maxSize;
+            brushChanged = true;
+        }
+    }
+
     public static void ToggleMode()
     {
-        int newMode = (int) mode + 1;
-        if (newMode >= (int) BrushMode.MAX)
+        int newMode = (int)mode + 1;
+        if (newMode >= (int)BrushMode.MAX)
         {
-            newMode = (int) BrushMode.NONE;
+            newMode = (int)BrushMode.NONE;
         }
 
-        mode = (BrushMode) newMode;
+        mode = (BrushMode)newMode;
         brushChanged = true;
     }
 
@@ -66,8 +96,8 @@ public static class BrushExtension
                 angle += Mathf.PI / 2f;
             }
 
-            width = (int) MathF.Abs(MathF.Cos(angle)) * size;
-            height = (int) MathF.Abs(MathF.Sin(angle)) * size;
+            width = (int)MathF.Abs(MathF.Cos(angle)) * size;
+            height = (int)MathF.Abs(MathF.Sin(angle)) * size;
         }
         else
         {
@@ -76,13 +106,31 @@ public static class BrushExtension
         }
 
 
-        int xOffset = (int) MathF.Floor(width / 2f);
-        int yOffset = (int) MathF.Floor(height / 2f);
+        int xOffset = (int)MathF.Floor(width / 2f);
+        int yOffset = (int)MathF.Floor(height / 2f);
 
         return new BrushRect(xOffset, yOffset, width, height);
     }
 
-    public static bool IsItemValid(ObjectInfo info)
+    #endregion
+
+    #region Validation
+
+    internal static int GetShovelLevel(int diggingDamage)
+    {
+        return diggingDamage switch
+        {
+            < 30 => 0,
+            < 40 => 1,
+            < 60 => 2,
+            < 80 => 3,
+            < 160 => 4,
+            < 210 => 5,
+            _ => 6
+        };
+    }
+
+    internal static bool IsItemValid(ObjectInfo info)
     {
         if (info == null) return false;
         if (info.objectType != ObjectType.PlaceablePrefab) return false;
@@ -105,6 +153,30 @@ public static class BrushExtension
 
         return true;
     }
+
+    internal static int GetBestShovelSlot(PlayerController pc)
+    {
+        int maxDamage = 0;
+        int slot = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            ObjectDataCD objectDataCd = pc.GetInventorySlot(i);
+            int damage = Extensions.GetShovelDamage(objectDataCd);
+
+            if (damage > maxDamage)
+            {
+                maxDamage = damage;
+                slot = i;
+            }
+        }
+
+        return slot;
+    }
+
+    #endregion
+
+    #region GridPlace
 
     internal static void PlayEffects(PlaceObjectSlot slot, Vector3Int initialPos, ObjectInfo itemInfo)
     {
@@ -138,58 +210,19 @@ public static class BrushExtension
         int consumeAmount = 0;
 
         bool directionByVariation = PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item);
+        int shovelSlot = GetBestShovelSlot(pc);
+        bool usedShovel = false;
 
         BrushRect extents = GetExtents(directionByVariation);
-        int conditionValue = EntityUtility.GetConditionValue(ConditionID.ChanceToGainRarePlant, pc.entity, slot.world);
 
         for (int x = extents.minX; x <= extents.maxX; x++)
         {
             for (int y = extents.minY; y <= extents.maxY; y++)
             {
                 Vector3Int pos = center + new Vector3Int(x, 0, y);
-                ObjectDataCD data = pc.GetHeldObject();
-
-                if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) continue;
-                if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1)) continue;
-
-                consumeAmount++;
-                int variation = -1;
-                if (PugDatabase.HasComponent<TileCD>(itemInfo.objectID))
+                if (PlaceAt(slot, itemInfo, pos, consumeAmount, directionByVariation, ref usedShovel))
                 {
-                    int2 position = new int2(pos.x, pos.z);
-
-                    pc.pugMapSystem.RemoveTileOverride(position, TileType.debris);
-                    pc.pugMapSystem.RemoveTileOverride(position, TileType.debris2);
-                    pc.pugMapSystem.RemoveTileOverride(position, TileType.smallGrass);
-                    pc.pugMapSystem.RemoveTileOverride(position, TileType.smallStones);
-
-                    pc.pugMapSystem.AddTileOverride(position, itemInfo.tileset, itemInfo.tileType);
-                    pc.playerCommandSystem.AddTile(position, itemInfo.tileset, itemInfo.tileType);
-                }
-                else
-                {
-                    if (PugDatabase.HasComponent<SeedCD>(item))
-                    {
-                        SeedCD seedCd = PugDatabase.GetComponent<SeedCD>(item);
-                        if (seedCd.rarePlantVariation > 0 && conditionValue > 0)
-                        {
-                            if (conditionValue / 100f > PugRandom.GetRng().NextFloat())
-                            {
-                                variation = seedCd.rareSeedVariation;
-                            }
-                        }
-                    }
-                    else if (directionByVariation)
-                    {
-                        variation = currentRotation;
-                    }
-
-                    ObjectDataCD newObj = data;
-                    newObj.variation = variation > 0 ? variation : 0;
-                    float3 targetPos = pos.ToFloat3();
-
-                    pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
-                    pc.playerCommandSystem.CreateEntity(data.objectID, targetPos, newObj.variation);
+                    consumeAmount++;
                 }
             }
         }
@@ -199,7 +232,106 @@ public static class BrushExtension
             pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, consumeAmount, true);
             pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
         }
+
+        if (usedShovel)
+        {
+            pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
+        }
     }
+
+    private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, Vector3Int pos, int consumeAmount, bool directionByVariation, ref bool usedShovel)
+    {
+        PlayerController pc = slot.slotOwner;
+        ObjectDataCD item = pc.GetHeldObject();
+        bool isTile = PugDatabase.HasComponent<TileCD>(itemInfo.objectID);
+        int2 position = new int2(pos.x, pos.z);
+
+        if (isTile && replaceTiles)
+        {
+            if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1)) return false;
+
+            bool success = !HandleReplaceLogic(slot, position, false);
+            if (success) usedShovel = true;
+            return success;
+        }
+
+        if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
+        if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1)) return false;
+
+        int variation = -1;
+
+        if (isTile)
+        {
+            pc.pugMapSystem.RemoveTileOverride(position, TileType.debris);
+            pc.pugMapSystem.RemoveTileOverride(position, TileType.debris2);
+            pc.pugMapSystem.RemoveTileOverride(position, TileType.smallGrass);
+            pc.pugMapSystem.RemoveTileOverride(position, TileType.smallStones);
+
+            pc.pugMapSystem.AddTileOverride(position, itemInfo.tileset, itemInfo.tileType);
+            pc.playerCommandSystem.AddTile(position, itemInfo.tileset, itemInfo.tileType);
+            return true;
+        }
+
+        if (PugDatabase.HasComponent<SeedCD>(item))
+        {
+            int conditionValue = EntityUtility.GetConditionValue(ConditionID.ChanceToGainRarePlant, pc.entity, slot.world);
+            SeedCD seedCd = PugDatabase.GetComponent<SeedCD>(item);
+
+            if (seedCd.rarePlantVariation > 0 && conditionValue > 0 &&
+                conditionValue / 100f > PugRandom.GetRng().NextFloat())
+            {
+                variation = seedCd.rareSeedVariation;
+            }
+        }
+        else if (directionByVariation)
+        {
+            variation = currentRotation;
+        }
+
+        ObjectDataCD newObj = item;
+        newObj.variation = variation > 0 ? variation : 0;
+        float3 targetPos = pos.ToFloat3();
+
+        pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
+        pc.playerCommandSystem.CreateEntity(item.objectID, targetPos, newObj.variation);
+
+        return true;
+    }
+
+    public static bool HandleDirectionLogic(PlaceObjectSlot slot, Vector3Int pos)
+    {
+        PlayerController pc = slot.slotOwner;
+        ObjectDataCD item = pc.GetHeldObject();
+
+        DirectionBasedOnVariationCD variationCd = PugDatabase.GetComponent<DirectionBasedOnVariationCD>(item);
+        if (!variationCd.alignWithNearbyAffectorsWhenPlaced)
+        {
+            PlayEffects(slot, pos, slot.placementHandler.infoAboutObjectToPlace);
+            slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
+
+
+            if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
+            if (!pc.CanConsumeEntityInSlot(slot, 1)) return false;
+
+            ObjectDataCD newObj = item;
+            newObj.variation = currentRotation;
+            float3 targetPos = pos.ToFloat3();
+
+            pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
+            pc.playerCommandSystem.CreateEntity(newObj.objectID, targetPos, newObj.variation);
+
+            pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
+            pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    #endregion
+
+    #region PaintGrid
 
     internal static void PaintGrid(PaintToolSlot slot, PlacementHandlerPainting handler)
     {
@@ -209,10 +341,9 @@ public static class BrushExtension
         slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
 
         PaintToolCD paintTool = PugDatabase.GetComponent<PaintToolCD>(item);
-        int tileset = (int) slot.PaintIndexToTileset(paintTool.paintIndex);
+        int tileset = (int)slot.PaintIndexToTileset(paintTool.paintIndex);
 
         Vector3Int initialPos = slot.placementHandler.bestPositionToPlaceAt;
-        Vector3Int worldPos = new Vector3Int(pc.pugMapPosX, 0, pc.pugMapPosZ);
         handler.tilesChecked.Clear();
 
         bool anySuccess = false;
@@ -223,13 +354,13 @@ public static class BrushExtension
         int width = extents.width + 1;
         int height = extents.height + 1;
 
-        float effectChance = 5 / (float) (width * height);
+        float effectChance = 5 / (float)(width * height);
 
         for (int x = extents.minX; x <= extents.maxX; x++)
         {
             for (int y = extents.minY; y <= extents.maxY; y++)
             {
-                Vector3Int pos = worldPos + initialPos + new Vector3Int(x, 0, y);
+                Vector3Int pos = initialPos + new Vector3Int(x, 0, y);
                 if (handler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) continue;
 
                 TileInfo tileInfo = handler.tileToPaint;
@@ -259,32 +390,29 @@ public static class BrushExtension
         }
     }
 
-/*
+    #endregion
+
+    #region DigGrid
+
     internal static void DigGrid(ShovelSlot slot, Vector3Int center, PlacementHandlerDigging placementHandler)
     {
         slot.StartCooldownForItem(ShovelSlot.DIG_COOLDOWN);
         PlayerController pc = slot.slotOwner;
-        int addAmount = 0;
-
         pc.EnterState(pc.sDig);
 
-        ObjectDataCD dt = new ObjectDataCD()
-        {
-            objectID = (ObjectID)33011
-        };
-
-
         BrushRect extents = GetExtents(false);
+        var tileLookup = FindDamagedTiles(pc, center);
+        NativeArray<SummarizedConditionEffectsBuffer> conditions = EntityUtility.GetConditionEffectValues(pc.entity, pc.world).ToNativeArray(Allocator.Temp);
+
         for (int x = extents.minX; x <= extents.maxX; x++)
         {
             for (int y = extents.minY; y <= extents.maxY; y++)
             {
-                Vector3Int pos = center + new Vector3Int(x, 0, y);
-                ObjectDataCD shovel = pc.GetHeldObject();
+                Vector3Int pos1 = center + new Vector3Int(x, 0, y);
 
-                if (placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) continue;
+                if (placementHandler.CanPlaceObjectAtPosition(pos1, 1, 1) <= 0) continue;
                 if (placementHandler.diggableObjects.Count <= 0) continue;
-                
+
                 PlacementHandlerDigging.DiggableEntityAndInfo info = placementHandler.diggableObjects._items[0];
                 TileType type = info.diggableObjectInfo.tileType;
 
@@ -292,7 +420,7 @@ public static class BrushExtension
                     type == TileType.dugUpGround ||
                     type == TileType.wateredGround)
                 {
-                    DigUpAtPosition(slot, pos, placementHandler);
+                    DigUpAtPosition(slot, pos1, tileLookup, conditions);
                 }
                 else
                 {
@@ -310,96 +438,212 @@ public static class BrushExtension
                     }
                     else
                     {
-                        pc.DigUpTile(info.diggableObjectInfo.tileType, info.diggableObjectInfo.tileset, pos);
+                        pc.DigUpTile(info.diggableObjectInfo.tileType, info.diggableObjectInfo.tileset, pos1);
                     }
                 }
-                
-                pc.ReduceDurabilityOfHeldEquipment();
-                pc.DealCritterDamageAtTile(pos, false, false);
+
+                pc.DealCritterDamageAtTile(pos1, false, false);
             }
+        }
+
+        conditions.Dispose();
+
+        pc.ReduceDurabilityOfHeldEquipment();
+    }
+
+    private static Dictionary<int2, TileData> FindDamagedTiles(PlayerController pc, Vector3Int center)
+    {
+        World world = pc.world;
+        CollisionWorld collisionWorld = PhysicsManager.GetCollisionWorld();
+        PhysicsManager physicsManager = Manager.physics;
+        BrushRect extents = GetExtents(false);
+
+        float offset = size % 2 == 0 ? 0 : 0.5f;
+        float3 worldPos = EntityMonoBehaviour.ToWorldFromRender(center).ToFloat3() + new float3(offset, 0, offset);
+
+        float3 rectSize = new float3(extents.width + 1, 0.2f, extents.height + 1);
+
+        PhysicsCollider collider = physicsManager.GetBoxCollider(new float3(0, -0.5f, 0), rectSize, PhysicsLayerID.Everything);
+        ColliderCastInput input = PhysicsManager.GetColliderCastInput(worldPos, worldPos, collider);
+
+        NativeList_Unboxed<ColliderCastHit> results = new NativeList_Unboxed<ColliderCastHit>(Allocator.Temp);
+
+        bool res = collisionWorld.CastColliderB(input, ref results);
+        Dictionary<int2, TileData> tileLookup = new Dictionary<int2, TileData>(results.Length);
+        if (!res) return tileLookup;
+
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (int i = 0; i < results.Length; i++)
+        {
+            ColliderCastHit castHit = results[i];
+            Entity entity = castHit._Entity_k__BackingField;
+
+            bool hasComponent = world.EntityManager.HasComponent<TileCD>(entity);
+            if (!hasComponent) continue;
+
+            TileCD tileCd = world.EntityManager.GetComponentData<TileCD>(entity);
+
+            Translation translation = world.EntityManager.GetComponentData<Translation>(entity);
+
+            if (tileCd.tileType == TileType.ground)
+            {
+                int2 pos = translation.Value.xz.RoundToInt2();
+                if (!tileLookup.ContainsKey(pos))
+                    tileLookup.Add(pos, new TileData(entity, tileCd));
+            }
+        }
+
+        return tileLookup;
+    }
+
+    internal static void DigUpAtPosition(ShovelSlot slot, Vector3Int position,
+        Dictionary<int2, TileData> tileLookup,
+        NativeArray<SummarizedConditionEffectsBuffer> conditions)
+    {
+        PlayerController pc = slot.slotOwner;
+        int digging = conditions[(int)ConditionEffect.Digging].value;
+
+        float normHealth;
+        int damageDone;
+
+        SinglePugMap multimap = Manager.multiMap;
+        int2 origo = multimap.Origo;
+        var posWorldSpace = position.ToInt2() + origo;
+
+        if (tileLookup.ContainsKey(posWorldSpace))
+        {
+            TileData tileData = tileLookup[posWorldSpace];
+
+            pc.GetTileDamageValues(tileData.entity, conditions, digging,
+                out normHealth,
+                out damageDone,
+                out _,
+                false, true);
+
+
+            pc.playerCommandSystem.DealDamageToEntity(tileData.entity,
+                conditions,
+                digging,
+                false,
+                pc.entity,
+                position.ToFloat3(),
+                out int _,
+                out int _,
+                out bool _,
+                out bool _,
+                out bool _,
+                out bool _,
+                out bool _,
+                true, false, true);
+
+            pc.DoImmediateTileDamageEffects(
+                tileData.tileCd.tileset,
+                tileData.tileCd.tileType,
+                position,
+                normHealth,
+                damageDone,
+                tileData.entity);
+            return;
+        }
+
+
+        int counts = multimap.tileLookup.CountValuesForKey(posWorldSpace);
+        if (counts == 0) return;
+
+        UnsafeParallelMultiHashMap<int2, TileInfo>.Enumerator results = multimap.tileLookup.GetValuesForKey(posWorldSpace);
+        TileInfo targetTile = default;
+        bool found = false;
+
+        foreach (TileInfo tileInfo in results)
+        {
+            if (tileInfo.tileType == TileType.ground)
+            {
+                targetTile = tileInfo;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) return;
+
+        ObjectInfo objectInfo = PugDatabase.TryGetTileItemInfo(targetTile.tileType, targetTile.tileset);
+        results.Dispose();
+
+        var primaryEntity = PugDatabase.GetPrimaryPrefabEntity(objectInfo.objectID, pc.pugDatabase, objectInfo.variation);
+
+        pc.GetTileDamageValues(primaryEntity,
+            conditions,
+            digging,
+            out normHealth,
+            out damageDone,
+            out _,
+            false, true);
+
+        pc.playerCommandSystem.CreateTileDamage(position.ToInt2(), damageDone, pc.entity, true, true);
+        pc.DoImmediateTileDamageEffects(targetTile.tileset, targetTile.tileType, position, normHealth, damageDone, primaryEntity);
+    }
+
+    #endregion
+
+    #region TileReplace
+
+    public static void ReduceDurabilityOfEquipmentInSlot(this PlayerController pc, int slotIndex)
+    {
+        EquipmentSlot slot = pc.GetEquipmentSlot(slotIndex);
+        int toolConditionValue = EntityUtility.GetConditionValue(ConditionID.ToolDurabilityLastsLonger, pc.entity, pc.world);
+
+        if (toolConditionValue / 100f > PugRandom.GetRng().NextFloat()) return;
+
+        ObjectDataCD objectRef = slot.objectReference;
+
+        if (!PugDatabase.HasComponent<DurabilityCD>(objectRef)) return;
+
+        int newAmount = objectRef.amount - 1;
+        if (newAmount < 0) newAmount = 0;
+
+        if (newAmount > 0)
+        {
+            pc.playerInventoryHandler.SetAmount(slotIndex, objectRef.objectID, newAmount);
+        }
+        else if (objectRef.amount > 0)
+        {
+            pc.PlayEquipmentBreakSound();
+            pc.playerInventoryHandler.SetAmount(slotIndex, objectRef.objectID, 0);
+            pc.playerInventoryHandler.TryReplaceBrokenObject(slotIndex);
         }
     }
 
-    internal static void DigUpAtPosition(ShovelSlot slot, Vector3Int position, PlacementHandlerDigging placementHandler)
-    {
-        PlayerController pc = slot.slotOwner;
-
-        int digging = EntityUtility.GetConditionEffectValue(ConditionEffect.Digging, pc.entity, slot.world);
-
-        /*
-        CollisionWorld world = PhysicsManager.GetCollisionWorld();
-        PhysicsManager physicsManager = Manager.physics;
-
-        float3 pos = position.ToFloat3();
-
-        PhysicsCollider collider = physicsManager.GetSphereCollider(pos, 1, 0);
-        ColliderCastInput input = PhysicsManager.GetColliderCastInput(pos, pos, collider);
-        
-        
-        
-        world.CastCollider(input, )*/ /*
-
-
-        foreach (PlacementHandlerDigging.DiggableEntityAndInfo info in placementHandler.diggableObjects)
-        {
-            ComponentType tileType = ComponentType.ReadWrite<TileCD>();
-
-
-            if (EntityUtility.HasComponentData(info.diggableEntity, slot.world, tileType))
-            {
-                TileCD tileCd = EntityUtility.GetComponentData<TileCD>(info.diggableEntity, slot.world);
-
-                if (tileCd.tileType == TileType.ground)
-                {
-                    var cond = new NativeArray<SummarizedConditionEffectsBuffer>(0, Allocator.Temp);
-                    HealthCD healthCd = EntityUtility.GetComponentData<HealthCD>(info.diggableEntity, slot.world);
-                    
-                    pc.GetTileDamageValues(info.diggableEntity, cond, digging, out float normHealth, out int damageDone, out int damageDoneBeforeReduction, false, true);
-                    
-                    //Do something about pc.playerCommandSystem.DealDamageToEntity()
-                    pc.playerCommandSystem.DealDamageToEntity(info.diggableEntity, 
-                        new NativeArray<SummarizedConditionEffectsBuffer>(0, Allocator.Temp), 
-                        digging, 
-                        false, 
-                        pc.entity,
-                        info.pos.ToFloat3(), 
-                        out int _, 
-                        out int _, 
-                        out bool _, 
-                        out bool _, 
-                        out bool _, 
-                        out bool _);
-                }
-                
-            }
-        }
-
-    }*/
-    public static bool HandleDirectionLogic(PlaceObjectSlot slot, Vector3Int initialPos, Vector3Int worldPos)
+    public static bool HandleReplaceLogic(PlaceObjectSlot slot, int2 position, bool doConsumeItem)
     {
         PlayerController pc = slot.slotOwner;
         ObjectDataCD item = pc.GetHeldObject();
 
-        DirectionBasedOnVariationCD variationCd = PugDatabase.GetComponent<DirectionBasedOnVariationCD>(item);
-        if (!variationCd.alignWithNearbyAffectorsWhenPlaced)
+        int shovelSlot = GetBestShovelSlot(pc);
+
+        TileCD itemTile = PugDatabase.GetComponent<TileCD>(item);
+
+        if (Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out TileInfo tile))
         {
-            PlayEffects(slot, initialPos, slot.placementHandler.infoAboutObjectToPlace);
+            if (tile.tileset == itemTile.tileset) return true;
+
+            ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, pc.pugDatabase);
+            if (objectID == ObjectID.None) return true;
+            
             slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
 
-            Vector3Int pos = worldPos + initialPos;
+            pc.pugMapSystem.RemoveTileOverride(position, TileType.dugUpGround);
+            pc.pugMapSystem.RemoveTileOverride(position, tile.tileType);
+            pc.pugMapSystem.AddTileOverride(position, itemTile.tileset, itemTile.tileType);
+            pc.playerCommandSystem.RemoveTile(position, tile.tileset, TileType.dugUpGround);
+            pc.playerCommandSystem.AddTile(position, itemTile.tileset, itemTile.tileType);
 
-            if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
-            if (!pc.CanConsumeEntityInSlot(slot, 1)) return false;
-
-            ObjectDataCD newObj = item;
-            newObj.variation = currentRotation;
-            float3 targetPos = pos.ToFloat3();
-
-            pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
-            pc.playerCommandSystem.CreateEntity(newObj.objectID, targetPos, newObj.variation);
-
-            pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
-            pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
+            pc.playerInventoryHandler.CreateItem(0, objectID, 1, pc.WorldPosition);
+            if (doConsumeItem)
+            {
+                pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
+                pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
+                pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
+            }
 
             return false;
         }
@@ -407,51 +651,5 @@ public static class BrushExtension
         return true;
     }
 
-    public static bool HandleReplaceLogic(PlaceObjectSlot slot, Vector3Int initialPos, Vector3Int worldPos)
-    {
-        PlayerController pc = slot.slotOwner;
-        ObjectDataCD item = pc.GetHeldObject();
-        Vector3Int pos = worldPos + initialPos;
-
-        TileCD itemTile = PugDatabase.GetComponent<TileCD>(item);
-
-        if (databaseBlob == null)
-        {
-            EntityQuery query = slot.world.EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PugDatabase.DatabaseBankCD>());
-            databaseBlob = query.GetSingleton<PugDatabase.DatabaseBankCD>();
-        }
-
-        int2 position = pos.ToInt2();
-        if (Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out TileInfo tile))
-        {
-            if (tile.tileset != itemTile.tileset)
-            {
-                ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, databaseBlob.databaseBankBlob);
-                if (objectID != ObjectID.None)
-                {
-                    //ObjectInfo info = PugDatabase.GetObjectInfo(objectID);
-                    /*DamageReductionCD damageReduction = PugDatabase.GetComponent<DamageReductionCD>(new ObjectDataCD()
-                    {
-                        objectID = objectID,
-                        amount = 1,
-                        variation = 0
-                    });
-                    if (damageReduction.reduction < 100000)
-                    {*/
-                        pc.pugMapSystem.RemoveTileOverride(position, tile.tileType);
-                        pc.pugMapSystem.AddTileOverride(position, itemTile.tileset, itemTile.tileType);
-                        pc.playerCommandSystem.AddTile(position, itemTile.tileset, itemTile.tileType);
-                       
-                        pc.playerInventoryHandler.CreateItem(0, objectID, 1, pc.WorldPosition, 0);
-                        pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
-                        pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
-                        
-                        return false;
-                    //}
-                }
-            }
-        }
-
-        return true;
-    }
+    #endregion
 }

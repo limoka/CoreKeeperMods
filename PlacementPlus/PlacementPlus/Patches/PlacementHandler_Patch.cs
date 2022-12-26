@@ -48,9 +48,10 @@ public static class PlacementHandler_Patch
 
         ObjectInfo itemInfo = __instance.infoAboutObjectToPlace;
         PlacementHandlerPainting painting = __instance.TryCast<PlacementHandlerPainting>();
+        PlacementHandlerDigging digging = __instance.TryCast<PlacementHandlerDigging>();
         bool directionByVariation = PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item);
 
-        if (painting != null || BrushExtension.IsItemValid(itemInfo))
+        if (painting != null || digging != null || BrushExtension.IsItemValid(itemInfo))
         {
             BrushRect extents = BrushExtension.GetExtents(directionByVariation);
             __instance.placeableIcon.SetPosition(__instance.bestPositionToPlaceAt - extents.offset, immediate || BrushExtension.brushChanged);
@@ -77,10 +78,8 @@ public static class PlacementHandler_Patch
     {
         TileCD itemTileCD = PugDatabase.GetComponent<TileCD>(item);
         Vector3Int initialPos = __instance.bestPositionToPlaceAt;
-        Vector3Int worldPos = new Vector3Int(__instance.slotOwner.pugMapPosX, 0, __instance.slotOwner.pugMapPosZ);
-        Vector3Int pos = worldPos + initialPos;
 
-        if (Manager.multiMap.GetTileTypeAt(pos.ToInt2(), itemTileCD.tileType, out TileInfo tile))
+        if (Manager.multiMap.GetTileTypeAt(initialPos.ToInt2(), itemTileCD.tileType, out TileInfo tile))
         {
             if (tile.tileset != itemTileCD.tileset)
             {

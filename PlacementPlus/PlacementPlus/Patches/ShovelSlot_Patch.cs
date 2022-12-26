@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace PlacementPlus;
-/*
+
+[HarmonyPatch]
 public static class ShovelSlot_Patch
 {
     [HarmonyPatch(typeof(ShovelSlot), nameof(ShovelSlot.Dig))]
@@ -16,16 +17,16 @@ public static class ShovelSlot_Patch
         PlacementHandlerDigging handler = __instance.placementHandler.Cast<PlacementHandlerDigging>();
         
         Vector3Int initialPos = handler.bestPositionToPlaceAt;
-        Vector3Int worldPos = new Vector3Int(pc.pugMapPosX, 0, pc.pugMapPosZ);
-        
 
-        ObjectDataCD item = __instance.objectReference;
+        ObjectDataCD item = pc.GetHeldObject();
         if (item.objectID <= 0) return true;
-        if (!PugDatabase.HasComponent<PaintToolCD>(item)) return true;
 
-        BrushExtension.DigGrid(__instance, initialPos + worldPos, handler);
+        ObjectInfo info = PugDatabase.GetObjectInfo(item.objectID);
+        if (info.objectType != ObjectType.Shovel) return true;
+        
+        BrushExtension.DigGrid(__instance, initialPos, handler);
 
         return false;
     }
     
-}*/
+}

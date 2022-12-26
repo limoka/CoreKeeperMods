@@ -9,6 +9,8 @@ List of features:<br/>
 - Place almost any item in lines with length of 2 up to 7. To toggle between placement modes use `C` button.
 - Select belts, drills or mechanical arms placement direction before placing anything! Use `V` button to select their rotation. When placing in lines mode select changes direction pattern instead of axis. Hold `Ctrl` to use vanilla placement logic with 1x1 place mode.
 - Change Paint Brush color with a key (By default `V`)
+- Dig ground with shovel in grids of 2x2 up to 7x7 depending on tool tier (Each tier above wood adds 1 to max size).
+- Replace ground tiles while holding `Alt` key. Also supports doing so in a grid of 2x2 up to 7x7.
 
 All Keybinds are rebindable in the options menu!<br/>
 
@@ -35,6 +37,13 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.5.0
+- Added ability to dig in grids
+- Added ability to replace ground tiles
+
+### v1.4.1
+- Fixed musket sound being played when placing in a grid
 
 ### v1.4.0
 - Fixed compatibility with game version 0.5.0.0 and higher

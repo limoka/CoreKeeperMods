@@ -31,7 +31,7 @@ namespace PlacementPlus
 
         public const string MODGUID = "org.kremnev8.plugin.PlacementPlus";
 
-        public const string VERSION = "1.4.0";
+        public const string VERSION = "1.5.0";
 
         public const string CHANGE_ORIENTATION = "PlacementPlus_ChangeOrientation";
         public const string ROTATE = "PlacementPlus_Rotate";
@@ -48,6 +48,7 @@ namespace PlacementPlus
         public static ResourceData resource;
 
         private static Il2CppReferenceArray<Object> m_iconSprites;
+        // ReSharper disable once NotAccessedField.Local
         private static GCHandle m_spritesHandle;
 
         #region Excludes
@@ -121,9 +122,6 @@ namespace PlacementPlus
         public static ConfigEntry<KeyMode> forceKeyMode;
         public static ConfigEntry<float> minHoldTime;
 
-        public static MusicManager.MusicRosterType customRoster;
-        public static SfxID customEffect;
-
         public override void Load()
         {
             logger = Log;
@@ -140,7 +138,6 @@ namespace PlacementPlus
             minHoldTime = Config.Bind("General", "MinHoldTime", 0.15f,
                 "Minimal hold time before your plus or minus presses are incremented automatically");
 
-            
             ParseConfigString();
             WriteReferenceFile();
 
@@ -149,7 +146,7 @@ namespace PlacementPlus
             RewiredExtensionModule.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
             RewiredExtensionModule.AddKeybind(ROTATE, "Rotate/Change Brush Color", KeyboardKeyCode.V);
             RewiredExtensionModule.AddKeybind(FORCE_ADJACENT, "Force adjacent belt rotation", KeyboardKeyCode.LeftControl);
-            RewiredExtensionModule.AddKeybind(REPLACE_BUTTON, "Hold to replace tiles", KeyboardKeyCode.LeftShift);
+            RewiredExtensionModule.AddKeybind(REPLACE_BUTTON, "Hold to replace tiles", KeyboardKeyCode.LeftAlt);
 
             string pluginfolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             resource = new ResourceData(MODNAME, "PlacementPlus", pluginfolder);

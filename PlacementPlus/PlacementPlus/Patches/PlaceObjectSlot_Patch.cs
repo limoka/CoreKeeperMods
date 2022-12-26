@@ -17,19 +17,18 @@ public static class PlaceObjectSlot_Patch
 
         PlayerController pc = __instance.slotOwner;
         ObjectDataCD item = pc.GetHeldObject();
-        Vector3Int initialPos = __instance.placementHandler.bestPositionToPlaceAt;
-        Vector3Int worldPos = new Vector3Int(pc.pugMapPosX, 0, pc.pugMapPosZ);
+        Vector3Int pos = __instance.placementHandler.bestPositionToPlaceAt;
 
         if (BrushExtension.size == 0)
         {
             if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
             {
-                return BrushExtension.HandleDirectionLogic(__instance, initialPos, worldPos);
+                return BrushExtension.HandleDirectionLogic(__instance, pos);
             }
 
             if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
             {
-                return BrushExtension.HandleReplaceLogic(__instance, initialPos, worldPos);
+                return BrushExtension.HandleReplaceLogic(__instance, pos.ToInt2(), true);
             }
             
             return true;
@@ -38,8 +37,8 @@ public static class PlaceObjectSlot_Patch
         ObjectInfo itemInfo = __instance.placementHandler.infoAboutObjectToPlace;
         if (!BrushExtension.IsItemValid(itemInfo)) return true;
 
-        BrushExtension.PlayEffects(__instance, initialPos, itemInfo);
-        BrushExtension.PlaceGrid(__instance, worldPos + initialPos, item, itemInfo);
+        BrushExtension.PlayEffects(__instance, pos, itemInfo);
+        BrushExtension.PlaceGrid(__instance, pos, item, itemInfo);
 
         return false;
     }
