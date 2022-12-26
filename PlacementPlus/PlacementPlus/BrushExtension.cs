@@ -154,24 +154,34 @@ public static class BrushExtension
         return true;
     }
 
-    internal static int GetBestShovelSlot(PlayerController pc)
+    internal static int GetBestToolsSlots(PlayerController pc, out int shovelSlot, out int pickaxeSlot)
     {
-        int maxDamage = 0;
-        int slot = 0;
+        int maxShovelDamage = 0;
+        int maxPickaxeDamage = 0;
+        shovelSlot = -1;
+        pickaxeSlot = -1;
 
         for (int i = 0; i < 10; i++)
         {
             ObjectDataCD objectDataCd = pc.GetInventorySlot(i);
-            int damage = Extensions.GetShovelDamage(objectDataCd);
+            int shovelDamage = Extensions.GetShovelDamage(objectDataCd);
+            int pickaxeDamage = Extensions.GetPickaxeDamage(objectDataCd);
+            
 
-            if (damage > maxDamage)
+            if (shovelDamage > maxShovelDamage)
             {
-                maxDamage = damage;
-                slot = i;
+                maxShovelDamage = shovelDamage;
+                shovelSlot = i;
+            }
+            
+            if (pickaxeDamage > maxPickaxeDamage)
+            {
+                maxPickaxeDamage = pickaxeDamage;
+                pickaxeSlot = i;
             }
         }
 
-        return slot;
+        return maxPickaxeDamage;
     }
 
     #endregion
@@ -210,8 +220,9 @@ public static class BrushExtension
         int consumeAmount = 0;
 
         bool directionByVariation = PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item);
-        int shovelSlot = GetBestShovelSlot(pc);
+        GetBestToolsSlots(pc, out int shovelSlot, out int pickaxeSlot);
         bool usedShovel = false;
+        bool usedPickaxe = false;
 
         BrushRect extents = GetExtents(directionByVariation);
 
@@ -220,7 +231,7 @@ public static class BrushExtension
             for (int y = extents.minY; y <= extents.maxY; y++)
             {
                 Vector3Int pos = center + new Vector3Int(x, 0, y);
-                if (PlaceAt(slot, itemInfo, pos, consumeAmount, directionByVariation, ref usedShovel))
+                if (PlaceAt(slot, itemInfo, pos, consumeAmount, directionByVariation, ref usedShovel, ref usedPickaxe))
                 {
                     consumeAmount++;
                 }
@@ -234,12 +245,13 @@ public static class BrushExtension
         }
 
         if (usedShovel)
-        {
             pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
-        }
+        if (usedPickaxe)
+            pc.ReduceDurabilityOfEquipmentInSlot(pickaxeSlot);
+        
     }
 
-    private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, Vector3Int pos, int consumeAmount, bool directionByVariation, ref bool usedShovel)
+    private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, Vector3Int pos, int consumeAmount, bool directionByVariation, ref bool usedShovel, ref bool usedPickaxe)
     {
         PlayerController pc = slot.slotOwner;
         ObjectDataCD item = pc.GetHeldObject();
@@ -250,9 +262,7 @@ public static class BrushExtension
         {
             if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1)) return false;
 
-            bool success = !HandleReplaceLogic(slot, position, false);
-            if (success) usedShovel = true;
-            return success;
+            return !HandleReplaceLogic(slot, position, false, ref usedShovel, ref usedPickaxe);
         }
 
         if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
@@ -613,20 +623,39 @@ public static class BrushExtension
         }
     }
 
-    public static bool HandleReplaceLogic(PlaceObjectSlot slot, int2 position, bool doConsumeItem)
+    public static bool HandleReplaceLogic(PlaceObjectSlot slot, int2 position, bool doConsumeItem, ref bool usedShovel, ref bool usedPickaxe)
     {
         PlayerController pc = slot.slotOwner;
         ObjectDataCD item = pc.GetHeldObject();
 
-        int shovelSlot = GetBestShovelSlot(pc);
+        int pickaxeDamage = GetBestToolsSlots(pc, out int shovelSlot, out int pickaxeSlot);
 
         TileCD itemTile = PugDatabase.GetComponent<TileCD>(item);
 
         if (Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out TileInfo tile))
         {
             if (tile.tileset == itemTile.tileset) return true;
-
             ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, pc.pugDatabase);
+            
+            
+            if (tile.tileType == TileType.wall)
+            {
+                if (pickaxeSlot == -1) return true;
+
+                DamageReductionCD reductionCd = objectID.GetComponentData<DamageReductionCD>();
+                if (pickaxeDamage - reductionCd.reduction <= 0) return true;
+                
+                usedPickaxe = true;
+            }
+
+            if (tile.tileType == TileType.ground)
+            {
+                if (shovelSlot == -1) return true;
+                usedShovel = true;
+            }
+
+
+            
             if (objectID == ObjectID.None) return true;
             
             slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
@@ -642,7 +671,11 @@ public static class BrushExtension
             {
                 pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
                 pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
-                pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
+                
+                if (tile.tileType == TileType.ground)
+                    pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
+                if (tile.tileType == TileType.wall)
+                    pc.ReduceDurabilityOfEquipmentInSlot(pickaxeSlot);
             }
 
             return false;

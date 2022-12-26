@@ -128,4 +128,25 @@ public static class Extensions
 
         return 0;
     }
+    
+    public static int GetPickaxeDamage(ObjectDataCD item)
+    {
+        if (item.objectID == ObjectID.None) return 0;
+        if (item.amount == 0) return 0;
+
+        ObjectInfo objectInfo = PugDatabase.GetObjectInfo(item.objectID, item.variation);
+
+        if (objectInfo == null || 
+            objectInfo.objectType != ObjectType.MiningPick) return 0;
+        
+        var buffer = PugDatabase.GetBuffer<GivesConditionsWhenEquippedBuffer>(item);
+        foreach (GivesConditionsWhenEquippedBuffer condition in buffer)
+        {
+            if (condition.equipmentCondition.id != ConditionID.MiningIncrease) continue;
+
+            return condition.equipmentCondition.value;
+        }
+
+        return 0;
+    }
 }

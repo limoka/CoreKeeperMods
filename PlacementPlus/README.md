@@ -38,6 +38,9 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 <details>
 <summary>Changelog</summary>
 
+### v1.5.1
+- Fixed that walls were dug with shovel
+
 ### v1.5.0
 - Added ability to dig in grids
 - Added ability to replace ground tiles

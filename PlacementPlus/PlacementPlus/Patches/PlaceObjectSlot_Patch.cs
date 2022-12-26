@@ -28,7 +28,8 @@ public static class PlaceObjectSlot_Patch
 
             if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
             {
-                return BrushExtension.HandleReplaceLogic(__instance, pos.ToInt2(), true);
+                bool used1 = false, used2 = false; 
+                return BrushExtension.HandleReplaceLogic(__instance, pos.ToInt2(), true, ref used1, ref used2);
             }
             
             return true;
