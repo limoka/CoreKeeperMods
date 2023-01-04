@@ -53,6 +53,12 @@ public static class BrushExtension
 
     public static void ChangeSize(int polarity)
     {
+        if (mode == BrushMode.NONE)
+        {
+            size = 0;
+            SetMode(BrushMode.SQUARE);
+        }
+        
         int maxSize = GetMaxSize();
 
         size += polarity;
@@ -79,7 +85,12 @@ public static class BrushExtension
             newMode = (int)BrushMode.NONE;
         }
 
-        mode = (BrushMode)newMode;
+        SetMode((BrushMode)newMode);
+    }
+
+    private static void SetMode(BrushMode newMode)
+    {
+        mode = newMode;
         brushChanged = true;
     }
 
@@ -636,6 +647,12 @@ public static class BrushExtension
         {
             if (tile.tileset == itemTile.tileset) return true;
             ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, pc.pugDatabase);
+            
+            if (objectID == ObjectID.WallObsidianBlock ||
+                objectID == ObjectID.GroundObsidianBlock)
+            {
+                return true;
+            }
             
             
             if (tile.tileType == TileType.wall)
