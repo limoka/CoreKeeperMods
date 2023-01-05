@@ -5,6 +5,7 @@ using CoreLib.Submodules.RewiredExtension;
 using CoreLib.Util;
 using Rewired;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace PlacementPlus;
 
@@ -43,6 +44,7 @@ public class UpdateMono : MonoBehaviour
     {
         player = ReInput.players.GetPlayer(0);
     }
+    
 
     private void Update()
     {

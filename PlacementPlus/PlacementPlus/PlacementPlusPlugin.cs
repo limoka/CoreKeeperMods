@@ -18,6 +18,8 @@ using Il2CppInterop.Runtime;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Rewired;
 using UnityEngine;
+using UnityEngine.Events;
+using MethodInfo = Il2CppSystem.Reflection.MethodInfo;
 using Object = UnityEngine.Object;
 
 namespace PlacementPlus
@@ -31,7 +33,7 @@ namespace PlacementPlus
 
         public const string MODGUID = "org.kremnev8.plugin.PlacementPlus";
 
-        public const string VERSION = "1.5.0";
+        public const string VERSION = "1.5.2";
 
         public const string CHANGE_ORIENTATION = "PlacementPlus_ChangeOrientation";
         public const string ROTATE = "PlacementPlus_Rotate";
