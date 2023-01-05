@@ -137,7 +137,7 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
             InventoryHandler inventory = slotOwner.playerInventoryHandler;
             int gotCount = 0;
 
-            for (int i = 0; i < fillAmount; i++)
+            for (int i = 0; i < 9; i++)
             {
                 int2 offset = positions[i];
                 int2 newPos = position + offset;
@@ -151,13 +151,18 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
                     slotOwner.playerCommandSystem.AddTile(newPos, (int)Tileset.Dirt, TileType.pit);
                     gotCount++;
                     tileset = tileInfo.tileset;
+                    
+                    if (gotCount >= fillAmount)
+                        break;
                 }
             }
 
             if (gotCount > 0)
             {
+                heldObject.variation = GetVariation(tileset, count + gotCount);
                 inventory.DestroyObject(slotOwner.equippedSlotIndex, heldObject.objectID);
-                inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, GetVariation(tileset, count + gotCount));
+                inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, heldObject.variation);
+                inventory.SetOverride(slotOwner.equippedSlotIndex, heldObject, 3);
             }
         }
     }
@@ -168,8 +173,10 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
         if (tileset < 0)
         {
             InventoryHandler inventory = slotOwner.playerInventoryHandler;
+            heldObject.variation = 0;
             inventory.DestroyObject(slotOwner.equippedSlotIndex, heldObject.objectID);
             inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, 0);
+            inventory.SetOverride(slotOwner.equippedSlotIndex, heldObject, 3);
             return;
         }
 
@@ -183,9 +190,11 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
             InventoryHandler inventory = slotOwner.playerInventoryHandler;
 
             int variation = GetVariation(tileset, count - 1);
+            heldObject.variation = variation;
 
             inventory.DestroyObject(slotOwner.equippedSlotIndex, heldObject.objectID);
             inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, variation);
+            inventory.SetOverride(slotOwner.equippedSlotIndex, heldObject, 3);
         }
     }
 
