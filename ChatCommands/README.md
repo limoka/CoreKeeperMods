@@ -6,7 +6,11 @@ Commands list:<br>
 
 - `/give {itemName} [count] [variation]`: Give yourself any item.
 - `/give food {item1} + {item2} [count]`: Give yourself any food.
-- `/spawn {entityName}`: Spawn any entity at your position.
+- `/spawn {entityName} [variation]`: Spawn any entity at your position.
+- `/placeTile {tileset} {tile type} {x} {y}`: Place tile relative to your position.<br>
+  `/placeTile {item name} {x} {y}`: Place tile relative to your position.
+
+
 - `/remove {objectID} [all|slow]`: Remove closest matching entity from world.
 - `/clearInv`: Clear the player inventory.
 - `/heal [amount]`: Use to fully heal player.
@@ -24,7 +28,9 @@ Commands list:<br>
 
 - `/hide <target> [state]` Hide User Interface, Inventory and Player visual elements. Possible targets: player, ui, inventory
 
-Arguments in curly brackets (`{}`) are mandatory and you must specify them, while arguments in square brackets (`[]`) are optional and if you don't specify them, their value will be automatically inferred. 
+Arguments in curly brackets (`{}`) are mandatory and you must specify them, while arguments in square brackets (`[]`) are optional and if you don't specify them, their value will be automatically inferred.
+
+Please note that you are not supposed to enter the brackets themselves, these are placeholder markers. Enter the value.
 
 If there are two optional arguments, to specify second, you must specify first one. If optional argument lists a number of possible values with `|` that means you can enter any or all of them.
 
@@ -53,6 +59,10 @@ Unzip all files into `Core Keeper\BepInEx\plugins\ChatCommands/` (Create folder 
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.3.2
+- Added `/placeTile` command
+- Allowed to specify variation in `/spawn` command
 
 ### v1.3.1
 - Added `/remove` command

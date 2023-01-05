@@ -1,0 +1,22 @@
+{
+	"type" : "item",
+	"itemId" : "BucketMod:Bucket",
+	"icon" : {
+		"path" : "icons/bucket.png",
+		"type" : "icon-top"
+	},
+	"smallIcon" : {
+		"path" : "icons/bucket.png",
+		"type" : "icon-bottom"
+	},
+	"variationIsDynamic" : true,
+	"localizedName" : "Bucket",
+	"localizedDescription" : "Metal container to store liquids",
+	"objectType" : "BucketMod:Bucket",
+	"requiredObjectsToCraft" : [
+		{
+			"objectID" : "IronBar",
+			"amount" : 4
+		}
+	]
+}

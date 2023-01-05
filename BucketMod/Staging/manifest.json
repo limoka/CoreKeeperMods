@@ -1,0 +1,11 @@
+{
+	"author" : "kremnev8",
+	"name": "BucketMod",
+	"description": "Store and transfer liquids using buckets!",
+	"version_number": "1.0.0",
+	"dependencies": [
+		"BepInEx-BepInExPack_Core_Keeper-2.0.2",
+		"CoreMods-CoreLib-1.3.0"
+	],
+	"website_url": "https://github.com/kremnev8/CoreKeeperMods/tree/master/PlacementPlus"
+}

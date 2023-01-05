@@ -40,7 +40,7 @@
         <PackageVersion>$(AssemblyVersion)</PackageVersion>
         
         <BepInExPluginGuid>org.kremnev8.BucketMod</BepInExPluginGuid>
-        <BepInExPluginName>BucketMod</BepInExPluginName>
+        <BepInExPluginName>Bucket Mod</BepInExPluginName>
         <BepInExPluginVersion>1.0.0</BepInExPluginVersion>
     </PropertyGroup>
 

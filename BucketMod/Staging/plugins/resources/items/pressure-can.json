@@ -1,0 +1,22 @@
+{
+	"type" : "item",
+	"itemId" : "BucketMod:PressureCan",
+	"icon" : {
+		"path" : "icons/pressure-can.png",
+		"type" : "icon-top"
+	},
+	"smallIcon" : {
+		"path" : "icons/pressure-can.png",
+		"type" : "icon-bottom"
+	},
+	"variationIsDynamic" : true,
+	"localizedName" : "Pressurized Can",
+	"localizedDescription" : "This highly pressurized container can contain 5 liters of same liquid!",
+	"objectType" : "BucketMod:Bucket",
+	"requiredObjectsToCraft" : [
+		{
+			"objectID" : "ScarletBar",
+			"amount" : 8
+		}
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"type" : "modWorkbench",
+	"itemId" : "BucketMod:BucketWorkbench",
+	"icon" : {
+		"path" : "icons/wb-icon.png",
+		"type" : "icon-top"
+	},
+	"smallIcon" : {
+		"path" : "icons/wb-icon.png",
+		"type" : "icon-bottom"
+	},
+	"localizedName" : "Bucket Workbench",
+	"localizedDescription" : "Use this workbench to create liquid containers!",
+	"isStackable" : true,
+	"requiredObjectsToCraft" : [
+		{
+			"objectID" : "Wood",
+			"amount" : 8
+		},
+		{
+			"objectID" : "IronBar",
+			"amount" : 4
+		},
+		{
+			"objectID" : "GoldBar",
+			"amount" : 4
+		}
+	],
+	"canCraft" : [
+		"BucketMod:Bucket",
+		"BucketMod:PressureCan"
+	]
+}

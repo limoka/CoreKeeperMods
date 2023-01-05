@@ -19,6 +19,9 @@ More features might come in the future. If you have any feature you would like t
 ## Feedback and Bug Report
 Feel free to contact me via Discord (Kremnev8#3756) for any feedback, bug-reports or suggestions.
 
+# How to support development
+If you like what I do and would like to support development, you can [donate](https://boosty.to/kremnev8).
+
 ## Installation
 ### With Mod Manager
 
@@ -37,6 +40,10 @@ Unzip all files into `Core Keeper\BepInEx\plugins\PlacementPlus/` (Create folder
 ## Changelog
 <details>
 <summary>Changelog</summary>
+
+### v1.5.2
+- Fixed that Obsidian walls and ground could be replaced
+- Added implicit change of mode from 1x1 to nxn when size is changed
 
 ### v1.5.1
 - Fixed that walls were dug with shovel
