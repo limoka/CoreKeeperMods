@@ -16,9 +16,8 @@ public class SpawnCommandHandler : IChatCommandHandler
         if (player == null) return new CommandOutput("Internal error", Color.red);
 
         int variation = 0;
-        int2 pos = int2.zero;
 
-        int numberParams = parameters.Count(s => int.TryParse(RemoveRelative(s), out int _));
+        int numberParams = GetNumberParams(parameters);
         int nameArgCount = parameters.Length;
         
         if (numberParams < 2 || nameArgCount < 3)
@@ -26,17 +25,18 @@ public class SpawnCommandHandler : IChatCommandHandler
             return new CommandOutput("Not enough arguments! Check usage.", Color.red);
         }
 
-        pos = PlaceTileCommand.ParsePos(parameters, nameArgCount - 1, player, out CommandOutput? commandOutput);
-        if (commandOutput != null)
-            return commandOutput.Value;
-            
-        nameArgCount -= 2;
-        
-        if (nameArgCount > 1 && int.TryParse(parameters[nameArgCount - 1], out int val))
+        if (numberParams > 2)
         {
-            variation = val;
+            if (!int.TryParse(parameters[nameArgCount - 1], out variation))
+                return new CommandOutput($"{parameters[nameArgCount - 1]} is not a valid number!");
             nameArgCount--;
         }
+        
+        int2 pos = PlaceTileCommand.ParsePos(parameters, nameArgCount - 1, player, out CommandOutput? commandOutput1);
+        if (commandOutput1 != null)
+            return commandOutput1.Value;
+
+        nameArgCount -= 2;
 
         string fullName = parameters.Take(nameArgCount).Join(null, " ");
         
@@ -47,9 +47,23 @@ public class SpawnCommandHandler : IChatCommandHandler
         return SpawnID(player, objId, variation, pos);
     }
 
-    private static string RemoveRelative(string value)
+    private static int GetNumberParams(string[] parameters)
     {
-        return string.Join("", value.Split('~'));
+        int numberParams = 0;
+        
+        for (int i = parameters.Length - 1; i >= 0; i--)
+        {
+            string value = string.Join("", parameters[i].Split('~'));
+            if (int.TryParse(value, out int _))
+            {
+                numberParams++;
+                continue;
+            }
+
+            break;
+        }
+
+        return numberParams;
     }
 
     private static CommandOutput SpawnID(PlayerController player, ObjectID objId, int variation, int2 pos)
