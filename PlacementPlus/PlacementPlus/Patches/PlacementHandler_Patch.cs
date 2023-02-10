@@ -1,42 +1,23 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using PugTilemap;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace PlacementPlus;
 
 [HarmonyPatch]
 public static class PlacementHandler_Patch
 {
-    public static void SetStateWithArrow(PlacementIcon icon, bool state, int rotation)
-    {
-        if (rotation < 0 || rotation >= 4) throw new ArgumentException($"Rotation {rotation} is out of valid range!");
-
-        if (state)
-        {
-            icon.SR.sprite = PlacementPlusPlugin.GetSprite(rotation);
-        }
-        else
-        {
-            icon.SR.sprite = PlacementPlusPlugin.GetSprite(rotation + 4);
-        }
-    }
 
     [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.UpdatePlaceIcon))]
     [HarmonyPostfix]
-    public static void UpdatePlaceIcon(PlacementHandler __instance, int width, int height, bool immediate)
+    public static void UpdatePlaceIcon(PlacementHandler __instance, bool immediate)
     {
         ObjectDataCD item = __instance.slotOwner.GetHeldObject();
+        Vector2Int size = __instance.GetCurrentSize();
 
-        if (BrushExtension.size == 0 || width != 1 || height != 1)
+        if (BrushExtension.size == 0 || size.x != 1 || size.y != 1)
         {
             PlacementHandler.SetAllowPlacingAnywhere(false);
-
-            if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item) && BrushExtension.forceRotation)
-            {
-                SetStateWithArrow(__instance.placeableIcon, __instance.canPlaceObject, BrushExtension.currentRotation);
-            }
 
             if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
             {
@@ -49,11 +30,10 @@ public static class PlacementHandler_Patch
         ObjectInfo itemInfo = __instance.infoAboutObjectToPlace;
         PlacementHandlerPainting painting = __instance.TryCast<PlacementHandlerPainting>();
         PlacementHandlerDigging digging = __instance.TryCast<PlacementHandlerDigging>();
-        bool directionByVariation = PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item);
 
         if (painting != null || digging != null || BrushExtension.IsItemValid(itemInfo))
         {
-            BrushRect extents = BrushExtension.GetExtents(directionByVariation);
+            BrushRect extents = BrushExtension.GetExtents();
             __instance.placeableIcon.SetPosition(__instance.bestPositionToPlaceAt - extents.offset, immediate || BrushExtension.brushChanged);
             BrushExtension.brushChanged = false;
 
@@ -61,11 +41,6 @@ public static class PlacementHandler_Patch
             int newHeight = extents.height + 1;
 
             __instance.placeableIcon.SetSize(newWidth, newHeight);
-
-            if (directionByVariation)
-            {
-                SetStateWithArrow(__instance.placeableIcon, true, BrushExtension.currentRotation);
-            }
 
             PlacementHandler.SetAllowPlacingAnywhere(true);
             return;
@@ -91,7 +66,7 @@ public static class PlacementHandler_Patch
         return false;
     }
 
-    [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.GetVelocityAffectorAlignmentVariation))]
+    /*[HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.GetVelocityAffectorAlignmentVariation))]
     [HarmonyPostfix]
     public static void GetObjectVariation(ref int __result)
     {
@@ -99,5 +74,5 @@ public static class PlacementHandler_Patch
         {
             __result = BrushExtension.currentRotation;
         }
-    }
+    }*/
 }

@@ -18,7 +18,6 @@ public static class BrushExtension
 {
     public static int size;
     public static int currentRotation;
-    public static bool forceRotation = true;
     public static bool replaceTiles = false;
 
     public static BrushMode mode = BrushMode.SQUARE;
@@ -40,17 +39,6 @@ public static class BrushExtension
         return GetShovelLevel(damage);
     }
 
-    public static void ChangeRotation(int polarity)
-    {
-        currentRotation += polarity;
-        if (currentRotation >= 4)
-        {
-            currentRotation = 0;
-        }
-
-        brushChanged = true;
-    }
-
     public static void ChangeSize(int polarity)
     {
         if (mode == BrushMode.NONE)
@@ -58,7 +46,7 @@ public static class BrushExtension
             size = 0;
             SetMode(BrushMode.SQUARE);
         }
-        
+
         int maxSize = GetMaxSize();
 
         size += polarity;
@@ -94,29 +82,11 @@ public static class BrushExtension
         brushChanged = true;
     }
 
-    public static BrushRect GetExtents(bool withRotation)
+    public static BrushRect GetExtents()
     {
-        int width;
-        int height;
-
-        if (withRotation && !mode.IsSquare())
-        {
-            float angle = currentRotation * Mathf.PI / 2f;
-            if (mode.IsVertical())
-            {
-                angle += Mathf.PI / 2f;
-            }
-
-            width = (int)MathF.Abs(MathF.Cos(angle)) * size;
-            height = (int)MathF.Abs(MathF.Sin(angle)) * size;
-        }
-        else
-        {
-            width = mode.IsHorizontal() ? size : 0;
-            height = mode.IsVertical() ? size : 0;
-        }
-
-
+        int width = mode.IsHorizontal() ? size : 0;
+        int height = mode.IsVertical() ? size : 0;
+        
         int xOffset = (int)MathF.Floor(width / 2f);
         int yOffset = (int)MathF.Floor(height / 2f);
 
@@ -177,14 +147,14 @@ public static class BrushExtension
             ObjectDataCD objectDataCd = pc.GetInventorySlot(i);
             int shovelDamage = Extensions.GetShovelDamage(objectDataCd);
             int pickaxeDamage = Extensions.GetPickaxeDamage(objectDataCd);
-            
+
 
             if (shovelDamage > maxShovelDamage)
             {
                 maxShovelDamage = shovelDamage;
                 shovelSlot = i;
             }
-            
+
             if (pickaxeDamage > maxPickaxeDamage)
             {
                 maxPickaxeDamage = pickaxeDamage;
@@ -230,19 +200,18 @@ public static class BrushExtension
         PlayerController pc = slot.slotOwner;
         int consumeAmount = 0;
 
-        bool directionByVariation = PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item);
         GetBestToolsSlots(pc, out int shovelSlot, out int pickaxeSlot);
         bool usedShovel = false;
         bool usedPickaxe = false;
 
-        BrushRect extents = GetExtents(directionByVariation);
+        BrushRect extents = GetExtents();
 
         for (int x = extents.minX; x <= extents.maxX; x++)
         {
             for (int y = extents.minY; y <= extents.maxY; y++)
             {
                 Vector3Int pos = center + new Vector3Int(x, 0, y);
-                if (PlaceAt(slot, itemInfo, pos, consumeAmount, directionByVariation, ref usedShovel, ref usedPickaxe))
+                if (PlaceAt(slot, itemInfo, pos, consumeAmount, ref usedShovel, ref usedPickaxe))
                 {
                     consumeAmount++;
                 }
@@ -259,10 +228,10 @@ public static class BrushExtension
             pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
         if (usedPickaxe)
             pc.ReduceDurabilityOfEquipmentInSlot(pickaxeSlot);
-        
     }
 
-    private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, Vector3Int pos, int consumeAmount, bool directionByVariation, ref bool usedShovel, ref bool usedPickaxe)
+    private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, Vector3Int pos, int consumeAmount, ref bool usedShovel,
+        ref bool usedPickaxe)
     {
         PlayerController pc = slot.slotOwner;
         ObjectDataCD item = pc.GetHeldObject();
@@ -304,10 +273,6 @@ public static class BrushExtension
                 variation = seedCd.rareSeedVariation;
             }
         }
-        else if (directionByVariation)
-        {
-            variation = currentRotation;
-        }
 
         ObjectDataCD newObj = item;
         newObj.variation = variation > 0 ? variation : 0;
@@ -315,37 +280,6 @@ public static class BrushExtension
 
         pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
         pc.playerCommandSystem.CreateEntity(item.objectID, targetPos, newObj.variation);
-
-        return true;
-    }
-
-    public static bool HandleDirectionLogic(PlaceObjectSlot slot, Vector3Int pos)
-    {
-        PlayerController pc = slot.slotOwner;
-        ObjectDataCD item = pc.GetHeldObject();
-
-        DirectionBasedOnVariationCD variationCd = PugDatabase.GetComponent<DirectionBasedOnVariationCD>(item);
-        if (!variationCd.alignWithNearbyAffectorsWhenPlaced)
-        {
-            PlayEffects(slot, pos, slot.placementHandler.infoAboutObjectToPlace);
-            slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
-
-
-            if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
-            if (!pc.CanConsumeEntityInSlot(slot, 1)) return false;
-
-            ObjectDataCD newObj = item;
-            newObj.variation = currentRotation;
-            float3 targetPos = pos.ToFloat3();
-
-            pc.instantiatePrefabsSystem.PrespawnEntity(newObj, targetPos);
-            pc.playerCommandSystem.CreateEntity(newObj.objectID, targetPos, newObj.variation);
-
-            pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
-            pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
-
-            return false;
-        }
 
         return true;
     }
@@ -370,7 +304,7 @@ public static class BrushExtension
         bool anySuccess = false;
         int effectCount = 0;
 
-        BrushRect extents = GetExtents(false);
+        BrushRect extents = GetExtents();
 
         int width = extents.width + 1;
         int height = extents.height + 1;
@@ -421,7 +355,7 @@ public static class BrushExtension
         PlayerController pc = slot.slotOwner;
         pc.EnterState(pc.sDig);
 
-        BrushRect extents = GetExtents(false);
+        BrushRect extents = GetExtents();
         var tileLookup = FindDamagedTiles(pc, center);
         NativeArray<SummarizedConditionEffectsBuffer> conditions = EntityUtility.GetConditionEffectValues(pc.entity, pc.world).ToNativeArray(Allocator.Temp);
 
@@ -477,14 +411,15 @@ public static class BrushExtension
         World world = pc.world;
         CollisionWorld collisionWorld = PhysicsManager.GetCollisionWorld();
         PhysicsManager physicsManager = Manager.physics;
-        BrushRect extents = GetExtents(false);
+        BrushRect extents = GetExtents();
 
         float offset = size % 2 == 0 ? 0 : 0.5f;
         float3 worldPos = EntityMonoBehaviour.ToWorldFromRender(center).ToFloat3() + new float3(offset, 0, offset);
 
         float3 rectSize = new float3(extents.width + 1, 0.2f, extents.height + 1);
 
-        PhysicsCollider collider = physicsManager.GetBoxCollider(new float3(0, -0.5f, 0), rectSize, PhysicsLayerID.Everything);
+
+        PhysicsCollider collider = physicsManager.GetBoxCollider(new float3(0, -0.5f, 0), rectSize, 0xffffffff);
         ColliderCastInput input = PhysicsManager.GetColliderCastInput(worldPos, worldPos, collider);
 
         NativeList_Unboxed<ColliderCastHit> results = new NativeList_Unboxed<ColliderCastHit>(Allocator.Temp);
@@ -647,21 +582,21 @@ public static class BrushExtension
         {
             if (tile.tileset == itemTile.tileset) return true;
             ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, pc.pugDatabase);
-            
+
             if (objectID == ObjectID.WallObsidianBlock ||
                 objectID == ObjectID.GroundObsidianBlock)
             {
                 return true;
             }
-            
-            
+
+
             if (tile.tileType == TileType.wall)
             {
                 if (pickaxeSlot == -1) return true;
 
                 DamageReductionCD reductionCd = objectID.GetComponentData<DamageReductionCD>();
                 if (pickaxeDamage - reductionCd.reduction <= 0) return true;
-                
+
                 usedPickaxe = true;
             }
 
@@ -672,9 +607,8 @@ public static class BrushExtension
             }
 
 
-            
             if (objectID == ObjectID.None) return true;
-            
+
             slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
 
             pc.pugMapSystem.RemoveTileOverride(position, TileType.dugUpGround);
@@ -688,7 +622,7 @@ public static class BrushExtension
             {
                 pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
                 pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
-                
+
                 if (tile.tileType == TileType.ground)
                     pc.ReduceDurabilityOfEquipmentInSlot(shovelSlot);
                 if (tile.tileType == TileType.wall)

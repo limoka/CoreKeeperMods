@@ -1,7 +1,4 @@
-﻿using System;
-using HarmonyLib;
-using PugTilemap;
-using Unity.Mathematics;
+﻿using HarmonyLib;
 using UnityEngine;
 
 namespace PlacementPlus;
@@ -21,11 +18,6 @@ public static class PlaceObjectSlot_Patch
 
         if (BrushExtension.size == 0)
         {
-            if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
-            {
-                return BrushExtension.HandleDirectionLogic(__instance, pos);
-            }
-
             if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
             {
                 bool used1 = false, used2 = false; 

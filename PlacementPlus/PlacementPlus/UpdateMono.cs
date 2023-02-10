@@ -5,7 +5,6 @@ using CoreLib.Submodules.RewiredExtension;
 using CoreLib.Util;
 using Rewired;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace PlacementPlus;
 
@@ -55,7 +54,7 @@ public class UpdateMono : MonoBehaviour
                 BrushExtension.ToggleMode();
             }
             
-            if (player.GetButtonDown(PlacementPlusPlugin.ROTATE))
+            if (player.GetButtonDown(PlacementPlusPlugin.CHANGE_COLOR))
             {
                 Manager manager = GameManagers.GetMainManager();
                 if (manager == null) return;
@@ -82,10 +81,6 @@ public class UpdateMono : MonoBehaviour
                     
                     inventory.DestroyObject(pc.equippedSlotIndex, item.objectID);
                     inventory.CreateItem(pc.equippedSlotIndex, newObjectId, 1, pc.WorldPosition);
-                }
-                else
-                {
-                    BrushExtension.ChangeRotation(1);
                 }
             }
 
@@ -118,18 +113,6 @@ public class UpdateMono : MonoBehaviour
                 {
                     minusHoldTime = 0;
                     BrushExtension.ChangeSize(-1);
-                }
-            }
-
-            if (PlacementPlusPlugin.forceKeyMode.Value == KeyMode.HOLD)
-            {
-                BrushExtension.forceRotation = !player.GetButton(PlacementPlusPlugin.FORCE_ADJACENT);
-            }
-            else
-            {
-                if (player.GetButtonDown(PlacementPlusPlugin.FORCE_ADJACENT))
-                {
-                    BrushExtension.forceRotation = !BrushExtension.forceRotation;
                 }
             }
 
