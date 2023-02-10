@@ -21,30 +21,18 @@ namespace ChatCommands.Chat.Commands
                 return new CommandOutput("Not enough parameters, please check usage!", Color.red);
             }
 
-            string xPosStr = parameters[^2];
-            string zPosStr = parameters[^1];
-
-            int xPos;
-            int zPos;
-
-            try
-            {
-                xPos = ParsePos(xPosStr, player.pugMapPosX);
-                zPos = ParsePos(zPosStr, player.pugMapPosZ);
-            }
-            catch (Exception)
-            {
-                return new CommandOutput("Failed to parse position parameters!", Color.red);
-            }
+            int2 pos = ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput);
+            if (commandOutput != null)
+                return commandOutput.Value;
 
             int leftArgs = parameters.Length - 2;
 
             if (leftArgs == 2)
             {
-                if (int.TryParse(parameters[0], out int tileset) && 
-                    Enum.TryParse(parameters[1], out TileType tileType))
+                if (Enum.TryParse(parameters[0], true, out Tileset tileset) && 
+                    Enum.TryParse(parameters[1], true, out TileType tileType))
                 {
-                    player.playerCommandSystem.AddTile(new int2(xPos, zPos), tileset, tileType);
+                    player.playerCommandSystem.AddTile(pos, (int)tileset, tileType);
                     return "Tile placed.";
                 }
             }
@@ -54,31 +42,64 @@ namespace ChatCommands.Chat.Commands
             if (objectID == ObjectID.None)
                 return output;
 
-            return PlaceObjectID(objectID, player, xPos, zPos);
+            return PlaceObjectID(objectID, player, pos);
         }
 
-        private static CommandOutput PlaceObjectID(ObjectID objectID, PlayerController player, int xPos, int zPos)
+        public static int2 ParsePos(string[] parameters, int startIndex, PlayerController player, out CommandOutput? commandOutput)
         {
-            if (PugDatabase.HasComponent<TileCD>(objectID))
-            {
-                TileCD tileCd = PugDatabase.GetComponent<TileCD>(objectID);
+            string xPosStr = parameters[startIndex - 1];
+            string zPosStr = parameters[startIndex];
 
-                player.playerCommandSystem.AddTile(new int2(xPos, zPos), tileCd.tileset, tileCd.tileType);
-                return "Tile placed.";
+            int xPos;
+            int zPos;
+
+            int2 playerPos = player.WorldPosition.RoundToInt2();
+            
+            try
+            {
+                xPos = ParsePosAxis(xPosStr, -playerPos.x);
+                zPos = ParsePosAxis(zPosStr, -playerPos.y);
+            }
+            catch (Exception)
+            {
+                commandOutput = new CommandOutput("Failed to parse position parameters!", Color.red);
+                return int2.zero;
             }
 
-            return new CommandOutput("This object is not a tile!", Color.red);
+            commandOutput = null;
+            return new int2(xPos, zPos);
         }
-
-        private int ParsePos(string posText, int playerPos)
+        
+        private static int ParsePosAxis(string posText, int playerPos)
         {
             if (posText[0] == '~')
             {
-                int value = int.Parse(posText[1..]);
-                return playerPos + value;
+                return int.Parse(posText[1..]);
             }
 
-            return int.Parse(posText[1..]);
+            return playerPos + int.Parse(posText);
+        }
+        
+        public static TileCD GetTileData(ObjectID objectID, out CommandOutput? commandOutput)
+        {
+            if (PugDatabase.HasComponent<TileCD>(objectID))
+            {
+                commandOutput = null;
+                return PugDatabase.GetComponent<TileCD>(objectID);
+            }
+
+            commandOutput = new CommandOutput("This object is not a tile!", Color.red);
+            return default;
+        }
+
+        public static CommandOutput PlaceObjectID(ObjectID objectID, PlayerController player, int2 pos)
+        {
+            TileCD tileData = GetTileData(objectID, out CommandOutput? commandOutput2);
+            if (commandOutput2 != null)
+                return commandOutput2.Value;
+            
+            player.playerCommandSystem.AddTile(pos, tileData.tileset, tileData.tileType);
+            return "Tile placed.";
         }
 
         public string GetDescription()

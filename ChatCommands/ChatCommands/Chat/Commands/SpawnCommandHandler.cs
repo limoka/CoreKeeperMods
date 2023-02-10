@@ -3,6 +3,7 @@ using System.Linq;
 using CoreLib;
 using CoreLib.Submodules.ChatCommands;
 using HarmonyLib;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace ChatCommands.Chat.Commands;
@@ -15,40 +16,43 @@ public class SpawnCommandHandler : IChatCommandHandler
         if (player == null) return new CommandOutput("Internal error", Color.red);
 
         int variation = 0;
-        
+        int2 pos = int2.zero;
+
+        int numberParams = parameters.Count(s => int.TryParse(RemoveRelative(s), out int _));
         int nameArgCount = parameters.Length;
-        if (nameArgCount > 1 && int.TryParse(parameters[^1], out int val))
+        
+        if (numberParams < 2 || nameArgCount < 3)
+        {
+            return new CommandOutput("Not enough arguments! Check usage.", Color.red);
+        }
+
+        pos = PlaceTileCommand.ParsePos(parameters, nameArgCount - 1, player, out CommandOutput? commandOutput);
+        if (commandOutput != null)
+            return commandOutput.Value;
+            
+        nameArgCount -= 2;
+        
+        if (nameArgCount > 1 && int.TryParse(parameters[nameArgCount - 1], out int val))
         {
             variation = val;
             nameArgCount--;
         }
-        
+
         string fullName = parameters.Take(nameArgCount).Join(null, " ");
-        var successfulParse = Enum.TryParse(fullName, true, out ObjectID objId);
-        if (successfulParse)
-        {
-            return SpawnID(player, objId, variation);
-        }
         
-        string[] keys = GiveCommandHandler.friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
-        if (keys.Length == 0)
-        {
-            return new CommandOutput($"No entity named '{fullName}' found!", Color.red);
-        }
+        CommandOutput output = GiveCommandHandler.ParseItemName(fullName, out ObjectID objId);
+        if (objId == ObjectID.None)
+            return output;
 
-        if (keys.Length > 1)
-        {
-            return new CommandOutput(
-                $"Ambiguous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
-                Color.red);
-        }
-
-        objId = GiveCommandHandler.friendlyNameDict[keys[0]];
-
-        return SpawnID(player, objId, variation);
+        return SpawnID(player, objId, variation, pos);
     }
 
-    private static CommandOutput SpawnID(PlayerController player, ObjectID objId, int variation)
+    private static string RemoveRelative(string value)
+    {
+        return string.Join("", value.Split('~'));
+    }
+
+    private static CommandOutput SpawnID(PlayerController player, ObjectID objId, int variation, int2 pos)
     {
         if (objId == ObjectID.Player)
         {
@@ -60,17 +64,19 @@ public class SpawnCommandHandler : IChatCommandHandler
         
         if (!hasSpawnablePrefab)
         {
-            player.playerCommandSystem.CreateAndDropEntity(objId, player.RenderPosition, variation);
+            player.playerCommandSystem.CreateAndDropEntity(objId, pos.ToFloat3(), variation);
             return $"Spawned item {objId}";
         }
 
-        player.playerCommandSystem.CreateEntity(objId, player.RenderPosition, variation);
+        player.playerCommandSystem.CreateEntity(objId, pos.ToFloat3(), variation);
         return $"Spawned entity {objId}";
     }
 
     public string GetDescription()
     {
-        return "Spawn any entity into the world";
+        return "Use /spawn any entity into the world\n" +
+               "/spawn {object name} {x} {y} [variation]\n" +
+               "x and y is target world position. Use '~' to set position relative to you.";
     }
 
     public string[] GetTriggerNames()

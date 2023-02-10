@@ -6,9 +6,21 @@ Commands list:<br>
 
 - `/give {itemName} [count] [variation]`: Give yourself any item.
 - `/give food {item1} + {item2} [count]`: Give yourself any food.
-- `/spawn {entityName} [variation]`: Spawn any entity at your position.
+- `/spawn {entityName} {x} {y} [variation]`: Spawn any entity at position.
 - `/placeTile {tileset} {tile type} {x} {y}`: Place tile relative to your position.<br>
   `/placeTile {item name} {x} {y}`: Place tile relative to your position.
+
+
+- `/placeTileArea {tileset} {tile type} {sX} {sY} {eX} {eY}`: Place tiles in area relative to your position.<br>
+  `/placeTileArea {item name} {sX} {sY} {eX} {eY}`: Place  tiles in area relative to your position.
+
+
+- `/removeTile {tile type} {x} {y}`: Remove tile relative to your position.<br>
+  `/removeTile {item name} {x} {y}`: Remove tile relative to your position.
+
+
+- `/removeTileArea {tile type} {sX} {sY} {eX} {eY}`: Remove tiles in area relative to your position.<br>
+  `/removeTileArea {item name} {sX} {sY} {eX} {eY}`: Remove tiles in area relative to your position.
 
 
 - `/remove {objectID} [all|slow]`: Remove closest matching entity from world.
@@ -26,6 +38,7 @@ Commands list:<br>
   `/noclip speed {multilplier}` Set noclip movement speed<br>
 
 
+- `/setReveal {radius}` Set you character map reveal radius. Also enables seeing through walls.
 - `/hide <target> [state]` Hide User Interface, Inventory and Player visual elements. Possible targets: player, ui, inventory
 
 Arguments in curly brackets (`{}`) are mandatory and you must specify them, while arguments in square brackets (`[]`) are optional and if you don't specify them, their value will be automatically inferred.
@@ -55,28 +68,3 @@ Install BepInEx Pack from [here](https://core-keeper.thunderstore.io/package/Bep
 Install CoreLib from [here](https://core-keeper.thunderstore.io/package/CoreMods/CoreLib/)<br/>
 
 Unzip all files into `Core Keeper\BepInEx\plugins\ChatCommands/` (Create folder named `ChatCommands`)<br/>
-
-## Changelog
-<details>
-<summary>Changelog</summary>
-
-### v1.3.2
-- Added `/placeTile` command
-- Allowed to specify variation in `/spawn` command
-
-### v1.3.1
-- Added `/remove` command
-- Improved `/give` command. Now you can give items with variation, and even food.
-
-### v1.3.0
-- Fixed compatibility with game version 0.5.0.0 and higher
-
-### v1.2.0
-- Migrate to BepInEx BE builds
-
-### v1.1.0
-- Migrate to CoreLib 1.0.0
-
-### v1.0.0
-- Initial Release
-</details>

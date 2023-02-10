@@ -104,7 +104,7 @@ public class GiveCommandHandler : IChatCommandHandler
 
     public static CommandOutput ParseItemName(string fullName, out ObjectID objectID)
     {
-        if (Enum.TryParse(fullName, out ObjectID objId))
+        if (Enum.TryParse(fullName, true, out ObjectID objId))
         {
             objectID = objId;
             return "";
@@ -150,7 +150,10 @@ public class GiveCommandHandler : IChatCommandHandler
     public string GetDescription()
     {
         return
-            "Use /give to give yourself any item. \n/give {itemName} [count] [variation]\nThe count parameter defaults to 1. Variation defaults to 0\n/give food {item1} + {item2} [count] Add any food. First item is used as a base ingredient.";
+            "Use /give to give yourself any item. \n" +
+            "/give {itemName} [count] [variation]\n" +
+            "The count parameter defaults to 1. Variation defaults to 0\n" +
+            "/give food {item1} + {item2} [count] Add any food. First item is used as a base ingredient.";
     }
 
     public string[] GetTriggerNames()
