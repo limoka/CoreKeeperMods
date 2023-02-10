@@ -47,7 +47,7 @@ namespace InfiniteOreBoulder
                 {
                     HealthCD healthCd = serverWorld.EntityManager.GetComponentData<HealthCD>(entity);
                     
-                    if (healthCd.health < healthCd.maxHealth)
+                    if (healthCd.health < healthCd.maxHealth - 1000)
                     {
                         healthCd.health = healthCd.maxHealth;
                         serverWorld.EntityManager.SetComponentData(entity, healthCd);

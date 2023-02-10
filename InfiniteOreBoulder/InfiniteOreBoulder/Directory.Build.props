@@ -40,7 +40,7 @@
         
         <BepInExPluginGuid>org.example.InfiniteOreBoulderUpdated</BepInExPluginGuid>
         <BepInExPluginName>Infinite Ore Boulder Updated</BepInExPluginName>
-        <BepInExPluginVersion>2.0.0</BepInExPluginVersion>
+        <BepInExPluginVersion>2.0.2</BepInExPluginVersion>
     </PropertyGroup>
 
 
@@ -51,7 +51,7 @@
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.1.*" />
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.2.*" />
     </ItemGroup>
 
 </Project>

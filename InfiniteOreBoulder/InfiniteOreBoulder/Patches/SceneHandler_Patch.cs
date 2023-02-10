@@ -6,7 +6,7 @@ namespace InfiniteOreBoulder.Patches
     [HarmonyPatch]
     public static class SceneHandler_Patch
     {
-        [HarmonyPatch(typeof(SceneHandler), nameof(SceneHandler.Start))]
+        [HarmonyPatch(typeof(SceneHandler), nameof(SceneHandler.SetSceneHandlerReady))]
         [HarmonyPostfix]
         public static void OnSceneStart()
         {
