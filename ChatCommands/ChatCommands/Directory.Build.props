@@ -8,20 +8,10 @@
     <!-- This sets $(CKGameDir) -->
     <Import Project="$(DevEnvLoc)" Condition="Exists('$(DevEnvLoc)')"/>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DefineConstants>$(DefineConstants);IL2CPP</DefineConstants>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="$(DefineConstants.Contains(IL2CPP))">
+    <PropertyGroup>
         <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
         <CKRealGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKRealGameDir>
         <TargetFramework>net6.0</TargetFramework>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="!$(DefineConstants.Contains(IL2CPP))">
-        <CKMonoGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper Mono\</CKMonoGameDir>
-        <CKRealGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKMonoGameDir)'))</CKRealGameDir>
-        <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup Label="Game Install Properties">
@@ -59,17 +49,8 @@
 
 
     <!-- Shared Items -->
-    
-    <ItemGroup Label="Nugets" Condition="!$(DefineConstants.Contains(IL2CPP))">
-        <PackageReference Include="BepInEx.Core" Version="5.4.21" PrivateAssets="all"/>
-        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="CoreKeeperMono.GameLibs" Version="0.5.3.1" />
-        <PackageReference Include="UnityEngine.Modules" Version="2021.3.14" IncludeAssets="compile" PrivateAssets="all" />
 
-        <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/>
-    </ItemGroup>
-
-    <ItemGroup Condition="$(DefineConstants.Contains(IL2CPP))">
+    <ItemGroup>
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />

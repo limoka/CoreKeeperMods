@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using CoreLib;
-using CoreLib.Compat;
 using CoreLib.Submodules.ChatCommands;
 using HarmonyLib;
 using Unity.Mathematics;
@@ -75,7 +74,7 @@ public class SpawnCommandHandler : IChatCommandHandler
         }
         
         ObjectInfo info = PugDatabase.GetObjectInfo(objId);
-        bool hasSpawnablePrefab = info.prefabInfos.Index(0).prefab != null;
+        bool hasSpawnablePrefab = info.prefabInfos._items[0].prefab != null;
         
         if (!hasSpawnablePrefab)
         {
