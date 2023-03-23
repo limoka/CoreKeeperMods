@@ -120,7 +120,17 @@ namespace ChatCommands.Chat.Commands
 
         public string GetDescription()
         {
-            return "Repeat any command /repeat 10 spawn SlimeBlob ~rng(-10,10) ~lin(-10,10)";
+            return "Use /repeat to repeat any valid command\n" +
+                   "Syntax: /repeat {times} {command name} [parameters to the command]\n" +
+                   "Example /repeat 10 spawn SlimeBlob ~rng(-10,10) ~rng(-10,10)\n" +
+                   "\n" +
+                   "Use value generators to procedurally enter values:\n" +
+                   "Generator syntax is: name(a,b) WITHOUT any spaces\n" +
+                   "Generator syntax will be replaced with it's output on each execution\n" +
+                   "\n" +
+                   "There are two generators:\n" +
+                   "* lin: lerp output from a to b according to current execution index\n" +
+                   "* rng: output random values from a to b on each execution";
         }
 
         public string[] GetTriggerNames()

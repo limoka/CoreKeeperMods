@@ -24,6 +24,7 @@ Commands list:<br>
 
 
 - `/remove {objectID} [all|slow]`: Remove closest matching entity from world.
+- `/repeat {times} {command name} [command parameters]`: Repeat any valid command
 - `/clearInv`: Clear the player inventory.
 - `/heal [amount]`: Use to fully heal player.
 - `/feed [amount]`: Use to fully feed player.
