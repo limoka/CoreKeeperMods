@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using CoreLib.Util.Data;
 using HarmonyLib;
 using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.InteropTypes;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
@@ -40,36 +37,6 @@ public static class Extensions
         }
         
         CastColliderFixMethodPtr = (IntPtr)field.GetValue(null);
-    }
-    
-    public static unsafe bool CastColliderB(this CollisionWorld world, ColliderCastInput input, ref NativeList_Unboxed<ColliderCastHit> allHits)
-    {
-        IntPtr* numPtr = stackalloc IntPtr[2];
-
-        numPtr[0] = (IntPtr)Unsafe.AsPointer(ref input);
-        numPtr[1] = (IntPtr)Unsafe.AsPointer(ref allHits);
-
-        IntPtr exc = IntPtr.Zero;
-        IntPtr num = IL2CPP.il2cpp_runtime_invoke(CastColliderFixMethodPtr, IL2CPP.il2cpp_object_unbox(IL2CPP.Il2CppObjectBaseToPtrNotNull(world)),
-            (void**)numPtr, ref exc);
-
-        Il2CppException.RaiseExceptionIfNecessary(exc);
-        return *(bool*)IL2CPP.il2cpp_object_unbox(num);
-    }
-
-    public static unsafe bool CastColliderB(this CollisionWorld world, ColliderCastInput input, ref NativeList<ColliderCastHit> allHits)
-    {
-        IntPtr* numPtr = stackalloc IntPtr[2];
-
-        numPtr[0] = (IntPtr)Unsafe.AsPointer(ref input);
-        numPtr[1] = IL2CPP.Il2CppObjectBaseToPtrNotNull(allHits);
-
-        IntPtr exc = IntPtr.Zero;
-        IntPtr num = IL2CPP.il2cpp_runtime_invoke(CastColliderFixMethodPtr, IL2CPP.il2cpp_object_unbox(IL2CPP.Il2CppObjectBaseToPtrNotNull(world)),
-            (void**)numPtr, ref exc);
-
-        Il2CppException.RaiseExceptionIfNecessary(exc);
-        return *(bool*)IL2CPP.il2cpp_object_unbox(num);
     }
 
     public static bool HasComponent<T>(EntityManager manager, Entity entity)

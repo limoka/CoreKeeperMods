@@ -1,5 +1,4 @@
-﻿using CoreLib.Submodules.CustomEntity;
-using CoreLib.Submodules.CustomEntity.Interfaces;
+﻿using CoreLib.Submodules.ModEntity.Interfaces;
 using PugTilemap;
 using UnityEngine;
 

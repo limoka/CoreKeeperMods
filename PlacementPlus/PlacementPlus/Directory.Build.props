@@ -50,7 +50,11 @@
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
         <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.2.*" /> 
 
-        <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/>
+        <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/> 
+
+        <PackageReference Include="Il2CppInterop.Common" Version="1.6.0" PrivateAssets="all"/>
+        <PackageReference Include="Il2CppInterop.Runtime" Version="1.6.0" PrivateAssets="all"/>
+        <PackageReference Include="Il2CppInterop.Generator" Version="1.6.0" PrivateAssets="all"/>
     </ItemGroup>
 
 </Project>

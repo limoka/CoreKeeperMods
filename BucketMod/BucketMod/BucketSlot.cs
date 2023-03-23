@@ -1,11 +1,8 @@
 ﻿using System;
 using CoreLib;
-using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.Equipment;
-using InventoryHandlerSystem;
+using CoreLib.Submodules.ModEntity;
 using PugTilemap;
-using Unity.Collections;
-using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics.Authoring;
 using UnityEngine;
@@ -38,8 +35,8 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
 
     public static void Init()
     {
-        bucketObjectID = CustomEntityModule.GetObjectId("BucketMod:Bucket");
-        canObjectID = CustomEntityModule.GetObjectId("BucketMod:PressureCan");
+        bucketObjectID = EntityModule.GetObjectId("BucketMod:Bucket");
+        canObjectID = EntityModule.GetObjectId("BucketMod:PressureCan");
     }
 
     public static int GetCapacity(ObjectID objectID)
@@ -84,10 +81,10 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
 
     private void UpdateConditions(bool take)
     {
-        placementHandler.canOnlyBePlaceOnObjects.Add(ObjectID.Water);
-        placementHandler.canOnlyBePlaceOnObjects.Add(ObjectID.Lava);
+        placementHandler.canBePlaceOnObjects.Add(ObjectID.Water);
+        placementHandler.canBePlaceOnObjects.Add(ObjectID.Lava);
         if (!take)
-            placementHandler.canOnlyBePlaceOnObjects.Add(ObjectID.Pit);
+            placementHandler.canBePlaceOnObjects.Add(ObjectID.Pit);
 
         placementHandler.canPlaceOnWater = true;
         placementHandler.canPlaceOnLava = true;
@@ -200,7 +197,7 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
 
     public ObjectType GetSlotObjectType()
     {
-        return CustomEntityModule.GetObjectType(BucketObjectType);
+        return EntityModule.GetObjectType(BucketObjectType);
     }
 
     public void UpdateSlotVisuals(PlayerController controller)

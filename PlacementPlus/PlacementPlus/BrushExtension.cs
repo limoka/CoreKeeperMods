@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Util.Data;
 using PlacementPlus.Util;
 using PugTilemap;
 using Unity.Collections;
@@ -17,7 +16,6 @@ namespace PlacementPlus;
 public static class BrushExtension
 {
     public static int size;
-    public static int currentRotation;
     public static bool replaceTiles = false;
 
     public static BrushMode mode = BrushMode.SQUARE;
@@ -272,6 +270,9 @@ public static class BrushExtension
             {
                 variation = seedCd.rareSeedVariation;
             }
+        }else if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
+        {
+            variation = slot.placementHandler.rotationVariationToPlace;
         }
 
         ObjectDataCD newObj = item;
@@ -422,9 +423,9 @@ public static class BrushExtension
         PhysicsCollider collider = physicsManager.GetBoxCollider(new float3(0, -0.5f, 0), rectSize, 0xffffffff);
         ColliderCastInput input = PhysicsManager.GetColliderCastInput(worldPos, worldPos, collider);
 
-        NativeList_Unboxed<ColliderCastHit> results = new NativeList_Unboxed<ColliderCastHit>(Allocator.Temp);
+        NativeList<ColliderCastHit> results = new NativeList<ColliderCastHit>(Allocator.Temp);
 
-        bool res = collisionWorld.CastColliderB(input, ref results);
+        bool res = collisionWorld.CastCollider(input, ref results);
         Dictionary<int2, TileData> tileLookup = new Dictionary<int2, TileData>(results.Length);
         if (!res) return tileLookup;
 

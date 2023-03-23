@@ -4,17 +4,18 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using CoreLib;
-using CoreLib.Submodules.CustomEntity;
 using CoreLib.Submodules.Equipment;
 using CoreLib.Submodules.JsonLoader;
 using CoreLib.Submodules.Localization;
+using CoreLib.Submodules.ModEntity;
 using HarmonyLib;
+using Il2CppInterop.Runtime.Injection;
 
 namespace BucketMod
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency(CoreLibPlugin.GUID)]
-    [CoreLibSubmoduleDependency(new []{nameof(CustomEntityModule), nameof(JsonLoaderModule), nameof(EquipmentSlotModule)})]
+    [CoreLibSubmoduleDependency(new []{nameof(EntityModule), nameof(JsonLoaderModule), nameof(EquipmentSlotModule)})]
     public class BucketModPlugin : BasePlugin
     {
         public static ManualLogSource logger;
@@ -41,8 +42,10 @@ namespace BucketMod
             LocalizationModule.AddTerm($"Items/{BucketSlot.canObjectID}Sea", "Pressurized Sea Water Can");
             LocalizationModule.AddTerm($"Items/{BucketSlot.canObjectID}Lava", "Pressurized Lava Can");
             
-            CustomEntityModule.RegisterDynamicItemHandler<BucketDynamicItemHandler>();
+            EntityModule.RegisterDynamicItemHandler<BucketDynamicItemHandler>();
             EquipmentSlotModule.RegisterEquipmentSlot<BucketSlot>(EquipmentSlotModule.PLACEMENT_PREFAB);
+            
+            ClassInjector.Dump<BucketSlot>();
             
             logger.LogInfo($"{PluginInfo.PLUGIN_NAME} mod is loaded!");
         }

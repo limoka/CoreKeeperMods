@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreLib.Submodules.ModSystem;
 using PugAutomation;
 using Unity.Collections;
 using Unity.Entities;
@@ -6,24 +7,23 @@ using UnityEngine;
 
 namespace InfiniteOreBoulder
 {
-    public class InfiniteOreBoulderSystem : MonoBehaviour
+    public class InfiniteOreBoulderSystem : MonoBehaviour, IPseudoServerSystem
     {
-        public static InfiniteOreBoulderSystem instance;
         internal World serverWorld;
         
         private float waitTime;
         private const float refreshTime = 5;
         
         public InfiniteOreBoulderSystem(IntPtr ptr) : base(ptr) { }
-        
-        private void Awake()
-        {
-            instance = this;
-        }
 
         public void OnServerStarted(World world)
         {
             serverWorld = world;
+        }
+
+        public void OnServerStopped()
+        {
+            serverWorld = null;
         }
 
         private void Update()
