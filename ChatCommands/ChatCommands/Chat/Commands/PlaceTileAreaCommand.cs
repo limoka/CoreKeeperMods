@@ -19,14 +19,14 @@ namespace ChatCommands.Chat.Commands
             
             if (parameters.Length < 5)
             {
-                return new CommandOutput("Not enough parameters, please check usage!", Color.red);
+                return new CommandOutput("Not enough parameters, please check usage via /help placeTileArea!", Color.red);
             }
 
-            int2 startPos = PlaceTileCommand.ParsePos(parameters, parameters.Length - 3, player, out CommandOutput? commandOutput);
+            int2 startPos = CommandUtil.ParsePos(parameters, parameters.Length - 3, player, out CommandOutput? commandOutput);
             if (commandOutput != null)
                 return commandOutput.Value.AppendAtStart("Start pos");
             
-            int2 endPos = PlaceTileCommand.ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput1);
+            int2 endPos = CommandUtil.ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput1);
             if (commandOutput1 != null)
                 return commandOutput1.Value.AppendAtStart("End pos");
 
@@ -43,7 +43,7 @@ namespace ChatCommands.Chat.Commands
             }
 
             string fullName = parameters.Take(leftArgs).Join(null, " ");
-            CommandOutput output = GiveCommandHandler.ParseItemName(fullName, out ObjectID objectID);
+            CommandOutput output = CommandUtil.ParseItemName(fullName, out ObjectID objectID);
             if (objectID == ObjectID.None)
                 return output;
 
@@ -57,9 +57,12 @@ namespace ChatCommands.Chat.Commands
 
         public static void PlaceTileArea(int tileset, TileType tileType, PlayerController player, int2 startPos, int2 endPos)
         {
-            for (int x = startPos.x; x <= endPos.x; x++)
+            int2 newStart = math.min(startPos, endPos);
+            int2 newEnd = math.max(startPos, endPos);
+
+            for (int x = newStart.x; x <= newEnd.x; x++)
             {
-                for (int y = startPos.y; y <= endPos.y; y++)
+                for (int y = newStart.y; y <= newEnd.y; y++)
                 {
                     player.playerCommandSystem.AddTile(new int2(x, y), tileset, tileType);
                 }

@@ -18,10 +18,10 @@ namespace ChatCommands.Chat.Commands
 
             if (parameters.Length < 3)
             {
-                return new CommandOutput("Not enough parameters, please check usage!", Color.red);
+                return new CommandOutput("Not enough parameters, please check usage via /help placeTile!", Color.red);
             }
 
-            int2 pos = ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput);
+            int2 pos = CommandUtil.ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput);
             if (commandOutput != null)
                 return commandOutput.Value;
 
@@ -38,48 +38,13 @@ namespace ChatCommands.Chat.Commands
             }
 
             string fullName = parameters.Take(leftArgs).Join(null, " ");
-            CommandOutput output = GiveCommandHandler.ParseItemName(fullName, out ObjectID objectID);
+            CommandOutput output = CommandUtil.ParseItemName(fullName, out ObjectID objectID);
             if (objectID == ObjectID.None)
                 return output;
 
             return PlaceObjectID(objectID, player, pos);
         }
 
-        public static int2 ParsePos(string[] parameters, int startIndex, PlayerController player, out CommandOutput? commandOutput)
-        {
-            string xPosStr = parameters[startIndex - 1];
-            string zPosStr = parameters[startIndex];
-
-            int xPos;
-            int zPos;
-
-            int2 playerPos = player.WorldPosition.RoundToInt2();
-            
-            try
-            {
-                xPos = ParsePosAxis(xPosStr, -playerPos.x);
-                zPos = ParsePosAxis(zPosStr, -playerPos.y);
-            }
-            catch (Exception)
-            {
-                commandOutput = new CommandOutput("Failed to parse position parameters!", Color.red);
-                return int2.zero;
-            }
-
-            commandOutput = null;
-            return new int2(xPos, zPos);
-        }
-        
-        private static int ParsePosAxis(string posText, int playerPos)
-        {
-            if (posText[0] == '~')
-            {
-                return int.Parse(posText[1..]);
-            }
-
-            return playerPos + int.Parse(posText);
-        }
-        
         public static TileCD GetTileData(ObjectID objectID, out CommandOutput? commandOutput)
         {
             if (PugDatabase.HasComponent<TileCD>(objectID))

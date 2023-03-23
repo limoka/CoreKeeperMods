@@ -18,10 +18,10 @@ namespace ChatCommands.Chat.Commands
 
             if (parameters.Length < 3)
             {
-                return new CommandOutput("Not enough parameters, please check usage!", Color.red);
+                return new CommandOutput("Not enough parameters, please check usage via /help removeTile!", Color.red);
             }
 
-            int2 pos = PlaceTileCommand.ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput);
+            int2 pos = CommandUtil.ParsePos(parameters, parameters.Length - 1, player, out CommandOutput? commandOutput);
             if (commandOutput != null)
                 return commandOutput.Value;
 
@@ -36,7 +36,7 @@ namespace ChatCommands.Chat.Commands
             }
 
             string fullName = parameters.Take(leftArgs).Join(null, " ");
-            CommandOutput output = GiveCommandHandler.ParseItemName(fullName, out ObjectID objectID);
+            CommandOutput output = CommandUtil.ParseItemName(fullName, out ObjectID objectID);
             if (objectID == ObjectID.None)
                 return output;
             

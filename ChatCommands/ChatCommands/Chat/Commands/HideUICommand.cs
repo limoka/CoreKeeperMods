@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CoreLib;
+using CoreLib.Compat;
 using CoreLib.Submodules.ChatCommands;
 using UnityEngine;
+
+#if IL2CPP
 using Object = Il2CppSystem.Object;
+#else
+using Object = System.Object;
+#endif
 
 namespace ChatCommands.Chat.Commands;
 

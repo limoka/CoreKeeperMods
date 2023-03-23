@@ -11,8 +11,6 @@ namespace ChatCommands.Chat.Commands;
 
 public class GiveCommandHandler : IChatCommandHandler
 {
-    public static Dictionary<string, ObjectID> friendlyNameDict = new Dictionary<string, ObjectID>();
-
     public CommandOutput Execute(string[] parameters)
     {
         if (parameters.Length == 0)
@@ -50,10 +48,10 @@ public class GiveCommandHandler : IChatCommandHandler
             return new CommandOutput("Too many items in input. Please provide only two items", Color.red);
         }
 
-        CommandOutput output1 = ParseItemName(itemName[0], out ObjectID item1);
+        CommandOutput output1 = CommandUtil.ParseItemName(itemName[0], out ObjectID item1);
         if (item1 == ObjectID.None)
             return output1;
-        CommandOutput output2 = ParseItemName(itemName[1], out ObjectID item2);
+        CommandOutput output2 = CommandUtil.ParseItemName(itemName[1], out ObjectID item2);
         if (item2 == ObjectID.None)
             return output2;
 
@@ -94,7 +92,7 @@ public class GiveCommandHandler : IChatCommandHandler
         string fullName = parameters.Take(nameArgCount).Join(null, " ");
         fullName = fullName.ToLower();
 
-        CommandOutput output = ParseItemName(fullName, out ObjectID objectID);
+        CommandOutput output = CommandUtil.ParseItemName(fullName, out ObjectID objectID);
         if (objectID == ObjectID.None)
             return output;
 
@@ -102,42 +100,6 @@ public class GiveCommandHandler : IChatCommandHandler
         return $"Successfully added {count} {objectID}, variation {variation}";
     }
 
-    public static CommandOutput ParseItemName(string fullName, out ObjectID objectID)
-    {
-        if (Enum.TryParse(fullName, true, out ObjectID objId))
-        {
-            objectID = objId;
-            return "";
-        }
-
-        string[] keys = friendlyNameDict.Keys.Where(s => s.Contains(fullName)).ToArray();
-        if (keys.Length == 0)
-        {
-            objectID = ObjectID.None;
-            return new CommandOutput($"No item named '{fullName}' found!", Color.red);
-        }
-
-        if (keys.Length > 1)
-        {
-            try
-            {
-                string key = keys.First(s => s.Equals(fullName));
-                objectID = friendlyNameDict[key];
-                return "";
-            }
-            catch (Exception)
-            {
-                objectID = ObjectID.None;
-                return new CommandOutput(
-                    $"Ambigous match ({keys.Length} results):\n{keys.Take(10).Join(null, "\n")}{(keys.Length > 10 ? "\n..." : "")}",
-                    Color.red);
-            }
-        }
-
-        objectID = friendlyNameDict[keys[0]];
-        return "";
-    }
-    
     private void AddToInventory(ObjectID objId, int amount, int variation)
     {
         PlayerController player = GameManagers.GetMainManager().player;

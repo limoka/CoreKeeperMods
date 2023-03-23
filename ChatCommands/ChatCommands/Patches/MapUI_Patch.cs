@@ -1,16 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using ChatCommands.Chat.Commands;
 using CoreLib.Util;
 using HarmonyLib;
+
+#if IL2CPP
 using Iced.Intel;
 using Code = Iced.Intel.Code;
+#endif
+
 
 namespace ChatCommands.Chat
 {
+#if !IL2CPP
+    [HarmonyPatch]
+#endif
     public static class MapUI_Patch
     {
+#if IL2CPP
         public static IntPtr constAddr;
 
         public static float bigRevealRadius
@@ -24,7 +33,6 @@ namespace ChatCommands.Chat
                 }
             }
         }
-
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
        private static extern bool VirtualProtect(IntPtr lpAddress, IntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);
 
@@ -58,5 +66,23 @@ namespace ChatCommands.Chat
 
            return instructions;
        }
+#else
+        public static float bigRevealRadius;
+
+        [HarmonyPatch(typeof(MapUI), nameof(MapUI.revealDistance), MethodType.Getter)]
+        [HarmonyTranspiler]
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            CodeMatcher matcher = new CodeMatcher(instructions)
+                .MatchForward(false, new CodeMatch(OpCodes.Ldc_R4, 12f));
+
+            var labels = matcher.Labels;
+            
+            matcher.SetInstruction(Transpilers.EmitDelegate(() => bigRevealRadius));
+            matcher.Labels = labels;
+
+            return matcher.InstructionEnumeration();
+        }
+#endif
     }
 }

@@ -13,11 +13,8 @@ public class NoclipCommand : IChatCommandHandler
     {
         PlayerController player = Players.GetCurrentPlayer();
 
-        if (player.state != player.sNoClip)
-        {
-            noclipActive = false;
-        }
-        
+        noclipActive = player.state == player.sNoClip;
+
         switch (parameters.Length)
         {
             case 0:
@@ -50,12 +47,13 @@ public class NoclipCommand : IChatCommandHandler
             player.EnterState(player.sWalk);
         }
 
-        return $"Noclip is {noclipActive}";
+        return $"Noclip is {(noclipActive ? "active" : "inactive")}";
     }
 
     public string GetDescription()
     {
-        return "Use /noclip to move freely without physical limitations!\n/noclip speed {multilplier} - set noclip speed multiplier";
+        return "Use /noclip to move freely without physical limitations!\n" +
+               "/noclip speed {multilplier} - set noclip speed multiplier";
     }
 
     public string[] GetTriggerNames()

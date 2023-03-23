@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using CoreLib;
+using CoreLib.Compat;
 using CoreLib.Submodules.ChatCommands;
 using HarmonyLib;
 using Unity.Mathematics;
@@ -22,7 +23,7 @@ public class SpawnCommandHandler : IChatCommandHandler
         
         if (numberParams < 2 || nameArgCount < 3)
         {
-            return new CommandOutput("Not enough arguments! Check usage.", Color.red);
+            return new CommandOutput("Not enough arguments! Check usage via /help spawn.", Color.red);
         }
 
         if (numberParams > 2)
@@ -32,7 +33,7 @@ public class SpawnCommandHandler : IChatCommandHandler
             nameArgCount--;
         }
         
-        int2 pos = PlaceTileCommand.ParsePos(parameters, nameArgCount - 1, player, out CommandOutput? commandOutput1);
+        int2 pos = CommandUtil.ParsePos(parameters, nameArgCount - 1, player, out CommandOutput? commandOutput1);
         if (commandOutput1 != null)
             return commandOutput1.Value;
 
@@ -40,7 +41,7 @@ public class SpawnCommandHandler : IChatCommandHandler
 
         string fullName = parameters.Take(nameArgCount).Join(null, " ");
         
-        CommandOutput output = GiveCommandHandler.ParseItemName(fullName, out ObjectID objId);
+        CommandOutput output = CommandUtil.ParseItemName(fullName, out ObjectID objId);
         if (objId == ObjectID.None)
             return output;
 
@@ -74,7 +75,7 @@ public class SpawnCommandHandler : IChatCommandHandler
         }
         
         ObjectInfo info = PugDatabase.GetObjectInfo(objId);
-        bool hasSpawnablePrefab = info.prefabInfos._items[0].prefab != null;
+        bool hasSpawnablePrefab = info.prefabInfos.Index(0).prefab != null;
         
         if (!hasSpawnablePrefab)
         {
