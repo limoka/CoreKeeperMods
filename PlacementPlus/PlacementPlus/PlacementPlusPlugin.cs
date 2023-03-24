@@ -24,7 +24,7 @@ namespace PlacementPlus
 
         public const string MODGUID = "org.kremnev8.plugin.PlacementPlus";
 
-        public const string VERSION = "1.6.0";
+        public const string VERSION = "1.6.1";
 
         public const string CHANGE_ORIENTATION = "PlacementPlus_ChangeOrientation";
         public const string CHANGE_COLOR = "PlacementPlus_Rotate";

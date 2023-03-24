@@ -2,10 +2,10 @@
 	"author" : "kremnev8",
 	"name": "BucketMod",
 	"description": "Store and transfer liquids using buckets!",
-	"version_number": "1.0.0",
+	"version_number": "1.0.1",
 	"dependencies": [
-		"BepInEx-BepInExPack_Core_Keeper-2.0.2",
-		"CoreMods-CoreLib-1.3.0"
+		"BepInEx-BepInExPack_Core_Keeper-2.1.0",
+		"CoreMods-CoreLib-2.0.0"
 	],
 	"website_url": "https://github.com/kremnev8/CoreKeeperMods/tree/master/BucketMod"
 }

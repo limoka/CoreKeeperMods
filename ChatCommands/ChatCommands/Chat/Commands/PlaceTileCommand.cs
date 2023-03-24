@@ -29,11 +29,10 @@ namespace ChatCommands.Chat.Commands
 
             if (leftArgs == 2)
             {
-                if (Enum.TryParse(parameters[0], true, out Tileset tileset) && 
+                if (Enum.TryParse(parameters[0], true, out Tileset tileset) &&
                     Enum.TryParse(parameters[1], true, out TileType tileType))
                 {
-                    player.playerCommandSystem.AddTile(pos, (int)tileset, tileType);
-                    return "Tile placed.";
+                    return TryPlaceTile((int)tileset, tileType, player, pos);
                 }
             }
 
@@ -43,6 +42,20 @@ namespace ChatCommands.Chat.Commands
                 return output;
 
             return PlaceObjectID(objectID, player, pos);
+        }
+
+        public static CommandOutput TryPlaceTile(int tileset, TileType tileType, PlayerController player, int2 pos)
+        {
+            var tilesetData = TilesetTypeUtility.GetTileset(tileset);
+            var layerName = TileTypeToLayerName.GetLayerName(tileType);
+            var quadGenerator = tilesetData.GetDef(layerName);
+            if (quadGenerator == null)
+            {
+                return new CommandOutput($"Tileset {tileset}, tileType: {tileType} does not exist!", Color.red);
+            }
+
+            player.playerCommandSystem.AddTile(pos, tileset, tileType);
+            return "Tile placed.";
         }
 
         public static TileCD GetTileData(ObjectID objectID, out CommandOutput? commandOutput)
@@ -62,7 +75,7 @@ namespace ChatCommands.Chat.Commands
             TileCD tileData = GetTileData(objectID, out CommandOutput? commandOutput2);
             if (commandOutput2 != null)
                 return commandOutput2.Value;
-            
+
             player.playerCommandSystem.AddTile(pos, tileData.tileset, tileData.tileType);
             return "Tile placed.";
         }

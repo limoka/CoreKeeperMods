@@ -13,7 +13,7 @@ namespace ChatCommands
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency(CoreLibPlugin.GUID)]
-    [CoreLibSubmoduleDependency(nameof(CommandsModule), nameof(JsonLoaderModule))]
+    [CoreLibSubmoduleDependency(nameof(CommandsModule))]
     [BepInProcess("CoreKeeper.exe")]
 
     public class ChatCommandsPlugin : BasePlugin

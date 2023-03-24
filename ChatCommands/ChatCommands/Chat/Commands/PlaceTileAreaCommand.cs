@@ -51,11 +51,10 @@ namespace ChatCommands.Chat.Commands
             if (commandOutput2 != null)
                 return commandOutput2.Value;
             
-            PlaceTileArea(tileData.tileset, tileData.tileType, player, startPos, endPos);
-            return "Tile area placed.";
+            return PlaceTileArea(tileData.tileset, tileData.tileType, player, startPos, endPos);
         }
 
-        public static void PlaceTileArea(int tileset, TileType tileType, PlayerController player, int2 startPos, int2 endPos)
+        public static CommandOutput PlaceTileArea(int tileset, TileType tileType, PlayerController player, int2 startPos, int2 endPos)
         {
             int2 newStart = math.min(startPos, endPos);
             int2 newEnd = math.max(startPos, endPos);
@@ -64,9 +63,14 @@ namespace ChatCommands.Chat.Commands
             {
                 for (int y = newStart.y; y <= newEnd.y; y++)
                 {
-                    player.playerCommandSystem.AddTile(new int2(x, y), tileset, tileType);
+                    CommandOutput result = PlaceTileCommand.TryPlaceTile(tileset, tileType, player, new int2(x, y));
+                    if (result.color == Color.red)
+                    {
+                        return result;
+                    }
                 }
             }
+            return "Tile area placed.";
         }
 
         public string GetDescription()

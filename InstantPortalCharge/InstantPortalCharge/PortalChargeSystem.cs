@@ -1,14 +1,13 @@
 ﻿using System;
+using CoreLib.Submodules.ModSystem;
 using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
 namespace InstantPortalCharge
 {
-    public class PortalChargeSystem : MonoBehaviour
+    public class PortalChargeSystem : MonoBehaviour, IPseudoServerSystem
     {
-        public static PortalChargeSystem instance;
-
         internal World serverWorld;
 
         private float waitTime;
@@ -16,14 +15,14 @@ namespace InstantPortalCharge
 
         public PortalChargeSystem(IntPtr ptr) : base(ptr) { }
 
-        private void Awake()
-        {
-            instance = this;
-        }
-
         public void OnServerStarted(World world)
         {
             serverWorld = world;
+        }
+
+        public void OnServerStopped()
+        {
+            serverWorld = null;
         }
 
 
