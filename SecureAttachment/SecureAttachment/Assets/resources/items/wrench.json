@@ -1,0 +1,29 @@
+{
+	"$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+	"type" : "item",
+	"itemId" : "SecureAttachment:Wrench",
+	"icon" : {
+		"path" : "icons/wrench.png",
+		"type" : "icon-top"
+	},
+	"smallIcon" : {
+		"path" : "icons/wrench.png",
+		"type" : "icon-bottom"
+	},
+	"variationIsDynamic" : true,
+	"localizedName" : "Iron Wrench",
+	"localizedDescription" : "Use this tool to unmount machinery and equipment",
+	"objectType" : "SecureAttachment:Wrench",
+	"components": [
+		{
+			"type": "SecureAttachment.WrenchCDAuthoring",
+			"wrenchTier" : 1
+		}
+	],
+	"requiredObjectsToCraft" : [
+		{
+			"objectID" : "IronBar",
+			"amount" : 4
+		}
+	]
+}

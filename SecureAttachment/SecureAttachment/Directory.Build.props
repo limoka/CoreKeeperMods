@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <PropertyGroup>
+        <DevEnvLoc>$(MSBuildThisFileDirectory)/DevEnv.targets</DevEnvLoc>
+    </PropertyGroup>
+
+    <!-- This sets $(CKGameDir) -->
+    <Import Project="$(DevEnvLoc)" Condition="Exists('$(DevEnvLoc)')"/>
+
+    <PropertyGroup>
+        <CKGameDir Condition="!Exists('$(DevEnvLoc)')">C:\Program Files (x86)\Steam\steamapps\common\Core Keeper\</CKGameDir>
+        <CKRealGameDir>$([MSBuild]::EnsureTrailingSlash('$(CKGameDir)'))</CKRealGameDir>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+    
+    <PropertyGroup Label="Game Install Properties">
+        <CKAssemblyDir>$(CKRealGameDir)BepInEx\interop\</CKAssemblyDir>
+        <ProjectDir>$(MSBuildThisFileDirectory)\</ProjectDir>
+
+        <SteamDir>$([MSBuild]::EnsureTrailingSlash('$(SteamDir)'))</SteamDir>
+        <BepInExDir>$(CKRealGameDir)BepInEx\core\</BepInExDir>
+        <BepPlugins>$(CKRealGameDir)BepInEx\plugins\</BepPlugins>
+        <PluginOutputDirectory>$(BepPlugins)SecureAttachment\</PluginOutputDirectory>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Common Properties">
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+
+        <OutputPath Condition="Exists('$(CKRealGameDir)')">$(PluginOutputDirectory)</OutputPath>
+        <OutDir>$(OutputPath)</OutDir>
+        <LangVersion>latest</LangVersion>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <DefaultItemExcludes>$(DefaultItemExcludes);*.binlog</DefaultItemExcludes>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <DebugType>portable</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+
+        <PackageVersion>$(AssemblyVersion)</PackageVersion>
+        
+        <BepInExPluginGuid>org.kremnev8.plugin.SecureAttachment</BepInExPluginGuid>
+        <BepInExPluginName>Secure Attachment</BepInExPluginName>
+        <BepInExPluginVersion>1.0.0</BepInExPluginVersion>
+    </PropertyGroup>
+
+    <!-- Shared Items -->
+
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
+        <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.4.*" /> 
+
+        <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/>
+
+        <PackageReference Include="Il2CppInterop.Common" Version="1.5.0-dots" PrivateAssets="all"/>
+        <PackageReference Include="Il2CppInterop.Runtime" Version="1.5.0-dots" PrivateAssets="all"/>
+        <PackageReference Include="Il2CppInterop.Generator" Version="1.5.0-dots" PrivateAssets="all"/>
+
+    </ItemGroup>
+
+</Project>

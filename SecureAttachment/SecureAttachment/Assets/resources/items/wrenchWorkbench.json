@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+  "type" : "modWorkbench",
+  "itemId" : "SecureAttachment:WrenchWorkbench",
+  "icon" : {
+    "path" : "icons/wb-icon.png",
+    "type" : "icon-top"
+  },
+  "smallIcon" : {
+    "path" : "icons/wb-icon.png",
+    "type" : "icon-bottom"
+  },
+  "localizedName" : "Wrench Workbench",
+  "localizedDescription" : "Use this workbench to create wrenches!",
+  "isStackable" : true,
+  "requiredObjectsToCraft" : [
+    {
+      "objectID" : "Wood",
+      "amount" : 8
+    }
+  ],
+  "canCraft" : [
+    "SecureAttachment:WoodenWrench",
+    "SecureAttachment:Wrench"
+  ]
+}

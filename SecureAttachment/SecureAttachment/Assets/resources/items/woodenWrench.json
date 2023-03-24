@@ -1,0 +1,29 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/Jrprogrammer/CoreLib/master/CoreLib/Submodules/JsonLoader/Schemas/entity_schema.json",
+  "type" : "item",
+  "itemId" : "SecureAttachment:WoodenWrench",
+  "icon" : {
+    "path" : "icons/woodenWrench.png",
+    "type" : "icon-top"
+  },
+  "smallIcon" : {
+    "path" : "icons/woodenWrench.png",
+    "type" : "icon-bottom"
+  },
+  "variationIsDynamic" : true,
+  "localizedName" : "Wooden Wrench",
+  "localizedDescription" : "Basic Wrench to unmount simple machinery and equipment",
+  "objectType" : "SecureAttachment:Wrench",
+  "components": [
+    {
+      "type": "SecureAttachment.WrenchCDAuthoring",
+      "wrenchTier" : 0
+    }
+  ],
+  "requiredObjectsToCraft" : [
+    {
+      "objectID" : "Wood",
+      "amount" : 4
+    }
+  ]
+}
