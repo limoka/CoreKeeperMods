@@ -1,0 +1,10 @@
+{
+	"name": "InfiniteOreBoulderUpdated",
+	"description": "Mine your ore boulders until the end of time and even further!",
+	"version_number": "2.1.1",
+	"dependencies": [
+		"BepInEx-BepInExPack_Core_Keeper-2.1.0",
+		"CoreMods-CoreLib-2.0.0"
+	],
+	"website_url": "https://github.com/kremnev8/CoreKeeperMods/tree/master/InfiniteOreBoulder"
+}
