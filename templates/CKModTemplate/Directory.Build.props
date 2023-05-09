@@ -51,9 +51,9 @@
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.*" />
-		
-		<PackageReference Include="CoreKeeper.Modding.CoreLib" Version="1.2.*" />
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.4.*" />
+	
+	<PackageReference Include="CoreKeeper.Modding.CoreLib" Version="2.0.*" />
     </ItemGroup>
 
 </Project>
