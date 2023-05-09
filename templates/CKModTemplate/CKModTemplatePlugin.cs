@@ -15,9 +15,11 @@ namespace CKModTemplate
         {
             // Plugin startup logic
             logger = Log;
+	    
             Harmony harmony = new Harmony(PluginInfo.PLUGIN_GUID);
             harmony.PatchAll();
-			logger.LogInfo($"{PluginInfo.PLUGIN_NAME} mod is loaded!");
+	    
+            logger.LogInfo($"{PluginInfo.PLUGIN_NAME} mod is loaded!");
         }
     }
 }
