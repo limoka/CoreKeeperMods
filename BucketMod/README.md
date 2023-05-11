@@ -5,6 +5,8 @@ This mod adds two new items:
 - Bucket: can store 1 liter of any liquid.
 - Pressurized Can: can store 5 liters of any liquid.
 
+Note: vanilla now also has a bucket. Contents of this mod persist in case you want to keep using it.
+
 More features might come in the future. If you have any feature you would like to see added, message me on Discord
 
 ## Feedback and Bug Report

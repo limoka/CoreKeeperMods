@@ -44,9 +44,7 @@ namespace BucketMod
             
             EntityModule.RegisterDynamicItemHandler<BucketDynamicItemHandler>();
             EquipmentSlotModule.RegisterEquipmentSlot<BucketSlot>(EquipmentSlotModule.PLACEMENT_PREFAB);
-            
-            ClassInjector.Dump<BucketSlot>();
-            
+
             logger.LogInfo($"{PluginInfo.PLUGIN_NAME} mod is loaded!");
         }
     }

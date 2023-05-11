@@ -87,7 +87,7 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
             placementHandler.canBePlaceOnObjects.Add(ObjectID.Pit);
 
         placementHandler.canPlaceOnWater = true;
-        placementHandler.canPlaceOnLava = true;
+        placementHandler.canBePlacedOnLava = true;
 
         collidesWith = new PhysicsCategoryTags()
         {
@@ -159,7 +159,7 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
                 heldObject.variation = GetVariation(tileset, count + gotCount);
                 inventory.DestroyObject(slotOwner.equippedSlotIndex, heldObject.objectID);
                 inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, heldObject.variation);
-                inventory.SetOverride(slotOwner.equippedSlotIndex, heldObject, 3);
+                inventory.SetOverride(slotOwner.equippedSlotIndex, AsBuffer(heldObject), 3);
             }
         }
     }
@@ -173,7 +173,7 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
             heldObject.variation = 0;
             inventory.DestroyObject(slotOwner.equippedSlotIndex, heldObject.objectID);
             inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, 0);
-            inventory.SetOverride(slotOwner.equippedSlotIndex, heldObject, 3);
+            inventory.SetOverride(slotOwner.equippedSlotIndex, AsBuffer(heldObject), 3);
             return;
         }
 
@@ -191,7 +191,8 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
 
             inventory.DestroyObject(slotOwner.equippedSlotIndex, heldObject.objectID);
             inventory.CreateItem(slotOwner.equippedSlotIndex, heldObject.objectID, 1, slotOwner.WorldPosition, variation);
-            inventory.SetOverride(slotOwner.equippedSlotIndex, heldObject, 3);
+            inventory.SetOverride(slotOwner.equippedSlotIndex, AsBuffer(heldObject), 3);
+            
         }
     }
 
@@ -200,16 +201,28 @@ public class BucketSlot : PlaceObjectSlot, IModEquipmentSlot
         return EntityModule.GetObjectType(BucketObjectType);
     }
 
+    private ContainedObjectsBuffer AsBuffer(ObjectDataCD objectDataCd)
+    {
+        return new ContainedObjectsBuffer()
+        {
+            objectData = objectDataCd
+        };
+    }
+
     public void UpdateSlotVisuals(PlayerController controller)
     {
         ObjectDataCD objectDataCd = controller.GetHeldObject();
         ObjectInfo objectInfo = PugDatabase.GetObjectInfo(objectDataCd.objectID, objectDataCd.variation);
+
+        ContainedObjectsBuffer objectsBuffer = AsBuffer(objectDataCd);
         
         controller.ActivateCarryableItemSpriteAndSkin(
             controller.carryablePlaceItemSprite,
+            controller.carryablePlaceItemPugSprite,
             controller.carryableSwingItemSkinSkin,
-            objectInfo);
+            objectInfo, 
+            objectsBuffer);
         controller.carryablePlaceItemSprite.sprite = objectInfo.smallIcon;
-        controller.carryablePlaceItemColorReplacer.UpdateColorReplacerFromObjectData(objectDataCd);
+        controller.carryablePlaceItemColorReplacer.UpdateColorReplacerFromObjectData(objectsBuffer);
     }
 }
