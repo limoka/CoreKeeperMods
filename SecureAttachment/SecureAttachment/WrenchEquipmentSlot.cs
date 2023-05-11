@@ -44,7 +44,7 @@ namespace SecureAttachment
             if (interactPressed)
             {
                 var pos = placementHandler.bestPositionToPlaceAt;
-                WrenchCD wrenchCd = ComponentModule.GetPugComponentData<WrenchCD>(objectReference.objectID);
+                WrenchCD wrenchCd = ComponentModule.GetPugComponentData<WrenchCD>(objectData.objectID);
                 
                 List<Entity> targets = FindPotentialTargets(pos, wrenchCd.wrenchTier);
                 EntityManager entityManager = world.EntityManager;
@@ -70,7 +70,7 @@ namespace SecureAttachment
                             int2 testPos = objectPos + new int2(x, y);
                             if (math.all(testPos == worldPos.ToInt2()))
                             {
-                                HitInfrontOfOwner();
+                                AttackWithItem();
 
                                 if (mountedCd.wrenchTier <= wrenchCd.wrenchTier)
                                 {
@@ -150,18 +150,30 @@ namespace SecureAttachment
         {
             return EntityModule.GetObjectType(WrenchObjectType);
         }
+        
+        private ContainedObjectsBuffer AsBuffer(ObjectDataCD objectDataCd)
+        {
+            return new ContainedObjectsBuffer()
+            {
+                objectData = objectDataCd
+            };
+        }
 
         public void UpdateSlotVisuals(PlayerController controller)
         {
             ObjectDataCD objectDataCd = controller.GetHeldObject();
             ObjectInfo objectInfo = PugDatabase.GetObjectInfo(objectDataCd.objectID, objectDataCd.variation);
+
+            ContainedObjectsBuffer objectsBuffer = AsBuffer(objectDataCd);
         
             controller.ActivateCarryableItemSpriteAndSkin(
                 controller.carryablePlaceItemSprite,
+                controller.carryablePlaceItemPugSprite,
                 controller.carryableSwingItemSkinSkin,
-                objectInfo);
+                objectInfo, 
+                objectsBuffer);
             controller.carryablePlaceItemSprite.sprite = objectInfo.smallIcon;
-            controller.carryablePlaceItemColorReplacer.UpdateColorReplacerFromObjectData(objectDataCd);
+            controller.carryablePlaceItemColorReplacer.UpdateColorReplacerFromObjectData(objectsBuffer);
         }
     }
 }

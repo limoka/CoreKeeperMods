@@ -10,6 +10,7 @@
     "path" : "icons/wb-icon.png",
     "type" : "icon-bottom"
   },
+  "variations" : "icons/wb-variations.png",
   "localizedName" : "Wrench Workbench",
   "localizedDescription" : "Use this workbench to create wrenches!",
   "isStackable" : true,

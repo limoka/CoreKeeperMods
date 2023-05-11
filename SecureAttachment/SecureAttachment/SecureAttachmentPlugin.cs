@@ -106,7 +106,7 @@ namespace SecureAttachment
 
             JsonLoaderModule.LoadFolder(PluginInfo.PLUGIN_GUID, pluginfolder);
             EquipmentSlotModule.RegisterEquipmentSlot<WrenchEquipmentSlot>(EquipmentSlotModule.PLACEMENT_PREFAB);
-            EntityModule.RegisterModifications(Assembly.GetExecutingAssembly());
+            EntityModule.RegisterEntityModifications(Assembly.GetExecutingAssembly());
 
             resources = new ResourceData(CoreLibPlugin.GUID, "SecureAttachment", pluginfolder);
             resources.LoadAssetBundle("secureattachment");

@@ -2,10 +2,10 @@
 	"author": "kremnev8",
 	"name": "SecureAttachment",
 	"description": "Don't let your enemies destroy your carefully built traps with ease!",
-	"version_number": "1.0.1",
+	"version_number": "1.0.3",
 	"dependencies": [
 		"BepInEx-BepInExPack_Core_Keeper-2.1.0",
-		"CoreMods-CoreLib-2.0.0"
+		"CoreMods-CoreLib-2.1.0"
 	],
 	"website_url": "https://github.com/kremnev8/CoreKeeperMods/tree/master/SecureAttachment"
 }
