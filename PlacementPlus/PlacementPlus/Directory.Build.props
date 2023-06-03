@@ -38,6 +38,8 @@
         <DebugSymbols>true</DebugSymbols>
 
         <PackageVersion>$(AssemblyVersion)</PackageVersion>
+
+        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
     </PropertyGroup>
 
 
@@ -48,7 +50,7 @@
         <PackageReference Include="BepInEx.Core" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be*" PrivateAssets="all"/>
         <PackageReference Include="BepInEx.PluginInfoProps" Version="1.*" />
-        <PackageReference Include="CoreKeeper.GameLibs" Version="0.5.4.*" /> 
+        <PackageReference Include="CoreKeeper.GameLibs" Version="0.6.0" /> 
 
         <Reference Include="$(BepPlugins)CoreLib\CoreLib.dll" Private="false" SpecificVersion="true"/>
 

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib;
+using CoreLib.Submodules.ModComponent;
 using CoreLib.Submodules.RewiredExtension;
 using CoreLib.Util;
 using Rewired;
+using Unity.Collections;
+using Unity.Entities;
 using UnityEngine;
 
 namespace PlacementPlus;
@@ -12,23 +15,14 @@ public class UpdateMono : MonoBehaviour
 {
     private Player player;
     
-    private static int lastColorIndex = -1;
     private static float plusHoldTime;
     private static float minusHoldTime;
 
-
-    private static readonly Dictionary<int, int> colorIndexLookup = new Dictionary<int, int>
-    {
-        { 1, 71 },
-        { 2, 72 },
-        { 3, 70 },
-        { 4, 73 },
-        { 5, 74 },
-        { 6, 75 },
-        { 7, 76 },
-        { 8, 77 }
-    };
-
+    private static readonly Dictionary<int, ObjectID> colorIndexLookup = new Dictionary<int, ObjectID>();
+    
+    private static int lastColorIndex = -1;
+    private static int maxPaintIndex = -1;
+    
     public UpdateMono(IntPtr ptr) : base(ptr)
     {
         
@@ -42,6 +36,33 @@ public class UpdateMono : MonoBehaviour
     private void OnRewiredStart()
     {
         player = ReInput.players.GetPlayer(0);
+    }
+
+    private void InitColorIndexLookup()
+    {
+        if (colorIndexLookup.Count > 0) return;
+        
+        World world = PugDatabase.world;
+        
+        EntityQuery brushQuery = world.EntityManager.CreateEntityQuery(
+            ComponentModule.ReadOnly<ObjectDataCD>(),
+            ComponentModule.ReadOnly<Prefab>(),
+            ComponentModule.ReadOnly<PaintToolCD>());
+        
+        NativeArray<Entity> brushEntities = brushQuery.ToEntityArray(Allocator.Temp);
+        foreach (Entity brushEntity in brushEntities)
+        {
+            ObjectDataCD objectDataCd = world.EntityManager.GetModComponentData<ObjectDataCD>(brushEntity);
+            PaintToolCD paintToolCd = world.EntityManager.GetModComponentData<PaintToolCD>(brushEntity);
+            if (paintToolCd.paintIndex != 0)
+            {
+                colorIndexLookup.Add(paintToolCd.paintIndex, objectDataCd.objectID);
+                maxPaintIndex = Math.Max(maxPaintIndex, paintToolCd.paintIndex);
+            }
+        }
+
+        brushEntities.Dispose();
+        brushQuery.Dispose();
     }
     
 
@@ -66,18 +87,19 @@ public class UpdateMono : MonoBehaviour
                 ObjectDataCD item = inventory.GetObjectData(pc.equippedSlotIndex);
                 if (PugDatabase.HasComponent<PaintToolCD>(item))
                 {
+                    InitColorIndexLookup();
                     if (lastColorIndex == -1)
                     {
                         lastColorIndex = PugDatabase.GetComponent<PaintToolCD>(item).paintIndex;
                     }
 
                     lastColorIndex++;
-                    if (lastColorIndex > 8)
+                    if (lastColorIndex > maxPaintIndex)
                     {
                         lastColorIndex = 1;
                     }
 
-                    ObjectID newObjectId = (ObjectID)colorIndexLookup[lastColorIndex];
+                    ObjectID newObjectId = colorIndexLookup[lastColorIndex];
                     
                     inventory.DestroyObject(pc.equippedSlotIndex, item.objectID);
                     inventory.CreateItem(pc.equippedSlotIndex, newObjectId, 1, pc.WorldPosition);

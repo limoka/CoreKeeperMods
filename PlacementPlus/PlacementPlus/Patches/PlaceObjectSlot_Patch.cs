@@ -43,12 +43,9 @@ public static class PlaceObjectSlot_Patch
         PlacementHandler.SetAllowPlacingAnywhere(false);
         if (BrushExtension.size == 0) return true;
 
-        PlayerController pc = __instance.slotOwner;
         PlacementHandlerPainting handler = __instance.placementHandler.Cast<PlacementHandlerPainting>();
-        bool entityExists = pc.world.EntityManager.Exists(handler.entityToPaint);
-        if (entityExists) return true;
 
-        ObjectDataCD item = __instance.objectReference;
+        ObjectDataCD item = __instance.objectData;
         if (item.objectID <= 0) return true;
         if (!PugDatabase.HasComponent<PaintToolCD>(item)) return true;
 

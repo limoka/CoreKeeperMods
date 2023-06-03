@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
+using Il2CppInterop.Runtime;
 using PugTilemap;
 using UnityEngine;
 
@@ -7,7 +9,6 @@ namespace PlacementPlus;
 [HarmonyPatch]
 public static class PlacementHandler_Patch
 {
-
     [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.UpdatePlaceIcon))]
     [HarmonyPostfix]
     public static void UpdatePlaceIcon(PlacementHandler __instance, bool immediate)
@@ -34,7 +35,7 @@ public static class PlacementHandler_Patch
         if (painting != null || digging != null || BrushExtension.IsItemValid(itemInfo))
         {
             BrushRect extents = BrushExtension.GetExtents();
-            __instance.placeableIcon.SetPosition(__instance.bestPositionToPlaceAt - extents.offset, immediate || BrushExtension.brushChanged);
+            __instance.placeableIcon.SetPosition(__instance.bestPositionToPlaceAt, immediate || BrushExtension.brushChanged);
             BrushExtension.brushChanged = false;
 
             int newWidth = extents.width + 1;
@@ -66,13 +67,31 @@ public static class PlacementHandler_Patch
         return false;
     }
 
-    /*[HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.GetVelocityAffectorAlignmentVariation))]
+    [HarmonyPatch(typeof(PlacementHandlerPainting), nameof(PlacementHandlerPainting.CanPlaceObjectAtPosition))]
     [HarmonyPostfix]
-    public static void GetObjectVariation(ref int __result)
+    private static void FixPaintBrushGridPaint(PlacementHandlerPainting __instance, int width, int height, ref int __result)
     {
-        if (BrushExtension.forceRotation)
+        if (PlacementHandler.allowPlacingAnywhere && BrushExtension.size > 0 && __result > 0)
         {
-            __result = BrushExtension.currentRotation;
+            __result = width * height;
         }
-    }*/
+    }
+
+    [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.FindPlaceablePositionFromMouseOrJoystick))]
+    [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.FindPlaceablePositionFromOwnerDirection))]
+    [HarmonyPrefix]
+    private static void UseExtendedRange(PlacementHandler __instance, ref int width, ref int height)
+    {
+        ObjectInfo itemInfo = __instance.infoAboutObjectToPlace;
+        PlacementHandlerPainting painting = __instance.TryCast<PlacementHandlerPainting>();
+        PlacementHandlerDigging digging = __instance.TryCast<PlacementHandlerDigging>();
+        
+        if (painting != null || digging != null || BrushExtension.IsItemValid(itemInfo))
+        {
+            int mySize = BrushExtension.size + 1;
+
+            width = mySize;
+            height = mySize;
+        }
+    }
 }

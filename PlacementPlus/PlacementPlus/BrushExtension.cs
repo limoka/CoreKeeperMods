@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CoreLib.Submodules.ModComponent;
 using PlacementPlus.Util;
 using PugTilemap;
 using Unity.Collections;
@@ -142,9 +143,9 @@ public static class BrushExtension
 
         for (int i = 0; i < 10; i++)
         {
-            ObjectDataCD objectDataCd = pc.GetInventorySlot(i);
-            int shovelDamage = Extensions.GetShovelDamage(objectDataCd);
-            int pickaxeDamage = Extensions.GetPickaxeDamage(objectDataCd);
+            ContainedObjectsBuffer objectsBuffer = pc.GetInventorySlot(i);
+            int shovelDamage = Extensions.GetShovelDamage(objectsBuffer.objectData);
+            int pickaxeDamage = Extensions.GetPickaxeDamage(objectsBuffer.objectData);
 
 
             if (shovelDamage > maxShovelDamage)
@@ -204,9 +205,9 @@ public static class BrushExtension
 
         BrushRect extents = GetExtents();
 
-        for (int x = extents.minX; x <= extents.maxX; x++)
+        for (int x = 0; x <= extents.width; x++)
         {
-            for (int y = extents.minY; y <= extents.maxY; y++)
+            for (int y = 0; y <= extents.height; y++)
             {
                 Vector3Int pos = center + new Vector3Int(x, 0, y);
                 if (PlaceAt(slot, itemInfo, pos, consumeAmount, ref usedShovel, ref usedPickaxe))
@@ -215,6 +216,7 @@ public static class BrushExtension
                 }
             }
         }
+        if (pc.isGodMode) return;
 
         if (consumeAmount > 0)
         {
@@ -238,13 +240,13 @@ public static class BrushExtension
 
         if (isTile && replaceTiles)
         {
-            if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1)) return false;
+            if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1) && !pc.isGodMode) return false;
 
             return !HandleReplaceLogic(slot, position, false, ref usedShovel, ref usedPickaxe);
         }
 
         if (slot.placementHandler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) return false;
-        if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1)) return false;
+        if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1) && !pc.isGodMode) return false;
 
         int variation = -1;
 
@@ -292,12 +294,11 @@ public static class BrushExtension
     internal static void PaintGrid(PaintToolSlot slot, PlacementHandlerPainting handler)
     {
         PlayerController pc = slot.slotOwner;
-        ObjectDataCD item = slot.objectReference;
-
+        ObjectDataCD item = slot.objectData;
+        
         slot.StartCooldownForItem(slot.SLOT_COOLDOWN);
 
         PaintToolCD paintTool = PugDatabase.GetComponent<PaintToolCD>(item);
-        int tileset = (int)slot.PaintIndexToTileset(paintTool.paintIndex);
 
         Vector3Int initialPos = slot.placementHandler.bestPositionToPlaceAt;
         handler.tilesChecked.Clear();
@@ -312,27 +313,23 @@ public static class BrushExtension
 
         float effectChance = 5 / (float)(width * height);
 
-        for (int x = extents.minX; x <= extents.maxX; x++)
+        for (int x = 0; x <= extents.width; x++)
         {
-            for (int y = extents.minY; y <= extents.maxY; y++)
+            for (int y = 0; y <= extents.height; y++)
             {
                 Vector3Int pos = initialPos + new Vector3Int(x, 0, y);
                 if (handler.CanPlaceObjectAtPosition(pos, 1, 1) <= 0) continue;
-
                 TileInfo tileInfo = handler.tileToPaint;
-                if (tileInfo.tileType == TileType.none) continue;
+                if (tileInfo.tileType != TileType.none)
+                {
+                    anySuccess |= PaintTileAt(slot, pos, tileInfo, paintTool);
+                }else if (handler.entityToPaint != Entity.Null)
+                {
+                    slot.slotOwner.playerCommandSystem.PaintEntity(handler.entityToPaint, paintTool.paintIndex);
+                    anySuccess = true;
+                }
 
-                ObjectInfo tileItem = PugDatabase.TryGetTileItemInfo(tileInfo.tileType, tileset);
-                if (tileItem == null) continue;
-
-                int2 position = new int2(pos.x, pos.z);
-
-                pc.pugMapSystem.RemoveTileOverride(position, tileInfo.tileType);
-                pc.pugMapSystem.AddTileOverride(position, tileset, tileInfo.tileType);
-                pc.playerCommandSystem.AddTile(position, tileset, tileInfo.tileType);
-
-                anySuccess = true;
-                if (PugRandom.GetRng().NextFloat() < effectChance && effectCount < 5)
+                if (anySuccess && PugRandom.GetRng().NextFloat() < effectChance && effectCount < 5)
                 {
                     slot.PlayEffect(paintTool.paintIndex, pos);
                     effectCount++;
@@ -346,13 +343,30 @@ public static class BrushExtension
         }
     }
 
+    private static bool PaintTileAt(PaintToolSlot slot, Vector3Int pos, TileInfo tileInfo, PaintToolCD paintTool)
+    {
+        PlayerController pc = slot.slotOwner;
+        int tileset = (int)slot.PaintIndexToTileset(paintTool.paintIndex, tileInfo);
+
+        ObjectInfo tileItem = PugDatabase.TryGetTileItemInfo(tileInfo.tileType, tileset);
+        if (tileItem == null) return false;
+
+        int2 position = new int2(pos.x, pos.z);
+
+        pc.pugMapSystem.RemoveTileOverride(position, tileInfo.tileType);
+        pc.pugMapSystem.AddTileOverride(position, tileset, tileInfo.tileType);
+        pc.playerCommandSystem.AddTile(position, tileset, tileInfo.tileType);
+        return true;
+    }
+
     #endregion
 
     #region DigGrid
 
     internal static void DigGrid(ShovelSlot slot, Vector3Int center, PlacementHandlerDigging placementHandler)
     {
-        slot.StartCooldownForItem(ShovelSlot.DIG_COOLDOWN);
+        float cooldownTime = (slot.slotOwner.isGodMode ? 0.15f : ShovelSlot.DIG_COOLDOWN);
+        slot.StartCooldownForItem(cooldownTime);
         PlayerController pc = slot.slotOwner;
         pc.EnterState(pc.sDig);
 
@@ -360,9 +374,9 @@ public static class BrushExtension
         var tileLookup = FindDamagedTiles(pc, center);
         NativeArray<SummarizedConditionEffectsBuffer> conditions = EntityUtility.GetConditionEffectValues(pc.entity, pc.world).ToNativeArray(Allocator.Temp);
 
-        for (int x = extents.minX; x <= extents.maxX; x++)
+        for (int x = 0; x <= extents.width; x++)
         {
-            for (int y = extents.minY; y <= extents.maxY; y++)
+            for (int y = 0; y <= extents.height; y++)
             {
                 Vector3Int pos1 = center + new Vector3Int(x, 0, y);
 
@@ -404,7 +418,8 @@ public static class BrushExtension
 
         conditions.Dispose();
 
-        pc.ReduceDurabilityOfHeldEquipment();
+        if (!pc.isGodMode)
+            pc.ReduceDurabilityOfHeldEquipment();
     }
 
     private static Dictionary<int2, TileData> FindDamagedTiles(PlayerController pc, Vector3Int center)
@@ -507,7 +522,7 @@ public static class BrushExtension
         int counts = multimap.tileLookup.CountValuesForKey(posWorldSpace);
         if (counts == 0) return;
 
-        UnsafeParallelMultiHashMap<int2, TileInfo>.Enumerator results = multimap.tileLookup.GetValuesForKey(posWorldSpace);
+        NativeParallelMultiHashMap<int2, TileInfo>.Enumerator results = multimap.tileLookup.GetValuesForKey(posWorldSpace);
         TileInfo targetTile = default;
         bool found = false;
 
@@ -546,12 +561,14 @@ public static class BrushExtension
 
     public static void ReduceDurabilityOfEquipmentInSlot(this PlayerController pc, int slotIndex)
     {
+        if (pc.isGodMode) return;
+        
         EquipmentSlot slot = pc.GetEquipmentSlot(slotIndex);
         int toolConditionValue = EntityUtility.GetConditionValue(ConditionID.ToolDurabilityLastsLonger, pc.entity, pc.world);
 
         if (toolConditionValue / 100f > PugRandom.GetRng().NextFloat()) return;
 
-        ObjectDataCD objectRef = slot.objectReference;
+        ObjectDataCD objectRef = slot.objectData;
 
         if (!PugDatabase.HasComponent<DurabilityCD>(objectRef)) return;
 
@@ -619,7 +636,7 @@ public static class BrushExtension
             pc.playerCommandSystem.AddTile(position, itemTile.tileset, itemTile.tileType);
 
             pc.playerInventoryHandler.CreateItem(0, objectID, 1, pc.WorldPosition);
-            if (doConsumeItem)
+            if (doConsumeItem && !pc.isGodMode)
             {
                 pc.playerInventoryHandler.Consume(pc.equippedSlotIndex, 1, true);
                 pc.SetEquipmentSlotToNonUsableIfEmptySlot(slot);
