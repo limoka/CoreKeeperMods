@@ -1,8 +1,13 @@
 CK_InfiniteOreBoulder/
+RailLogistics/
+CyrillicFontPatch/
+InteropAssemblyTester/
+MoveableSpawners/
 
 .idea/
 unhollow/
 DevEnv.targets
+Staging/
 
 # User-specific files
 *.rsuser
