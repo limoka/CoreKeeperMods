@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -17,6 +18,7 @@ namespace PugMod
 			private Button _createButton;
 			private Label _gameInstallPath;
 			private Button _localExportButton;
+			private Button _runGameButton;
 			private ListView _modDependencyList;
 			private Toggle _requiredMultiplayerToggle;
 
@@ -53,6 +55,7 @@ namespace PugMod
 				_createButton = root.Q<Button>("CreateModButton");
 				_gameInstallPath = root.Q<Label>("LocalExportGamePath");
 				_localExportButton = root.Q<Button>("LocalExportButton");
+				_runGameButton = root.Q<Button>("RunGameButton");
 				_modDependencyList = root.Q<ListView>("ModDependencies");
 				_requiredMultiplayerToggle = root.Q<Toggle>("RequiredOnServerAndClient");
 
@@ -193,6 +196,15 @@ namespace PugMod
 
 						EditorUtility.DisplayDialog("Export", $"Mod {modSettings.metadata.name} successfully exported to {path}", "OK");
 					});
+				};
+
+				_runGameButton.clicked += () =>
+				{
+					var path = EditorPrefs.GetString(GAME_INSTALL_PATH_KEY);
+					
+					Process compiler = new Process();
+					compiler.StartInfo.FileName = Path.Combine(path, "CoreKeeper.exe");
+					compiler.Start();
 				};
 
 				_requiredMultiplayerToggle.RegisterValueChangedCallback(evt =>

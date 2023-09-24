@@ -47,7 +47,7 @@
                     <ui:Button text="Upload to mod.io" display-tooltip-when-elided="true" name="UploadModButton" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="CreateModView" style="visibility: visible; display: none;">
+            <ui:VisualElement name="CreateModView" style="visibility: visible; display: none; height: 208px;">
                 <ui:DropdownField label="Mod" index="-1" name="CreateModModList" choices="New Mod" style="margin-bottom: 10px;" />
                 <ui:VisualElement name="CreateModForm">
                     <ui:TextField picking-mode="Ignore" label="Name" name="CreateModName" readonly="false" style="min-width: 300px;" />
@@ -62,6 +62,7 @@
                     </ui:VisualElement>
                     <ui:Label display-tooltip-when-elided="true" name="LocalExportGamePath" text="Go to &apos;Find game files&apos; to set correct path for mod loading." style="margin-left: 5px;" />
                     <ui:Button text="Install Mod" display-tooltip-when-elided="true" name="LocalExportButton" />
+                    <ui:Button text="Start Game" display-tooltip-when-elided="true" name="RunGameButton" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
