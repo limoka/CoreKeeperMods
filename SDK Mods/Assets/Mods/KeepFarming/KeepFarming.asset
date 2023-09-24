@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc43e4983a160e543856e5ba0421c9e1, type: 3}
+  m_Name: KeepFarming
+  m_EditorClassIdentifier: 
+  metadata:
+    guid: 2590a5c3a3924269a55d9f350b7ec7d1
+    name: KeepFarming
+    skipSafetyChecks: 0
+    accessesExtraAssemblies: 1
+    disableHarmonyPatching: 0
+    requiredOn: 0
+    files:
+    - path: Scripts/PlacementHandler_Patch.cs
+    - path: Scripts/KeepFarmingMod.cs
+    - path: Scripts/AdditionalDropSystem.cs
+    - path: Scripts/Generated/AdditionalDropSystem__System_1237557611.g.cs
+    - path: Bundles/KeepFarming_Windows.assetbundle
+    dependencies: []
+  modPath: Assets\Mods\KeepFarming
+  buildLinux: 0

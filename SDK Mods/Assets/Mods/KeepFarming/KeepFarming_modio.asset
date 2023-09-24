@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d83df2ae64ce1e94f9c006b9d326bf02, type: 3}
+  m_Name: KeepFarming_modio
+  m_EditorClassIdentifier: 
+  modId: 3361541
+  modSettings: {fileID: 11400000, guid: 290ef4648a94a5040a8090ea406a442d, type: 2}
+  logo: {fileID: 2800000, guid: 614b546846185f44d9130c797e5e86c3, type: 3}
+  summary: 'Describe your mod here.
+
+'
