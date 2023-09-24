@@ -32,7 +32,9 @@ public static class PlacementHandler_Patch
         PlacementHandlerPainting painting = __instance.TryCast<PlacementHandlerPainting>();
         PlacementHandlerDigging digging = __instance.TryCast<PlacementHandlerDigging>();
 
-        if (painting != null || digging != null || BrushExtension.IsItemValid(itemInfo))
+        if (painting != null || 
+            (digging != null && itemInfo.objectType == ObjectType.Shovel) || 
+            BrushExtension.IsItemValid(itemInfo))
         {
             BrushRect extents = BrushExtension.GetExtents();
             __instance.placeableIcon.SetPosition(__instance.bestPositionToPlaceAt, immediate || BrushExtension.brushChanged);
@@ -86,12 +88,14 @@ public static class PlacementHandler_Patch
         PlacementHandlerPainting painting = __instance.TryCast<PlacementHandlerPainting>();
         PlacementHandlerDigging digging = __instance.TryCast<PlacementHandlerDigging>();
         
-        if (painting != null || digging != null || BrushExtension.IsItemValid(itemInfo))
+        if (painting != null || 
+            (digging != null && itemInfo.objectType == ObjectType.Shovel) || 
+            BrushExtension.IsItemValid(itemInfo))
         {
-            int mySize = BrushExtension.size + 1;
+            BrushRect extents = BrushExtension.GetExtents();
 
-            width = mySize;
-            height = mySize;
+            width = extents.width + 1;
+            height = extents.height + 1;
         }
     }
 }
