@@ -15,6 +15,7 @@ public class ModBuilderSettings : ScriptableObject
 	
 	public string modPath = "Assets/Mod";
 	public bool buildLinux = false;
+	public bool buildBurst = true;
 
 	private void OnValidate()
 	{

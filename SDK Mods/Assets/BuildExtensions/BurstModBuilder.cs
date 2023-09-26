@@ -14,14 +14,19 @@ namespace CoreLib.Editor
     [Preserve]
     public class BurstModBuilder : PugMod.IPugModBuilderProcessor
     {
+        private const string GAME_INSTALL_PATH_KEY = "PugMod/SDKWindow/GamePath";
+        
         public void Execute(ModBuilderSettings settings, string installDirectory, List<string> assetPaths)
         {
+            if (!settings.buildBurst) return;
+            
             var libraryFolder = Path.Combine(Application.dataPath, "..", "Library");
             var packageCache = Path.Combine(libraryFolder, "PackageCache");
             var burstPackage = Directory.GetDirectories(packageCache).First(s => s.Contains("com.unity.burst"));
             var burstCompiler = Path.Combine(burstPackage, ".Runtime", "bcl.exe");
 
-            var gameAssemblies = Path.Combine(Application.dataPath, "..", "Player\\CoreKeeper_Data\\Managed");
+            var gamePath = EditorPrefs.GetString(GAME_INSTALL_PATH_KEY);
+            var gameAssemblies = Path.Combine(gamePath, "CoreKeeper_Data\\Managed");
 
             var assemblyStaging = Path.Combine(Application.dataPath, "..", "Temp\\ModBurst\\Assemblies");
 
