@@ -14,6 +14,7 @@ namespace BetterChat.Scripts
         internal static AssetBundle AssetBundle => modInfo.AssetBundles[0];
 
         internal static float chatWindowWidth = 10;
+        internal static float chatWindowHeight = 15f;
 
         public void EarlyInit()
         {

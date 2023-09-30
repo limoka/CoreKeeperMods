@@ -18,8 +18,14 @@ MonoBehaviour:
     skipSafetyChecks: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
-    requiredOn: 0
-    files: []
+    requiredOn: 1
+    files:
+    - path: Scripts/Scripts/Util.cs
+    - path: Scripts/Scripts/ChatWindow_Patch.cs
+    - path: Scripts/Scripts/ChatBackground.cs
+    - path: Scripts/Scripts/BetterChatMod.cs
+    - path: Bundles/BetterChat_Windows.assetbundle
     dependencies: []
   modPath: Assets\Mods\BetterChat
-  buildLinux: 0
+  buildLinux: 1
+  buildBurst: 0

@@ -279,10 +279,8 @@ namespace PlacementPlus
             ObjectDataCD newObj = item;
             newObj.variation = variation > 0 ? variation : 0;
             float3 targetPos = pos.ToFloat3();
-
-
-            var database = pc.querySystem.GetSingleton<PugDatabase.DatabaseBankCD>().databaseBankBlob;
-            EntityPrespawnUtility.CreatePrespawnEntity(pc.world, newObj, targetPos, database);
+            
+            pc.entityPrespawnSystem.CreatePrespawnEntity(newObj, targetPos);
             pc.playerCommandSystem.CreateEntity(item.objectID, targetPos, newObj.variation);
 
             return true;
