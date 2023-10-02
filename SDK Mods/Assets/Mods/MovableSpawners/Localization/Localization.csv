@@ -1,0 +1,9 @@
+Key	Type	Desc	English	German	Japanese	Korean	Spanish	Chinese (Simplified)	Thai
+Items/SummonArea	Text	Slime Boss Summon Area 	Slime Boss Summon Area 	Schleim-Boss-Beschwörungsbereich	スライムボス召喚エリア	슬라임 보스 소환 영역	Área de Invocación de Jefe de Limo	史莱姆Boss召唤区	เมือกเจ้านายเรียกพื้นที่
+Items/SummonAreaDesc	Text	Allows you to spawn Bosses.	Allows you to spawn Bosses.	Erlaubt dir, Bosse zu spawnen.	ボスを出現させることができます。	보스를 생성 할 수 있습니다.	Te permite generar jefes.	让你召bosses	ช่วยให้คุณวางไข่ผู้บังคับบัญชา
+Items/SummonArea1	Text	Ghorm Boss Summon Area	Ghorm Boss Summon Area	Ghorm-Boss-Beschwörungsbereich	ゴルムボスサモンエリア	고르름 보스 소환 지역	Área de Invocación del Jefe de Ghorm	Ghorm Boss召唤区	พื้นที่อัญเชิญเจ้านายกอร์ม
+Items/SummonArea2	Text	Hive Boss Summon Area	Hive Boss Summon Area	Bienenstock-Boss-Beschwörungsbereich	ハイブボス召喚エリア	하이브 보스 소환 영역	Área de Invocación del Jefe de la Colmena	怪物巢Boss召唤区	พื้นที่เรียกบอสไฮฟ์
+Items/SummonArea3	Text	Poison Slime Boss Summon Area	Poison Slime Boss Summon Area	Giftschleim-Boss-Beschwörungsbereich	ポイズンスライムボス召喚エリア	독 슬라임 보스 소환 영역	Área de Invocación del Jefe de Limo Venenoso	带毒的史莱姆Boss召唤区	พิษเมือกเจ้านายเรียกพื้นที่
+Items/SummonArea4	Text	Malugaz Boss Summon Area	Malugaz Boss Summon Area	Malugaz-Boss-Beschwörungsbereich	マルガズボスサモンエリア	말루가즈 보스 소환 구역	Área de Invocación del Jefe Malugaz	Malugaz Boss召唤区	พื้นที่อัญเชิญเจ้านายมาลูกัซ
+Items/SummonArea5	Text	Slippery Slime Boss Summon Area	Slippery Slime Boss Summon Area	Rutschiger Schleim-Boss-Beschwörungsbereich	滑りやすいスライムボス召喚エリア	미끄러운 슬라임 보스 소환 구역	Área de Invocación de Jefe de Limo Resbaladizo	滑溜溜的史莱姆Boss召唤区	ลื่นเจ้านายเมือกเรียกพื้นที่
+Items/SummonArea6	Text	Lava Slime Boss Summon Area	Lava Slime Boss Summon Area	Lavaschleim-Boss-Beschwörungsbereich	溶岩スライムボス召喚エリア	용암 슬라임 보스 소환 지역	Área de Invocación de Jefe de Limo de Lava	熔岩史莱姆Boss召唤区	ลาวาเมือกเจ้านายเรียกพื้นที่
