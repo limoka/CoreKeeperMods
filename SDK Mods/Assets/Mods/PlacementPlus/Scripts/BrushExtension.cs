@@ -486,7 +486,7 @@ namespace PlacementPlus
             {
                 TileData tileData = tileLookup[posWorldSpace];
 
-                pc.GetTileDamageValues(tileData.entity, conditions, digging,
+                pc.GetTileDamageValues(tileData.entity, posWorldSpace, conditions, digging,
                     out normHealth,
                     out damageDone,
                     out _,
@@ -544,6 +544,7 @@ namespace PlacementPlus
             var primaryEntity = PugDatabase.GetPrimaryPrefabEntity(objectInfo.objectID, pc.pugDatabase, objectInfo.variation);
 
             pc.GetTileDamageValues(primaryEntity,
+                posWorldSpace,
                 conditions,
                 digging,
                 out normHealth,

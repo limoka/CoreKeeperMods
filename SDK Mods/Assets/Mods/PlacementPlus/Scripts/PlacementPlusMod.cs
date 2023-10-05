@@ -26,7 +26,7 @@ namespace PlacementPlus
             KeyCode.Plus,
             KeyCode.Equals,
             KeyCode.Greater,
-            KeyCode.LeftBracket
+            KeyCode.RightBracket
         };
         
         private static KeyCode[] moreKeys =
@@ -34,7 +34,7 @@ namespace PlacementPlus
             KeyCode.KeypadMinus,
             KeyCode.Minus,
             KeyCode.Less,
-            KeyCode.RightBracket
+            KeyCode.LeftBracket
         };
         
         #region Excludes

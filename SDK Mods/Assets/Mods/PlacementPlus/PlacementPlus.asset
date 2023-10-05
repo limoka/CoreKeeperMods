@@ -18,9 +18,9 @@ MonoBehaviour:
     skipSafetyChecks: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
-    requiredOn: 0
+    requiredOn: 1
     files: []
     dependencies: []
   modPath: Assets/Mods\PlacementPlus
-  buildLinux: 0
+  buildLinux: 1
   buildBurst: 0
