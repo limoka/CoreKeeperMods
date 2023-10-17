@@ -30,7 +30,8 @@ namespace PlacementPlus
             ObjectInfo itemInfo = __instance.GetInfoAboutObjectToPlace_Public();
             
             if (__instance is PlacementHandlerPainting || 
-                (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) || 
+                (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) ||
+                __instance is PlacementHandlerRoofingTool || 
                 BrushExtension.IsItemValid(itemInfo))
             {
                 BrushRect extents = BrushExtension.GetExtents();
@@ -85,6 +86,7 @@ namespace PlacementPlus
 
             if (__instance is PlacementHandlerPainting || 
                 (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) || 
+                __instance is PlacementHandlerRoofingTool || 
                 BrushExtension.IsItemValid(itemInfo))
             {
                 BrushRect extents = BrushExtension.GetExtents();

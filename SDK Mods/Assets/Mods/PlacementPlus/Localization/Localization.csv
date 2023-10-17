@@ -1,0 +1,12 @@
+Key	Type	Desc	English	German	Japanese	Korean	Spanish	Chinese (Simplified)	Thai
+PlacementPlus/RoofingToolModeMessage	Text	Roofing Tool mode change message	Roofing Gadget mode set to {0}	Dach-Gadget-Modus auf {0} gesetzt	屋根ふき装置モードは {0} に設定されました	{0}로 설정된 루핑 가젯 모드	Modo de Gadget para techos establecido en {0}	屋顶小工具模式设置为{0}	ตั้งค่าโหมดโปรแกรมเบ็ดเตล็ดหลังคาเป็น{0}
+PlacementPlus/ModeMessage	Text	mode change message	Mode set to {0}	Modus auf {0} gesetzt	屋根ふき装置モードは {0} に設定されました	{0}に設定されたモード	Modo establecido en {0}	模式设置为{0}	โหมดตั้งเป็น{0}
+PlacementPlus/TOGGLE	Text	Roofing Tool mode	Toggle	Schalten	トグル	토글	Alternar	切换开关	สลับ
+PlacementPlus/ADD_ROOF	Text	Roofing Tool mode	Add Roof	Dach hinzufügen	屋根を追加	지붕 추가	Añadir Techo	增加屋顶	เพิ่มหลังคา
+PlacementPlus/CLEAR_ROOF	Text	Roofing Tool mode	Clear Roof	Klares Dach	クリアルーフ	맑은 지붕	Techo Transparente	拆除屋顶	หลังคาใส
+PlacementPlus/CHESS_PATTERN	Text	Roofing Tool mode	Chess Pattern	Schachmuster	チェスパターン	체스 패턴	Patrón de Ajedrez	国际象棋模式	รูปแบบหมากรุก
+PlacementPlus/CIRCLE	Text	Roofing Tool mode	Circle	Kreis	円	원	Círculo	圆	วงกลม
+PlacementPlus/NONE	Text	Tool mode	None	Kein	なし	없지	Ninguna	无	ไม่มี
+PlacementPlus/HORIZONTAL	Text	Tool mode	Horizontal	Horizontal	水平	수평	Horizontal	水平方向	แนวนอน
+PlacementPlus/VERTICAL	Text	Tool mode	Vertical	Vertikal	縦型	수직	Vertical	垂直方向	แนวตั้ง
+PlacementPlus/SQUARE	Text	Tool mode	Square	Square	スクエア	광장	Cuadrado	广场	สแควร์

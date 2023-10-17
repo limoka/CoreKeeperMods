@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace PlacementPlus
 {
@@ -25,15 +24,5 @@ namespace PlacementPlus
             this.width = width;
             this.height = height;
         }
-    }
-
-    [Flags]
-    public enum BrushMode
-    {
-        NONE,
-        HORIZONTAL = 1,
-        VERTICAL = 2,
-        SQUARE = HORIZONTAL | VERTICAL,
-        MAX
     }
 }

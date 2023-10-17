@@ -17,7 +17,8 @@ namespace PlacementPlus
             ObjectDataCD item = pc.GetHeldObject();
             Vector3Int pos = __instance.placementHandler.bestPositionToPlaceAt;
 
-            if (BrushExtension.size == 0)
+            if (BrushExtension.size == 0 ||
+                BrushExtension.mode == BrushMode.NONE)
             {
                 if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
                 {
@@ -42,7 +43,8 @@ namespace PlacementPlus
         public static bool OnPaint(PaintToolSlot __instance)
         {
             PlacementHandler.SetAllowPlacingAnywhere(false);
-            if (BrushExtension.size == 0) return true;
+            if (BrushExtension.size == 0 ||
+                BrushExtension.mode == BrushMode.NONE) return true;
 
             PlacementHandlerPainting handler = __instance.placementHandler as PlacementHandlerPainting;
 

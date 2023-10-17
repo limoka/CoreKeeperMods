@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using PlacementPlus.Access;
 using PlacementPlus.Util;
+using PugMod;
 using PugTilemap;
 using Unity.Collections;
 using Unity.Entities;
@@ -19,10 +20,13 @@ namespace PlacementPlus
         public static bool replaceTiles = false;
 
         public static BrushMode mode = BrushMode.SQUARE;
+        public static RoofingToolMode roofingMode = RoofingToolMode.TOGGLE;
 
         public static bool brushChanged;
 
-        #region GridSize
+        private static Vector3 PlayerCenter => Manager.main.player.center;
+
+        #region BrushState
 
         internal static int GetMaxSize()
         {
@@ -45,12 +49,7 @@ namespace PlacementPlus
                 SetMode(BrushMode.SQUARE);
             }
 
-            int maxSize = GetMaxSize();
-
-            size += polarity;
-            size = Math.Clamp(size, 0, maxSize);
-
-            brushChanged = true;
+            SetSize(size + polarity);
         }
 
         public static void CheckSize()
@@ -78,13 +77,40 @@ namespace PlacementPlus
         {
             mode = newMode;
             brushChanged = true;
+            string text = API.Localization.GetLocalizedTerm("PlacementPlus/ModeMessage");
+            string modeText = API.Localization.GetLocalizedTerm($"PlacementPlus/{mode}");
+            string emoteText = string.Format(text, modeText);
+            Emote_Patch.SpawnModEmoteText(PlayerCenter, emoteText);
+        }
+
+        private static void SetSize(int newSize)
+        {
+            int maxSize = GetMaxSize();
+            size = Math.Clamp(newSize, 0, maxSize);
+
+            brushChanged = true;
+        }
+        
+        public static void ToggleRoofingMode()
+        {
+            int newMode = (int)roofingMode + 1;
+            if (newMode >= (int)RoofingToolMode.MAX)
+            {
+                newMode = (int)RoofingToolMode.TOGGLE;
+            }
+
+            roofingMode = (RoofingToolMode)newMode;
+            string text = API.Localization.GetLocalizedTerm("PlacementPlus/RoofingToolModeMessage");
+            string modeText = API.Localization.GetLocalizedTerm($"PlacementPlus/{roofingMode}");
+            string emoteText = string.Format(text, modeText);
+            Emote_Patch.SpawnModEmoteText(PlayerCenter, emoteText);
         }
 
         public static BrushRect GetExtents()
         {
             int width = mode.IsHorizontal() ? size : 0;
             int height = mode.IsVertical() ? size : 0;
-        
+
             int xOffset = (int)MathF.Floor(width / 2f);
             int yOffset = (int)MathF.Floor(height / 2f);
 
@@ -215,6 +241,7 @@ namespace PlacementPlus
                     }
                 }
             }
+
             if (pc.isGodMode) return;
 
             if (consumeAmount > 0)
@@ -271,7 +298,8 @@ namespace PlacementPlus
                 {
                     variation = seedCd.rareSeedVariation;
                 }
-            }else if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
+            }
+            else if (PugDatabase.HasComponent<DirectionBasedOnVariationCD>(item))
             {
                 variation = slot.placementHandler.rotationVariationToPlace;
             }
@@ -279,7 +307,7 @@ namespace PlacementPlus
             ObjectDataCD newObj = item;
             newObj.variation = variation > 0 ? variation : 0;
             float3 targetPos = pos.ToFloat3();
-            
+
             pc.entityPrespawnSystem.CreatePrespawnEntity(newObj, targetPos);
             pc.playerCommandSystem.CreateEntity(item.objectID, targetPos, newObj.variation);
 
@@ -294,7 +322,7 @@ namespace PlacementPlus
         {
             PlayerController pc = slot.slotOwner;
             ObjectDataCD item = slot.objectData;
-        
+
             slot.StartCooldownForItem_Public(slot.GetSLOT_COOLDOWN_Public());
 
             PaintToolCD paintTool = PugDatabase.GetComponent<PaintToolCD>(item);
@@ -322,7 +350,8 @@ namespace PlacementPlus
                     if (tileInfo.tileType != TileType.none)
                     {
                         anySuccess |= PaintTileAt(slot, pos, tileInfo, paintTool);
-                    }else if (handler.entityToPaint != Entity.Null)
+                    }
+                    else if (handler.entityToPaint != Entity.Null)
                     {
                         slot.slotOwner.playerCommandSystem.PaintEntity(handler.entityToPaint, paintTool.paintIndex);
                         anySuccess = true;
@@ -371,7 +400,8 @@ namespace PlacementPlus
 
             BrushRect extents = GetExtents();
             var tileLookup = FindDamagedTiles(pc, center);
-            NativeArray<SummarizedConditionEffectsBuffer> conditions = EntityUtility.GetConditionEffectValues(pc.entity, pc.world).ToNativeArray(Allocator.Temp);
+            NativeArray<SummarizedConditionEffectsBuffer>
+                conditions = EntityUtility.GetConditionEffectValues(pc.entity, pc.world).ToNativeArray(Allocator.Temp);
 
             for (int x = 0; x <= extents.width; x++)
             {
@@ -563,7 +593,7 @@ namespace PlacementPlus
         public static void ReduceDurabilityOfEquipmentInSlot(this PlayerController pc, int slotIndex)
         {
             if (pc.isGodMode) return;
-        
+
             EquipmentSlot slot = pc.GetEquipmentSlot(slotIndex);
             int toolConditionValue = EntityUtility.GetConditionValue(ConditionID.ToolDurabilityLastsLonger, pc.entity, pc.world);
 
@@ -612,7 +642,7 @@ namespace PlacementPlus
                 if (tile.tileType == TileType.wall)
                 {
                     if (pickaxeSlot == -1) return true;
-                    
+
                     DamageReductionCD reductionCd = PugDatabase.GetComponent<DamageReductionCD>(objectID);
                     if (pickaxeDamage - reductionCd.reduction <= 0) return true;
 
@@ -652,6 +682,102 @@ namespace PlacementPlus
             }
 
             return true;
+        }
+
+        #endregion
+
+        #region RoofingTool
+
+        private const float ROOFING_COOLDOWN = 0.4f;
+        internal static void RoofGrid(RoofingToolSlot slot, Vector3Int center)
+        {
+            slot.StartCooldownForItem_Public(ROOFING_COOLDOWN);
+            PlayerController pc = slot.slotOwner;
+
+            BrushRect extents = GetExtents();
+
+            for (int x = 0; x <= extents.width; x++)
+            {
+                for (int y = 0; y <= extents.height; y++)
+                {
+                    var offset = new Vector3Int(x, 0, y);
+                    bool set = GetValueForPos(offset);
+                    
+                    SetRoofAt(slot, center + offset, set);
+                }
+            }
+            
+            EntityUtility.PlayEffectEventClient(new EffectEventCD
+            {
+                effectID = EffectID.RoofingToolEffect,
+                position1 = center.ToFloat3(),
+                value1 = 1
+            });
+            
+            if (!pc.isGodMode)
+                pc.ReduceDurabilityOfHeldEquipment();
+        }
+
+        private static bool GetValueForPos(Vector3Int pos)
+        {
+            switch (roofingMode)
+            {
+                case RoofingToolMode.TOGGLE:
+                case RoofingToolMode.ADD_ROOF:
+                    return true;
+                case RoofingToolMode.CLEAR_ROOF:
+                    return false;
+                case RoofingToolMode.CIRCLE:
+                {
+                    if (mode != BrushMode.SQUARE)
+                        return true;
+
+                    var center = (size + 1) / 2f;
+                    var offset = size == 8 ? 0.2f : 0.31f;
+                    var r = size / 2f + offset;
+
+                    var x = pos.x - center + 0.5f;
+                    var y = pos.z - center + 0.5f;
+
+                    var value = x * x + y * y;
+
+                    return value <= r * r;
+                }
+                case RoofingToolMode.CHESS_PATTERN:
+                {
+                    bool yEven = pos.z % 2 == 0;
+                    int xOffset = pos.x + (yEven ? 0 : 1);
+                    bool xEven = xOffset % 2 == 0;
+
+                    return xEven;
+                }
+            }
+
+            return false;
+        }
+
+        private static void SetRoofAt(RoofingToolSlot slot, Vector3Int pos, bool set)
+        {
+            PlayerController pc = slot.slotOwner;
+            int2 position = new int2(pos.x, pos.z);
+            
+            if (slot.placementHandler.CanPlaceObjectAtPosition_Public(pos, 1, 1) <= 0) return;
+            if (Manager.multiMap.GetSurfaceTileAt(position).tileType.IsWallTile()) return;
+
+            bool hasRoofTile = Manager.multiMap.GetTileTypeAt(position, TileType.roofHole, out TileInfo _);
+            if (roofingMode == RoofingToolMode.TOGGLE)
+                set = !hasRoofTile;
+                
+            if (set && !hasRoofTile)
+            {
+                pc.pugMapSystem.AddTileOverride(position, 0, TileType.roofHole);
+                pc.playerCommandSystem.AddTile(position, 0, TileType.roofHole);
+            }
+            else if (!set && hasRoofTile)
+            {
+                pc.pugMapSystem.RemoveTileOverride(position, TileType.roofHole);
+                pc.playerCommandSystem.RemoveTile(position, 0, TileType.roofHole);
+            }
         }
 
         #endregion

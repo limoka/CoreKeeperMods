@@ -15,7 +15,7 @@ namespace PlacementPlus
     public class PlacementPlusMod : IMod
     {
         public const string MODNAME = "Placement Plus";
-        public const string VERSION = "1.6.4";
+        public const string VERSION = "1.7.1";
 
         public static Logger Log = new Logger(MODNAME);
         private LoadedMod modInfo;
@@ -199,6 +199,8 @@ namespace PlacementPlus
             {
                 BrushExtension.ToggleMode();
             }
+            
+            var shift = Input.GetKey(KeyCode.LeftShift);
 
             if (Input.GetKeyDown(KeyCode.V))
             {
@@ -206,24 +208,16 @@ namespace PlacementPlus
                 if (inventory == null) return;
 
                 ObjectDataCD item = inventory.GetObjectData(player.equippedSlotIndex);
+                var objectInfo = PugDatabase.GetObjectInfo(item.objectID, item.variation);
+                
                 if (PugDatabase.HasComponent<PaintToolCD>(item))
                 {
-                    InitColorIndexLookup();
-                    if (lastColorIndex == -1)
-                    {
-                        lastColorIndex = PugDatabase.GetComponent<PaintToolCD>(item).paintIndex;
-                    }
-
-                    lastColorIndex++;
-                    if (lastColorIndex > maxPaintIndex)
-                    {
-                        lastColorIndex = 1;
-                    }
-
-                    ObjectID newObjectId = colorIndexLookup[lastColorIndex];
-
-                    inventory.DestroyObject(player.equippedSlotIndex, item.objectID);
-                    inventory.CreateItem(player.equippedSlotIndex, newObjectId, 1, player.WorldPosition);
+                    CyclePaintBrush(item, shift, inventory, player);
+                }
+                else if (objectInfo != null && 
+                         objectInfo.objectType == ObjectType.RoofingTool)
+                {
+                    BrushExtension.ToggleRoofingMode();
                 }
             }
 
@@ -260,6 +254,26 @@ namespace PlacementPlus
             }
 
             BrushExtension.replaceTiles = Input.GetKey(KeyCode.LeftAlt);
+        }
+
+        private void CyclePaintBrush(ObjectDataCD item, bool shift, InventoryHandler inventory, PlayerController player)
+        {
+            InitColorIndexLookup();
+            if (lastColorIndex == -1)
+            {
+                lastColorIndex = PugDatabase.GetComponent<PaintToolCD>(item).paintIndex;
+            }
+
+            lastColorIndex += shift ? -1 : 1;
+            if (lastColorIndex < 0)
+                lastColorIndex = maxPaintIndex - 1;
+            if (lastColorIndex > maxPaintIndex)
+                lastColorIndex = 1;
+
+            ObjectID newObjectId = colorIndexLookup[lastColorIndex];
+
+            inventory.DestroyObject(player.equippedSlotIndex, item.objectID);
+            inventory.CreateItem(player.equippedSlotIndex, newObjectId, 1, player.WorldPosition);
         }
     }
 }
