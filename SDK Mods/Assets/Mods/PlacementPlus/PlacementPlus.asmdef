@@ -15,7 +15,9 @@
         "Unity.Physics.Hybrid",
         "Unity.Properties",
         "Unity.Transforms",
-        "PugMod.SDK"
+        "PugMod.SDK",
+        "CoreLib",
+        "CoreLib.RewiredExtension"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

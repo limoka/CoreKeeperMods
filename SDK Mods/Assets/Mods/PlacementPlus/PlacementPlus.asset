@@ -18,9 +18,33 @@ MonoBehaviour:
     skipSafetyChecks: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
-    requiredOn: 1
-    files: []
-    dependencies: []
+    requiredOn: 0
+    files:
+    - path: Localization/Localization.csv
+    - path: Scripts/Scripts/Util/ReflectionExtensions.cs
+    - path: Scripts/Scripts/Util/Extensions.cs
+    - path: Scripts/Scripts/PlacementPlusMod.cs
+    - path: Scripts/Scripts/Patches/ShovelSlot_Patch.cs
+    - path: Scripts/Scripts/Patches/RoofingToolSlot_Patch.cs
+    - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
+    - path: Scripts/Scripts/Patches/PlaceObjectSlot_Patch.cs
+    - path: Scripts/Scripts/Patches/PlacementHandler_Patch.cs
+    - path: Scripts/Scripts/Patches/MapUpdateSystem_Patch.cs
+    - path: Scripts/Scripts/Patches/Emote_Patch.cs
+    - path: Scripts/Scripts/Data/TileData.cs
+    - path: Scripts/Scripts/Data/RoofingToolMode.cs
+    - path: Scripts/Scripts/Data/KeyMode.cs
+    - path: Scripts/Scripts/Data/BrushRect.cs
+    - path: Scripts/Scripts/Data/BrushMode.cs
+    - path: Scripts/Scripts/BrushExtension.cs
+    - path: Libraries/PlacementPlus.Access.dll
+    - path: Bundles/PlacementPlus_Windows.assetbundle
+    - path: Bundles/PlacementPlus_Linux.assetbundle
+    dependencies:
+    - modName: CoreLib
+      required: 1
+    - modName: CoreLib.RewiredExtension
+      required: 1
   modPath: Assets/Mods\PlacementPlus
   buildLinux: 1
   buildBurst: 0

@@ -6,6 +6,8 @@ PlacementPlus/ADD_ROOF	Text	Roofing Tool mode	Add Roof	Dach hinzufügen	屋根�
 PlacementPlus/CLEAR_ROOF	Text	Roofing Tool mode	Clear Roof	Klares Dach	クリアルーフ	맑은 지붕	Techo Transparente	拆除屋顶	หลังคาใส
 PlacementPlus/CHESS_PATTERN	Text	Roofing Tool mode	Chess Pattern	Schachmuster	チェスパターン	체스 패턴	Patrón de Ajedrez	国际象棋模式	รูปแบบหมากรุก
 PlacementPlus/CIRCLE	Text	Roofing Tool mode	Circle	Kreis	円	원	Círculo	圆	วงกลม
+PlacementPlus/RANDOM_60_P	Text	Roofing Tool mode	Random 60% fill	Zufällige 60% Füllung	ランダム60%塗りつぶし	무작위 60%채우기	Relleno aleatorio del 60% 	随机60%填充	สุ่ม 60%เติม
+PlacementPlus/RANDOM_70_P	Text	Roofing Tool mode	Random 70% fill	Zufällige 70% Füllung	ランダム70%塗りつぶし	무작위 70%채우기	Relleno aleatorio del 70% 	随机70%填充	สุ่ม 70%เติม
 PlacementPlus/NONE	Text	Tool mode	None	Kein	なし	없지	Ninguna	无	ไม่มี
 PlacementPlus/HORIZONTAL	Text	Tool mode	Horizontal	Horizontal	水平	수평	Horizontal	水平方向	แนวนอน
 PlacementPlus/VERTICAL	Text	Tool mode	Vertical	Vertikal	縦型	수직	Vertical	垂直方向	แนวตั้ง

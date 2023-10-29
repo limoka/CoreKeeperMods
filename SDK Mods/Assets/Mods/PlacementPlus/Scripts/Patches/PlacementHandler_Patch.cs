@@ -15,7 +15,10 @@ namespace PlacementPlus
             ObjectDataCD item = __instance.GetSlotOwner_Public().GetHeldObject();
             Vector2Int size = __instance.GetCurrentSize_Public();
 
-            if (BrushExtension.size == 0 || size.x != 1 || size.y != 1)
+            if (BrushExtension.size == 0 ||
+                BrushExtension.mode == BrushMode.NONE ||
+                size.x != 1 || 
+                size.y != 1)
             {
                 PlacementHandler.SetAllowPlacingAnywhere(false);
 

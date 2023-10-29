@@ -38,6 +38,13 @@ namespace PlacementPlus
             return false;
         }
 
+        [HarmonyPatch(typeof(PlaceObjectSlot), "Rotate")]
+        [HarmonyPostfix]
+        public static void OnRotate(PlaceObjectSlot __instance)
+        {
+            BrushExtension.TryRotate(__instance);
+        }
+
         [HarmonyPatch(typeof(PaintToolSlot), "PlaceItem")]
         [HarmonyPrefix]
         public static bool OnPaint(PaintToolSlot __instance)
