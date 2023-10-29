@@ -3,6 +3,10 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 
+RailLogistics*
+
+*.ase
+*.ase.meta
 /[Aa]ssets/Plugins/CoreKeeper*
 /[Aa]ssets/Plugins/CoreKeeperModSDK*
 /[Aa]ssets/CK*
