@@ -21,7 +21,9 @@ namespace KeepFarming
 
         protected override void OnUpdate()
         {
-            float extraSeedChanceMultiplier = KeepFarmingMod.extraSeedChanceMultiplier;
+            if (!KeepFarmingMod.enableExtraSeedChance.Value) return;
+            
+            float extraSeedChanceMultiplier = KeepFarmingMod.extraSeedChanceMultiplier.Value;
             if (extraSeedChanceMultiplier == 0) return;
             
             uint seed = PugRandom.GetSeed();

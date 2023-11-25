@@ -18,13 +18,49 @@ MonoBehaviour:
     skipSafetyChecks: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
-    requiredOn: 0
+    requiredOn: 3
     files:
-    - path: Scripts/PlacementHandler_Patch.cs
-    - path: Scripts/KeepFarmingMod.cs
-    - path: Scripts/AdditionalDropSystem.cs
-    - path: Scripts/Generated/AdditionalDropSystem__System_1237557611.g.cs
+    - path: Localization/Localization.csv
+    - path: Scripts/Scripts/System/SeedExtractorSystem.cs
+    - path: Scripts/Scripts/System/ModConditionsSystem.cs
+    - path: Scripts/Scripts/System/MigrationSystem.cs
+    - path: Scripts/Scripts/System/GoldenSeedDropSystem.cs
+    - path: Scripts/Scripts/System/AdditionalDropSystem.cs
+    - path: Scripts/Scripts/Prefab/SeedExtractor.cs
+    - path: Scripts/Scripts/Patches/WaterCan/PlacementHandler_Patch.cs
+    - path: Scripts/Scripts/Patches/SeedExtractorUI/ProcessResourcesCraftingUI_Patch.cs
+    - path: Scripts/Scripts/Patches/SeedExtractorUI/OutputUI_Patch.cs
+    - path: Scripts/Scripts/Patches/SeedExtractorUI/ItemSlotsUIContainer_Patch.cs
+    - path: Scripts/Scripts/Patches/SeedExtractorUI/CraftingHandler_Patch.cs
+    - path: Scripts/Scripts/Patches/SeedExtractorLogic/PugAutomationSystem_Patch.cs
+    - path: Scripts/Scripts/Patches/SeedExtractorLogic/PugAutomationStartCraftSystem_Patch.cs
+    - path: Scripts/Scripts/Patches/SceneHandler_Patch.cs
+    - path: Scripts/Scripts/Patches/Plant_Patch.cs
+    - path: Scripts/Scripts/Patches/ECSManager_Patch.cs
+    - path: Scripts/Scripts/KeepFarmingMod.cs
+    - path: Scripts/Scripts/Jobs/ModifiedMoverMoveAndPickupJob.cs
+    - path: Scripts/Scripts/ItemHandlers/JuiceDynamicItemHandler.cs
+    - path: Scripts/Scripts/ItemHandlers/GoldenSeedDynamicItemHandler.cs
+    - path: Scripts/Scripts/Components/SeedExtractorAuthoring.cs
+    - path: Scripts/Scripts/Components/JuiceTemplate.cs
+    - path: Scripts/Scripts/Components/JuiceAuthoring.cs
+    - path: Scripts/Scripts/Components/GoldenSeedAuthoring.cs
+    - path: Scripts/Scripts/Components/DropsGoldenSeedAuthoring.cs
+    - path: Scripts/Scripts/Components/CopiedPrefabAuthoring.cs
+    - path: Scripts/Generated/AdditionalDropSystem__System_245308769.g.cs
+    - path: Scripts/Generated/GoldenSeedDropSystem__System_650437328.g.cs
+    - path: Scripts/Generated/MigrationSystem__System_1092144725.g.cs
+    - path: Scripts/Generated/ModConditionsSystem__System_942045703.g.cs
+    - path: Scripts/Generated/SeedExtractorSystem__System_1976868250.g.cs
+    - path: Libraries/KeepFarming.Access.dll
     - path: Bundles/KeepFarming_Windows.assetbundle
-    dependencies: []
+    dependencies:
+    - modName: CoreLib
+      required: 1
+    - modName: CoreLib.Localization
+      required: 1
+    - modName: CoreLib.Entity
+      required: 1
   modPath: Assets\Mods\KeepFarming
-  buildLinux: 0
+  buildLinux: 1
+  buildBurst: 1
