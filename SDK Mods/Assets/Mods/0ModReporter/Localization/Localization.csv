@@ -1,0 +1,7 @@
+Key	Type	Desc	English	German	Japanese	Korean	Spanish	Chinese (Simplified)	Thai
+ModReporter/OK	Text	Mod status description	Mod is working	Mod funktioniert	Modが機能しています	모드 작동 중	Mod está funcionando	Mod正在工作	มดคือการทำงาน
+ModReporter/DISABLED	Text	Mod status description	Mod is disabled in mod manager menu	Mod ist im Mod-Manager-Menü deaktiviert	ModマネージャーメニューでModが無効になっています	모드는 모드 관리자 메뉴에서 사용할 수 없습니다	El mod está deshabilitado en el menú del administrador de mods	Mod在mod管理器菜单中禁用	มดถูกปิดใช้งานในเมนูผู้จัดการมด
+ModReporter/ERRORED	Text	Mod status description	Mod has thrown errors	Mod hat Fehler geworfen	Modがエラーをスローしました	모드는 오류를 던졌습니다	Mod ha arrojado errores	Mod已经抛出错误	มดได้โยนข้อผิดพลาด
+ModReporter/MISSING_DEPENDENCY	Text	Mod status description	Mod is missing some dependencies	Mod fehlen einige Abhängigkeiten	Modにはいくつかの依存関係がありません	모드는 일부 종속성을 누락	Al mod le faltan algunas dependencias	Mod缺少一些依赖	มดจะหายไปการอ้างอิงบางอย่าง
+ModReporter/NOT_DOWNLOADED	Text	Mod status description	Mod IO has failed downloading this mod	ModIO hat diesen Mod nicht heruntergeladen	ModIOはこのmodのダウンロードに失敗しました	이 모드를 다운로드하지 못했습니다.	ModIO ha fallado al descargar este mod	ModIO下载此mod失败	โมดิโอล้มเหลวในการดาวน์โหลดโมดนี้
+ModReporter/CORRUPTED	Text	Mod status description	Mod files got corrupted	Mod-Dateien wurden beschädigt	Modファイルが破損しました	모드 파일이 손상되었습니다	Los archivos Mod se corrompieron	Mod文件已损坏	ไฟล์มดได้รับความเสียหาย
