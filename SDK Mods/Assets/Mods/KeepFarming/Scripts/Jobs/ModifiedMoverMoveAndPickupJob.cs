@@ -2,14 +2,16 @@
 using KeepFarming.Components;
 using PugAutomation;
 using PugTilemap;
+using Unity.Burst.Intrinsics;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Entities.Internal;
 using Unity.Mathematics;
 using Random = Unity.Mathematics.Random;
 
 namespace Mods.KeepFarming.Scripts.Jobs
 {
-    public struct ModifiedMoverMoveAndPickupJob : IJobEntityBatch
+    public struct ModifiedMoverMoveAndPickupJob : IJobChunk
     {
         private void OriginalLambdaBody(Entity entity, ref MoverCD mover)
         {
@@ -26,7 +28,7 @@ namespace Mods.KeepFarming.Scripts.Jobs
                     Entity targetEntity = __PugAutomation_BigEntityRefCD_FromEntity.HasComponent(moveeEntity)
                         ? __PugAutomation_BigEntityRefCD_FromEntity[moveeEntity].Value
                         : moveeEntity;
-                    
+
                     bool hasPickUpObject = __PickUpObjectCD_FromEntity.HasComponent(targetEntity);
                     if (mover.inventoryEntity == Entity.Null)
                     {
@@ -50,7 +52,7 @@ namespace Mods.KeepFarming.Scripts.Jobs
                     {
                         InventoryUtility.AutomatedPickup(containerLookup, craftingLookup, targetEntity, mover.inventoryEntity);
                         PickupFromSeedExtractor(mover, targetEntity);
-                        
+
                         if (containerLookup[mover.inventoryEntity][0].objectData.objectID != ObjectID.None)
                         {
                             mover.timer = mover.moveTime;
@@ -59,13 +61,13 @@ namespace Mods.KeepFarming.Scripts.Jobs
                 } while (mover.timer < 0 && moveeAtPosition.TryGetNextValue(out moveeEntity, ref iterator));
             }
 
-            if (mover.inventoryEntity != Entity.Null && 
-                mover.timer < 0 && 
+            if (mover.inventoryEntity != Entity.Null &&
+                mover.timer < 0 &&
                 storageAtPosition.ContainsKey(mover.start))
             {
                 InventoryUtility.AutomatedPickup(containerLookup, craftingLookup, storageAtPosition[mover.start], mover.inventoryEntity);
                 PickupFromSeedExtractor(mover, storageAtPosition[mover.start]);
-                
+
                 if (containerLookup[mover.inventoryEntity][0].objectData.objectID != ObjectID.None)
                 {
                     mover.timer = mover.moveTime;
@@ -76,31 +78,84 @@ namespace Mods.KeepFarming.Scripts.Jobs
         private void PickupFromSeedExtractor(MoverCD mover, Entity targetEntity)
         {
             if (!seedExtractorLookup.HasComponent(targetEntity)) return;
-            
+
             DynamicBuffer<ContainedObjectsBuffer> targetBuffer = containerLookup[targetEntity];
             DynamicBuffer<ContainedObjectsBuffer> moverBuffer = containerLookup[mover.inventoryEntity];
             if (moverBuffer[0].objectData.objectID != ObjectID.None) return;
-            
+
             int outputSlotIndex = seedExtractorLookup[targetEntity].juiceOutputSlot;
             ContainedObjectsBuffer containedObjectsBuffer = targetBuffer[outputSlotIndex];
-            
+
             if (containedObjectsBuffer.objectID != ObjectID.None)
             {
                 targetBuffer[outputSlotIndex] = new ContainedObjectsBuffer();
                 moverBuffer[0] = containedObjectsBuffer;
             }
         }
-
-        public void Execute(ArchetypeChunk chunk, int batchIndex)
+        
+        public void Execute(in ArchetypeChunk chunk, int batchIndex, bool useEnabledMask, in v128 chunkEnabledMask)
         {
-            IntPtr entityPtr = InternalCompilerInterface.UnsafeGetChunkEntityArrayIntPtr(chunk, __entityTypeHandle);
-            IntPtr moverPtr = InternalCompilerInterface.UnsafeGetChunkNativeArrayIntPtr(chunk, __moverTypeHandle);
+            IntPtr intPtr = InternalCompilerInterface.UnsafeGetChunkEntityArrayIntPtr(chunk, __entityTypeHandle);
+            IntPtr intPtr2 = InternalCompilerInterface.UnsafeGetChunkNativeArrayIntPtr(chunk, ref __moverTypeHandle);
             int count = chunk.Count;
-            for (int i = 0; i != count; i++)
+            if (!useEnabledMask)
             {
-                OriginalLambdaBody(InternalCompilerInterface.UnsafeGetCopyOfNativeArrayPtrElement<Entity>(entityPtr, i),
-                    ref InternalCompilerInterface.UnsafeGetRefToNativeArrayPtrElement<MoverCD>(moverPtr, i));
+                for (int i = 0; i < count; i++)
+                {
+                    OriginalLambdaBody(InternalCompilerInterface.UnsafeGetCopyOfNativeArrayPtrElement<Entity>(intPtr, i),
+                        ref InternalCompilerInterface.UnsafeGetRefToNativeArrayPtrElement<MoverCD>(intPtr2, i));
+                }
+
+                return;
             }
+
+            if (math.countbits(chunkEnabledMask.ULong0 ^ (chunkEnabledMask.ULong0 << 1)) +
+                math.countbits(chunkEnabledMask.ULong1 ^ (chunkEnabledMask.ULong1 << 1)) - 1 <= 4)
+            {
+                int j = 0;
+                int num = 0;
+                while (EnabledBitUtility.TryGetNextRange(chunkEnabledMask, num, out j, out num))
+                {
+                    while (j < num)
+                    {
+                        OriginalLambdaBody(InternalCompilerInterface.UnsafeGetCopyOfNativeArrayPtrElement<Entity>(intPtr, j),
+                            ref InternalCompilerInterface.UnsafeGetRefToNativeArrayPtrElement<MoverCD>(intPtr2, j));
+                        j++;
+                    }
+                }
+
+                return;
+            }
+
+            ulong num2 = chunkEnabledMask.ULong0;
+            int num3 = math.min(64, count);
+            for (int k = 0; k < num3; k++)
+            {
+                if ((num2 & 1UL) != 0UL)
+                {
+                    OriginalLambdaBody(InternalCompilerInterface.UnsafeGetCopyOfNativeArrayPtrElement<Entity>(intPtr, k),
+                        ref InternalCompilerInterface.UnsafeGetRefToNativeArrayPtrElement<MoverCD>(intPtr2, k));
+                }
+
+                num2 >>= 1;
+            }
+
+            num2 = chunkEnabledMask.ULong1;
+            for (int l = 64; l < count; l++)
+            {
+                if ((num2 & 1UL) != 0UL)
+                {
+                    OriginalLambdaBody(InternalCompilerInterface.UnsafeGetCopyOfNativeArrayPtrElement<Entity>(intPtr, l),
+                        ref InternalCompilerInterface.UnsafeGetRefToNativeArrayPtrElement<MoverCD>(intPtr2, l));
+                }
+
+                num2 >>= 1;
+            }
+        }
+
+        void IJobChunk.Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
+        {
+            this.Execute(chunk, unfilteredChunkIndex, useEnabledMask, chunkEnabledMask);
         }
 
         public uint seed;
@@ -109,11 +164,11 @@ namespace Mods.KeepFarming.Scripts.Jobs
 
         public NativeParallelHashMap<int2, Entity> storageAtPosition;
 
-        [ReadOnly] public ComponentDataFromEntity<CraftingCD> craftingLookup;
-        
-        [ReadOnly] public ComponentDataFromEntity<SeedExtractorCD> seedExtractorLookup;
+        [ReadOnly] public ComponentLookup<CraftingCD> craftingLookup;
 
-        public BufferFromEntity<ContainedObjectsBuffer> containerLookup;
+        [ReadOnly] public ComponentLookup<SeedExtractorCD> seedExtractorLookup;
+
+        public BufferLookup<ContainedObjectsBuffer> containerLookup;
 
         [ReadOnly] public TileAccessor tileLookup;
 
@@ -121,10 +176,10 @@ namespace Mods.KeepFarming.Scripts.Jobs
 
         public ComponentTypeHandle<MoverCD> __moverTypeHandle;
 
-        [ReadOnly] public ComponentDataFromEntity<BigEntityRefCD> __PugAutomation_BigEntityRefCD_FromEntity;
+        [ReadOnly] public ComponentLookup<BigEntityRefCD> __PugAutomation_BigEntityRefCD_FromEntity;
 
-        [ReadOnly] public ComponentDataFromEntity<PickUpObjectCD> __PickUpObjectCD_FromEntity;
+        [ReadOnly] public ComponentLookup<PickUpObjectCD> __PickUpObjectCD_FromEntity;
 
-        public ComponentDataFromEntity<MoveeCD> __PugAutomation_MoveeCD_FromEntity;
+        public ComponentLookup<MoveeCD> __PugAutomation_MoveeCD_FromEntity;
     }
 }

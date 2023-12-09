@@ -1,4 +1,5 @@
-﻿using PugConversion;
+﻿using CoreLib.Util.Extensions;
+using PugConversion;
 using Unity.Entities;
 using UnityEngine;
 

@@ -4,7 +4,7 @@ using Unity.NetCode;
 
 namespace KeepFarming
 {
-    [UpdateInWorld(TargetWorld.ClientAndServer)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
     [UpdateInGroup(typeof(BeginSimulationSystemGroup))]
     [UpdateAfter(typeof(SummarizeConditionsSystem))]
     public partial class ModConditionsSystem : PugSimulationSystemBase
@@ -49,7 +49,7 @@ namespace KeepFarming
 
                     if (equippedSlotIndex >= 0 &&
                         equippedSlotIndex < container.Length &&
-                        HasComponent<GoldenSeedCD>(itemEntity))
+                        SystemAPI.HasComponent<GoldenSeedCD>(itemEntity))
                     {
                         int id = (int)ConditionID.ChanceToGainRarePlant;
 

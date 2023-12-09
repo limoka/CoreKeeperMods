@@ -1,4 +1,5 @@
-﻿using PugConversion;
+﻿using CoreLib.Util.Extensions;
+using PugConversion;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
@@ -25,7 +26,6 @@ namespace KeepFarming.Components
     {
         protected override void Convert(SeedExtractorAuthoring authoring)
         {
-            Debug.Log("SeedExtractorConverter running!");
             AddComponentData(new PugTimerUserCD
             {
                 triggerType = typeof(SeedExtractorTimerTriggerCD)

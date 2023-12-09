@@ -5,9 +5,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using CoreLib.Localization;
+using CoreLib.Util.Extensions;
 using HarmonyLib;
 using KeepFarming.Components;
+using PugConversion;
 using PugMod;
+using Unity.Entities;
 using Unity.NetCode;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -49,7 +52,6 @@ namespace KeepFarming
                 {
                     CreateJuice(
                         data.objectInfo.objectID.ToString(), 
-                        data.objectInfo.rarity, 
                         givesConditions, 
                         cookingIngredient, 
                         flower);
@@ -59,7 +61,6 @@ namespace KeepFarming
                 {
                     CreateJuice(
                         objectAuthoring.objectName,
-                        objectAuthoring.rarity,
                         givesConditions, 
                         cookingIngredient, 
                         flower);
@@ -67,14 +68,30 @@ namespace KeepFarming
             }
         }
 
+        [HarmonyPatch(typeof(ConversionManager), "CreateAndEnqueue")]
+        [HarmonyPostfix]
+        public static void OnCreateAndEnqueue(ConversionManager __instance, GameObject gameObject, Entity __result)
+        {
+            if (gameObject == null) return;
+            
+            var copiedPrefab = gameObject.GetComponent<CopiedPrefabAuthoring>();
+            
+            if (gameObject.scene.IsValid() &&
+                copiedPrefab != null &&
+                !__instance.EntityManager.HasComponent<Prefab>(__result))
+            {
+                __instance.EntityManager.AddComponent<Prefab>(__result);
+                __instance.EntityManager.AddBuffer<LinkedEntityGroup>(__result).Add(__result);
+            }
+        }
+
         private static void CreateJuice(
             string fruitName, 
-            Rarity rarity,
             GivesConditionsWhenConsumedAuthoring givesConditions,
             CookingIngredientAuthoring cookingIngredient, 
             FlowerAuthoring flower)
         {
-            if (rarity is Rarity.Rare or Rarity.Epic) return;
+            if (flower.plantVariation > 0) return;
             
             var plantName = flower.plantID.ToString();
             if (SeedExtractorSystem.juiceData.Any(data => data.plantName.Equals(plantName))) return;
@@ -183,8 +200,8 @@ namespace KeepFarming
             }
             
             var ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
-            ghost.Name += "P";
-            ghost.prefabId = GetGUID(ghost.Name);
+            newPrefab.name += "P";
+            ghost.SetValue("prefabId", GetGUID(newPrefab.name));
             ghost.ForcePrefabConversion = true;
 
             var seedAuthoring = newPrefab.GetComponent<SeedAuthoring>();
@@ -259,8 +276,8 @@ namespace KeepFarming
             Object.Destroy(dropLoot);
 
             var ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
-            ghost.Name += "P";
-            ghost.prefabId = GetGUID(ghost.Name);
+            newPrefab.name += "P";
+            ghost.SetValue("prefabId", GetGUID(newPrefab.name));
             ghost.ForcePrefabConversion = true;
 
             KeepFarmingMod.Log.LogDebug($"Adding golden persistent plant for object {objectName}!");

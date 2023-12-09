@@ -5,7 +5,7 @@ using Unity.Transforms;
 
 namespace KeepFarming
 {
-    [UpdateInWorld(TargetWorld.Server)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     [UpdateInGroup(typeof(RunSimulationSystemGroup))]
     public partial class MigrationSystem : PugSimulationSystemBase
     {
@@ -25,7 +25,7 @@ namespace KeepFarming
             if (!KeepFarmingMod.migrationMode.Value) return;
             if (migrationIsDone) return;
 
-            timeElapsed += Time.DeltaTime;
+            timeElapsed += SystemAPI.Time.DeltaTime;
             
             if (timeElapsed < 10) return;
 
@@ -50,7 +50,7 @@ namespace KeepFarming
                 })
                 .WithAll<PlantCD>()
                 .WithAll<DropsGoldenSeedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .WithoutBurst()
                 .Run();
 
@@ -75,7 +75,7 @@ namespace KeepFarming
                 .WithAll<SeedCD>()
                 .WithAll<GoldenSeedCD>()
                 .WithoutBurst()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Run();
 
             KeepFarmingMod.Log.LogInfo($"Migrated {count} planted seeds!");
@@ -101,7 +101,7 @@ namespace KeepFarming
                 }
             })
                 .WithAll<InventoryCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .WithoutBurst()
                 .Run();
             

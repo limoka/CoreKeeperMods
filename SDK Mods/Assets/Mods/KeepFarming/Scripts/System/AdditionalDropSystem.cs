@@ -8,7 +8,7 @@ using Random = Unity.Mathematics.Random;
 namespace KeepFarming
 {
     [UpdateBefore(typeof(DropLootSystem))]
-    [UpdateInWorld(TargetWorld.Server)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     [UpdateInGroup(typeof(RunSimulationSystemGroup))]
     public partial class AdditionalDropSystem : PugSimulationSystemBase
     {
@@ -28,7 +28,7 @@ namespace KeepFarming
             
             uint seed = PugRandom.GetSeed();
             var databaseLocal = database;
-            var summarizedConditionsBuffer = GetBufferFromEntity<SummarizedConditionsBuffer>(true);
+            var summarizedConditionsBuffer = GetBufferLookup<SummarizedConditionsBuffer>(true);
             EntityCommandBuffer ecb = CreateCommandBuffer();
             
             Entities.ForEach((Entity entity,
@@ -40,8 +40,8 @@ namespace KeepFarming
                     if (!growingCd.hasFinishedGrowing) return;
                     
                     Random random = Random.CreateFromIndex(seed ^ (uint)entity.Index ^ (uint)entity.Version);
-                    KilledByPlayer killedByPlayer = HasComponent<KilledByPlayer>(entity)
-                        ? GetComponent<KilledByPlayer>(entity)
+                    KilledByPlayer killedByPlayer = SystemAPI.HasComponent<KilledByPlayer>(entity)
+                        ? SystemAPI.GetComponent<KilledByPlayer>(entity)
                         : default;
 
                     float3 localCenter = PugDatabase.GetEntityLocalCenter(objectData.objectID, databaseLocal, objectData.variation);
@@ -55,13 +55,13 @@ namespace KeepFarming
                         float3 dropPosition = center + new float3(random.NextFloat(-0.3f, 0.3f), 0f, random.NextFloat(-0.3f, 0.3f));
                         
                         float chance = 0f;
-                        if (HasComponent<ChanceToDropLootCD>(entity))
+                        if (SystemAPI.HasComponent<ChanceToDropLootCD>(entity))
                         {
-                            chance = GetComponent<ChanceToDropLootCD>(entity).chance;
+                            chance = SystemAPI.GetComponent<ChanceToDropLootCD>(entity).chance;
                         }
 
                         if (killedByPlayer.playerEntity != Entity.Null && 
-                            summarizedConditionsBuffer.HasComponent(killedByPlayer.playerEntity))
+                            summarizedConditionsBuffer.HasBuffer(killedByPlayer.playerEntity))
                         {
                             chance += summarizedConditionsBuffer[killedByPlayer.playerEntity][(int)ConditionID.SeedDropChance].value / 100f;
                         }

@@ -14,25 +14,45 @@ using Unity.Jobs;
 
 namespace KeepFarming.Access;
 
-internal static class AccessExtensions
+public static class AccessExtensions
 {
 
-    internal static ComponentTypeHandle<MoverCD> GetMoverCDTypeHandle_Public(this PugAutomationSystem __instance)
+    public static EntityTypeHandle Unity_Entities_Entity_TypeHandle_Public(this PugAutomationSystem system)
     {
-        return __instance.__PugAutomation_MoverCD_RW_ComponentTypeHandle;
+        return system.__TypeHandle.__Unity_Entities_Entity_TypeHandle;
     }
     
-    internal static EntityQuery GetMoverMoveAndPickupQuery_Public(this PugAutomationSystem __instance)
+    public static ComponentTypeHandle<MoverCD> PugAutomation_MoverCD_RW_ComponentTypeHandle_Public(this PugAutomationSystem system)
     {
-        return __instance.mover_move_and_pickup_Query;
+        return system.__TypeHandle.__PugAutomation_MoverCD_RW_ComponentTypeHandle;
     }
     
-    internal static JobHandle GetDependency_Public(this PugAutomationSystem __instance)
+    public static ComponentLookup<BigEntityRefCD> PugAutomation_BigEntityRefCD_RO_ComponentLookup_Public(this PugAutomationSystem system)
+    {
+        return system.__TypeHandle.__PugAutomation_BigEntityRefCD_RO_ComponentLookup;
+    }
+    
+    public static ComponentLookup<PickUpObjectCD> PickUpObjectCD_RO_ComponentLookup_Public(this PugAutomationSystem system)
+    {
+        return system.__TypeHandle.__PickUpObjectCD_RO_ComponentLookup;
+    }
+    
+    public static ComponentLookup<MoveeCD> PugAutomation_MoveeCD_RW_ComponentLookup_Public(this PugAutomationSystem system)
+    {
+        return system.__TypeHandle.__PugAutomation_MoveeCD_RW_ComponentLookup ;
+    }
+
+    public static EntityQuery GetMoverMoveAndPickupQuery_Public(this PugAutomationSystem __instance)
+    {
+        return __instance.__query_1171083630_2;
+    }
+    
+    public static JobHandle GetDependency_Public(this PugAutomationSystem __instance)
     {
         return __instance.Dependency;
     }
     
-    internal static void SetDependency_Public(this PugAutomationSystem __instance, JobHandle handle)
+    public static void SetDependency_Public(this PugAutomationSystem __instance, JobHandle handle)
     {
         __instance.Dependency = handle;
     }

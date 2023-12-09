@@ -7,7 +7,7 @@ using Unity.Transforms;
 namespace KeepFarming
 {
     [UpdateBefore(typeof(DropLootSystem))]
-    [UpdateInWorld(TargetWorld.Server)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     [UpdateInGroup(typeof(RunSimulationSystemGroup))]
     public partial class GoldenSeedDropSystem : PugSimulationSystemBase
     {
@@ -24,7 +24,7 @@ namespace KeepFarming
             var databaseLocal = database;
             uint lootSeed = 0;
 
-            var summarizedConditionsBuffer = GetBufferFromEntity<SummarizedConditionsBuffer>(true);
+            var summarizedConditionsBuffer = GetBufferLookup<SummarizedConditionsBuffer>(true);
 
             Entities.ForEach((
                     Entity entity,
@@ -33,9 +33,9 @@ namespace KeepFarming
                     in DropsGoldenSeedCD dropsGoldenSeed,
                     in EntityDestroyedCD entityDestroyed) =>
                 {
-                    if (HasComponent<DropLootDelayCD>(entity))
+                    if (SystemAPI.HasComponent<DropLootDelayCD>(entity))
                     {
-                        float value = GetComponent<DropLootDelayCD>(entity).Value;
+                        float value = SystemAPI.GetComponent<DropLootDelayCD>(entity).Value;
                         if (entityDestroyed.destroyTimer < value) return;
                     }
 
@@ -44,7 +44,7 @@ namespace KeepFarming
 
                     var random = PugRandom.GetRngFromEntity(lootSeed, entity);
 
-                    KilledByPlayer killedByPlayer = HasComponent<KilledByPlayer>(entity) ? GetComponent<KilledByPlayer>(entity) : default;
+                    KilledByPlayer killedByPlayer = SystemAPI.HasComponent<KilledByPlayer>(entity) ? SystemAPI.GetComponent<KilledByPlayer>(entity) : default;
 
                     float3 entityLocalCenter = PugDatabase.GetEntityLocalCenter(objectData.objectID, databaseLocal, objectData.variation);
                     float3 entityCenter = translation.Value + entityLocalCenter;
@@ -52,14 +52,15 @@ namespace KeepFarming
 
                     float chance = dropsGoldenSeed.chance;
 
-                    if (HasComponent<PlantCD>(entity))
+                    if (SystemAPI.HasComponent<PlantCD>(entity))
                     {
-                        if (HasComponent<GrowingCD>(entity) && !GetComponent<GrowingCD>(entity).hasFinishedGrowing)
+                        if (SystemAPI.HasComponent<GrowingCD>(entity) && 
+                            !SystemAPI.GetComponent<GrowingCD>(entity).hasFinishedGrowing)
                         {
                             chance = 1f;
                         }
 
-                        if (killedByPlayer.playerEntity != Entity.Null && summarizedConditionsBuffer.HasComponent(killedByPlayer.playerEntity))
+                        if (killedByPlayer.playerEntity != Entity.Null && summarizedConditionsBuffer.HasBuffer(killedByPlayer.playerEntity))
                         {
                             chance += summarizedConditionsBuffer[killedByPlayer.playerEntity][127].value / 100f;
                         }

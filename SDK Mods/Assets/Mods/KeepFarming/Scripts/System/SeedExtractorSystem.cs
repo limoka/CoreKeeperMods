@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using KeepFarming.Components;
 using PugAutomation;
 using PugMod;
@@ -12,7 +11,7 @@ using Random = Unity.Mathematics.Random;
 
 namespace KeepFarming
 {
-    [UpdateInWorld(TargetWorld.Server)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public partial class SeedExtractorSystem : PugSimulationSystemBase
     {
@@ -45,8 +44,13 @@ namespace KeepFarming
             TryCreateSeedLookup();
             
             var seedLookup = seedExtractorRecipes;
-            PugTimerSystem.Timer timer = World.GetExistingSystem<PugTimerSystem>().CreateTimer();
+            PugTimerSystem.Timer timer = World.GetExistingSystemManaged<PugTimerSystem>().CreateTimer();
             EntityCommandBuffer ecb = CreateCommandBuffer();
+
+            SystemAPI.TryGetSingleton(out ClientServerTickRate clientServerTickRate);
+            clientServerTickRate.ResolveDefaults();
+            int simulationTickRate = clientServerTickRate.SimulationTickRate;
+            var flowerLookup = GetComponentLookup<FlowerCD>(true);
 
             Entities.ForEach((
                     Entity entity,
@@ -55,7 +59,7 @@ namespace KeepFarming
                     in PugTimerRefCD pugTimerRef,
                     in DynamicBuffer<ContainedObjectsBuffer> container) =>
                 {
-                    var canProcess = CanProcess(container, databaseLocal, seedLookup, craftingCD, seedExtractor);
+                    var canProcess = CanProcess(container, databaseLocal, seedLookup, flowerLookup, craftingCD, seedExtractor);
 
                     if (!canProcess)
                     {
@@ -70,7 +74,7 @@ namespace KeepFarming
 
                     if (canProcess && craftingCD.disable == 0 && pugTimerRef.entity == Entity.Null)
                     {
-                        timer.StartTimer(ecb, entity, math.min(1f, craftingCD.timeLeftToCraft));
+                        timer.StartTimer(ecb, entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
                         Debug.Log("Starting Seed Extractor recipe timer!");
                     }
                 })
@@ -82,7 +86,8 @@ namespace KeepFarming
                 .WithAll<ObjectDataCD>()
                 .WithAll<ContainedObjectsBuffer>()
                 .WithNone<CattleCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithNone<EntityDestroyedCD>()
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .WithChangeFilter<CraftingCD>()
                 .WithChangeFilter<ContainedObjectsBuffer>()
                 .Schedule();
@@ -94,40 +99,42 @@ namespace KeepFarming
             Entities.ForEach((Entity entity, ref PugTimerRefCD userRef) =>
                 {
                     ecb.DestroyEntity(entity);
-                    if (!HasComponent<CraftingCD>(userRef.entity)) return;
-                    if (!HasComponent<SeedExtractorCD>(userRef.entity)) return;
+                    if (!SystemAPI.HasComponent<CraftingCD>(userRef.entity)) return;
+                    if (!SystemAPI.HasComponent<SeedExtractorCD>(userRef.entity)) return;
+                    
+                    if (SystemAPI.HasComponent<EntityDestroyedCD>(userRef.entity)) return;
 
-                    CraftingCD craftingCD = GetComponent<CraftingCD>(userRef.entity);
+                    CraftingCD craftingCD = SystemAPI.GetComponent<CraftingCD>(userRef.entity);
                     if (craftingCD.disable != 0) return;
 
                     craftingCD.timeLeftToCraft -= 1f;
                     if (craftingCD.timeLeftToCraft > 0f)
                     {
-                        timer.StartTimer(ecb, userRef.entity, 1f);
+                        timer.StartTimer(ecb, userRef.entity, 1f, simulationTickRate);
                         ecb.SetComponent(userRef.entity, craftingCD);
                         return;
                     }
 
-                    DynamicBuffer<ContainedObjectsBuffer> container = GetBuffer<ContainedObjectsBuffer>(userRef.entity);
-                    Random random = Random.CreateFromIndex(rngSeed ^ (uint)userRef.entity.Index ^ (uint)userRef.entity.Version);
-                    var seedExtractor = GetComponent<SeedExtractorCD>(userRef.entity);
+                    DynamicBuffer<ContainedObjectsBuffer> container = SystemAPI.GetBuffer<ContainedObjectsBuffer>(userRef.entity);
+                    Random random = PugRandom.GetRngFromEntity(rngSeed, userRef.entity);
+                    var seedExtractor = SystemAPI.GetComponent<SeedExtractorCD>(userRef.entity);
 
-                    Process(container, databaseLocal, seedLookup, 
+                    Process(container, databaseLocal, seedLookup, flowerLookup,
                         craftingCD, seedExtractor, random, 
                         extractionChance, juiceOutputChance);
                     
-                    var canProcess = CanProcess(container, databaseLocal, seedLookup, craftingCD, seedExtractor);
+                    var canProcess = CanProcess(container, databaseLocal, seedLookup, flowerLookup, craftingCD, seedExtractor);
                     if (canProcess)
                     {
                         craftingCD.timeLeftToCraft = seedExtractor.processingTime;
-                        timer.StartTimer(ecb, userRef.entity, math.min(1f, craftingCD.timeLeftToCraft));
+                        timer.StartTimer(ecb, userRef.entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
                     }
                     else
                     {
                         craftingCD.timeLeftToCraft = 0f;
                         craftingCD.currentlyCraftingIndex = -1;
                     }
-
+                    
                     ecb.SetComponent(userRef.entity, craftingCD);
                 })
                 .WithName("SeedExtractorOnTrigger")
@@ -158,7 +165,7 @@ namespace KeepFarming
             Entities.ForEach((in ObjectDataCD objectData, in FlowerCD flower) =>
                 {
                     Entity flowerEntity = PugDatabase.GetPrimaryPrefabEntity(flower.plantID, database, flower.plantVariation);
-                    var lootBuffer = GetBuffer<DropsLootBuffer>(flowerEntity);
+                    var lootBuffer = SystemAPI.GetBuffer<DropsLootBuffer>(flowerEntity);
                     if (lootBuffer.Length <= 0) return;
 
                     var seedObjectID = lootBuffer[0].lootDrop.lootDropID;
@@ -188,26 +195,37 @@ namespace KeepFarming
             return true;
         }
 
-        [BurstCompatible]
+        [GenerateTestsForBurstCompatibility]
         private static bool Process(
             DynamicBuffer<ContainedObjectsBuffer> container,
             BlobAssetReference<PugDatabase.PugDatabaseBank> database,
             NativeParallelHashMap<ObjectDataCD, SeedRecipeData> recipes,
+            ComponentLookup<FlowerCD> flowerLookup,
             CraftingCD craftingCD,
             SeedExtractorCD seedExtractorCd,
             Random random,
             float extractionChance,
             float juiceOutputChance)
         {
-            if (!CanProcess(container, database, recipes, craftingCD, seedExtractorCd)) return false;
+            if (!CanProcess(container, database, recipes, flowerLookup, craftingCD, seedExtractorCd)) return false;
 
             ObjectDataCD objectData = container[0].objectData;
             var recipeData = recipes[objectData];
 
             if (random.NextFloat() < extractionChance)
             {
-                ref PugDatabase.EntityObjectInfo plantObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID, database, objectData.variation);
-                var variation = plantObjectInfo.rarity > Rarity.Common ? 2 : 0;
+                var variation = 0;
+
+                Entity plantEntity = PugDatabase.GetPrimaryPrefabEntity(objectData.objectID, database, objectData.variation);
+
+                if (flowerLookup.HasComponent(plantEntity))
+                {
+                    var flower = flowerLookup[plantEntity];
+                    if (flower.plantVariation > 0)
+                    {
+                        variation = 2;
+                    }
+                }
                 
                 AddItem(container, craftingCD.outputSlotIndex, recipeData.seedID, variation);
             }
@@ -230,7 +248,7 @@ namespace KeepFarming
             return true;
         }
 
-        [BurstCompatible]
+        [GenerateTestsForBurstCompatibility]
         private static void AddItem(DynamicBuffer<ContainedObjectsBuffer> container, int slotIndex, ObjectID itemId, int variation)
         {
             ObjectDataCD outputData = container[slotIndex].objectData;
@@ -255,22 +273,36 @@ namespace KeepFarming
             };
         }
 
-        [BurstCompatible]
+        [GenerateTestsForBurstCompatibility]
         private static bool CanProcess(
             DynamicBuffer<ContainedObjectsBuffer> container,
             BlobAssetReference<PugDatabase.PugDatabaseBank> database,
             NativeParallelHashMap<ObjectDataCD, SeedRecipeData> recipes,
+            ComponentLookup<FlowerCD> flowerLookup,
             CraftingCD craftingCD,
             SeedExtractorCD seedExtractorCd)
         {
+            if (!container.IsCreated) return false;
+            
             ObjectDataCD objectData = container[0].objectData;
             if (objectData.objectID == ObjectID.None) return false;
             
             if (!recipes.ContainsKey(objectData)) return false;
 
             var recipeData = recipes[objectData];
-            ref PugDatabase.EntityObjectInfo plantObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID, database, objectData.variation);
-            var outputVariation = plantObjectInfo.rarity > Rarity.Common ? 2 : 0;
+
+            var outputVariation = 0;
+
+            Entity plantEntity = PugDatabase.GetPrimaryPrefabEntity(objectData.objectID, database, objectData.variation);
+
+            if (flowerLookup.HasComponent(plantEntity))
+            {
+                var flower = flowerLookup[plantEntity];
+                if (flower.plantVariation > 0)
+                {
+                    outputVariation = 2;
+                }
+            }
             
             ObjectDataCD outputData = container[craftingCD.outputSlotIndex].objectData;
             ref PugDatabase.EntityObjectInfo outputObjectInfo = ref PugDatabase.GetEntityObjectInfo(recipeData.seedID, database, 0);
