@@ -14,9 +14,25 @@ public class ModBuilderSettings : ScriptableObject
 	};
 	
 	public string modPath = "Assets/Mod";
-	public bool buildLinux = false;
-	public bool buildBurst = true;
 
+	public bool forceReimport = true;
+	public bool buildBundles = true;
+	public bool buildLinux = false;
+	
+	public bool buildBurst = true;
+	public bool cachedBuild = false;
+	
+	public List<ModAsset> assets;
+	[HideInInspector]
+	public bool lastBuildLinux = false;
+	
+	[Serializable]
+	public struct ModAsset
+	{
+		public string path;
+		public string hash;
+	}
+	
 	private void OnValidate()
 	{
 		if (string.IsNullOrEmpty(modPath))
