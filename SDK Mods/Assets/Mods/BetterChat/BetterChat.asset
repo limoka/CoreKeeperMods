@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 10e4fc9543d742cda290f8e8713d0716
     name: BetterChat
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 1
@@ -27,5 +28,7 @@ MonoBehaviour:
     - path: Bundles/BetterChat_Windows.assetbundle
     dependencies: []
   modPath: Assets\Mods\BetterChat
+  forceReimport: 1
+  buildBundles: 1
   buildLinux: 1
   buildBurst: 0

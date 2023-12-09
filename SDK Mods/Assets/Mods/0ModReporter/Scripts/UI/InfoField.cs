@@ -7,6 +7,8 @@ namespace ModReporter.UI
 {
     public class InfoField : MonoBehaviour
     {
+        private static Regex pattern = new Regex("<\\/?color.*?>", RegexOptions.Compiled);
+
         public TMP_Text mainText;
 
         public int baseHeight = 30;
@@ -40,7 +42,7 @@ namespace ModReporter.UI
 
         public void OnCopy()
         {
-            var text =Regex.Replace(mainText.text, "<\\/?color.*?>", "");
+            var text = pattern.Replace(mainText.text, "");
             GUIUtility.systemCopyBuffer = text;
         }
 

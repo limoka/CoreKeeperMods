@@ -7,7 +7,7 @@ using Unity.Transforms;
 namespace MovableSpawners
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    [UpdateInWorld(TargetWorld.ClientAndServer)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
     public partial class SummonAreaIndestructibleSystem : PugSimulationSystemBase
     {
         public static float bossTriggerDistance = 100;
@@ -24,7 +24,7 @@ namespace MovableSpawners
             })
                 .WithAll<BossCD>()
                 .WithNone<EntityDestroyedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Schedule();
 
             Entities.ForEach((Entity entity, ref SummonAreaIndestructibleStateCD state, in Translation spawner) =>
@@ -48,7 +48,7 @@ namespace MovableSpawners
                 })
                 .WithAll<SummonAreaCD>()
                 .WithNone<EntityDestroyedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .WithDisposeOnCompletion(bosses)
                 .Schedule();
             

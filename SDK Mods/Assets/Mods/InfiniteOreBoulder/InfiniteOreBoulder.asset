@@ -16,10 +16,14 @@ MonoBehaviour:
     guid: b074c5f9040141fab16fce19cf361a2b
     name: InfiniteOreBoulder
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
     files: []
     dependencies: []
   modPath: Assets\Mods\InfiniteOreBoulder
+  forceReimport: 1
+  buildBundles: 0
   buildLinux: 0
+  buildBurst: 1

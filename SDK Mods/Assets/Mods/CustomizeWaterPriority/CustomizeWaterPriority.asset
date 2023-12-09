@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: bb08a4c655a1441f955c1bdb39398a53
     name: CustomizeWaterPriority
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
@@ -23,11 +24,12 @@ MonoBehaviour:
     - path: Scripts/Scripts/WaterSpreadingSystem_Patch.cs
     - path: Scripts/Scripts/CustomWaterSpredingSystem.cs
     - path: Scripts/Scripts/CustomizeWaterPriorityMod.cs
-    - path: Scripts/Generated/CustomWaterSpredingSystem__System_334134016.g.cs
-    - path: Bundles/CustomizeWaterPriority_Windows.assetbundle
+    - path: Scripts/Generated/CustomWaterSpredingSystem__System_14135272040.g.cs
     dependencies:
     - modName: CoreLib
       required: 1
   modPath: Assets\Mods\CustomizeWaterPriority
+  forceReimport: 1
+  buildBundles: 0
   buildLinux: 0
   buildBurst: 0

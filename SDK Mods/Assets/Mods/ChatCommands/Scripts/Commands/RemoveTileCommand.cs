@@ -3,6 +3,7 @@ using System.Linq;
 using CoreLib.Commands;
 using CoreLib.Commands.Communication;
 using HarmonyLib;
+using PlayerCommand;
 using PugMod;
 using PugTilemap;
 using Unity.Collections;
@@ -14,6 +15,9 @@ namespace ChatCommands.Chat.Commands
 {
     public class RemoveTileCommand : IServerCommandHandler
     {
+        private static TileAccessor tileAccessor;
+        private static bool createdTileAccessor;
+
         public CommandOutput Execute(string[] parameters, Entity sender)
         {
             Entity player = sender.GetPlayerEntity();
@@ -22,7 +26,7 @@ namespace ChatCommands.Chat.Commands
             if (parameters.Length < 3) return new CommandOutput("Not enough parameters, please check usage via /help removeTile!", CommandStatus.Error);
 
             var translation = API.Server.World.EntityManager.GetComponentData<Translation>(player);
-            
+
             int2 pos = CommandUtil.ParsePos(parameters, parameters.Length - 1, translation.Value, out var commandOutput);
             if (commandOutput != null)
                 return commandOutput.Value;
@@ -68,6 +72,12 @@ namespace ChatCommands.Chat.Commands
             EntityManager entityManager = API.Server.World.EntityManager;
             Entity tileUpdateEntity = entityManager.CreateEntityQuery(typeof(TileUpdateBuffer)).GetSingletonEntity();
             var updateBuffer = entityManager.GetBuffer<TileUpdateBuffer>(tileUpdateEntity);
+            var serverSystem = API.Server.World.GetExistingSystemManaged<ServerSystem>();
+
+            if (!createdTileAccessor)
+                tileAccessor = new TileAccessor(ref serverSystem.CheckedStateRef);
+            else
+                tileAccessor.Update(ref serverSystem.CheckedStateRef);
 
             updateBuffer.Add(new TileUpdateBuffer
             {
@@ -79,7 +89,7 @@ namespace ChatCommands.Chat.Commands
                 }
             });
 
-            var tiles = PugTile.Get(pos, Allocator.Temp, entityManager.World);
+            var tiles = tileAccessor.Get(pos, Allocator.Temp);
             var neededTiles = new NativeList<TileType>(4, Allocator.Temp);
             for (int k = 0; k < tiles.Length; k++)
             {

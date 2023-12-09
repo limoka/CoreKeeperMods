@@ -4,14 +4,15 @@ using Unity.NetCode;
 
 namespace InfiniteOreBoulder
 {
-    [UpdateInGroup(typeof(ServerSimulationSystemGroup))]
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial class InfiniteBoulderSystem : PugSimulationSystemBase
     {
         protected override void OnUpdate()
         {
-            Entities.ForEach((ref HealthCD healthCd, in DropsLootWhenDamagedCD dropsLootCd) =>
+            Entities.ForEach((ref HealthCD healthCd) =>
                 {
-                    if (healthCd.health < healthCd.maxHealth - dropsLootCd.damageToDealToDropLoot)
+                    if (healthCd.health < healthCd.maxHealth / 2)
                     {
                         healthCd.health = healthCd.maxHealth;
                     }
@@ -19,9 +20,10 @@ namespace InfiniteOreBoulder
                 .WithName("BoulderHeal")
                 .WithBurst()
                 .WithAll<PugAutomationCD>()
+                .WithAll<DropsLootWhenDamagedCD>()
                 .WithAll<MineableDamageDecreaseCD>()
                 .WithNone<EntityDestroyedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Schedule();
 
             base.OnUpdate();

@@ -28,7 +28,7 @@ namespace PlacementPlus
             skipFrames--;
             if (skipFrames > 0) return;
 
-            var colorLookup = API.Client.World.GetOrCreateSystem<TileTypeColorLookupSystem>().CreateLookupHelper();
+            var colorLookup = API.Client.World.GetOrCreateSystemManaged<TileTypeColorLookupSystem>().CreateLookupHelper();
 
             foreach (BrushRect brushRect in mapUpdateRects)
             {

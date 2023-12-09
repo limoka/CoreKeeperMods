@@ -1,15 +1,13 @@
-﻿using System.Runtime.CompilerServices;
-using PugTilemap;
+﻿using PugTilemap;
 using PugTilemap.Quads;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.NetCode;
 
 namespace Mods.CustomizeWaterPriority.Scripts
 {
     [UpdateInGroup(typeof(SimulationSystemGroup))]
-    [UpdateInWorld(TargetWorld.Server)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial class CustomWaterSpredingSystem : PugSimulationSystemBase
     {
         private bool hasRunAtLeastOnce;
@@ -21,7 +19,7 @@ namespace Mods.CustomizeWaterPriority.Scripts
         {
             NeedDatabase();
             NeedTileUpdateBuffer();
-            RequireSingletonForUpdate<EffectEventBuffer>();
+            RequireForUpdate<EffectEventBuffer>();
             RequireForUpdate(query);
 
             query_1 = GetEntityQuery(typeof(EffectEventBuffer));
@@ -46,7 +44,7 @@ namespace Mods.CustomizeWaterPriority.Scripts
             
             Entity updatedTilesSingletonLocal = tileUpdateBufferSingletonEntity;
             Entity effectEventBufferEntity = query_1.GetSingletonEntity();
-            double elapsedTime = Time.ElapsedTime;
+            double elapsedTime = SystemAPI.Time.ElapsedTime;
             Random rng = PugRandom.GetRng();
 
             int highestPrio = (int)CustomizeWaterPriorityMod.highestPriorityTileset.Value;

@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: be5d8f55a80a4f58a6fbc8915f53d5b6
     name: PlacementPlus
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
@@ -46,5 +47,7 @@ MonoBehaviour:
     - modName: CoreLib.RewiredExtension
       required: 1
   modPath: Assets/Mods\PlacementPlus
+  forceReimport: 1
+  buildBundles: 1
   buildLinux: 1
   buildBurst: 0

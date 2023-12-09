@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 55566f63f747482fab3227e424739b2f
     name: ChatCommands
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
@@ -51,5 +52,7 @@ MonoBehaviour:
     - modName: CoreLib.Commands
       required: 1
   modPath: Assets\Mods\ChatCommands
+  forceReimport: 1
+  buildBundles: 0
   buildLinux: 0
   buildBurst: 1

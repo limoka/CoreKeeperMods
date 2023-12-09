@@ -16,6 +16,7 @@ MonoBehaviour:
     guid: 1423c764793e431d856c5373ad0ea89c
     name: 0ModReporter
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
@@ -36,5 +37,7 @@ MonoBehaviour:
     - path: Bundles/0ModReporter_Windows.assetbundle
     dependencies: []
   modPath: Assets\Mods\0ModReporter
+  forceReimport: 1
+  buildBundles: 1
   buildLinux: 1
   buildBurst: 0

@@ -3,7 +3,8 @@ using Unity.NetCode;
 
 namespace InstantPortalCharge
 {
-    [UpdateInGroup(typeof(ServerSimulationSystemGroup))]
+    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial class PortalChargeSystem : PugSimulationSystemBase
     {
         protected override void OnUpdate()
@@ -19,7 +20,7 @@ namespace InstantPortalCharge
                 .WithBurst()
                 .WithAll<PortalCD>()
                 .WithNone<EntityDestroyedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabled)
+                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Schedule();
             
             base.OnUpdate();

@@ -16,10 +16,14 @@ MonoBehaviour:
     guid: 4f78fc2ba7e44e4eb2f04aa511beefc3
     name: InstantPortalCharge
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
     files: []
     dependencies: []
   modPath: Assets\Mods\InstantPortalCharge
+  forceReimport: 1
+  buildBundles: 0
   buildLinux: 0
+  buildBurst: 1

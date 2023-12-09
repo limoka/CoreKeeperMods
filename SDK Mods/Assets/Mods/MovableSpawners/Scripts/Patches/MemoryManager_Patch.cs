@@ -12,6 +12,10 @@ namespace MovableSpawners.Patches
         [HarmonyPrefix]
         public static void OnInit(MemoryManager __instance)
         {
+            if (__instance.poolablePrefabBank == null)
+            {
+                return;
+            }
             foreach (var pool in __instance.poolablePrefabBank.poolInitializers)
             {
                 var summonArea = pool.prefab.gameObject.GetComponent<SummonArea>();

@@ -16,10 +16,14 @@ MonoBehaviour:
     guid: 004755b3ff7f4b8abc6a071e346c8874
     name: EquipmentKeeper
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
     files: []
     dependencies: []
   modPath: Assets\Mods\EquipmentKeeper
+  forceReimport: 1
+  buildBundles: 1
   buildLinux: 0
+  buildBurst: 1

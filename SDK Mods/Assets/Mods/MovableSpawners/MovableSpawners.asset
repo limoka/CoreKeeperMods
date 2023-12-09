@@ -16,11 +16,14 @@ MonoBehaviour:
     guid: 257f346cbe1b4983b7f203dfa772d902
     name: MovableSpawners
     skipSafetyChecks: 0
+    disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 3
     files: []
     dependencies: []
   modPath: Assets\Mods\MovableSpawners
+  forceReimport: 1
+  buildBundles: 1
   buildLinux: 1
   buildBurst: 1
