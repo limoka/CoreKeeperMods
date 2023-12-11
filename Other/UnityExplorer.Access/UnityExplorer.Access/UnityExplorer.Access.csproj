@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Pug.Base">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.Base.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.ColorCycling">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.ColorCycling.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.ECS.Authoring">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.ECS.Authoring.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.ECS.Components">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.ECS.Components.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.ECS.ConditionExtensions">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.ECS.ConditionExtensions.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.ECS.Conversion">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.ECS.Conversion.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.Mods">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.Mods.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.Objects">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.Objects.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.Other">
+        <HintPath>..\Public\Pug.Other.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.PP">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.PP.dll</HintPath>
+      </Reference>
+      <Reference Include="Pug.UnityExtensions">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\Pug.UnityExtensions.dll</HintPath>
+      </Reference>
+      <Reference Include="PugConversion">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugConversion.dll</HintPath>
+      </Reference>
+      <Reference Include="PugMap.Common">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugMap.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="PugMod.Integration">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugMod.Integration.dll</HintPath>
+      </Reference>
+      <Reference Include="PugMod.Platform">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugMod.Platform.dll</HintPath>
+      </Reference>
+      <Reference Include="PugMod.SDK.Runtime">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugMod.SDK.Runtime.dll</HintPath>
+      </Reference>
+      <Reference Include="PugProperties">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugProperties.dll</HintPath>
+      </Reference>
+      <Reference Include="PugRP">
+        <HintPath>..\..\..\SDK Mods\Assets\Plugins\CoreKeeper\PugRP.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Entities">
+        <HintPath>..\Public\Unity.Entities.dll</HintPath>
+      </Reference>
+      <Reference Include="Unity.Mathematics">
+        <HintPath>..\Public\UnityEngine.UI.dll</HintPath>
+      </Reference>
+    </ItemGroup> 
+
+    <ItemGroup>
+      <PackageReference Include="UnityEngine.Modules" Version="2022.3.10" />
+    </ItemGroup>
+
+</Project>

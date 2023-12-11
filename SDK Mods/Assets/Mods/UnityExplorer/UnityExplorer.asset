@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc43e4983a160e543856e5ba0421c9e1, type: 3}
+  m_Name: UnityExplorer
+  m_EditorClassIdentifier: 
+  metadata:
+    guid: b439299e73dd4ff390470f2dbdfcf724
+    name: UnityExplorer
+    skipSafetyChecks: 1
+    disableScripts: 0
+    accessesExtraAssemblies: 1
+    disableHarmonyPatching: 0
+    requiredOn: 0
+    files:
+    - path: Scripts/Scripts/UI/Widgets/UnityObjects/UnityObjectWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/UnityObjects/Texture2DWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/UnityObjects/MaterialWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/UnityObjects/AudioClipWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/TimeScaleWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/Vector3Control.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/TransformType.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/TransformControls.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/GameObjectInfoPanel.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/GameObjectControls.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/ComponentList.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/ComponentCell.cs
+    - path: Scripts/Scripts/UI/Widgets/GameObjects/AxisControl.cs
+    - path: Scripts/Scripts/UI/Widgets/EvaluateWidget/ParameterHandler.cs
+    - path: Scripts/Scripts/UI/Widgets/EvaluateWidget/GenericConstructorWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/EvaluateWidget/GenericArgumentHandler.cs
+    - path: Scripts/Scripts/UI/Widgets/EvaluateWidget/EvaluateWidget.cs
+    - path: Scripts/Scripts/UI/Widgets/EvaluateWidget/BaseArgumentHandler.cs
+    - path: Scripts/Scripts/UI/Widgets/AutoComplete/TypeCompleter.cs
+    - path: Scripts/Scripts/UI/Widgets/AutoComplete/Suggestion.cs
+    - path: Scripts/Scripts/UI/Widgets/AutoComplete/ISuggestionProvider.cs
+    - path: Scripts/Scripts/UI/Widgets/AutoComplete/EnumCompleter.cs
+    - path: Scripts/Scripts/UI/UEPanelManager.cs
+    - path: Scripts/Scripts/UI/UE_UIManager.cs
+    - path: Scripts/Scripts/UI/Panels/UEPanelDragger.cs
+    - path: Scripts/Scripts/UI/Panels/UEPanel.cs
+    - path: Scripts/Scripts/UI/Panels/OptionsPanel.cs
+    - path: Scripts/Scripts/UI/Panels/ObjectExplorerPanel.cs
+    - path: Scripts/Scripts/UI/Panels/MouseInspectorResultsPanel.cs
+    - path: Scripts/Scripts/UI/Panels/LogPanel.cs
+    - path: Scripts/Scripts/UI/Panels/InspectorPanel.cs
+    - path: Scripts/Scripts/UI/Panels/HookManagerPanel.cs
+    - path: Scripts/Scripts/UI/Panels/FreeCamPanel.cs
+    - path: Scripts/Scripts/UI/Panels/CSConsolePanel.cs
+    - path: Scripts/Scripts/UI/Panels/ClipboardPanel.cs
+    - path: Scripts/Scripts/UI/Panels/AutoCompleteModal.cs
+    - path: Scripts/Scripts/UI/Notification.cs
+    - path: Scripts/Scripts/UI/ExplorerUIBase.cs
+    - path: Scripts/Scripts/UI/DisplayManager.cs
+    - path: Scripts/Scripts/Runtime/UnityCrashPrevention.cs
+    - path: Scripts/Scripts/Runtime/UERuntimeHelper.cs
+    - path: Scripts/Scripts/Runtime/MonoHelper.cs
+    - path: Scripts/Scripts/ObjectExplorer/UITabPanel.cs
+    - path: Scripts/Scripts/ObjectExplorer/SearchProvider.cs
+    - path: Scripts/Scripts/ObjectExplorer/SceneHandler.cs
+    - path: Scripts/Scripts/ObjectExplorer/SceneExplorer.cs
+    - path: Scripts/Scripts/ObjectExplorer/ObjectSearch.cs
+    - path: Scripts/Scripts/Loader/IExplorerLoader.cs
+    - path: Scripts/Scripts/Loader/CoreKeeper/UnityExplorerMod.cs
+    - path: Scripts/Scripts/Loader/CoreKeeper/StandaloneConfigHandler.cs
+    - path: Scripts/Scripts/Loader/CoreKeeper/Logger.cs
+    - path: Scripts/Scripts/Loader/CoreKeeper/ExplorerStandalone.cs
+    - path: Scripts/Scripts/Loader/CoreKeeper/ExplorerEditorLoader.cs
+    - path: Scripts/Scripts/Inspectors/ReflectionInspector.cs
+    - path: Scripts/Scripts/Inspectors/MouseInspectors/WorldInspector.cs
+    - path: Scripts/Scripts/Inspectors/MouseInspectors/UiInspector.cs
+    - path: Scripts/Scripts/Inspectors/MouseInspectors/MouseInspectorBase.cs
+    - path: Scripts/Scripts/Inspectors/MouseInspector.cs
+    - path: Scripts/Scripts/Inspectors/InspectorTab.cs
+    - path: Scripts/Scripts/Inspectors/InspectorManager.cs
+    - path: Scripts/Scripts/Inspectors/InspectorBase.cs
+    - path: Scripts/Scripts/Inspectors/GameObjectInspector.cs
+    - path: Scripts/Scripts/Hooks/HookList.cs
+    - path: Scripts/Scripts/Hooks/HookInstance.cs
+    - path: Scripts/Scripts/Hooks/HookCreator.cs
+    - path: Scripts/Scripts/Hooks/HookCell.cs
+    - path: Scripts/Scripts/Hooks/AddHookCell.cs
+    - path: Scripts/Scripts/ExplorerCore.cs
+    - path: Scripts/Scripts/ExplorerBehaviour.cs
+    - path: Scripts/Scripts/ECS/Widgets/EntityInfoPanel.cs
+    - path: Scripts/Scripts/ECS/Patch/World_Patch.cs
+    - path: Scripts/Scripts/ECS/Panels/WorldExplorer.cs
+    - path: Scripts/Scripts/ECS/Panels/QueryComponentList.cs
+    - path: Scripts/Scripts/ECS/Panels/QueryComponentCell.cs
+    - path: Scripts/Scripts/ECS/Panels/EntityTree.cs
+    - path: Scripts/Scripts/ECS/Panels/EntityCell.cs
+    - path: Scripts/Scripts/ECS/Panels/ArrayWrapper.cs
+    - path: Scripts/Scripts/ECS/Inspectors/EntityInspector.cs
+    - path: Scripts/Scripts/ECS/Inspectors/ECSComponentList.cs
+    - path: Scripts/Scripts/ECS/Inspectors/ECSComponentCell.cs
+    - path: Scripts/Scripts/ECS/Inspectors/ButtonNativeListHandler.cs
+    - path: Scripts/Scripts/ECS/ECSHelper.cs
+    - path: Scripts/Scripts/ECS/Cache/CacheSharedComponent.cs
+    - path: Scripts/Scripts/ECS/Cache/CacheManagedComponent.cs
+    - path: Scripts/Scripts/ECS/Cache/CacheComponent.cs
+    - path: Scripts/Scripts/ECS/Cache/BaseComponentCache.cs
+    - path: Scripts/Scripts/ECS/BufferView.cs
+    - path: Scripts/Scripts/CSConsole/ScriptInteraction.cs
+    - path: Scripts/Scripts/CSConsole/ScriptEvaluator.cs
+    - path: Scripts/Scripts/CSConsole/Lexers/SymbolLexer.cs
+    - path: Scripts/Scripts/CSConsole/Lexers/StringLexer.cs
+    - path: Scripts/Scripts/CSConsole/Lexers/NumberLexer.cs
+    - path: Scripts/Scripts/CSConsole/Lexers/Lexer.cs
+    - path: Scripts/Scripts/CSConsole/Lexers/KeywordLexer.cs
+    - path: Scripts/Scripts/CSConsole/Lexers/CommentLexer.cs
+    - path: Scripts/Scripts/CSConsole/LexerBuilder.cs
+    - path: Scripts/Scripts/CSConsole/CSAutoCompleter.cs
+    - path: Scripts/Scripts/CSConsole/ConsoleController.cs
+    - path: Scripts/Scripts/Config/InternalConfigHandler.cs
+    - path: Scripts/Scripts/Config/IConfigElement.cs
+    - path: Scripts/Scripts/Config/ConfigManager.cs
+    - path: Scripts/Scripts/Config/ConfigHandler.cs
+    - path: Scripts/Scripts/Config/ConfigElement.cs
+    - path: Scripts/Scripts/CacheObject/Views/CacheObjectCell.cs
+    - path: Scripts/Scripts/CacheObject/Views/CacheMemberCell.cs
+    - path: Scripts/Scripts/CacheObject/Views/CacheListEntryCell.cs
+    - path: Scripts/Scripts/CacheObject/Views/CacheKeyValuePairCell.cs
+    - path: Scripts/Scripts/CacheObject/Views/CacheConfigCell.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveValueStruct.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveValue.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveString.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveList.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveEnum.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveDictionary.cs
+    - path: Scripts/Scripts/CacheObject/IValues/InteractiveColor.cs
+    - path: Scripts/Scripts/CacheObject/ICacheObjectController.cs
+    - path: Scripts/Scripts/CacheObject/CacheProperty.cs
+    - path: Scripts/Scripts/CacheObject/CacheObjectBase.cs
+    - path: Scripts/Scripts/CacheObject/CacheMethod.cs
+    - path: Scripts/Scripts/CacheObject/CacheMemberFactory.cs
+    - path: Scripts/Scripts/CacheObject/CacheMember.cs
+    - path: Scripts/Scripts/CacheObject/CacheListEntry.cs
+    - path: Scripts/Scripts/CacheObject/CacheKeyValuePair.cs
+    - path: Scripts/Scripts/CacheObject/CacheField.cs
+    - path: Scripts/Scripts/CacheObject/CacheConstructor.cs
+    - path: Scripts/Scripts/CacheObject/CacheConfigEntry.cs
+    - path: Libraries/UniverseLib.Mono.dll
+    - path: Libraries/UnityExplorer.Access.dll
+    - path: Libraries/Tomlet.dll
+    dependencies: []
+  modPath: Assets\Mods\UnityExplorer
+  forceReimport: 0
+  buildBundles: 0
+  buildLinux: 0
+  buildBurst: 0
+  cachedBuild: 0
+  assets:
+  - path: Assets/Mods/UnityExplorer/Scripts/UnityExplorer.sln
+    hash: B265A4864E8E87DEC2CB08E6E028C6AA892121046D7BCC71BFC65823E9142DCD
+  - path: Assets/Mods/UnityExplorer/UnityExplorer.asset
+    hash: 647F35FEF65E7D778E74FCFCE11D200C077BEDA50660482C543661275638CC36
+  - path: Assets/Mods/UnityExplorer/UnityExplorer_modio.asset
+    hash: B65A61C40AC6CC97FAE9D12462F7E4BD1F02FFCE9E7648FD839FA02EC206A20A
+  lastBuildLinux: 0
