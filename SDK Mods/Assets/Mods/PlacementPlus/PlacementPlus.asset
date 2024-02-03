@@ -37,17 +37,29 @@ MonoBehaviour:
     - path: Scripts/Scripts/Data/KeyMode.cs
     - path: Scripts/Scripts/Data/BrushRect.cs
     - path: Scripts/Scripts/Data/BrushMode.cs
+    - path: Scripts/Scripts/Data/BlockMode.cs
     - path: Scripts/Scripts/BrushExtension.cs
     - path: Libraries/PlacementPlus.Access.dll
-    - path: Bundles/PlacementPlus_Windows.assetbundle
     - path: Bundles/PlacementPlus_Linux.assetbundle
+    - path: Bundles/PlacementPlus_Windows.assetbundle
     dependencies:
     - modName: CoreLib
       required: 1
     - modName: CoreLib.RewiredExtension
       required: 1
   modPath: Assets/Mods\PlacementPlus
-  forceReimport: 1
+  forceReimport: 0
   buildBundles: 1
   buildLinux: 1
   buildBurst: 0
+  cachedBuild: 0
+  assets:
+  - path: Assets/Mods/PlacementPlus/Localization/Localization.csv
+    hash: A79CE4BF333ECF825F413550BDC90BECE513BC838688D5E185FC57CB1B45259E
+  - path: Assets/Mods/PlacementPlus/PlacementPlus.asset
+    hash: 533DAA374989A9A4A0D4D8EAB789A609D4350E7C1CF8CD6AFF84595820DF1C61
+  - path: Assets/Mods/PlacementPlus/PlacementPlus_modio.asset
+    hash: A128470398E45D199BC8F51C4121614407A547D6A264DE9A21BD5E57DC90B8C6
+  - path: Assets/Mods/PlacementPlus/todo.txt
+    hash: 18B9DBFD0EF0F6911975E8B13E592DCA2FD82BBC46F4EEC76025B5C7280ACD07
+  lastBuildLinux: 1

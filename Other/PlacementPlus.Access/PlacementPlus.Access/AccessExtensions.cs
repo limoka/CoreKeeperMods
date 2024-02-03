@@ -30,6 +30,11 @@ internal static class AccessExtensions
         return placementHandler.infoAboutObjectToPlace;
     }
     
+    internal static void SetInfoAboutObjectToPlace_Public(this PlacementHandler placementHandler, ObjectInfo newObject)
+    {
+        placementHandler.infoAboutObjectToPlace = newObject;
+    }
+    
     internal static int CanPlaceObjectAtPosition_Public(this PlacementHandler placementHandler, Vector3Int posToPlaceAt, int width, int height)
     {
         return placementHandler.CanPlaceObjectAtPosition(posToPlaceAt, width, height);

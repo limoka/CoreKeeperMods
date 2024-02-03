@@ -23,6 +23,7 @@ namespace PlacementPlus
 
         public static BrushMode mode = BrushMode.SQUARE;
         public static RoofingToolMode roofingMode = RoofingToolMode.TOGGLE;
+        public static BlockMode blockMode = BlockMode.TOGGLE;
 
         public static bool brushChanged;
 
@@ -125,20 +126,44 @@ namespace PlacementPlus
         public static void ToggleRoofingMode(bool backwards)
         {
             int newMode = (int)roofingMode + (backwards ? -1 : 1);
-            
+
             if (newMode >= (int)RoofingToolMode.MAX)
             {
                 newMode = (int)RoofingToolMode.TOGGLE;
             }
+
             if (newMode < 0)
             {
                 newMode = (int)RoofingToolMode.MAX - 1;
             }
-            
+
 
             roofingMode = (RoofingToolMode)newMode;
-            string text = API.Localization.GetLocalizedTerm("PlacementPlus/RoofingToolModeMessage");
-            string modeText = API.Localization.GetLocalizedTerm($"PlacementPlus/{roofingMode}");
+            ShowMessage("PlacementPlus/RoofingToolModeMessage", roofingMode.ToString());
+        }
+
+        public static void ToggleBlockMode(bool backwards)
+        {
+            int newMode = (int)blockMode + (backwards ? -1 : 1);
+
+            if (newMode >= (int)BlockMode.MAX)
+            {
+                newMode = (int)BlockMode.TOGGLE;
+            }
+
+            if (newMode < 0)
+            {
+                newMode = (int)BlockMode.MAX - 1;
+            }
+
+            blockMode = (BlockMode)newMode;
+            ShowMessage("PlacementPlus/BlockToolModeMessage", blockMode.ToString());
+        }
+
+        private static void ShowMessage(string baseMsg, string modeName)
+        {
+            string text = API.Localization.GetLocalizedTerm(baseMsg);
+            string modeText = API.Localization.GetLocalizedTerm($"PlacementPlus/{modeName}");
             string emoteText = string.Format(text, modeText);
             Emote_Patch.SpawnModEmoteText(PlayerCenter, emoteText);
         }
@@ -263,14 +288,31 @@ namespace PlacementPlus
             bool usedPickaxe = false;
 
             BrushRect extents = GetExtents();
+            ObjectDataCD groundItem = default;
+            
+            if (itemInfo.tileType == TileType.wall)
+            {
+                var groundItemInfo = PugDatabase.TryGetTileItemInfo(TileType.ground, itemInfo.tileset);
+                if (groundItemInfo != null)
+                {
+                    groundItem = new ObjectDataCD()
+                    {
+                        objectID = groundItemInfo.objectID,
+                        amount = 1,
+                        variation = groundItemInfo.variation
+                    };
+                }
+            }
 
             foreach (Vector3Int pos in extents.WithPos(center))
             {
-                if (PlaceAt(slot, itemInfo, pos, consumeAmount, ref usedShovel, ref usedPickaxe))
+                if (PlaceAt(slot, itemInfo, groundItem, pos, consumeAmount, ref usedShovel, ref usedPickaxe))
                 {
                     consumeAmount++;
                 }
             }
+            
+            slot.placementHandler.SetInfoAboutObjectToPlace_Public(itemInfo);
 
             if (consumeAmount > 0 &&
                 itemInfo.tileType == TileType.wall)
@@ -293,7 +335,7 @@ namespace PlacementPlus
                 pc.ReduceDurabilityOfEquipmentInSlot(pickaxeSlot);
         }
 
-        private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, Vector3Int pos, int consumeAmount, ref bool usedShovel,
+        private static bool PlaceAt(PlaceObjectSlot slot, ObjectInfo itemInfo, ObjectDataCD optionalGroundItem, Vector3Int pos, int consumeAmount, ref bool usedShovel,
             ref bool usedPickaxe)
         {
             PlayerController pc = slot.slotOwner;
@@ -308,6 +350,22 @@ namespace PlacementPlus
                 return !HandleReplaceLogic(slot, position, false, ref usedShovel, ref usedPickaxe);
             }
 
+            TileType targetTileType = itemInfo.tileType;
+
+            if (isTile && itemInfo.tileType == TileType.wall)
+            {
+                targetTileType = GetTileTypeToPlace(position, itemInfo);
+                if (targetTileType == TileType.ground &&
+                    optionalGroundItem.objectID != ObjectID.None)
+                {
+                    slot.placementHandler.Activate(pc, optionalGroundItem, slot.collidesWith);
+                }
+                else
+                {
+                    slot.placementHandler.Activate(pc, item, slot.collidesWith);
+                }
+            }
+
             if (slot.placementHandler.CanPlaceObjectAtPosition_Public(pos, 1, 1) <= 0) return false;
             if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1) && !pc.isGodMode) return false;
 
@@ -315,13 +373,16 @@ namespace PlacementPlus
 
             if (isTile)
             {
+                if (Manager.multiMap.GetTileTypeAt(position, targetTileType, out TileInfo _)) return false;
+                if (targetTileType == TileType.wall && !Manager.multiMap.GetTileTypeAt(position, TileType.ground, out TileInfo _)) return false;
+                
                 pc.pugMapSystem.RemoveTileOverride(position, TileType.debris);
                 pc.pugMapSystem.RemoveTileOverride(position, TileType.debris2);
                 pc.pugMapSystem.RemoveTileOverride(position, TileType.smallGrass);
                 pc.pugMapSystem.RemoveTileOverride(position, TileType.smallStones);
 
-                pc.pugMapSystem.AddTileOverride(position, itemInfo.tileset, itemInfo.tileType);
-                pc.playerCommandSystem.AddTile(position, itemInfo.tileset, itemInfo.tileType);
+                pc.pugMapSystem.AddTileOverride(position, itemInfo.tileset, targetTileType);
+                pc.playerCommandSystem.AddTile(position, itemInfo.tileset, targetTileType);
                 return true;
             }
 
@@ -349,6 +410,41 @@ namespace PlacementPlus
             pc.playerCommandSystem.CreateEntity(item.objectID, targetPos, newObj.variation);
 
             return true;
+        }
+
+        private static TileType GetTileTypeToPlace(int2 pos, ObjectInfo objectToPlaceInfo)
+        {
+            if (objectToPlaceInfo.tileType != TileType.wall)
+                return objectToPlaceInfo.tileType;
+
+            switch (blockMode)
+            {
+                case BlockMode.TOGGLE:
+                    if (!Manager.multiMap.GetTileTypeAt(pos, TileType.ground, out TileInfo _) &&
+                        !Manager.multiMap.GetTileTypeAt(pos, TileType.bridge, out TileInfo _) &&
+                        PugDatabase.TryGetTileItemInfo(TileType.ground, objectToPlaceInfo.tileset) != null)
+                    {
+                        return TileType.ground;
+                    }
+
+                    break;
+                case BlockMode.GROUND:
+                    if (PugDatabase.TryGetTileItemInfo(TileType.ground, objectToPlaceInfo.tileset) != null)
+                    {
+                        return TileType.ground;
+                    }
+
+                    break;
+                case BlockMode.WALL:
+                    if (PugDatabase.TryGetTileItemInfo(TileType.wall, objectToPlaceInfo.tileset) != null)
+                    {
+                        return TileType.wall;
+                    }
+
+                    break;
+            }
+
+            return objectToPlaceInfo.tileType;
         }
 
         #endregion
@@ -515,11 +611,11 @@ namespace PlacementPlus
 
                 TileCD tileCd = world.EntityManager.GetComponentData<TileCD>(entity);
 
-                Translation translation = world.EntityManager.GetComponentData<Translation>(entity);
+                LocalTransform transform = world.EntityManager.GetComponentData<LocalTransform>(entity);
 
                 if (tileCd.tileType == TileType.ground)
                 {
-                    int2 pos = translation.Value.xz.RoundToInt2();
+                    int2 pos = transform.Position.xz.RoundToInt2();
                     if (!tileLookup.ContainsKey(pos))
                     {
                         tileLookup.Add(pos, new TileData(entity, tileCd));
@@ -667,7 +763,25 @@ namespace PlacementPlus
 
             TileCD itemTile = PugDatabase.GetComponent<TileCD>(item);
 
-            if (Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out TileInfo tile))
+            TileInfo tile;
+            bool foundTile;
+
+            if (itemTile.tileType == TileType.wall)
+            {
+                foundTile = Manager.multiMap.GetTileTypeAt(position, TileType.wall, out tile);
+                if (!foundTile)
+                {
+                    foundTile = Manager.multiMap.GetTileTypeAt(position, TileType.ground, out tile);
+                    itemTile.tileType = TileType.ground;
+                }
+            }
+            else
+            {
+                foundTile = Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out tile);
+            }
+
+
+            if (foundTile)
             {
                 if (tile.tileset == itemTile.tileset) return true;
                 ObjectID objectID = PugDatabase.GetObjectID(tile.tileset, tile.tileType, pc.pugDatabase);
@@ -798,7 +912,7 @@ namespace PlacementPlus
 
                     float value = Mathf.PerlinNoise(x, y);
                     float threshold = roofingMode == RoofingToolMode.RANDOM_60_P ? 0.4f : 0.3f;
-                    
+
                     return value > threshold;
                 }
             }

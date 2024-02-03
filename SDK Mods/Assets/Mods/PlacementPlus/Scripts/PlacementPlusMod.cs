@@ -6,6 +6,7 @@ using CoreLib.RewiredExtension;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
 using PugMod;
+using PugTilemap;
 using Rewired;
 using Unity.Collections;
 using Unity.Entities;
@@ -19,7 +20,7 @@ namespace PlacementPlus
     public class PlacementPlusMod : IMod
     {
         public const string MODNAME = "Placement Plus";
-        public const string VERSION = "1.7.2";
+        public const string VERSION = "1.7.5";
 
         public static Logger Log = new Logger(MODNAME);
         public static ConfigFile Config;
@@ -230,6 +231,11 @@ namespace PlacementPlus
             if (player == null) return;
             
             if (rwPlayer == null) return;
+            
+            if (Manager.ui.isAnyInventoryShowing) return;
+            if (Manager.ui.instrumentUI.isShowing) return;
+            if (Manager.menu.IsAnyMenuActive()) return;
+            if (!Manager.input.singleplayerInputModule.InputEnabled) return;
 
             if (rwPlayer.GetButtonDown(CHANGE_ORIENTATION))
             {
@@ -240,21 +246,8 @@ namespace PlacementPlus
 
             if (rwPlayer.GetButtonDown(CHANGE_TOOL_MODE))
             {
-                InventoryHandler inventory = player.playerInventoryHandler;
-                if (inventory == null) return;
-
-                ObjectDataCD item = inventory.GetObjectData(player.equippedSlotIndex);
-                var objectInfo = PugDatabase.GetObjectInfo(item.objectID, item.variation);
-
-                if (PugDatabase.HasComponent<PaintToolCD>(item))
-                {
-                    CyclePaintBrush(item, backwards, inventory, player);
-                }
-                else if (objectInfo != null && 
-                         objectInfo.objectType == ObjectType.RoofingTool)
-                {
-                    BrushExtension.ToggleRoofingMode(backwards);
-                }
+                ToggleToolMode(player, backwards);
+                return;
             }
 
             if (rwPlayer.GetButtonDown(INCREASE_SIZE))
@@ -290,6 +283,30 @@ namespace PlacementPlus
             }
 
             BrushExtension.replaceTiles = rwPlayer.GetButton(REPLACE_BUTTON);
+        }
+
+        private void ToggleToolMode(PlayerController player, bool backwards)
+        {
+            InventoryHandler inventory = player.playerInventoryHandler;
+            if (inventory == null) return;
+
+            ObjectDataCD item = inventory.GetObjectData(player.equippedSlotIndex);
+            var objectInfo = PugDatabase.GetObjectInfo(item.objectID, item.variation);
+
+            if (PugDatabase.HasComponent<PaintToolCD>(item))
+            {
+                CyclePaintBrush(item, backwards, inventory, player);
+            }
+            else if (objectInfo != null &&
+                     objectInfo.objectType == ObjectType.RoofingTool)
+            {
+                BrushExtension.ToggleRoofingMode(backwards);
+            }else if (objectInfo.tileType == TileType.wall)
+            {
+                BrushExtension.ToggleBlockMode(backwards);
+            }
+
+
         }
 
         private void CyclePaintBrush(ObjectDataCD item, bool shift, InventoryHandler inventory, PlayerController player)

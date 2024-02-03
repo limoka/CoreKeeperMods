@@ -17,7 +17,8 @@
         "Unity.Transforms",
         "PugMod.SDK",
         "CoreLib",
-        "CoreLib.RewiredExtension"
+        "CoreLib.RewiredExtension",
+        "Unity.Physics.Custom"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
