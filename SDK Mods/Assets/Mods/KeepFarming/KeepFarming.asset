@@ -47,11 +47,11 @@ MonoBehaviour:
     - path: Scripts/Scripts/Components/GoldenSeedAuthoring.cs
     - path: Scripts/Scripts/Components/DropsGoldenSeedAuthoring.cs
     - path: Scripts/Scripts/Components/CopiedPrefabAuthoring.cs
-    - path: Scripts/Generated/AdditionalDropSystem__System_14151333990.g.cs
-    - path: Scripts/Generated/GoldenSeedDropSystem__System_2664295320.g.cs
-    - path: Scripts/Generated/MigrationSystem__System_11311103030.g.cs
-    - path: Scripts/Generated/ModConditionsSystem__System_13039054490.g.cs
-    - path: Scripts/Generated/SeedExtractorSystem__System_11578584340.g.cs
+    - path: Scripts/Generated/AdditionalDropSystem__System_2453087690.g.cs
+    - path: Scripts/Generated/GoldenSeedDropSystem__System_6504373280.g.cs
+    - path: Scripts/Generated/MigrationSystem__System_10921447250.g.cs
+    - path: Scripts/Generated/ModConditionsSystem__System_9420457030.g.cs
+    - path: Scripts/Generated/SeedExtractorSystem__System_19768682500.g.cs
     - path: Libraries/KeepFarming.Access.dll
     - path: Bundles/KeepFarming_Windows.assetbundle
     - path: Bundles/KeepFarming_Linux.assetbundle
@@ -63,7 +63,7 @@ MonoBehaviour:
     - modName: CoreLib.Entity
       required: 1
   modPath: Assets\Mods\KeepFarming
-  forceReimport: 1
+  forceReimport: 0
   buildBundles: 1
   buildLinux: 1
   buildBurst: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
   - path: Assets/Mods/KeepFarming/Animation.zip
     hash: AE00A2A3BBD082D0348F4DF89C8C0CCAED300C36D45E4894F11A252B24A5A23A
   - path: Assets/Mods/KeepFarming/KeepFarming.asset
-    hash: 2329398BE1FE42A5607EA60900420A654E54EAC77E1C29DD4E400DCBCD69BA77
+    hash: 75988663D01D2A4F275C69CC448F8F76977036C7D6551611A09D87F0F6F12755
   - path: Assets/Mods/KeepFarming/KeepFarming_modio.asset
     hash: C42DBDD8988FE6E8214DDE8E1772D3310F164F4FCD6D89E21668343756A2FF72
   - path: Assets/Mods/KeepFarming/Localization/Localization.csv

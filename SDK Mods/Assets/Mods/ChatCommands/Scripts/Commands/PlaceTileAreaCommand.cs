@@ -20,13 +20,13 @@ namespace ChatCommands.Chat.Commands
 
             if (parameters.Length < 5) return new CommandOutput("Not enough parameters, please check usage via /help placeTileArea!", CommandStatus.Error);
 
-            var translation = API.Server.World.EntityManager.GetComponentData<Translation>(player);
+            var translation = API.Server.World.EntityManager.GetComponentData<LocalTransform>(player);
             
-            int2 startPos = CommandUtil.ParsePos(parameters, parameters.Length - 3, translation.Value, out var commandOutput);
+            int2 startPos = CommandUtil.ParsePos(parameters, parameters.Length - 3, translation.Position, out var commandOutput);
             if (commandOutput != null)
                 return commandOutput.Value.AppendAtStart("Start pos");
 
-            int2 endPos = CommandUtil.ParsePos(parameters, parameters.Length - 1, translation.Value, out var commandOutput1);
+            int2 endPos = CommandUtil.ParsePos(parameters, parameters.Length - 1, translation.Position, out var commandOutput1);
             if (commandOutput1 != null)
                 return commandOutput1.Value.AppendAtStart("End pos");
 

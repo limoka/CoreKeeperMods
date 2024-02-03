@@ -102,7 +102,7 @@ namespace ChatCommands.Chat.Commands
             EntityManager entityManager = API.Server.World.EntityManager;
             var database = entityManager.GetDatabase();
             ref PugDatabase.EntityObjectInfo objectInfo = ref PugDatabase.GetEntityObjectInfo(objId, database, variation);
-            float3 position = entityManager.GetComponentData<Translation>(playerEntity).Value;
+            float3 position = entityManager.GetComponentData<LocalTransform>(playerEntity).Position;
 
             if (objectInfo.isStackable)
             {

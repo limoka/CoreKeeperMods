@@ -33,7 +33,7 @@ namespace KeepFarming
             
             Entities.ForEach((Entity entity,
                     in ObjectDataCD objectData,
-                    in Translation translation,
+                    in LocalTransform transform,
                     in DynamicBuffer<DropsLootBuffer> dropsLootBuffer,
                     in GrowingCD growingCd) =>
                 {
@@ -45,7 +45,7 @@ namespace KeepFarming
                         : default;
 
                     float3 localCenter = PugDatabase.GetEntityLocalCenter(objectData.objectID, databaseLocal, objectData.variation);
-                    float3 center = translation.Value + localCenter;
+                    float3 center = transform.Position + localCenter;
 
                     for (int i = 0; i < dropsLootBuffer.Length; i++)
                     {

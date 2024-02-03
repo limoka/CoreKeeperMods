@@ -36,12 +36,12 @@ namespace KeepFarming
             Entities.ForEach((
                     Entity entity, 
                     ref ObjectDataCD objectData,
-                    in Translation translation,
+                    in LocalTransform transform,
                     in GrowingCD growingCd) =>
                 {
                     if (objectData.variation == 4)
                     {
-                        EntityUtility.CreateEntity(ecb, translation.Value, objectData.objectID, 1, databaseLocal, out Entity newEntity, 2);
+                        EntityUtility.CreateEntity(ecb, transform.Position, objectData.objectID, 1, databaseLocal, out Entity newEntity, 2);
                         ecb.SetComponent(newEntity, growingCd);
                         ecb.DestroyEntity(entity);
                         
@@ -60,12 +60,12 @@ namespace KeepFarming
             Entities.ForEach((
                     Entity entity,
                     ref ObjectDataCD objectData,
-                    in Translation translation,
+                    in LocalTransform transform,
                     in GrowingCD growingCd) =>
                 {
                     if (objectData.variation == 2)
                     {
-                        EntityUtility.CreateEntity(ecb, translation.Value, objectData.objectID, 1, databaseLocal, out Entity newEntity, 1);
+                        EntityUtility.CreateEntity(ecb, transform.Position, objectData.objectID, 1, databaseLocal, out Entity newEntity, 1);
                         ecb.SetComponent(newEntity, growingCd);
                         ecb.DestroyEntity(entity);
                         

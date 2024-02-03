@@ -23,7 +23,10 @@ MonoBehaviour:
     files: []
     dependencies: []
   modPath: Assets\Mods\MovableSpawners
-  forceReimport: 1
+  forceReimport: 0
   buildBundles: 1
   buildLinux: 1
   buildBurst: 1
+  cachedBuild: 0
+  assets: []
+  lastBuildLinux: 0

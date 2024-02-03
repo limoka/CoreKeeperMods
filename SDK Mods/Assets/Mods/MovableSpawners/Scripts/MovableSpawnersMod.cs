@@ -117,9 +117,16 @@ namespace MovableSpawners
 
             entitymanager.AddComponentData(entity, new HealthRegenerationCD()
             {
-                normHealthPerFifthSecond = 1
+                normHealthPerFifthSecond = 1,
+                startHealDelay = 5
             });
 
+            if (entitymanager.HasComponent<AllowHealthRegenerationInCombatCD>(entity))
+            {
+                entitymanager.RemoveComponent<AllowHealthRegenerationInCombatCD>(entity);
+            }
+            
+            entitymanager.AddComponent<IsInCombatCD>(entity);
             entitymanager.AddComponent<AnimationCD>(entity);
             entitymanager.AddComponent<StateInfoCD>(entity);
             entitymanager.AddComponent<IdleStateCD>(entity);

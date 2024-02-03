@@ -12,19 +12,25 @@ namespace MovableSpawners.Patches
         [HarmonyPrefix]
         public static void OnInit(MemoryManager __instance)
         {
-            if (__instance.poolablePrefabBank == null)
+            if (__instance.poolablePrefabBanks == null)
             {
                 return;
             }
-            foreach (var pool in __instance.poolablePrefabBank.poolInitializers)
+
+            foreach (PoolablePrefabBank bank in __instance.poolablePrefabBanks)
             {
-                var summonArea = pool.prefab.gameObject.GetComponent<SummonArea>();
-                if (summonArea == null) continue;
+                if (bank is not PooledGraphicalObjectBank graphicalObjectBank) continue;
                 
-                var animator = summonArea.GetComponent<Animator>();
-                var animatorController = MovableSpawnersMod.AssetBundle.LoadAsset<RuntimeAnimatorController>(ControllerPath);
-                animator.runtimeAnimatorController = animatorController;
-                break;
+                foreach (var pool in graphicalObjectBank.poolInitializers)
+                {
+                    var summonArea = pool.prefab.gameObject.GetComponent<SummonArea>();
+                    if (summonArea == null) continue;
+
+                    var animator = summonArea.GetComponent<Animator>();
+                    var animatorController = MovableSpawnersMod.AssetBundle.LoadAsset<RuntimeAnimatorController>(ControllerPath);
+                    animator.runtimeAnimatorController = animatorController;
+                    break;
+                }
             }
         }
     }

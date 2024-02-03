@@ -30,9 +30,9 @@ namespace ChatCommands.Chat.Commands
                 nameArgCount--;
             }
 
-            var translation = API.Server.World.EntityManager.GetComponentData<Translation>(player);
+            var transform = API.Server.World.EntityManager.GetComponentData<LocalTransform>(player);
             
-            int2 pos = CommandUtil.ParsePos(parameters, nameArgCount - 1, translation.Value, out var commandOutput1);
+            int2 pos = CommandUtil.ParsePos(parameters, nameArgCount - 1, transform.Position, out var commandOutput1);
             if (commandOutput1 != null)
                 return commandOutput1.Value;
 

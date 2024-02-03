@@ -21,9 +21,9 @@ namespace ChatCommands.Chat.Commands
 
             if (parameters.Length < 3) return new CommandOutput("Not enough parameters, please check usage via /help placeTile!", CommandStatus.Error);
 
-            var translation = API.Server.World.EntityManager.GetComponentData<Translation>(player);
+            var translation = API.Server.World.EntityManager.GetComponentData<LocalTransform>(player);
             
-            int2 pos = CommandUtil.ParsePos(parameters, parameters.Length - 1, translation.Value, out var commandOutput);
+            int2 pos = CommandUtil.ParsePos(parameters, parameters.Length - 1, translation.Position, out var commandOutput);
             if (commandOutput != null)
                 return commandOutput.Value;
 

@@ -14,25 +14,25 @@ namespace MovableSpawners
 
         protected override void OnUpdate()
         {
-            NativeList<Translation> bosses = new NativeList<Translation>(Allocator.TempJob);
+            NativeList<LocalTransform> bosses = new NativeList<LocalTransform>(Allocator.TempJob);
             var ecb = CreateCommandBuffer();
             float triggerDistance = bossTriggerDistance;
 
-            Entities.ForEach((in Translation translation) =>
+            Entities.ForEach((in LocalTransform transform) =>
             {
-                bosses.Add(translation);
+                bosses.Add(transform);
             })
                 .WithAll<BossCD>()
                 .WithNone<EntityDestroyedCD>()
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Schedule();
 
-            Entities.ForEach((Entity entity, ref SummonAreaIndestructibleStateCD state, in Translation spawner) =>
+            Entities.ForEach((Entity entity, ref SummonAreaIndestructibleStateCD state, in LocalTransform spawner) =>
                 {
                     bool near = false;
-                    foreach (Translation boss in bosses)
+                    foreach (LocalTransform boss in bosses)
                     {
-                        near |= math.distance(spawner.Value, boss.Value) < triggerDistance;
+                        near |= math.distance(spawner.Position, boss.Position) < triggerDistance;
                         if (near) break;
                     }
 

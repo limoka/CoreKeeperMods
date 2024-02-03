@@ -24,7 +24,7 @@ namespace ChatCommands.Chat.Commands
             if (Enum.TryParse(parameters[0], out ObjectID target))
             {
                 EntityManager entityManager = API.Server.World.EntityManager;
-                EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<ObjectDataCD>(), ComponentType.ReadOnly<Translation>());
+                EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<ObjectDataCD>(), ComponentType.ReadOnly<LocalTransform>());
 
                 var array = query.ToEntityArray(Allocator.Temp);
                 var matches = new List<Entity>();
@@ -40,15 +40,15 @@ namespace ChatCommands.Chat.Commands
                 if (parameters.Length > 1 && parameters.Contains("all"))
                 {
                     foreach (Entity entity in matches) DestroyEntity(entity);
+                    return "Destroyed entities successfully!";
                 }
-                else
-                {
-                    var sorted = matches
-                        .OrderBy(entity => { return math.length(entityManager.GetComponentData<Translation>(entity).Value - player.WorldPosition.ToFloat3()); })
-                        .ToList();
 
-                    DestroyEntity(sorted.First());
-                }
+                var sorted = matches
+                    .OrderBy(entity => { return math.length(entityManager.GetComponentData<LocalTransform>(entity).Position - player.WorldPosition.ToFloat3()); })
+                    .ToList();
+
+                DestroyEntity(sorted.First());
+                return "Destroyed entity successfully!";
             }
 
             return new CommandOutput($"No such object {parameters[0]}", CommandStatus.Error);

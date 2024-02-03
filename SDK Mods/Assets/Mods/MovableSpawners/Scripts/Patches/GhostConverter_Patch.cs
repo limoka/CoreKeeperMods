@@ -13,7 +13,7 @@ namespace MovableSpawners.Patches
     public static class GhostConverter_Patch
     {
 
-        [HarmonyPatch("PugConversion.GhostConverter", nameof(PugPostConverter.PostConvert))]
+        [HarmonyPatch("PugConversion.GhostPostConverter", nameof(PugPostConverter.PostConvert))]
         [HarmonyPrefix]
         public static void OnPostConvert(PugPostConverter __instance, GameObject authoring)
         {

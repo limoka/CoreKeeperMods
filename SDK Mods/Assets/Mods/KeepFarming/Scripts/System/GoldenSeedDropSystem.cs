@@ -29,7 +29,7 @@ namespace KeepFarming
             Entities.ForEach((
                     Entity entity,
                     in ObjectDataCD objectData,
-                    in Translation translation,
+                    in LocalTransform transform,
                     in DropsGoldenSeedCD dropsGoldenSeed,
                     in EntityDestroyedCD entityDestroyed) =>
                 {
@@ -47,7 +47,7 @@ namespace KeepFarming
                     KilledByPlayer killedByPlayer = SystemAPI.HasComponent<KilledByPlayer>(entity) ? SystemAPI.GetComponent<KilledByPlayer>(entity) : default;
 
                     float3 entityLocalCenter = PugDatabase.GetEntityLocalCenter(objectData.objectID, databaseLocal, objectData.variation);
-                    float3 entityCenter = translation.Value + entityLocalCenter;
+                    float3 entityCenter = transform.Position + entityLocalCenter;
                     float3 dropPosition = entityCenter + new float3(random.NextFloat(-0.3f, 0.3f), 0f, random.NextFloat(-0.3f, 0.3f));
 
                     float chance = dropsGoldenSeed.chance;
@@ -93,7 +93,7 @@ namespace KeepFarming
                     }
                 })
                 .WithAll<ObjectDataCD>()
-                .WithAll<Translation>()
+                .WithAll<LocalTransform>()
                 .WithAll<EntityDestroyedCD>()
                 .WithAll<DropsGoldenSeedCD>()
                 .WithNone<PlayerGhost>()
