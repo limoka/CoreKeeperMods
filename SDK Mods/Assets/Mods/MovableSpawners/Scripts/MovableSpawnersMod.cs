@@ -1,16 +1,20 @@
 ﻿using System.Linq;
+using CoreLib.Util.Extensions;
+using MovableSpawners.Patches;
 using PugMod;
 using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
+using Logger = CoreLib.Util.Logger;
 
 namespace MovableSpawners
 {
     public class MovableSpawnersMod : IMod
     {
+        internal static Logger Log = new Logger(NAME);
         internal const string Textures = "Assets/Mods/MovableSpawners/Textures/";
         
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.6";
         public const string NAME = "Movable Spawners";
         private static LoadedMod modInfo;
 
@@ -18,62 +22,25 @@ namespace MovableSpawners
 
         public void EarlyInit()
         {
-            Debug.Log($"[{NAME}]: Mod version: {VERSION}");
-            modInfo = GetModInfo(this);
+            Log.LogInfo($"Mod version: {VERSION}");
+            modInfo = this.GetModInfo();
             if (modInfo == null)
             {
-                Debug.Log($"[{NAME}]: Failed to load {NAME}: mod metadata not found!");
+                Log.LogError($"Failed to load {NAME}: mod metadata not found!");
                 return;
             }
 
             if (modInfo.AssetBundles.Count == 0)
             {
-                Debug.Log($"[{NAME}]: Failed to load {NAME}: Asset bundle missing!");
+                Log.LogError($"Failed to load {NAME}: Asset bundle missing!");
                 return;
             }
 
             API.Authoring.OnObjectTypeAdded += EditSpawners;
+            
+            modInfo.TryLoadBurstAssembly();
 
-            var platform = GetPlatformString();
-            if (platform != null)
-            {
-                string directory = API.ModLoader.GetDirectory(modInfo.ModId);
-                string ID = NAME.Replace(" ", "");
-                string fileExtension = GetPlatformExtension(platform);
-                bool success = BurstRuntime.LoadAdditionalLibrary($"{directory}/{ID}_burst_generated_{platform}.{fileExtension}");
-                if (!success)
-                    Debug.LogWarning($"[{NAME}]: Failed to load burst assembly");
-            }
-            Debug.Log($"[{NAME}]: Mod loaded successfully");
-        }
-
-        public static string GetPlatformString()
-        {
-            switch (Application.platform)
-            {
-                case RuntimePlatform.WindowsPlayer:
-                case RuntimePlatform.WindowsServer:
-                    return "Windows";
-                case RuntimePlatform.LinuxPlayer:
-                case RuntimePlatform.LinuxServer:
-                    return "Linux";
-            }
-
-            return null;
-        }
-
-        public static string GetPlatformExtension(string platform)
-        {
-            if (platform == "Windows")
-                return "dll";
-            if (platform == "Linux")
-                return "so";
-            return "";
-        }
-        
-        public static LoadedMod GetModInfo(IMod mod)
-        {
-            return API.ModLoader.LoadedMods.FirstOrDefault(modInfo => modInfo.Handlers.Contains(mod));
+            Log.LogInfo($"Mod loaded successfully");
         }
 
         private void EditSpawners(Entity entity, GameObject authoringdata, EntityManager entitymanager)
@@ -82,7 +49,7 @@ namespace MovableSpawners
             if (entityData == null ||
                 entityData.objectInfo.objectID != ObjectID.SummonArea) return;
             
-            Debug.Log($"[{NAME}]: Editing {entityData.objectInfo.objectID}, {entityData.objectInfo.variation}");
+            Log.LogInfo($"Editing {entityData.objectInfo.objectID}, {entityData.objectInfo.variation}");
             
             entityData.objectInfo.objectType = ObjectType.PlaceablePrefab;
             entityData.objectInfo.rarity = Rarity.Legendary;
@@ -97,13 +64,6 @@ namespace MovableSpawners
             entitymanager.RemoveComponent<IndestructibleCD>(entity);
             entitymanager.RemoveComponent<NonHittableCD>(entity);
             entitymanager.AddComponent<SummonAreaIndestructibleStateCD>(entity);
-
-            entitymanager.AddComponentData(entity, new PlaceableObjectCD()
-            {
-                canBePlacedOnPlayer = true,
-                canBePlacedOnAnyWalkableTile = true,
-                variationToPlace = entityData.objectInfo.variation
-            });
 
             entitymanager.AddComponent<MineableCD>(entity);
             if (entitymanager.HasComponent<AlwaysDropVariationZeroCD>(entity))

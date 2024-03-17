@@ -29,13 +29,14 @@ namespace PlacementPlus
             if (skipFrames > 0) return;
 
             var colorLookup = API.Client.World.GetOrCreateSystemManaged<TileTypeColorLookupSystem>().CreateLookupHelper();
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
 
             foreach (BrushRect brushRect in mapUpdateRects)
             {
                 foreach (Vector3Int pos in brushRect)
                 {
                     var localPos = EntityMonoBehaviour.ToRenderFromWorld(pos);
-                    var surfaceTile = Manager.multiMap.GetSurfaceTileAt(localPos.ToInt2());
+                    var surfaceTile = tileLookup.GetTopTile(localPos.ToInt2());
                     Color color = colorLookup.GetColorByTileType(surfaceTile.tileset, surfaceTile.tileType);
                     __instance.SetColorOverridesThisUpdate(pos, color);
                 }

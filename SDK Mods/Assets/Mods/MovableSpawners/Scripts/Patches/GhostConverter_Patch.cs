@@ -1,9 +1,6 @@
-﻿using HarmonyLib;
-using MovableSpawners.Util;
-using NaughtyAttributes.Test;
+﻿using CoreLib.Util.Extensions;
+using HarmonyLib;
 using PugConversion;
-using PugMod;
-using Unity.Collections;
 using Unity.Entities;
 using UnityEngine;
 
@@ -31,7 +28,7 @@ namespace MovableSpawners.Patches
             health.maxHealthMultiplier = 1;
 
             var entitymanager = __instance.GetValue<EntityManager>("EntityManager");
-            var entity =  __instance.Invoke<Entity>("GetEntity", authoring);
+            var entity =  __instance.Invoke<Entity>("GetEntity", new object[]{authoring});
             
             entitymanager.AddComponentData(entity, new HealthCD()
             {

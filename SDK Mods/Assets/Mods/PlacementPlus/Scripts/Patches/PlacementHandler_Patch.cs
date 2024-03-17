@@ -57,8 +57,9 @@ namespace PlacementPlus
         {
             TileCD itemTileCD = PugDatabase.GetComponent<TileCD>(item);
             Vector3Int initialPos = __instance.bestPositionToPlaceAt;
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
 
-            if (Manager.multiMap.GetTileTypeAt(initialPos.ToInt2(), itemTileCD.tileType, out TileInfo tile))
+            if (tileLookup.TryGetTileInfo(initialPos.ToInt2(), itemTileCD.tileType, out TileInfo tile))
             {
                 if (tile.tileset != itemTileCD.tileset)
                 {

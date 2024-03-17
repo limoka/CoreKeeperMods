@@ -21,17 +21,18 @@ namespace ChatCommands.Chat.Commands
             if (commandOutput != null)
                 return commandOutput.Value;
 
-            SinglePugMap pugMap = Manager.multiMap;
-            var tileInfos = pugMap.GetTileTypesAt(pos, Allocator.Temp);
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
+            
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append($"Tile at {pos} contains:");
-
-            for (int i = 0; i < tileInfos.Length; i++)
+            bool needComma = false;
+            
+            foreach (TileInfo tileInfo in tileLookup.GetTiles(pos))
             {
-                TileInfo tileInfo = tileInfos[i];
-                if (i > 0)
+                if (needComma)
                     stringBuilder.Append(", ");
                 stringBuilder.Append($"{tileInfo.tileset.ToString()} {tileInfo.tileType.ToString()}");
+                needComma = true;
             }
 
             return stringBuilder.ToString();

@@ -20,13 +20,48 @@ MonoBehaviour:
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 3
-    files: []
-    dependencies: []
+    files:
+    - path: Localization/Localization.csv
+    - path: Scripts/Scripts/SummonAreaIndestructibleSystem.cs
+    - path: Scripts/Scripts/SummonAreaIndestructibleStateCD.cs
+    - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
+    - path: Scripts/Scripts/Patches/MemoryManager_Patch.cs
+    - path: Scripts/Scripts/Patches/GhostConverter_Patch.cs
+    - path: Scripts/Scripts/Patches/ColorReplacer_Patch.cs
+    - path: Scripts/Scripts/MovableSpawnersMod.cs
+    - path: Scripts/Scripts/EditPugConverter.cs
+    - path: Bundles/MovableSpawners_Windows.assetbundle
+    - path: Bundles/MovableSpawners_Linux.assetbundle
+    dependencies:
+    - modName: CoreLib
+      required: 1
   modPath: Assets\Mods\MovableSpawners
   forceReimport: 0
   buildBundles: 1
   buildLinux: 1
   buildBurst: 1
   cachedBuild: 0
-  assets: []
-  lastBuildLinux: 0
+  assets:
+  - path: Assets/Mods/MovableSpawners/Animation/ModSummonArea.controller
+    hash: D590F5C571A989521974D29AC7C7B2CEE01D009EA058D3C2E667248A6AFEFEDE
+  - path: Assets/Mods/MovableSpawners/Animation/objectDestroyed.anim
+    hash: 94C24D2E17EC9604CB34FC1E4037EA061A8AE7CA8FC8B94A0B3C85EA2326B1F2
+  - path: Assets/Mods/MovableSpawners/Animation/objectTakeDamage.anim
+    hash: 69AEDA2283CB27765F8634B0EFD78E78547FED35B92253790A6ADC0D09308A83
+  - path: Assets/Mods/MovableSpawners/Animation/objectVisable.anim
+    hash: 975CC112352CE53A70444ADF5DDC5AC29E95E07CA96AA46549322F8FD01AAB0B
+  - path: Assets/Mods/MovableSpawners/Animation/SummonAreaGlow.anim
+    hash: 4B91A194D7F6B70640032836B9A73322C24B3429D4E24861C17185CD49ABD269
+  - path: Assets/Mods/MovableSpawners/Animation/SummonAreaIdle.anim
+    hash: 642448BC5D03B32AA694014F2AD8B9114F6BC1D0DA7462D152DAF64EA6EDC12F
+  - path: Assets/Mods/MovableSpawners/Localization/Localization.csv
+    hash: 9912D1E280B740DC506BA52194CC71A1680201C6489BC18C24B5A7FB515E8530
+  - path: Assets/Mods/MovableSpawners/MovableSpawners.asset
+    hash: 0C3F6A79B4E1B2918D70A1B503799989A19B770C3678C23C893542EC832AF303
+  - path: Assets/Mods/MovableSpawners/MovableSpawners_modio.asset
+    hash: CB6779F49BADCF35DB199716925F534B8E5D81065F9271F4C6B64788751EE9F3
+  - path: Assets/Mods/MovableSpawners/Textures/icon-big.png
+    hash: C5249CF04C40366416847F645D60AC978B434EA49929CFAB7459367A3C2CBBE7
+  - path: Assets/Mods/MovableSpawners/Textures/icon-small.png
+    hash: 42B86C351AEFB332EC4E195056DDCBAC8D3A59FC7698654EC9655DCA78ECC748
+  lastBuildLinux: 1

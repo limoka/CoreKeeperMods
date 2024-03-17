@@ -368,13 +368,15 @@ namespace PlacementPlus
 
             if (slot.placementHandler.CanPlaceObjectAtPosition_Public(pos, 1, 1) <= 0) return false;
             if (!pc.CanConsumeEntityInSlot(slot, consumeAmount + 1) && !pc.isGodMode) return false;
-
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
+            
+            
             int variation = -1;
 
             if (isTile)
             {
-                if (Manager.multiMap.GetTileTypeAt(position, targetTileType, out TileInfo _)) return false;
-                if (targetTileType == TileType.wall && !Manager.multiMap.GetTileTypeAt(position, TileType.ground, out TileInfo _)) return false;
+                if (tileLookup.HasTile(position, targetTileType)) return false;
+                if (targetTileType == TileType.wall && !tileLookup.HasTile(position, TileType.ground)) return false;
                 
                 pc.pugMapSystem.RemoveTileOverride(position, TileType.debris);
                 pc.pugMapSystem.RemoveTileOverride(position, TileType.debris2);
@@ -416,12 +418,14 @@ namespace PlacementPlus
         {
             if (objectToPlaceInfo.tileType != TileType.wall)
                 return objectToPlaceInfo.tileType;
+            
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
 
             switch (blockMode)
             {
                 case BlockMode.TOGGLE:
-                    if (!Manager.multiMap.GetTileTypeAt(pos, TileType.ground, out TileInfo _) &&
-                        !Manager.multiMap.GetTileTypeAt(pos, TileType.bridge, out TileInfo _) &&
+                    if (!tileLookup.HasTile(pos, TileType.ground) &&
+                        !tileLookup.HasTile(pos, TileType.bridge) &&
                         PugDatabase.TryGetTileItemInfo(TileType.ground, objectToPlaceInfo.tileset) != null)
                     {
                         return TileType.ground;
@@ -472,6 +476,7 @@ namespace PlacementPlus
             int height = extents.height + 1;
 
             float effectChance = 5 / (float)(width * height);
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
 
             foreach (Vector3Int pos in extents.WithPos(initialPos))
             {
@@ -483,7 +488,7 @@ namespace PlacementPlus
                 }
                 else if (handler.entityToPaint != Entity.Null)
                 {
-                    TileInfo surfaceTile = Manager.multiMap.GetSurfaceTileAt(new int2(pos.x, pos.z));
+                    TileInfo surfaceTile = tileLookup.GetTopTile(new int2(pos.x, pos.z));
                     ObjectInfo tileItemInfo = PugDatabase.TryGetTileItemInfo(surfaceTile.tileType, surfaceTile.tileset);
                     if (tileItemInfo != null && PugDatabase.HasComponent<PaintableObjectCD>(tileItemInfo.objectID))
                     {
@@ -627,7 +632,7 @@ namespace PlacementPlus
         }
 
         internal static void DigUpAtPosition(ShovelSlot slot, Vector3Int position,
-            Dictionary<int2, TileData> tileLookup,
+            Dictionary<int2, TileData> damagedTileLookup,
             int diggingDamage)
         {
             PlayerController pc = slot.slotOwner;
@@ -639,9 +644,9 @@ namespace PlacementPlus
             int2 origo = multimap.Origo;
             int2 posWorldSpace = position.ToInt2() + origo;
 
-            if (tileLookup.ContainsKey(posWorldSpace))
+            if (damagedTileLookup.ContainsKey(posWorldSpace))
             {
-                TileData tileData = tileLookup[posWorldSpace];
+                TileData tileData = damagedTileLookup[posWorldSpace];
 
                 pc.GetTileDamageValues(
                     tileData.entity,
@@ -683,12 +688,12 @@ namespace PlacementPlus
                     tileData.entity);
                 return;
             }
-
-
-            int counts = multimap.tileLookup.CountValuesForKey(posWorldSpace);
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
+            
+            int counts = tileLookup.AllTiles.CountValuesForKey(posWorldSpace);
             if (counts == 0) return;
 
-            NativeParallelMultiHashMap<int2, TileInfo>.Enumerator results = multimap.tileLookup.GetValuesForKey(posWorldSpace);
+            NativeParallelMultiHashMap<int2, TileInfo>.Enumerator results = tileLookup.AllTiles.GetValuesForKey(posWorldSpace);
             TileInfo targetTile = default;
             bool found = false;
 
@@ -762,22 +767,23 @@ namespace PlacementPlus
             int pickaxeDamage = GetBestToolsSlots(pc, out int shovelSlot, out int pickaxeSlot);
 
             TileCD itemTile = PugDatabase.GetComponent<TileCD>(item);
-
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
+            
             TileInfo tile;
             bool foundTile;
 
             if (itemTile.tileType == TileType.wall)
             {
-                foundTile = Manager.multiMap.GetTileTypeAt(position, TileType.wall, out tile);
+                foundTile = tileLookup.TryGetTileInfo(position, TileType.wall, out tile);
                 if (!foundTile)
                 {
-                    foundTile = Manager.multiMap.GetTileTypeAt(position, TileType.ground, out tile);
+                    foundTile = tileLookup.TryGetTileInfo(position, TileType.ground, out tile);
                     itemTile.tileType = TileType.ground;
                 }
             }
             else
             {
-                foundTile = Manager.multiMap.GetTileTypeAt(position, itemTile.tileType, out tile);
+                foundTile = tileLookup.TryGetTileInfo(position, itemTile.tileType, out tile);
             }
 
 
@@ -924,11 +930,12 @@ namespace PlacementPlus
         {
             PlayerController pc = slot.slotOwner;
             int2 position = new int2(pos.x, pos.z);
+            var tileLookup = Manager.multiMap.GetTileLayerLookup();
 
             if (slot.placementHandler.CanPlaceObjectAtPosition_Public(pos, 1, 1) <= 0) return;
-            if (Manager.multiMap.GetSurfaceTileAt(position).tileType.IsWallTile()) return;
+            if (tileLookup.GetTopTile(position).tileType.IsWallTile()) return;
 
-            bool hasRoofTile = Manager.multiMap.GetTileTypeAt(position, TileType.roofHole, out TileInfo _);
+            bool hasRoofTile = tileLookup.HasTile(position, TileType.roofHole);
             if (roofingMode == RoofingToolMode.TOGGLE)
                 set = !hasRoofTile;
 
