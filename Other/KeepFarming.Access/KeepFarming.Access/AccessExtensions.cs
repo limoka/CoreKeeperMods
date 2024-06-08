@@ -44,7 +44,7 @@ public static class AccessExtensions
 
     public static EntityQuery GetMoverMoveAndPickupQuery_Public(this PugAutomationSystem __instance)
     {
-        return __instance.__query_1171083630_2;
+        return __instance.__query_1171083633_0;
     }
     
     public static JobHandle GetDependency_Public(this PugAutomationSystem __instance)

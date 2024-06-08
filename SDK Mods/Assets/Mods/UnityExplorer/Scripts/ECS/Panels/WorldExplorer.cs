@@ -96,13 +96,15 @@ namespace ECSExtension.Panels
         }
 
         private void PopulateWorldDropdown(World.NoAllocReadOnlyCollection<World> loadedScenes)
-
         {
+            var optionsBefore = sceneToDropdownOption.Count;
+            
             sceneToDropdownOption.Clear();
             sceneDropdown.options.Clear();
 
-            foreach (World world in loadedScenes)
+            for (int i = 0; i < loadedScenes.Count; i++)
             {
+                var world = loadedScenes[i];
                 if (sceneToDropdownOption.ContainsKey(world))
                     continue;
 
@@ -114,6 +116,15 @@ namespace ECSExtension.Panels
                 Dropdown.OptionData option = new Dropdown.OptionData(name);
                 sceneDropdown.options.Add(option);
                 sceneToDropdownOption.Add(world, option);
+            }
+
+            if (optionsBefore == 0 && sceneToDropdownOption.Count > 0)
+            {
+                sceneDropdown.captionText.text = sceneToDropdownOption.FirstOrDefault().Value.text;
+                if (World.All.Count > 0)
+                {
+                    SelectedWorld = World.All[0];
+                }
             }
         }
 
@@ -159,7 +170,10 @@ namespace ECSExtension.Panels
 
             //SceneHandler.Update();
             PopulateWorldDropdown(World.All);
-            sceneDropdown.captionText.text = sceneToDropdownOption.First().Value.text;
+            if (sceneToDropdownOption.Count > 0)
+            {
+                sceneDropdown.captionText.text = sceneToDropdownOption.FirstOrDefault().Value.text;
+            }
 
             // Filter row
             

@@ -1221,7 +1221,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1666125510, guid: af4d97e67ff87d84f98959cc789b5223, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1383,7 +1383,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -386972776, guid: 6a4baba32a3b11047b3c7b1ab122063e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1590,7 +1590,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -386972776, guid: 6a4baba32a3b11047b3c7b1ab122063e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3037,7 +3037,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1666125510, guid: af4d97e67ff87d84f98959cc789b5223, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -3121,7 +3121,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: -1666125510, guid: af4d97e67ff87d84f98959cc789b5223, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -3294,7 +3294,7 @@ MonoBehaviour:
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     sortingLayer: 0
-    orderInLayer: 3
+    orderInLayer: 4
     maskInteraction: 0
   styleOverrides: []
   freeResourcesOnDisable: 0
@@ -3370,7 +3370,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1666125510, guid: af4d97e67ff87d84f98959cc789b5223, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3597,7 +3597,7 @@ MonoBehaviour:
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
     sortingLayer: 0
-    orderInLayer: 3
+    orderInLayer: 4
     maskInteraction: 0
   styleOverrides: []
   freeResourcesOnDisable: 0

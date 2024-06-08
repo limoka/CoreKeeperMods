@@ -48,6 +48,8 @@ namespace ECSExtension.Panels
 
         public void UseQuery(ComponentType[] include, ComponentType[] exclude, bool includeDisabled)
         {
+            if (world == null) return;
+            
             query = world.EntityManager.CreateEntityQuery(new EntityQueryDesc()
             {
                 All = include,
@@ -118,7 +120,7 @@ namespace ECSExtension.Panels
         
         public void SetCell(EntityCell cell, int index)
         {
-            if (index < entities.Length)
+            if (entities != null && index < entities.Length)
             {
                 cell.ConfigureCell(entities.ElementAt(index), world.EntityManager);
             }

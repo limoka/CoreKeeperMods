@@ -25,17 +25,17 @@ namespace UnityExplorer.CacheObject.IValues
         public Type EntryType;
         public IList RefIList;
 
-        private bool IsWritableGenericIList;
-        private PropertyInfo genericIndexer;
+        protected bool IsWritableGenericIList;
+        protected PropertyInfo genericIndexer;
 
         public int ItemCount => cachedEntries.Count;
-        private readonly List<CacheListEntry> cachedEntries = new();
+        protected readonly List<CacheListEntry> cachedEntries = new();
 
         public ScrollPool<CacheListEntryCell> ListScrollPool { get; private set; }
 
         public Text TopLabel;
         private LayoutElement scrollLayout;
-        private Text NotSupportedLabel;
+        protected Text NotSupportedLabel;
 
         public override void OnBorrowed(CacheObjectBase owner)
         {
@@ -109,7 +109,7 @@ namespace UnityExplorer.CacheObject.IValues
             this.ListScrollPool.Refresh(true, false);
         }
 
-        private void CacheEntries(object value)
+        public virtual void CacheEntries(object value)
         {
             RefIList = value as IList;
 

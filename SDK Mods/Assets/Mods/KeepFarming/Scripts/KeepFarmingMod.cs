@@ -22,7 +22,7 @@ namespace KeepFarming
     [EntityModification]
     public class KeepFarmingMod : IMod
     {
-        public const string VERSION = "2.0.1";
+        public const string VERSION = "2.0.5";
         public const string NAME = "Keep Farming";
         private LoadedMod modInfo;
 
@@ -160,6 +160,12 @@ namespace KeepFarming
             if (gameObject == null)
             {
                 return;
+            }
+            
+            var entityMono = gameObject.GetComponent<EntityMonoBehaviour>();
+            if (entityMono != null)
+            {
+                EntityModule.EnablePooling(gameObject);
             }
 
             var seedExtractor = gameObject.GetComponent<SeedExtractor>();

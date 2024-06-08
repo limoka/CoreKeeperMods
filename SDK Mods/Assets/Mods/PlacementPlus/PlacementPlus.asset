@@ -40,8 +40,8 @@ MonoBehaviour:
     - path: Scripts/Scripts/Data/BlockMode.cs
     - path: Scripts/Scripts/BrushExtension.cs
     - path: Libraries/PlacementPlus.Access.dll
-    - path: Bundles/PlacementPlus_Linux.assetbundle
     - path: Bundles/PlacementPlus_Windows.assetbundle
+    - path: Bundles/PlacementPlus_Linux.assetbundle
     dependencies:
     - modName: CoreLib
       required: 1
@@ -57,7 +57,7 @@ MonoBehaviour:
   - path: Assets/Mods/PlacementPlus/Localization/Localization.csv
     hash: A79CE4BF333ECF825F413550BDC90BECE513BC838688D5E185FC57CB1B45259E
   - path: Assets/Mods/PlacementPlus/PlacementPlus.asset
-    hash: 533DAA374989A9A4A0D4D8EAB789A609D4350E7C1CF8CD6AFF84595820DF1C61
+    hash: 64CBFC070268524362D20677BC5D9B140D5D7FB68AD5B7577A1280460B871F73
   - path: Assets/Mods/PlacementPlus/PlacementPlus_modio.asset
     hash: A128470398E45D199BC8F51C4121614407A547D6A264DE9A21BD5E57DC90B8C6
   - path: Assets/Mods/PlacementPlus/todo.txt

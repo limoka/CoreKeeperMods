@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Mods.UnityExplorer.Scripts.Loader.CoreKeeper;
+using Unity.Collections;
 using UnityEngine;
 using UnityExplorer.CacheObject.IValues;
 using UnityExplorer.CacheObject.Views;
@@ -21,6 +23,7 @@ namespace UnityExplorer.CacheObject
         String,
         Enum,
         Collection,
+        ECSCollection,
         Dictionary,
         ValueStruct,
         Color,
@@ -189,8 +192,14 @@ namespace UnityExplorer.CacheObject
             else if (ReflectionUtility.IsDictionary(type))
                 return ValueState.Dictionary;
             else if (!typeof(Transform).IsAssignableFrom(type) && ReflectionUtility.IsEnumerable(type))
+            {
+                if (type.GetInterfaces().Any(it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(INativeList<>)))
+                {
+                    return ValueState.ECSCollection;
+                }
+                
                 return ValueState.Collection;
-            else
+            }else
                 return ValueState.Unsupported;
         }
 
@@ -223,6 +232,20 @@ namespace UnityExplorer.CacheObject
                         return $"\"{ToStringUtility.PruneString(Value as string, 200, 5)}\"";
                     break;
 
+                //Handle ECS collections
+                case ValueState.ECSCollection:
+                    if (!valueIsNull)
+                    {
+                        var entryType = Value.GetType().GenericTypeArguments.FirstOrDefault();
+
+                        var genericMethod = typeof(CacheObjectBase)
+                            .GetMethod(nameof(GetINativeListLength))
+                            .MakeGenericMethod(entryType);
+
+                        var length = (int)genericMethod.Invoke(this, new[] { Value });
+                        label = $"[{length}] ";
+                    }
+                    break;
                 // try to prefix the count of the collection for lists and dicts
                 case ValueState.Collection:
                     if (!valueIsNull)
@@ -250,6 +273,11 @@ namespace UnityExplorer.CacheObject
             // Cases which dont return will append to ToStringWithType
 
             return label += ToStringUtility.ToStringWithType(Value, FallbackType, true);
+        }
+
+        public int GetINativeListLength<T>(INativeList<T> list) where T : unmanaged
+        {
+            return list.Length;
         }
 
         // Setting cell state from our model
@@ -314,6 +342,7 @@ namespace UnityExplorer.CacheObject
                     else
                         SetValueState(cell, new(true, inspectActive: true, subContentButtonActive: true));
                     break;
+                case ValueState.ECSCollection:
                 case ValueState.Collection:
                 case ValueState.Dictionary:
                     SetValueState(cell, new(true, inspectActive: !valueIsNull, subContentButtonActive: !valueIsNull));

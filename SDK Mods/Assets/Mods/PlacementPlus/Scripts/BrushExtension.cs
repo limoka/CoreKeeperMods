@@ -562,7 +562,7 @@ namespace PlacementPlus
                 {
                     if (slot.slotOwner.world.EntityManager.Exists(info.diggableEntity))
                     {
-                        if (EntityUtility.HasComponentData(info.diggableEntity, slot.slotOwner.world, ComponentType.ReadOnly<DestructibleObjectCD>()))
+                        if (EntityUtility.HasComponentData<DestructibleObjectCD>(info.diggableEntity, slot.slotOwner.world))
                         {
                             pc.playerCommandSystem.DropDestructible(info.diggableEntity, pc.entity);
                         }
@@ -775,7 +775,7 @@ namespace PlacementPlus
             if (itemTile.tileType == TileType.wall)
             {
                 foundTile = tileLookup.TryGetTileInfo(position, TileType.wall, out tile);
-                if (!foundTile)
+                if (!foundTile && PugDatabase.TryGetTileItemInfo(TileType.ground, itemTile.tileset) != null)
                 {
                     foundTile = tileLookup.TryGetTileInfo(position, TileType.ground, out tile);
                     itemTile.tileType = TileType.ground;
