@@ -1,0 +1,15 @@
+﻿!title Test Book
+!description An amazing book. Please read!
+!background wood
+!page
+
+This test book will contain useful knowledge
+
+!page 
+
+You can turn the pages like so!
+
+!page
+!image middle Assets/Mods/BookMod/Images/IntroSlide2.png
+
+this is the last page.

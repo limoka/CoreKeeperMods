@@ -33,6 +33,7 @@ GameObject:
   - component: {fileID: 6467545257263412825}
   - component: {fileID: 3408452410834206746}
   - component: {fileID: 2975659086408752802}
+  - component: {fileID: 8707560192038489190}
   m_Layer: 0
   m_Name: DummyItem
   m_TagString: Untagged
@@ -91,7 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 244469479, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlyExistsInSeason: 0
   sellValue: -1
   buyValueMultiplier: 1
   icon: {fileID: -437053606, guid: 5241393df562e6c4092ff4ab808a6cad, type: 3}
@@ -466,6 +466,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
+  isMainStoryBoss: 0
 --- !u!114 &8432270837391878973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,5 +573,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e1a5c8d5db41cb8364186e3d693172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8707560192038489190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359265570381211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -9,7 +9,7 @@ using Unity.Mathematics;
 
 namespace KeepFarming
 {
-    [HarmonyPatch]
+    /*[HarmonyPatch]
     public class PugAutomationSystem_Patch
     {
         [HarmonyPatch(typeof(PugAutomationSystem), "mover_move_and_pickup_Execute")]
@@ -48,5 +48,5 @@ namespace KeepFarming
 
             return false; // Do not run original!
         }
-    }
+    }*/
 }

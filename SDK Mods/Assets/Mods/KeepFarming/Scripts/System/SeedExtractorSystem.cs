@@ -11,7 +11,7 @@ using Random = Unity.Mathematics.Random;
 
 namespace KeepFarming
 {
-    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
+    [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
     [UpdateInGroup(typeof(SimulationSystemGroup))]
     public partial class SeedExtractorSystem : PugSimulationSystemBase
     {
@@ -39,10 +39,11 @@ namespace KeepFarming
 
         protected override void OnUpdate()
         {
-            var databaseLocal = database;
-
             TryCreateSeedLookup();
             
+            if (!isServer) return;
+
+            var databaseLocal = database;
             var seedLookup = seedExtractorRecipes;
             PugTimerSystem.Timer timer = World.GetExistingSystemManaged<PugTimerSystem>().CreateTimer();
             EntityCommandBuffer ecb = CreateCommandBuffer();
@@ -75,7 +76,6 @@ namespace KeepFarming
                     if (canProcess && craftingCD.disable == 0 && pugTimerRef.entity == Entity.Null)
                     {
                         timer.StartTimer(ecb, entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
-                        Debug.Log("Starting Seed Extractor recipe timer!");
                     }
                 })
                 .WithName("SeedExtractorStart")

@@ -13,7 +13,7 @@ namespace DummyMod
     [EntityModification]
     public class TheDummyMod : IMod
     {
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.1";
         public const string MOD_ID = "DummyMod";
 
         internal static Logger Log = new Logger("Dummy Mod");
@@ -81,6 +81,12 @@ namespace DummyMod
         public void ModObjectLoaded(Object obj)
         {
             if (obj is not GameObject go) return;
+            
+            var entityMono = go.GetComponent<EntityMonoBehaviour>();
+            if (entityMono != null)
+            {
+                EntityModule.EnablePooling(go);
+            }
 
             UserInterfaceModule.RegisterModUI(go);
 

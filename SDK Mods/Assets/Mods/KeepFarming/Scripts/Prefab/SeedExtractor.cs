@@ -45,7 +45,8 @@ namespace Mods.KeepFarming.Scripts.Prefab
             if (!isActive) return;
             
             ObjectDataCD inputData = craftingHandler.inventoryHandler.GetObjectData(0);
-            if (!SeedExtractorSystem.seedExtractorRecipes.ContainsKey(inputData))
+            if (!SeedExtractorSystem.seedExtractorRecipes.IsCreated || 
+                !SeedExtractorSystem.seedExtractorRecipes.ContainsKey(inputData))
             {
                 mushColorReplacer.SetActiveColorReplacement(0);
                 return;

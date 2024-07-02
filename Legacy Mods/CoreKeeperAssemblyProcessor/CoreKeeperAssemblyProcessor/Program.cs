@@ -1,6 +1,8 @@
-﻿using Mono.Cecil;
+﻿using System.Reflection;
+using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Options;
+using MethodBody = Mono.Cecil.Cil.MethodBody;
 
 namespace AssemblyProcessor // Note: actual namespace depends on the project name.
 {
@@ -8,14 +10,59 @@ namespace AssemblyProcessor // Note: actual namespace depends on the project nam
     {
         private static bool help;
 
+        private static string[] authorMethods =
+        {
+            "EnsureHasComponent",
+            "EnsureHasComponent",
+            "AddComponentData",
+            "AddComponentData",
+            "AddSharedComponentData",
+            "AddSharedComponentData",
+            "EnsureHasBuffer",
+            "EnsureHasBuffer",
+            "AddToBuffer",
+            "AddToBuffer",
+        };
+
         private static void Main(string[] args)
         {
             ParseArgs(args, out string input, out string output, out string managed);
-            GetDirectoryInfo(output, out string directoryName, out string fileName);
-            AssemblyDefinition assemblyDefinition = LoadAssembly(input, managed);
+            //GetDirectoryInfo(output, out string directoryName, out string fileName);
 
-            IEnumerable<TypeDefinition> allTypes = GetAllTypes(assemblyDefinition.MainModule);
-            int count = 0;
+            var files = Directory.EnumerateFiles(input);
+            foreach (string file in files)
+            {
+                if (!file.EndsWith(".dll")) continue;
+                var fileName = Path.GetFileName(file);
+                fileName = Path.ChangeExtension(fileName, null);
+
+                Console.WriteLine($"## {fileName}\n");
+
+                AssemblyDefinition assemblyDefinition = LoadAssembly(file, managed);
+
+                var allTypes = GetAllTypes(assemblyDefinition.MainModule)
+                    .Where(type => type != null &&
+                                   type.Name.Contains("Converter") &&
+                                   !type.IsValueType &&
+                                   type.BaseType != null &&
+                                   type.BaseType.Name.Contains("Converter"))
+                    .ToList();
+
+                allTypes.Sort((type1, type2) => string.Compare(type1.Name, type2.Name, StringComparison.Ordinal));
+
+                foreach (var type in allTypes)
+                {
+                    try
+                    {
+                        PrintConverterInfo(type);
+                    }
+                    catch (Exception e)
+                    {
+                        // ignored
+                    }
+                }
+            }
+            /*int count = 0;
             foreach (TypeDefinition type in allTypes)
             {
                 if (type == null) return;
@@ -27,9 +74,67 @@ namespace AssemblyProcessor // Note: actual namespace depends on the project nam
             }
             
             Console.WriteLine($"Publicized {count} types!");
-            Console.WriteLine("Saving the new assembly ...");
+            Console.WriteLine("Saving the new assembly ...");*/
 
-            WriteAssembly(fileName, input, directoryName, assemblyDefinition);
+            //WriteAssembly(fileName, input, directoryName, assemblyDefinition);
+        }
+
+        private static void PrintConverterInfo(TypeDefinition type)
+        {
+            if (type.Name.Contains("Converter") &&
+                !type.IsValueType &&
+                type.BaseType.Name.Contains("Converter"))
+            {
+                var convertMethod = type.Methods.FirstOrDefault(definition => definition.Name.Equals("Convert"));
+                if (convertMethod == null) return;
+
+                var authoringComponent = convertMethod.Parameters.FirstOrDefault();
+                if (authoringComponent == null ||
+                    !authoringComponent.ParameterType.Name.Contains("Authoring")) return;
+
+                Console.WriteLine($"- `{authoringComponent.ParameterType.FullName}`");
+
+                var components = new List<TypeReference>();
+
+                foreach (Instruction instruction in convertMethod.Body.Instructions)
+                {
+                    if (instruction.OpCode != OpCodes.Call &&
+                        instruction.OpCode != OpCodes.Calli &&
+                        instruction.OpCode != OpCodes.Callvirt) continue;
+
+                    var method = (MethodReference)instruction.Operand;
+                    if (!authorMethods.Contains(method.Name)) continue;
+
+                    var genMethod = method as GenericInstanceMethod;
+                    foreach (TypeReference argument in genMethod.GenericArguments)
+                    {
+                        if (components.All(component => !component.FullName.Equals(argument.FullName)))
+                        {
+                            components.Add(argument);
+                        }
+                    }
+                }
+
+                foreach (TypeReference component in components)
+                {
+                    var isAux = IsAux(component);
+
+                    Console.WriteLine($"    - `{component.FullName}{(isAux ? " (AUX)" : "")}`");
+                }
+            }
+        }
+
+        private static bool IsAux(TypeReference component)
+        {
+            try
+            {
+                var typeDef = component.Resolve();
+                return typeDef.CustomAttributes.Any(attribute => attribute.AttributeType.FullName.Contains("InventoryAuxDataComponent"));
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         private static void WriteAssembly(string fileName, string input, string directoryName, AssemblyDefinition assemblyDefinition)
@@ -72,14 +177,14 @@ namespace AssemblyProcessor // Note: actual namespace depends on the project nam
         private static void ProcessColorReplacer(TypeDefinition type)
         {
             if (!type.FullName.Equals("ColorReplacer")) return;
-            
+
             MethodDefinition validateMethod = type.Methods.FirstOrDefault(method => method.Name.Equals("OnValidate"));
             if (!validateMethod.HasBody) return;
 
             var voidTypeReference = type.Module.TypeSystem.Void;
             MethodBody body = new MethodBody(validateMethod);
             ILProcessor il = body.GetILProcessor();
-            
+
             il.Clear();
             if (validateMethod.ReturnType.IsPrimitive)
             {
@@ -99,7 +204,7 @@ namespace AssemblyProcessor // Note: actual namespace depends on the project nam
             validateMethod.NoInlining = true;
             Console.WriteLine("Stripped OnValidate() code in ColorReplacer");
         }
-        
+
         private static void PublicizeType(TypeDefinition type)
         {
             IEnumerable<MethodDefinition> getters = type.Properties.Select(p => p.GetMethod);

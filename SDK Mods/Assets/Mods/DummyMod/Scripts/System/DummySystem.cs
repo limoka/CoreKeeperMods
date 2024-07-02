@@ -9,6 +9,20 @@ namespace DummyMod
     [UpdateBefore(typeof(UpdateHealthFromBufferSystem))]
     public partial class DummySystem : PugSimulationSystemBase
     {
+        private Entity healthChangeBufferEntity;
+
+        protected override void OnCreate()
+        {
+            RequireForUpdate<HealthChangeBuffer>();
+            base.OnCreate();
+        }
+
+        protected override void OnStartRunning()
+        {
+            healthChangeBufferEntity = SystemAPI.GetSingletonEntity<HealthChangeBuffer>();
+            base.OnStartRunning();
+        }
+
         protected override void OnUpdate()
         {
             var ecb = CreateCommandBuffer();
@@ -24,16 +38,18 @@ namespace DummyMod
                 .Schedule();
 
             var time = SystemAPI.Time;
+            var healthChangeBufferEntityLocal = healthChangeBufferEntity;
 
-            Entities.ForEach((
-                    ref DummyCD dummy,
-                    ref DynamicBuffer<DummyDamageBuffer> damageBuffer,
-                    ref DynamicBuffer<HealthChangeBuffer> healthChangeBuffer) =>
+            Job.WithCode(() =>
                 {
-                    int totalDamage = 0;
-
+                    var healthChangeBuffer = SystemAPI.GetBuffer<HealthChangeBuffer>(healthChangeBufferEntityLocal);
                     for (int i = 0; i < healthChangeBuffer.Length; i++)
                     {
+                        Entity entity = healthChangeBuffer[i].healthChange.entity;
+                        if (!SystemAPI.HasComponent<DummyCD>(entity)) return;
+
+                        var dummy = SystemAPI.GetComponent<DummyCD>(entity);
+
                         var healthChange = healthChangeBuffer[i].healthChange.amount;
                         if (healthChange >= 0) continue;
 
@@ -53,14 +69,20 @@ namespace DummyMod
                         dummy.averageDamage = prevAverage * (dummy.damageCount - 1) / dummy.damageCount + healthChange / dummy.damageCount;
 
                         dummy.lastDamage = healthChange;
-                        totalDamage += healthChange;
+                        dummy.damageSum += healthChange;
+                        SystemAPI.SetComponent(entity, dummy);
                     }
+                })
+                .Schedule();
 
-                    dummy.damageSum += totalDamage;
+            Entities.ForEach((
+                    ref DummyCD dummy,
+                    ref DynamicBuffer<DummyDamageBuffer> damageBuffer) =>
+                {
                     dummy.deltaTimeSum += time.DeltaTime;
                     dummy.ticksElapsed++;
-                    
-                    if (dummy.ticksElapsed >= 5)
+
+                    if (dummy.ticksElapsed >= 3)
                     {
                         if (damageBuffer.Length >= 60)
                         {
@@ -79,9 +101,9 @@ namespace DummyMod
                     }
 
 
-                    totalDamage = 0;
+                    var totalDamage = 0;
                     float elapsedTime = 0;
-                    
+
                     for (int i = 0; i < damageBuffer.Length; i++)
                     {
                         var damage = damageBuffer[i];
@@ -90,7 +112,7 @@ namespace DummyMod
                     }
 
                     dummy.damagePerSecond = (int)math.round(totalDamage / elapsedTime);
-                    
+
                     if (dummy.damagePerSecond > dummy.maxDamagePerSecond)
                         dummy.maxDamagePerSecond = dummy.damagePerSecond;
                 })
