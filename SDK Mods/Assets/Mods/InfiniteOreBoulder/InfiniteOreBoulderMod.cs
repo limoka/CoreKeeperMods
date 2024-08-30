@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 [Preserve]
 public class InfiniteOreBoulderMod : IMod
 {
-    public const string VERSION = "2.2.2";
+    public const string VERSION = "2.2.4";
     public const string NAME = "Inifinte Ore Boulder";
     private LoadedMod modInfo;
 
