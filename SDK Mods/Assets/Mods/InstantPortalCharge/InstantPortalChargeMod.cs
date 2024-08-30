@@ -7,7 +7,7 @@ namespace InstantPortalCharge
 {
     public class InstantPortalChargeMod : IMod
     {
-        public const string VERSION = "1.4.0";
+        public const string VERSION = "1.4.2";
         public const string NAME = "Instant Portal Charge";
         private LoadedMod modInfo;
         

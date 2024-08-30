@@ -27,3 +27,6 @@ MonoBehaviour:
   buildBundles: 0
   buildLinux: 0
   buildBurst: 1
+  cachedBuild: 0
+  assets: []
+  lastBuildLinux: 0
