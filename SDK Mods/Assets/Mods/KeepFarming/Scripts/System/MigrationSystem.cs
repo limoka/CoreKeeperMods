@@ -1,5 +1,6 @@
 ﻿using KeepFarming.Components;
 using Unity.Entities;
+using Unity.Entities.Internal;
 using Unity.NetCode;
 using Unity.Transforms;
 
@@ -31,7 +32,7 @@ namespace KeepFarming
 
             var ecb = CreateCommandBuffer();
             var databaseLocal = database;
-            
+             
             count = 0;
             Entities.ForEach((
                     Entity entity, 
@@ -72,7 +73,7 @@ namespace KeepFarming
                         count++;
                     }
                 })
-                .WithAll<SeedCD>()
+                //.WithAll<SeedCD>()
                 .WithAll<GoldenSeedCD>()
                 .WithoutBurst()
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
@@ -87,7 +88,7 @@ namespace KeepFarming
                 {
                     var item = container[i];
 
-                    if (PugDatabase.HasComponent<SeedCD>(item.objectData) &&
+                    if (//PugDatabase.HasComponent<SeedCD>(item.objectData) &&
                         PugDatabase.HasComponent<GoldenSeedCD>(item.objectData))
                     {
                         var objectData = item.objectData;

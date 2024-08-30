@@ -40,8 +40,8 @@ namespace KeepFarming
                     if (!growingCd.hasFinishedGrowing) return;
                     
                     Random random = Random.CreateFromIndex(seed ^ (uint)entity.Index ^ (uint)entity.Version);
-                    KilledByPlayer killedByPlayer = SystemAPI.HasComponent<KilledByPlayer>(entity)
-                        ? SystemAPI.GetComponent<KilledByPlayer>(entity)
+                    KilledByPlayerCD killedByPlayer = SystemAPI.HasComponent<KilledByPlayerCD>(entity)
+                        ? SystemAPI.GetComponent<KilledByPlayerCD>(entity)
                         : default;
 
                     float3 localCenter = PugDatabase.GetEntityLocalCenter(objectData.objectID, databaseLocal, objectData.variation);

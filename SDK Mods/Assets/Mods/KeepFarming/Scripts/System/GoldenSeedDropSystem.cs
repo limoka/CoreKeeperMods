@@ -25,6 +25,9 @@ namespace KeepFarming
             uint lootSeed = 0;
 
             var summarizedConditionsBuffer = GetBufferLookup<SummarizedConditionsBuffer>(true);
+            
+            var currentTick = SystemAPI.GetSingleton<NetworkTime>().ServerTick;
+            var tickRate = (uint)SystemAPI.GetSingleton<ClientServerTickRate>().SimulationTickRate;
 
             Entities.ForEach((
                     Entity entity,
@@ -36,7 +39,7 @@ namespace KeepFarming
                     if (SystemAPI.HasComponent<DropLootDelayCD>(entity))
                     {
                         float value = SystemAPI.GetComponent<DropLootDelayCD>(entity).Value;
-                        if (entityDestroyed.destroyTimer < value) return;
+                        if (entityDestroyed.destroyTimer.GetElapsedSeconds(currentTick, tickRate) < value) return;
                     }
 
                     ecb.RemoveComponent<DropsGoldenSeedCD>(entity);
@@ -44,7 +47,7 @@ namespace KeepFarming
 
                     var random = PugRandom.GetRngFromEntity(lootSeed, entity);
 
-                    KilledByPlayer killedByPlayer = SystemAPI.HasComponent<KilledByPlayer>(entity) ? SystemAPI.GetComponent<KilledByPlayer>(entity) : default;
+                    KilledByPlayerCD killedByPlayer = SystemAPI.HasComponent<KilledByPlayerCD>(entity) ? SystemAPI.GetComponent<KilledByPlayerCD>(entity) : default;
 
                     float3 entityLocalCenter = PugDatabase.GetEntityLocalCenter(objectData.objectID, databaseLocal, objectData.variation);
                     float3 entityCenter = transform.Position + entityLocalCenter;

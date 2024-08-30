@@ -16,7 +16,7 @@ namespace KeepFarming
         public static void OnCreateForCompiler(PugAutomationStartCraftSystem __instance)
         {
             KeepFarmingMod.Log.LogInfo("Patching PugAutomationStartCraftSystem");
-            var oldQuery = __instance.GetValue<EntityQuery>("__query_1888205798_1");
+            var oldQuery = __instance.GetValue<EntityQuery>("__query_1888205811_1");
             var queryDesc = oldQuery.GetEntityQueryDesc();
             queryDesc.None = queryDesc.None.AddToArray(ComponentType.ReadOnly<SeedExtractorCD>());
             
@@ -27,7 +27,7 @@ namespace KeepFarming
                 ComponentType.ReadOnly<ContainedObjectsBuffer>()
             });
 
-            __instance.SetValue("__query_1888205798_1", query);
+            __instance.SetValue("__query_1888205811_1", query);
         }
     }
 }

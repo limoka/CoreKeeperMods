@@ -22,7 +22,7 @@ namespace KeepFarming
     [EntityModification]
     public class KeepFarmingMod : IMod
     {
-        public const string VERSION = "2.0.6";
+        public const string VERSION = "2.1.0";
         public const string NAME = "Keep Farming";
         private LoadedMod modInfo;
 

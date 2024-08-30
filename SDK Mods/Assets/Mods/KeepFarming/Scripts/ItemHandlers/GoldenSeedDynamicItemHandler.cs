@@ -35,7 +35,7 @@ namespace Mods.KeepFarming.Scripts
 
         public bool ShouldApply(ObjectDataCD objectData)
         {
-            return PugDatabase.HasComponent<SeedCD>(objectData) &&
+            return //PugDatabase.HasComponent<SeedCD>(objectData) &&
                    PugDatabase.HasComponent<GoldenSeedCD>(objectData);
         }
 

@@ -2,7 +2,7 @@
 
 namespace KeepFarming
 {
-    [HarmonyPatch]
+   /* [HarmonyPatch]
     public static class PlacementHandler_Patch
     {
         [HarmonyPatch(typeof(PlacementHandlerWatering), "CanPlaceObjectAtPosition")]
@@ -29,12 +29,13 @@ namespace KeepFarming
                 var curAmount = __instance.objectData.amount;
                 if (curAmount < prevAmount)
                 {
-                    currentPlayer.AddSkill(SkillID.Gardening, 1);
+                    currentPlayer.playerCommandSystem.AddSkillValue(currentPlayer.entity, SkillID.Gardening, 1);
+                    //currentPlayer.AddSkill(SkillID.Gardening, 1);
                 }
             }
         }
 
         private static int canPlace;
         private static int prevAmount;
-    }
+    }*/
 }

@@ -16,7 +16,7 @@ namespace KeepFarming
             var entity = entityMonoBehaviour.entity;
             if (world.EntityManager.HasComponent<SeedExtractorCD>(entity))
             {
-                __instance.outputInventoryHandler.Dispose();
+                //__instance.outputInventoryHandler.Dispose();
                 CraftingCD componentData = world.EntityManager.GetComponentData<CraftingCD>(entity);
                 __instance.outputInventoryHandler = new InventoryHandler(entityMonoBehaviour, world, componentData.outputSlotIndex, 2, 2);
             }

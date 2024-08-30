@@ -45,7 +45,9 @@ namespace KeepFarming
 
             var databaseLocal = database;
             var seedLookup = seedExtractorRecipes;
-            PugTimerSystem.Timer timer = World.GetExistingSystemManaged<PugTimerSystem>().CreateTimer();
+
+            
+            var pugTimer = PugTimerSystem.Timer.Create(ref CheckedStateRef);
             EntityCommandBuffer ecb = CreateCommandBuffer();
 
             SystemAPI.TryGetSingleton(out ClientServerTickRate clientServerTickRate);
@@ -75,7 +77,7 @@ namespace KeepFarming
 
                     if (canProcess && craftingCD.disable == 0 && pugTimerRef.entity == Entity.Null)
                     {
-                        timer.StartTimer(ecb, entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
+                        pugTimer.StartTimer(ecb, entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
                     }
                 })
                 .WithName("SeedExtractorStart")
@@ -86,10 +88,11 @@ namespace KeepFarming
                 .WithAll<ObjectDataCD>()
                 .WithAll<ContainedObjectsBuffer>()
                 .WithNone<CattleCD>()
-                .WithNone<EntityDestroyedCD>()
+                .WithDisabled<EntityDestroyedCD>()
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .WithChangeFilter<CraftingCD>()
                 .WithChangeFilter<ContainedObjectsBuffer>()
+                .WithoutBurst()
                 .Schedule();
             
             uint rngSeed = PugRandom.GetSeed();
@@ -101,8 +104,6 @@ namespace KeepFarming
                     ecb.DestroyEntity(entity);
                     if (!SystemAPI.HasComponent<CraftingCD>(userRef.entity)) return;
                     if (!SystemAPI.HasComponent<SeedExtractorCD>(userRef.entity)) return;
-                    
-                    if (SystemAPI.HasComponent<EntityDestroyedCD>(userRef.entity)) return;
 
                     CraftingCD craftingCD = SystemAPI.GetComponent<CraftingCD>(userRef.entity);
                     if (craftingCD.disable != 0) return;
@@ -110,7 +111,7 @@ namespace KeepFarming
                     craftingCD.timeLeftToCraft -= 1f;
                     if (craftingCD.timeLeftToCraft > 0f)
                     {
-                        timer.StartTimer(ecb, userRef.entity, 1f, simulationTickRate);
+                        pugTimer.StartTimer(ecb, userRef.entity, 1f, simulationTickRate);
                         ecb.SetComponent(userRef.entity, craftingCD);
                         return;
                     }
@@ -127,7 +128,7 @@ namespace KeepFarming
                     if (canProcess)
                     {
                         craftingCD.timeLeftToCraft = seedExtractor.processingTime;
-                        timer.StartTimer(ecb, userRef.entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
+                        pugTimer.StartTimer(ecb, userRef.entity, math.min(1f, craftingCD.timeLeftToCraft), simulationTickRate);
                     }
                     else
                     {
@@ -140,6 +141,7 @@ namespace KeepFarming
                 .WithName("SeedExtractorOnTrigger")
                 .WithAll<SeedExtractorTimerTriggerCD>()
                 .WithAll<PugTimerRefCD>()
+                .WithoutBurst()
                 .Schedule();
 
             base.OnUpdate();

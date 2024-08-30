@@ -11,7 +11,7 @@ using Random = Unity.Mathematics.Random;
 
 namespace Mods.KeepFarming.Scripts.Jobs
 {
-    public struct ModifiedMoverMoveAndPickupJob : IJobChunk
+   /* public struct ModifiedMoverMoveAndPickupJob : IJobChunk
     {
         private void OriginalLambdaBody(Entity entity, ref MoverCD mover)
         {
@@ -181,5 +181,5 @@ namespace Mods.KeepFarming.Scripts.Jobs
         [ReadOnly] public ComponentLookup<PickUpObjectCD> __PickUpObjectCD_FromEntity;
 
         public ComponentLookup<MoveeCD> __PugAutomation_MoveeCD_FromEntity;
-    }
+    }*/
 }
