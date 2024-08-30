@@ -55,10 +55,3 @@ MonoBehaviour:
   buildBundles: 0
   buildLinux: 0
   buildBurst: 1
-  cachedBuild: 0
-  assets:
-  - path: Assets/Mods/ChatCommands/ChatCommands.asset
-    hash: 067D13D4D45DD438DC782F266D7BD8DE7C8EEE26EC617A96AEEAD073DAC10F7F
-  - path: Assets/Mods/ChatCommands/ChatCommands_modio.asset
-    hash: 6157E3BF27E3195A5039866A8E2B42D5DBD554B251FDF285E8D1761B718D8143
-  lastBuildLinux: 0

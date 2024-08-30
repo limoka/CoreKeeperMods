@@ -36,7 +36,8 @@ namespace ChatCommands.Chat.Commands
         {
             PlayerController player = Players.GetCurrentPlayer();
             int healAmount = amount < 0 ? (player.GetMaxHealth() - player.currentHealth) : amount;
-            player.HealPlayer(healAmount);
+            
+            player.playerCommandSystem.SetHealth(player.entity, player.currentHealth + healAmount);
             return $"Successfully healed {healAmount} HP";
         }
     }

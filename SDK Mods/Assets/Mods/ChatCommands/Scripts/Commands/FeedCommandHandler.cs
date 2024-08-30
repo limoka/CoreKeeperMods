@@ -33,7 +33,8 @@ namespace ChatCommands.Chat.Commands
         {
             PlayerController player = Players.GetCurrentPlayer();
             int hungerAmount = amount < 0 ? (100 - player.hungerComponent.hunger) : amount;
-            player.AddHunger(hungerAmount);
+            
+            player.playerCommandSystem.AddHunger(player.entity, hungerAmount);
             return $"Successfully fed {hungerAmount} food";
         }
     }

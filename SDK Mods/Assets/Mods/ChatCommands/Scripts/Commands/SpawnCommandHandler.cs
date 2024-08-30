@@ -63,6 +63,8 @@ namespace ChatCommands.Chat.Commands
         {
             int numberParams = 0;
 
+            //TODO issues when first arg is a number
+            
             for (int i = parameters.Length - 1; i >= 0; i--)
             {
                 string value = string.Join("", parameters[i].Split('~'));

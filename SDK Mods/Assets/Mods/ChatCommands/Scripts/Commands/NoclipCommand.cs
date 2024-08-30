@@ -2,6 +2,7 @@
 using CoreLib.Commands;
 using CoreLib.Commands.Communication;
 using CoreLib.Util;
+using PlayerState;
 
 namespace ChatCommands.Chat.Commands
 {
@@ -13,7 +14,7 @@ namespace ChatCommands.Chat.Commands
         {
             PlayerController player = Players.GetCurrentPlayer();
 
-            noclipActive = player.state == player.sNoClip;
+            noclipActive = EntityUtility.GetComponentData<PlayerStateCD>(player.entity, player.world).HasAnyState(PlayerStateEnum.NoClip);
 
             switch (parameters.Length)
             {
@@ -36,9 +37,9 @@ namespace ChatCommands.Chat.Commands
             }
 
             if (noclipActive)
-                player.EnterState(player.sNoClip);
+                player.playerCommandSystem.SetPlayerState(player.entity, PlayerStateEnum.NoClip);
             else
-                player.EnterState(player.sWalk);
+                player.playerCommandSystem.SetPlayerState(player.entity, PlayerStateEnum.Walk);
 
             return $"Noclip is {(noclipActive ? "active" : "inactive")}";
         }
