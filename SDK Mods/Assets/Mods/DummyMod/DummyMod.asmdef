@@ -89,7 +89,8 @@
         "System.Runtime.CompilerServices.Unsafe.dll",
         "System.Text.Json.dll",
         "WorldPatcher.dll",
-        "ZipSaveFolder.dll"
+        "ZipSaveFolder.dll",
+        "Animation.Components.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

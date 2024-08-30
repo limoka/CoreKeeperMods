@@ -13,7 +13,7 @@ namespace DummyMod
     [EntityModification]
     public class TheDummyMod : IMod
     {
-        public const string VERSION = "1.0.1";
+        public const string VERSION = "1.0.2";
         public const string MOD_ID = "DummyMod";
 
         internal static Logger Log = new Logger("Dummy Mod");

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DummyMod
 {
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
-    [UpdateInGroup(typeof(SimulationSystemGroup))]
+    [UpdateInGroup(typeof(UpdateHealthSystemGroup))]
     [UpdateBefore(typeof(UpdateHealthFromBufferSystem))]
     public partial class DummySystem : PugSimulationSystemBase
     {
@@ -35,6 +35,7 @@ namespace DummyMod
                     ecb.RemoveComponent<SpawnDummyCD>(entity);
                 })
                 .WithAll<SpawnDummyCD>()
+                .WithoutBurst()
                 .Schedule();
 
             var time = SystemAPI.Time;
@@ -73,6 +74,7 @@ namespace DummyMod
                         SystemAPI.SetComponent(entity, dummy);
                     }
                 })
+                .WithoutBurst()
                 .Schedule();
 
             Entities.ForEach((
@@ -116,6 +118,7 @@ namespace DummyMod
                     if (dummy.damagePerSecond > dummy.maxDamagePerSecond)
                         dummy.maxDamagePerSecond = dummy.damagePerSecond;
                 })
+                .WithoutBurst()
                 .Schedule();
 
             base.OnUpdate();

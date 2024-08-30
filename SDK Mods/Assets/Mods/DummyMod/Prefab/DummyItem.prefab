@@ -34,6 +34,8 @@ GameObject:
   - component: {fileID: 3408452410834206746}
   - component: {fileID: 2975659086408752802}
   - component: {fileID: 8707560192038489190}
+  - component: {fileID: 4113831804933025142}
+  - component: {fileID: 6863528782699798710}
   m_Layer: 0
   m_Name: DummyItem
   m_TagString: Untagged
@@ -115,7 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Script: {fileID: 11500000, guid: 29388fd17dbc0194ab5942353c072abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShapeType: 0
@@ -304,8 +306,10 @@ MonoBehaviour:
   canBePlacedOnLava: 0
   canBePlacedOnPit: 0
   canBePlacedOnBlockingObjects: 0
+  canBePlacedOnLowColliders: 0
   dontDestroyObjectIfInvalidPlacement: 0
   canBePlacedOnImmuneTiles: 0
+  dontBlockRoots: 0
   canBePlacedOnObjects: 
   canNotBePlacedOnObjects: 
   hasVariationsThatCanBePlacedOnWalls: 0
@@ -323,10 +327,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 775935493, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
+  m_Script: {fileID: 775935493, guid: 24f8d2e3192c37342909f939d1554225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientationSupport: 0
+  largeAnimationHistorySupport: 0
 --- !u!114 &114137676793294487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,7 +348,7 @@ MonoBehaviour:
   SupportedGhostModes: 3
   OptimizationMode: 0
   Importance: 15
-  prefabId: ecd2104147993a747bcbefe0763102e2
+  prefabId: 4fd468ccf9cac0149b3a7935b1b6bf5a
   HasOwner: 0
   SupportAutoCommandTarget: 0
   TrackInterpolationDelay: 0
@@ -386,6 +391,8 @@ MonoBehaviour:
   m_Script: {fileID: 282287656, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideTimeBeforeDestroy: 0
+  timeBeforeDestroy: 0
   timeBeforeLootDrop: 0
   skipDeathAnimation: 0
 --- !u!114 &114724559256931504
@@ -400,6 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: -1029918251, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disabled: 0
   healInCombatAsWell: 0
   healDirectlyWhenLeavingCombat: 0
   healthPercentagePerFifthSecond: 100
@@ -480,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actAsDestructibleWhileAboveHealthThreshold: 0
+  dontBlockPlayerMovement: 0
 --- !u!114 &1133485972362148781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,6 +585,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8707560192038489190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359265570381211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4113831804933025142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359265570381211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -107720273, guid: 84f831e2f81ccd04d946db71e786f560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasLocalCooldown: 0
+  localCooldownSeconds: 0
+--- !u!114 &6863528782699798710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

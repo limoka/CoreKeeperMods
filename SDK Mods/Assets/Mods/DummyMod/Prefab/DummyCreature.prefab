@@ -31,6 +31,8 @@ GameObject:
   - component: {fileID: 6443954341265133456}
   - component: {fileID: 6467545257263412825}
   - component: {fileID: 2131024907741643135}
+  - component: {fileID: 8620115747507614952}
+  - component: {fileID: 3453700872448724010}
   m_Layer: 0
   m_Name: DummyCreature
   m_TagString: Untagged
@@ -89,7 +91,6 @@ MonoBehaviour:
   m_Script: {fileID: 244469479, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlyExistsInSeason: 0
   sellValue: -1
   buyValueMultiplier: 1
   icon: {fileID: -437053606, guid: 5241393df562e6c4092ff4ab808a6cad, type: 3}
@@ -113,7 +114,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b275e5f92732148048d7b77e264ac30e, type: 3}
+  m_Script: {fileID: 11500000, guid: 29388fd17dbc0194ab5942353c072abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShapeType: 0
@@ -289,10 +290,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 775935493, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
+  m_Script: {fileID: 775935493, guid: 24f8d2e3192c37342909f939d1554225, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   orientationSupport: 0
+  largeAnimationHistorySupport: 0
 --- !u!114 &114137676793294487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +354,8 @@ MonoBehaviour:
   m_Script: {fileID: 282287656, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  overrideTimeBeforeDestroy: 0
+  timeBeforeDestroy: 0
   timeBeforeLootDrop: 0
   skipDeathAnimation: 0
 --- !u!114 &114724559256931504
@@ -366,6 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: -1029918251, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disabled: 0
   healInCombatAsWell: 0
   healDirectlyWhenLeavingCombat: 0
   healthPercentagePerFifthSecond: 100
@@ -432,6 +437,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
+  isMainStoryBoss: 0
 --- !u!114 &8432270837391878973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actAsDestructibleWhileAboveHealthThreshold: 0
+  dontBlockPlayerMovement: 0
 --- !u!114 &1133485972362148781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,5 +533,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e1a5c8d5db41cb8364186e3d693172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8620115747507614952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359265570381211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -107720273, guid: 84f831e2f81ccd04d946db71e786f560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasLocalCooldown: 0
+  localCooldownSeconds: 0
+--- !u!114 &3453700872448724010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359265570381211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
