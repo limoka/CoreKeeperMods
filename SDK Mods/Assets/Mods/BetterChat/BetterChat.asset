@@ -19,7 +19,7 @@ MonoBehaviour:
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
-    requiredOn: 1
+    requiredOn: 0
     files:
     - path: Scripts/Scripts/Util.cs
     - path: Scripts/Scripts/ChatWindow_Patch.cs
@@ -32,3 +32,6 @@ MonoBehaviour:
   buildBundles: 1
   buildLinux: 1
   buildBurst: 0
+  cachedBuild: 0
+  assets: []
+  lastBuildLinux: 0

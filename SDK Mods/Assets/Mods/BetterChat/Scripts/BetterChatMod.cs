@@ -7,7 +7,7 @@ namespace BetterChat.Scripts
 {
     public class BetterChatMod : IMod
     {
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.2";
         public const string NAME = "Better Chat";
         private static LoadedMod modInfo;
 
