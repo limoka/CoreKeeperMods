@@ -169,11 +169,6 @@ namespace ECSExtension.Panels
             UIFactory.SetLayoutElement(dropdownObj, minHeight: 25, flexibleHeight: 0, flexibleWidth: 9999);
 
             //SceneHandler.Update();
-            PopulateWorldDropdown(World.All);
-            if (sceneToDropdownOption.Count > 0)
-            {
-                sceneDropdown.captionText.text = sceneToDropdownOption.FirstOrDefault().Value.text;
-            }
 
             // Filter row
             
@@ -230,6 +225,12 @@ namespace ECSExtension.Panels
 
             Tree = new EntityTree(scrollPool, OnCellClicked);
 
+            PopulateWorldDropdown(World.All);
+            if (sceneToDropdownOption.Count > 0)
+            {
+                sceneDropdown.captionText.text = sceneToDropdownOption.FirstOrDefault().Value.text;
+            }
+            
             if (World.All.Count > 0)
             {
                 SelectedWorld = World.All[0];
