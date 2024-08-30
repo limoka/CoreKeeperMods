@@ -1,0 +1,848 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1057401628, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Name: FontHugeR
+  m_EditorClassIdentifier:
+  texture: {fileID: 2800000, guid: 89fe716b7c90f9e4f8cc686f42b64e8f, type: 3}
+  charDims: {x: 20, y: 36}
+  pixelsPerUnit: 16
+  charSpacing: 4
+  spaceWidth: 5
+  lineSpacing: 1
+  emptyLineSpacing: 5
+  proportionalFont: 1
+  allCaps: 0
+  enableKerning: 0
+  _customCharset: ♥ ⒶⒷⓍⓎ⊕⊖        ⁰¹²³⁴⁵⁶⁷⁸⁹       !"#$%&'()*+,-./0123456789:;<=>?юабцдефгхийклмнопярстчжвьызшэщуъЮАБЦДЕФГХИЙКЛМНОПЯРСТЧЖВЬЫЗШЭЩУЪЇїІіЄє—Ёё
+  glyphData:
+  - rect:
+      x: 0
+      y: 144
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 20
+      y: 144
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 40
+      y: 144
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 60
+      y: 144
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 80
+      y: 144
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 100
+      y: 144
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 120
+      y: 144
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 140
+      y: 144
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 160
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 180
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 200
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 220
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 240
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 260
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 280
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 300
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 320
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 340
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 360
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 380
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 400
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 420
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 440
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 460
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 480
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 500
+      y: 144
+      width: 7
+      height: 36
+    kerning:
+  - rect:
+      x: 520
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 540
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 560
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 580
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 600
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 620
+      y: 144
+      width: 0
+      height: 36
+    kerning:
+  - rect:
+      x: 0
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 20
+      y: 108
+      width: 9
+      height: 36
+    kerning:
+  - rect:
+      x: 40
+      y: 108
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 60
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 80
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 100
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 120
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 140
+      y: 108
+      width: 6
+      height: 36
+    kerning:
+  - rect:
+      x: 160
+      y: 108
+      width: 8
+      height: 36
+    kerning:
+  - rect:
+      x: 180
+      y: 108
+      width: 8
+      height: 36
+    kerning:
+  - rect:
+      x: 200
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 220
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 240
+      y: 108
+      width: 6
+      height: 36
+    kerning:
+  - rect:
+      x: 260
+      y: 108
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 280
+      y: 108
+      width: 6
+      height: 36
+    kerning:
+  - rect:
+      x: 300
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 320
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 340
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 360
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 380
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 400
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 420
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 440
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 460
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 480
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 500
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 520
+      y: 108
+      width: 5
+      height: 36
+    kerning:
+  - rect:
+      x: 540
+      y: 108
+      width: 9
+      height: 36
+    kerning:
+  - rect:
+      x: 560
+      y: 108
+      width: 9
+      height: 36
+    kerning:
+  - rect:
+      x: 580
+      y: 108
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 600
+      y: 108
+      width: 9
+      height: 36
+    kerning:
+  - rect:
+      x: 620
+      y: 108
+      width: 15
+      height: 36
+    kerning:
+  - rect:
+      x: 0
+      y: 72
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 20
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 40
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 60
+      y: 72
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 80
+      y: 72
+      width: 14
+      height: 36
+    kerning:
+  - rect:
+      x: 100
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 120
+      y: 72
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 140
+      y: 72
+      width: 9
+      height: 36
+    kerning:
+  - rect:
+      x: 160
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 180
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 200
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 220
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 240
+      y: 72
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 260
+      y: 72
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 280
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 300
+      y: 72
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 320
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 340
+      y: 72
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 360
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 380
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 400
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 420
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 440
+      y: 72
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 460
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 480
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 500
+      y: 72
+      width: 17
+      height: 36
+    kerning:
+  - rect:
+      x: 520
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 540
+      y: 72
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 560
+      y: 72
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 580
+      y: 72
+      width: 18
+      height: 36
+    kerning:
+  - rect:
+      x: 600
+      y: 72
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 620
+      y: 72
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 0
+      y: 36
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 20
+      y: 36
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 40
+      y: 36
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 60
+      y: 36
+      width: 14
+      height: 36
+    kerning:
+  - rect:
+      x: 80
+      y: 36
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 100
+      y: 36
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 120
+      y: 36
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 140
+      y: 36
+      width: 9
+      height: 36
+    kerning:
+  - rect:
+      x: 160
+      y: 36
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 180
+      y: 36
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 200
+      y: 36
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 220
+      y: 36
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 240
+      y: 36
+      width: 14
+      height: 36
+    kerning:
+  - rect:
+      x: 260
+      y: 36
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 280
+      y: 36
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 300
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 320
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 340
+      y: 36
+      width: 13
+      height: 36
+    kerning:
+  - rect:
+      x: 360
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 380
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 400
+      y: 36
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 420
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 440
+      y: 36
+      width: 19
+      height: 36
+    kerning:
+  - rect:
+      x: 460
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 480
+      y: 36
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 500
+      y: 36
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 520
+      y: 36
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 540
+      y: 36
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 560
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 580
+      y: 36
+      width: 19
+      height: 36
+    kerning:
+  - rect:
+      x: 600
+      y: 36
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 620
+      y: 36
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 0
+      y: 0
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 20
+      y: 0
+      width: 11
+      height: 36
+    kerning:
+  - rect:
+      x: 40
+      y: 0
+      width: 4
+      height: 36
+    kerning:
+  - rect:
+      x: 60
+      y: 0
+      width: 5
+      height: 36
+    kerning:
+  - rect:
+      x: 80
+      y: 0
+      width: 12
+      height: 36
+    kerning:
+  - rect:
+      x: 100
+      y: 0
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 120
+      y: 0
+      width: 16
+      height: 36
+    kerning:
+  - rect:
+      x: 140
+      y: 0
+      width: 10
+      height: 36
+    kerning:
+  - rect:
+      x: 160
+      y: 0
+      width: 10
+      height: 36
+    kerning:

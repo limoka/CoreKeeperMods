@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1057401628, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Name: scorefont
+  m_EditorClassIdentifier:
+  texture: {fileID: 2800000, guid: 2a70dd94ac9a2aa43a8a21bf12c03a30, type: 3}
+  charDims: {x: 16, y: 16}
+  pixelsPerUnit: 16
+  charSpacing: -6
+  spaceWidth: 5
+  lineSpacing: 1
+  emptyLineSpacing: 5
+  proportionalFont: 0
+  allCaps: 1
+  enableKerning: 0
+  _customCharset: 0123456789+-,.?   JPS人 G
+  glyphData:
+  - rect:
+      x: 0
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 16
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 32
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 48
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 64
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 80
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 96
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 112
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 128
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 144
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 160
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 176
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 192
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 208
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 224
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 240
+      y: 16
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 0
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 16
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 32
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 48
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 64
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 80
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 96
+      y: 0
+      width: 16
+      height: 16
+    kerning:
+  - rect:
+      x: 112
+      y: 0
+      width: 16
+      height: 16
+    kerning:
