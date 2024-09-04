@@ -1,6 +1,6 @@
 ﻿namespace PlacementPlus
 {
-    public enum BlockMode
+    public enum BlockMode : byte
     {
         TOGGLE,
         GROUND,

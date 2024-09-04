@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using PlacementPlus.Access;
 using PlacementPlus.Util;
 using PugAutomation;
 using PugMod;
@@ -16,7 +15,7 @@ using Math = System.Math;
 
 namespace PlacementPlus
 {
-    public static class BrushExtension
+  /*  public static class BrushExtension
     {
         public static int size;
         public static bool replaceTiles = false;
@@ -952,5 +951,5 @@ namespace PlacementPlus
         }
 
         #endregion
-    }
+    }*/
 }

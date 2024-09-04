@@ -33,12 +33,12 @@ namespace PlacementPlus
 
             foreach (BrushRect brushRect in mapUpdateRects)
             {
-                foreach (Vector3Int pos in brushRect)
+                foreach (int3 pos in brushRect)
                 {
-                    var localPos = EntityMonoBehaviour.ToRenderFromWorld(pos);
-                    var surfaceTile = tileLookup.GetTopTile(localPos.ToInt2());
+                    var localPos = EntityMonoBehaviour.ToRenderFromWorld(pos.ToInt2());
+                    var surfaceTile = tileLookup.GetTopTile(localPos);
                     Color color = colorLookup.GetColorByTileType(surfaceTile.tileset, surfaceTile.tileType);
-                    __instance.SetColorOverridesThisUpdate(pos, color);
+                    __instance.SetColorOverridesThisUpdate(new Vector3Int(pos.x, 0, pos.y), color);
                 }
             }
 

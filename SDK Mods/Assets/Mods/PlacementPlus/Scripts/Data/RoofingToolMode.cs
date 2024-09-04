@@ -1,6 +1,6 @@
 ﻿namespace PlacementPlus
 {
-    public enum RoofingToolMode
+    public enum RoofingToolMode : byte
     {
         TOGGLE,
         ADD_ROOF,

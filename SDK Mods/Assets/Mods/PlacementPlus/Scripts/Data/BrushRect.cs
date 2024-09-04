@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace PlacementPlus
 {
-    public readonly struct BrushRect : IEnumerable<Vector3Int>
+    public readonly struct BrushRect : IEnumerable<int3>
     {
         public readonly int2 pos;
         
@@ -25,7 +25,7 @@ namespace PlacementPlus
             this.height = height;
         }
 
-        public IEnumerator<Vector3Int> GetEnumerator()
+        public IEnumerator<int3> GetEnumerator()
         {
             return new Enumerator(this);
         }
@@ -45,7 +45,7 @@ namespace PlacementPlus
             return new BrushRect(pos.ToInt2(), width, height);
         }
         
-        public struct Enumerator : IEnumerator<Vector3Int>
+        public struct Enumerator : IEnumerator<int3>
         {
             private readonly BrushRect m_Rect;
             private int m_xPos;
@@ -79,7 +79,7 @@ namespace PlacementPlus
                 m_yPos = -1;
             }
 
-            public Vector3Int Current => m_Rect.pos.ToVec3Int() + new Vector3Int(m_xPos, 0, m_yPos);
+            public int3 Current => m_Rect.pos.ToInt3() + new int3(m_xPos, 0, m_yPos);
             object IEnumerator.Current => Current;
         }
     }

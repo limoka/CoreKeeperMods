@@ -5,11 +5,16 @@ using CoreLib.Data.Configuration;
 using CoreLib.RewiredExtension;
 using CoreLib.Util.Extensions;
 using HarmonyLib;
+using Inventory;
+using PlacementPlus.Components;
+using PlacementPlus.Systems.Network;
 using PugMod;
 using PugTilemap;
 using Rewired;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.NetCode;
 using UnityEngine;
 using Action = CoreKeeperInput.Action;
 using Object = UnityEngine.Object;
@@ -97,15 +102,13 @@ namespace PlacementPlus
         public static ConfigEntry<int> maxSize;
         public static ConfigEntry<float> minHoldTime;
 
+        internal static ClientModCommandSystem commandSystem;
 
         private static float plusHoldTime;
         private static float minusHoldTime;
-
-        private static readonly Dictionary<int, ObjectID> colorIndexLookup = new Dictionary<int, ObjectID>();
-
-        private static int lastColorIndex = -1;
-        private static int maxPaintIndex = -1;
-        private static Player rwPlayer;
+        private static bool lastReplaceState;
+        
+        internal static Player rwPlayer;
 
         public const string CHANGE_ORIENTATION = "PlacementPlus_ChangeOrientation";
         public const string CHANGE_TOOL_MODE = "PlacementPlus_ChangeToolMode";
@@ -147,7 +150,10 @@ namespace PlacementPlus
             RewiredExtensionModule.AddKeybind(REPLACE_BUTTON, "Hold to replace tiles", KeyboardKeyCode.LeftAlt);
             RewiredExtensionModule.AddKeybind(REVERSE_DIRECTION, "Hold to reverse direction", KeyboardKeyCode.CapsLock);
             
+            modInfo.TryLoadBurstAssembly();
+            
             RewiredExtensionModule.rewiredStart += OnRewiredStart;
+            API.Authoring.OnObjectTypeAdded += EditPlayer;
             
             Log.LogInfo("Placement Plus mod is loaded!");
         }
@@ -174,13 +180,33 @@ namespace PlacementPlus
                 }
             }
         }
-        
+
+        private void EditPlayer(Entity entity, GameObject authoringdata, EntityManager entitymanager)
+        {
+            var objectId = authoringdata.GetEntityObjectID();
+            if (objectId != ObjectID.Player) return;
+
+            Log.LogInfo("Adding my components!");
+            
+            entitymanager.AddComponent<PlacementPlusState>(entity);
+        }
+
         private void OnRewiredStart()
         {
             rwPlayer = ReInput.players.GetPlayer(0);
         }
         
-        public void Init() { }
+        public void Init()
+        {
+            API.Client.OnWorldCreated += ClientWorldInit;
+        }
+
+        private void ClientWorldInit()
+        {
+            var world = API.Client.World;
+            commandSystem = world.GetOrCreateSystemManaged<ClientModCommandSystem>();
+            Log.LogInfo($"Got the client system: {commandSystem}");
+        }
 
         public void Shutdown() { }
 
@@ -195,32 +221,6 @@ namespace PlacementPlus
             }
 
             return API.Server.World;
-        }
-
-        private void InitColorIndexLookup()
-        {
-            if (colorIndexLookup.Count > 0) return;
-
-            World world = GetWorld();
-
-            EntityQuery brushQuery = world.EntityManager.CreateEntityQuery(typeof(ObjectDataCD),
-                typeof(Prefab),
-                typeof(PaintToolCD));
-
-            NativeArray<Entity> brushEntities = brushQuery.ToEntityArray(Allocator.Temp);
-            foreach (Entity brushEntity in brushEntities)
-            {
-                ObjectDataCD objectDataCd = world.EntityManager.GetComponentData<ObjectDataCD>(brushEntity);
-                PaintToolCD paintToolCd = world.EntityManager.GetComponentData<PaintToolCD>(brushEntity);
-                if (paintToolCd.paintIndex != 0)
-                {
-                    colorIndexLookup.Add(paintToolCd.paintIndex, objectDataCd.objectID);
-                    maxPaintIndex = Math.Max(maxPaintIndex, paintToolCd.paintIndex);
-                }
-            }
-
-            brushEntities.Dispose();
-            brushQuery.Dispose();
         }
 
         public void Update()
@@ -239,20 +239,20 @@ namespace PlacementPlus
 
             if (rwPlayer.GetButtonDown(CHANGE_ORIENTATION))
             {
-                BrushExtension.ToggleMode();
+                commandSystem.ChangeOrientation(player.entity);
             }
 
             var backwards = rwPlayer.GetButton(REVERSE_DIRECTION);
 
             if (rwPlayer.GetButtonDown(CHANGE_TOOL_MODE))
             {
-                ToggleToolMode(player, backwards);
+                commandSystem.ChangeToolMode(player.entity, backwards);
                 return;
             }
 
             if (rwPlayer.GetButtonDown(INCREASE_SIZE))
             {
-                BrushExtension.ChangeSize(1);
+                commandSystem.ChangeSize(player.entity, 1);
                 plusHoldTime = 0;
             }
 
@@ -262,13 +262,13 @@ namespace PlacementPlus
                 if (plusHoldTime > minHoldTime.Value)
                 {
                     plusHoldTime = 0;
-                    BrushExtension.ChangeSize(1);
+                    commandSystem.ChangeSize(player.entity, 1);
                 }
             }
 
             if (rwPlayer.GetButtonDown(DECREASE_SIZE))
             {
-                BrushExtension.ChangeSize(-1);
+                commandSystem.ChangeSize(player.entity, -1);
                 minusHoldTime = 0;
             }
 
@@ -278,55 +278,16 @@ namespace PlacementPlus
                 if (minusHoldTime > minHoldTime.Value)
                 {
                     minusHoldTime = 0;
-                    BrushExtension.ChangeSize(-1);
+                    commandSystem.ChangeSize(player.entity, -1);
                 }
             }
 
-            BrushExtension.replaceTiles = rwPlayer.GetButton(REPLACE_BUTTON);
-        }
-
-        private void ToggleToolMode(PlayerController player, bool backwards)
-        {
-            InventoryHandler inventory = player.playerInventoryHandler;
-            if (inventory == null) return;
-
-            ObjectDataCD item = inventory.GetObjectData(player.equippedSlotIndex);
-            var objectInfo = PugDatabase.GetObjectInfo(item.objectID, item.variation);
-
-            if (PugDatabase.HasComponent<PaintToolCD>(item))
+            var replaceTiles = rwPlayer.GetButton(REPLACE_BUTTON);
+            if (replaceTiles != lastReplaceState)
             {
-                CyclePaintBrush(item, backwards, inventory, player);
+                commandSystem.SetReplaceState(player.entity, replaceTiles);
+                lastReplaceState = replaceTiles;
             }
-            else if (objectInfo != null &&
-                     objectInfo.objectType == ObjectType.RoofingTool)
-            {
-                BrushExtension.ToggleRoofingMode(backwards);
-            }else if (objectInfo.tileType == TileType.wall)
-            {
-                BrushExtension.ToggleBlockMode(backwards);
-            }
-
-
-        }
-
-        private void CyclePaintBrush(ObjectDataCD item, bool shift, InventoryHandler inventory, PlayerController player)
-        {
-            InitColorIndexLookup();
-            if (lastColorIndex == -1)
-            {
-                lastColorIndex = PugDatabase.GetComponent<PaintToolCD>(item).paintIndex;
-            }
-
-            lastColorIndex += shift ? -1 : 1;
-            if (lastColorIndex < 0)
-                lastColorIndex = maxPaintIndex - 1;
-            if (lastColorIndex > maxPaintIndex)
-                lastColorIndex = 1;
-
-            ObjectID newObjectId = colorIndexLookup[lastColorIndex];
-
-            inventory.DestroyObject(player.equippedSlotIndex, item.objectID);
-            inventory.CreateItem(player.equippedSlotIndex, newObjectId, 1, player.WorldPosition);
         }
     }
 }

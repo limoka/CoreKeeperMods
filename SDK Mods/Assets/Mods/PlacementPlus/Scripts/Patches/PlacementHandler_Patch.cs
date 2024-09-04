@@ -1,6 +1,13 @@
-﻿using HarmonyLib;
-using PlacementPlus.Access;
+﻿using CoreLib.Util.Extensions;
+using HarmonyLib;
+using PlacementPlus.Components;
+using PlacementPlus.Systems;
+using PlayerEquipment;
+using PugMod;
+using PugProperties;
 using PugTilemap;
+using Unity.Entities;
+using Unity.NetCode;
 using UnityEngine;
 
 namespace PlacementPlus
@@ -10,50 +17,73 @@ namespace PlacementPlus
     {
         [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.UpdatePlaceIcon))]
         [HarmonyPostfix]
-        public static void UpdatePlaceIcon(PlacementHandler __instance, bool immediate)
+        public static void UpdatePlaceIcon(
+            PlacementHandler __instance,
+            bool immediate,
+            in PlacementCD placementCD,
+            ObjectDataCD infoAboutObjectToPlace,
+            Entity placementPrefab,
+            ComponentLookup<DirectionCD> directionLookup,
+            ComponentLookup<DirectionBasedOnVariationCD> directionBasedOnVariationLookup,
+            ComponentLookup<ObjectPropertiesCD> objectPropertiesLookup,
+            PugDatabase.DatabaseBankCD databaseBankCD
+        )
         {
-            ObjectDataCD item = __instance.GetSlotOwner_Public().GetHeldObject();
-            Vector2Int size = __instance.GetCurrentSize_Public();
+            var world = API.Client.World;
+            var player = Manager.main.player;
+            var state = world.EntityManager.GetComponentData<PlacementPlusState>(player.entity);
 
-            if (BrushExtension.size == 0 ||
-                BrushExtension.mode == BrushMode.NONE ||
-                size.x != 1 || 
-                size.y != 1)
+            ref var info = ref PugDatabase.GetEntityObjectInfo(infoAboutObjectToPlace.objectID, databaseBankCD.databaseBankBlob, infoAboutObjectToPlace.variation);
+
+            if (state.size == 0 ||
+                state.mode == BrushMode.NONE ||
+                info.prefabTileSize.x != 1 ||
+                info.prefabTileSize.y != 1)
             {
-                PlacementHandler.SetAllowPlacingAnywhere(false);
+                //PlacementHandler.SetAllowPlacingAnywhere(false);
 
-                if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
+                /*if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
                 {
-                    if (HandleTileReplace(__instance, item)) return;
-                }
+                    //if (HandleTileReplace(__instance, item)) return;
+                }*/
 
                 return;
             }
 
-            ObjectInfo itemInfo = __instance.GetInfoAboutObjectToPlace_Public();
+            var equipmentSlot = world.EntityManager.GetComponentData<EquipmentSlotCD>(player.entity);
+
+            var query = world.EntityManager.CreateEntityQuery(typeof(NetworkTime));
+            var currentTick = query.GetSingleton<NetworkTime>().ServerTick;
+            query.Dispose();
             
-            if (__instance is PlacementHandlerPainting || 
+           /* if (__instance is PlacementHandlerPainting ||
                 (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) ||
-                __instance is PlacementHandlerRoofingTool || 
-                BrushExtension.IsItemValid(itemInfo))
+                __instance is PlacementHandlerRoofingTool ||
+                BrushExtension.IsItemValid(itemInfo))*/
+           if (equipmentSlot.slotType == EquipmentSlotType.PlaceObjectSlot &&
+               PlacementPlusSystem.IsItemValid(ref info))
             {
-                BrushRect extents = BrushExtension.GetExtents();
-                __instance.placeableIcon.SetPosition(__instance.bestPositionToPlaceAt, immediate || BrushExtension.brushChanged);
-                BrushExtension.brushChanged = false;
+                BrushRect extents = state.GetExtents();
+                
+                Vector3Int vector3Int = new Vector3Int(placementCD.bestPositionToPlaceAt.x, placementCD.bestPositionToPlaceAt.y, placementCD.bestPositionToPlaceAt.z);
+                vector3Int = EntityMonoBehaviour.ToRenderFromWorld(vector3Int);
+                var diff = currentTick.TicksSince(state.changedOnTick);
+                
+                __instance.placeableIcon.SetPosition(vector3Int, immediate || Mathf.Abs(diff) < 5);
 
                 int newWidth = extents.width + 1;
                 int newHeight = extents.height + 1;
 
                 __instance.placeableIcon.SetSize(newWidth, newHeight);
 
-                PlacementHandler.SetAllowPlacingAnywhere(true);
+                //PlacementHandler.SetAllowPlacingAnywhere(true);
                 return;
             }
 
-            PlacementHandler.SetAllowPlacingAnywhere(false);
+            //PlacementHandler.SetAllowPlacingAnywhere(false);
         }
 
-        private static bool HandleTileReplace(PlacementHandler __instance, ObjectDataCD item)
+        /*private static bool HandleTileReplace(PlacementHandler __instance, ObjectDataCD item)
         {
             TileCD itemTileCD = PugDatabase.GetComponent<TileCD>(item);
             Vector3Int initialPos = __instance.bestPositionToPlaceAt;
@@ -69,35 +99,35 @@ namespace PlacementPlus
             }
 
             return false;
-        }
+        }*/
 
-        [HarmonyPatch(typeof(PlacementHandlerPainting), "CanPlaceObjectAtPosition")]
-        [HarmonyPostfix]
-        private static void FixPaintBrushGridPaint(PlacementHandlerPainting __instance, int width, int height, ref int __result)
-        {
-            if (AccessExtensions.GetAllowPlacingAnywhere_Public() && BrushExtension.size > 0 && __result > 0)
-            {
-                __result = width * height;
-            }
-        }
-
-        [HarmonyPatch(typeof(PlacementHandler), "FindPlaceablePositionFromMouseOrJoystick")]
-        [HarmonyPatch(typeof(PlacementHandler), "FindPlaceablePositionFromOwnerDirection")]
-        [HarmonyPrefix]
-        private static void UseExtendedRange(PlacementHandler __instance, ref int width, ref int height)
-        {
-            ObjectInfo itemInfo = __instance.GetInfoAboutObjectToPlace_Public();
-
-            if (__instance is PlacementHandlerPainting || 
-                (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) || 
-                __instance is PlacementHandlerRoofingTool || 
-                BrushExtension.IsItemValid(itemInfo))
-            {
-                BrushRect extents = BrushExtension.GetExtents();
-
-                width = extents.width + 1;
-                height = extents.height + 1;
-            }
-        }
+        /* [HarmonyPatch(typeof(PlacementHandlerPainting), "CanPlaceObjectAtPosition")]
+         [HarmonyPostfix]
+         private static void FixPaintBrushGridPaint(PlacementHandlerPainting __instance, int width, int height, ref int __result)
+         {
+             if (AccessExtensions.GetAllowPlacingAnywhere_Public() && BrushExtension.size > 0 && __result > 0)
+             {
+                 __result = width * height;
+             }
+         }
+ 
+         [HarmonyPatch(typeof(PlacementHandler), "FindPlaceablePositionFromMouseOrJoystick")]
+         [HarmonyPatch(typeof(PlacementHandler), "FindPlaceablePositionFromOwnerDirection")]
+         [HarmonyPrefix]
+         private static void UseExtendedRange(PlacementHandler __instance, ref int width, ref int height)
+         {
+             ObjectInfo itemInfo = __instance.GetInfoAboutObjectToPlace_Public();
+ 
+             if (__instance is PlacementHandlerPainting || 
+                 (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) || 
+                 __instance is PlacementHandlerRoofingTool || 
+                 BrushExtension.IsItemValid(itemInfo))
+             {
+                 BrushRect extents = BrushExtension.GetExtents();
+ 
+                 width = extents.width + 1;
+                 height = extents.height + 1;
+             }
+         }*/
     }
 }

@@ -10,6 +10,7 @@
         "Unity.Mathematics",
         "Unity.NetCode",
         "Unity.NetCode.Physics",
+        "NaughtyAttributes.Core",
         "Unity.Networking.Transport",
         "Unity.Physics",
         "Unity.Physics.Hybrid",
@@ -82,7 +83,8 @@
         "Sentry.Unity.Native.dll",
         "ZipSaveFolder.dll",
         "0Harmony.dll",
-        "PlacementPlus.Access.dll"
+        "PlacementPlus.Access.dll",
+        "Pug.ECS.Extensions.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

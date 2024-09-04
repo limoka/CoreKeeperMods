@@ -6,7 +6,7 @@ namespace PlacementPlus
     [HarmonyPatch]
     public static class RoofingToolSlot_Patch
     {
-        [HarmonyPatch(typeof(RoofingToolSlot), "ToggleRoof")]
+        /*[HarmonyPatch(typeof(RoofingToolSlot), "ToggleRoof")]
         [HarmonyPrefix]
         public static bool OnToggleRoof(RoofingToolSlot __instance)
         {
@@ -28,6 +28,6 @@ namespace PlacementPlus
             BrushExtension.RoofGrid(__instance, initialPos);
 
             return false;
-        }
+        }*/
     }
 }

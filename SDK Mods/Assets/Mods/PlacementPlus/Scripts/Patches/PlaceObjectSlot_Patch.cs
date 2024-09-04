@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using PlacementPlus.Access;
 using UnityEngine;
 
 namespace PlacementPlus
@@ -7,7 +6,7 @@ namespace PlacementPlus
     [HarmonyPatch]
     public static class PlaceObjectSlot_Patch
     {
-        [HarmonyPatch(typeof(PlaceObjectSlot), "PlaceItem")]
+      /*  [HarmonyPatch(typeof(PlaceObjectSlot), "PlaceItem")]
         [HarmonyPrefix]
         public static bool OnPlace(PlaceObjectSlot __instance)
         {
@@ -36,9 +35,9 @@ namespace PlacementPlus
             BrushExtension.PlaceGrid(__instance, pos, item, itemInfo);
 
             return false;
-        }
+        }*/
 
-        [HarmonyPatch(typeof(PlaceObjectSlot), "Rotate")]
+       /* [HarmonyPatch(typeof(PlaceObjectSlot), "Rotate")]
         [HarmonyPostfix]
         public static void OnRotate(PlaceObjectSlot __instance)
         {
@@ -62,6 +61,6 @@ namespace PlacementPlus
             BrushExtension.PaintGrid(__instance, handler);
 
             return false;
-        }
+        }*/
     }
 }

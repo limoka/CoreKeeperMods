@@ -6,7 +6,7 @@ namespace PlacementPlus
     [HarmonyPatch]
     public static class ShovelSlot_Patch
     {
-        [HarmonyPatch(typeof(ShovelSlot), "Dig")]
+       /* [HarmonyPatch(typeof(ShovelSlot), "Dig")]
         [HarmonyPrefix]
         public static bool OnDig(ShovelSlot __instance)
         {
@@ -28,7 +28,7 @@ namespace PlacementPlus
             BrushExtension.DigGrid(__instance, initialPos, handler);
 
             return false;
-        }
+        }*/
     
     }
 }

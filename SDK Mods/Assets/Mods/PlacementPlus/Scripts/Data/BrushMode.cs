@@ -3,7 +3,7 @@
 namespace PlacementPlus
 {
     [Flags]
-    public enum BrushMode
+    public enum BrushMode : byte
     {
         NONE,
         HORIZONTAL = 1,
