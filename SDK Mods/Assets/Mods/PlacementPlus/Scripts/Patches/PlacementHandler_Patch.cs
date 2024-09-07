@@ -40,7 +40,6 @@ namespace PlacementPlus
                 info.prefabTileSize.x != 1 ||
                 info.prefabTileSize.y != 1)
             {
-                //PlacementHandler.SetAllowPlacingAnywhere(false);
 
                 /*if (PugDatabase.HasComponent<TileCD>(item) && BrushExtension.replaceTiles)
                 {
@@ -60,8 +59,8 @@ namespace PlacementPlus
                 (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) ||
                 __instance is PlacementHandlerRoofingTool ||
                 BrushExtension.IsItemValid(itemInfo))*/
-           if (equipmentSlot.slotType == EquipmentSlotType.PlaceObjectSlot &&
-               PlacementPlusSystem.IsItemValid(ref info))
+           if ((equipmentSlot.slotType == EquipmentSlotType.PlaceObjectSlot && PlacementPlusSystem.IsItemValid(ref info)) ||
+               equipmentSlot.slotType == EquipmentSlotType.ShovelSlot)
             {
                 BrushRect extents = state.GetExtents();
                 
@@ -76,11 +75,8 @@ namespace PlacementPlus
 
                 __instance.placeableIcon.SetSize(newWidth, newHeight);
 
-                //PlacementHandler.SetAllowPlacingAnywhere(true);
                 return;
             }
-
-            //PlacementHandler.SetAllowPlacingAnywhere(false);
         }
 
         /*private static bool HandleTileReplace(PlacementHandler __instance, ObjectDataCD item)

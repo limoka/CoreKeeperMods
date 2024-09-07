@@ -121,7 +121,7 @@ namespace PlacementPlus.Components
             blockMode = (BlockMode)newMode;
         }
         
-        public BrushRect GetExtents()
+        public readonly BrushRect GetExtents()
         {
             int width = mode.IsHorizontal() ? size : 0;
             int height = mode.IsVertical() ? size : 0;

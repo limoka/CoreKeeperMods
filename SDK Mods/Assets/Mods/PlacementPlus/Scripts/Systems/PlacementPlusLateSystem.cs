@@ -16,6 +16,9 @@ namespace PlacementPlus.Systems
                     if (slot.slotType == (EquipmentSlotType)100)
                     {
                         slot.slotType = EquipmentSlotType.PlaceObjectSlot;
+                    } else if (slot.slotType == (EquipmentSlotType)101)
+                    {
+                        slot.slotType = EquipmentSlotType.ShovelSlot;
                     }
                 })
                 .WithoutBurst()

@@ -189,6 +189,7 @@ namespace PlacementPlus
             Log.LogInfo("Adding my components!");
             
             entitymanager.AddComponent<PlacementPlusState>(entity);
+            entitymanager.AddBuffer<ShovelDigQueueBuffer>(entity);
         }
 
         private void OnRewiredStart()
