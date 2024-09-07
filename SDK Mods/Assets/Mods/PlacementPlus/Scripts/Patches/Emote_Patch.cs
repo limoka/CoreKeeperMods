@@ -40,18 +40,29 @@ namespace PlacementPlus
         }
 
         [HarmonyPatch(typeof(Emote), nameof(Emote.OnOccupied))]
-        [HarmonyPostfix]
-        public static void OnOccupied(Emote __instance)
+        [HarmonyPrefix]
+        public static bool OnOccupied(Emote __instance)
         {
             __instance.fadeEffect.fadeOutTime = 0.5f;
             
             if (__instance.emoteTypeInput == MOD_EMOTE &&
                 !string.IsNullOrEmpty(lastMessage))
             {
+                Vector3 vector3_1 = new Vector3(0.0f, 3f, -3f);
+                Vector2 vector2 = Random.insideUnitCircle * 0.33f;
+                Vector3 vector3_2 = __instance.randomizePosition ? new Vector3(vector2.x, vector2.y, 0.0f) : Vector3.zero;
+                __instance.transform.position = (__instance.emotePosition + vector3_1 + vector3_2).RoundToMultiple(16f);
+                __instance.iconSkin.gameObject.SetActive(false);
+                
                 __instance.SetValue("textToPrint", lastMessage);
+                __instance.text.localize = false;
+                __instance.textOutline.localize = false;
                 ApplyEmote(__instance);
                 lastMessage = "";
+                return false;
             }
+
+            return true;
         }
 
         private static void ApplyEmote(Emote __instance)

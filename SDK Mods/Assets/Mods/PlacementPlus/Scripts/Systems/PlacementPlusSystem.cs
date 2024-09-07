@@ -267,8 +267,6 @@ namespace PlacementPlus.Systems
             equipmentAspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)101;
             if (!secondInteractHeld) return false;
 
-            PlacementPlusMod.Log.LogInfo($"About to dig, got {nativeList.Length} results!");
-
             Dig(
                 ref nativeList,
                 equipmentAspect,
@@ -389,8 +387,8 @@ namespace PlacementPlus.Systems
             }
 
             int2 posInt2 = position.ToInt2();
-            
-            if ((!foundData || targetEntity == Entity.Null) && 
+
+            if ((!foundData || targetEntity == Entity.Null) &&
                 tileLookup.ContainsKey(posInt2))
             {
                 var tileData = tileLookup[posInt2];
@@ -514,7 +512,7 @@ namespace PlacementPlus.Systems
 
                 int2 pos = collisionWorld.Bodies[castHit.RigidBodyIndex].WorldFromBody.pos.RoundToInt2();
                 if (tileLookup.ContainsKey(pos)) continue;
-                
+
                 tileLookup.Add(pos, new TileData(castHit.Entity, tileCD));
             }
         }
@@ -552,8 +550,13 @@ namespace PlacementPlus.Systems
             ghostEffectEventBuffer.AddToRingBuffer(ref valueRW, ghostEffectEventBuffer2);
         }
 
-        private static bool UpdatePlaceObjectPlus(EquipmentUpdateAspect equipmentAspect, EquipmentUpdateSharedData equipmentShared,
-            LookupEquipmentUpdateData lookupData, PlacementPlusState state, bool secondInteractHeld)
+        private static bool UpdatePlaceObjectPlus(
+            EquipmentUpdateAspect equipmentAspect,
+            EquipmentUpdateSharedData equipmentShared,
+            LookupEquipmentUpdateData lookupData,
+            PlacementPlusState state,
+            bool secondInteractHeld
+        )
         {
             var containedObject = equipmentAspect.equippedObjectCD.ValueRO.containedObject;
             if (containedObject.auxDataIndex > 0) return false;
@@ -654,6 +657,7 @@ namespace PlacementPlus.Systems
                     equipmentAspect,
                     sharedData,
                     lookupData,
+                    state,
                     tilesChecked,
                     ref entityObjectInfo,
                     ref placement,
@@ -697,6 +701,7 @@ namespace PlacementPlus.Systems
             in EquipmentUpdateAspect equipmentAspect,
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
+            PlacementPlusState state,
             NativeHashMap<int3, bool> tilesChecked,
             ref PugDatabase.EntityObjectInfo entityObjectInfo,
             ref PlacementCD placement,
@@ -705,9 +710,17 @@ namespace PlacementPlus.Systems
         )
         {
             Entity equipmentPrefab = equipmentAspect.equippedObjectCD.ValueRO.equipmentPrefab;
+            var posInt2 = position.ToInt2();
 
-            if (!CanPlaceItem(equipmentPrefab, ref entityObjectInfo, position, equipmentAspect, sharedData,
-                    lookupData))
+            if (!CanPlaceItem(
+                    equipmentAspect,
+                    sharedData,
+                    lookupData,
+                    state,
+                    equipmentPrefab,
+                    ref entityObjectInfo,
+                    posInt2
+                ))
             {
                 return;
             }
@@ -743,13 +756,17 @@ namespace PlacementPlus.Systems
 
             if (lookupData.tileLookup.HasComponent(equipmentPrefab))
             {
-                TileType tile = GetTileTypeToPlace(position, ref entityObjectInfo, sharedData.tileAccessor, sharedData.tileWithTilesetToObjectDataMapCD);
+                TileType tile = GetTileTypeToPlace(
+                    sharedData,
+                    state,
+                    posInt2,
+                    ref entityObjectInfo);
                 var dynamicBuffer = lookupData.tileUpdateBufferLookup[sharedData.tileUpdateBufferEntity];
 
                 EntityUtility.AddTile(
                     entityObjectInfo.tileset,
                     tile,
-                    new int2(position.x, position.z),
+                    posInt2,
                     sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative),
                     dynamicBuffer);
 
@@ -856,53 +873,85 @@ namespace PlacementPlus.Systems
             ghostEffectEventBuffer.AddToRingBuffer(ref bufferPointer, newEvent);
         }
 
-        private static bool CanPlaceItem(Entity placementPrefab, ref PugDatabase.EntityObjectInfo objectToPlaceInfo, int3 pos,
-            in EquipmentUpdateAspect equipmentUpdateAspect, in EquipmentUpdateSharedData equipmentUpdateSharedData,
-            in LookupEquipmentUpdateData equipmentUpdateLookupData)
+        private static TileType GetTileTypeToPlace(
+            EquipmentUpdateSharedData sharedData,
+            PlacementPlusState state,
+            int2 pos,
+            ref PugDatabase.EntityObjectInfo info)
         {
-            ref PlacementCD valueRW = ref equipmentUpdateAspect.placementCD.ValueRW;
-            ComponentLookup<TileCD> tileLookup = equipmentUpdateLookupData.tileLookup;
-            if (!tileLookup.HasComponent(placementPrefab))
-            {
-                valueRW.tilePlacementTimer.Stop(equipmentUpdateSharedData.currentTick);
-                return true;
-            }
+            if (info.tileType != TileType.wall)
+                return info.tileType;
+            var tileLookup = sharedData.tileAccessor;
 
-            TileType targetTileToPlace = GetTileTypeToPlace(pos, ref objectToPlaceInfo, equipmentUpdateSharedData.tileAccessor,
-                equipmentUpdateSharedData.tileWithTilesetToObjectDataMapCD);
-            bool flag = equipmentUpdateAspect.clientInput.ValueRO.IsButtonSet(CommandInputButtonNames.SecondInteract_Pressed) ||
-                        (targetTileToPlace != TileType.wall && targetTileToPlace != TileType.ground) ||
-                        (targetTileToPlace == TileType.wall && valueRW.previouslyPlacedTileType == TileType.wall) ||
-                        (targetTileToPlace == TileType.ground && valueRW.previouslyPlacedTileType == TileType.ground) || !valueRW.tilePlacementTimer.isRunning ||
-                        valueRW.tilePlacementTimer.IsTimerElapsed(equipmentUpdateSharedData.currentTick);
-            if (flag)
+            ObjectDataCD tileData;
+            switch (state.blockMode)
             {
-                valueRW.tilePlacementTimer.Start(equipmentUpdateSharedData.currentTick, 0.65f, equipmentUpdateSharedData.tickRate);
-            }
-
-            return flag;
-        }
-
-        private static TileType GetTileTypeToPlace(int3 pos, ref PugDatabase.EntityObjectInfo objectToPlaceInfo, in TileAccessor tileAccessor,
-            in TileWithTilesetToObjectDataMapCD tileWithTilesetToObjectDataMapCD)
-        {
-            int2 @int = pos.ToInt2();
-            if (objectToPlaceInfo.tileType == TileType.wall)
-            {
-                TileAccessor tileAccessor2 = tileAccessor;
-                if (!tileAccessor2.HasType(@int, TileType.ground))
-                {
-                    tileAccessor2 = tileAccessor;
-                    if (!tileAccessor2.HasType(@int, TileType.bridge) &&
-                        PugDatabase.TryGetTileItemInfo(TileType.ground, (Tileset)objectToPlaceInfo.tileset, tileWithTilesetToObjectDataMapCD).objectID !=
-                        ObjectID.None)
+                case BlockMode.TOGGLE:
+                    tileData = PugDatabase.TryGetTileItemInfo(TileType.ground, (Tileset)info.tileset, sharedData.tileWithTilesetToObjectDataMapCD);
+                    if (!tileLookup.HasType(pos, TileType.ground) &&
+                        !tileLookup.HasType(pos, TileType.bridge) &&
+                        tileData.objectID != ObjectID.None)
                     {
                         return TileType.ground;
                     }
-                }
+
+                    break;
+                case BlockMode.GROUND:
+                    tileData = PugDatabase.TryGetTileItemInfo(TileType.ground, (Tileset)info.tileset, sharedData.tileWithTilesetToObjectDataMapCD);
+                    if (tileData.objectID != ObjectID.None)
+                    {
+                        return TileType.ground;
+                    }
+
+                    break;
+                case BlockMode.WALL:
+                    tileData = PugDatabase.TryGetTileItemInfo(TileType.wall, (Tileset)info.tileset, sharedData.tileWithTilesetToObjectDataMapCD);
+                    if (tileData.objectID != ObjectID.None)
+                    {
+                        return TileType.wall;
+                    }
+
+                    break;
             }
 
-            return objectToPlaceInfo.tileType;
+            return info.tileType;
+        }
+
+        private static bool CanPlaceItem(
+            in EquipmentUpdateAspect equipmentAspect,
+            in EquipmentUpdateSharedData sharedData,
+            in LookupEquipmentUpdateData lookupData,
+            PlacementPlusState state,
+            Entity placementPrefab,
+            ref PugDatabase.EntityObjectInfo objectToPlaceInfo,
+            int2 pos
+        )
+        {
+            ref PlacementCD valueRW = ref equipmentAspect.placementCD.ValueRW;
+            ComponentLookup<TileCD> tileLookup = lookupData.tileLookup;
+            if (!tileLookup.HasComponent(placementPrefab))
+            {
+                valueRW.tilePlacementTimer.Stop(sharedData.currentTick);
+                return true;
+            }
+
+            TileType targetTileToPlace = GetTileTypeToPlace(
+                sharedData,
+                state,
+                pos,
+                ref objectToPlaceInfo);
+            bool flag = equipmentAspect.clientInput.ValueRO.IsButtonSet(CommandInputButtonNames.SecondInteract_Pressed) ||
+                        (targetTileToPlace != TileType.wall && targetTileToPlace != TileType.ground) ||
+                        (targetTileToPlace == TileType.wall && valueRW.previouslyPlacedTileType == TileType.wall) ||
+                        (targetTileToPlace == TileType.ground && valueRW.previouslyPlacedTileType == TileType.ground) ||
+                        !valueRW.tilePlacementTimer.isRunning ||
+                        valueRW.tilePlacementTimer.IsTimerElapsed(sharedData.currentTick);
+            if (flag)
+            {
+                valueRW.tilePlacementTimer.Start(sharedData.currentTick, 0.65f, sharedData.tickRate);
+            }
+
+            return flag;
         }
 
         private static bool IsPlacingWallAfterPreviouslyPlacedGround(in PlacementCD placementCD, ref PugDatabase.EntityObjectInfo objectToPlaceInfo)

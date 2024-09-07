@@ -20,4 +20,18 @@ namespace PlacementPlus.Commands
         public Entity player;
         public int valueChange;
     }
+
+    public enum ModMessageType : byte
+    {
+        UNDEFINED,
+        MODE_MESSAGE,
+        ROOFING_MODE_MESSAGE,
+        BLOCK_MODE_MESSAGE
+    }
+    
+    public struct PlacementMessageRPC : IRpcCommand
+    {
+        public ModMessageType messageType;
+        public int messageData;
+    }
 }

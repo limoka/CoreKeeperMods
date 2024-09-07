@@ -1,7 +1,10 @@
-﻿using PlacementPlus.Commands;
+﻿using System;
+using PlacementPlus.Commands;
+using PugMod;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.NetCode;
+using UnityEngine;
 
 namespace PlacementPlus.Systems.Network
 {
@@ -24,7 +27,6 @@ namespace PlacementPlus.Systems.Network
 
         public void ChangeSize(Entity player, int direction)
         {
-            PlacementPlusMod.Log.LogInfo($"Send command: {ModCommandType.CHANGE_SIZE}, player: {player}");
             rpcQueue.Enqueue(new PlacementPlusRPC
             {
                 commandType = ModCommandType.CHANGE_SIZE,
@@ -35,7 +37,6 @@ namespace PlacementPlus.Systems.Network
         
         public void ChangeToolMode(Entity player, bool direction)
         {
-            PlacementPlusMod.Log.LogInfo($"Send command: {ModCommandType.CHANGE_TOOL_MODE}, player: {player}");
             rpcQueue.Enqueue(new PlacementPlusRPC
             {
                 commandType = ModCommandType.CHANGE_TOOL_MODE,
@@ -46,7 +47,6 @@ namespace PlacementPlus.Systems.Network
         
         public void ChangeOrientation(Entity player)
         {
-            PlacementPlusMod.Log.LogInfo($"Send command: {ModCommandType.CHANGE_ORIENTATION}, player: {player}");
             rpcQueue.Enqueue(new PlacementPlusRPC
             {
                 commandType = ModCommandType.CHANGE_ORIENTATION,
@@ -56,7 +56,6 @@ namespace PlacementPlus.Systems.Network
         
         public void SetReplaceState(Entity player, bool state)
         {
-            PlacementPlusMod.Log.LogInfo($"Send command: {ModCommandType.SET_REPLACE}, player: {player}");
             rpcQueue.Enqueue(new PlacementPlusRPC
             {
                 commandType = ModCommandType.SET_REPLACE,
@@ -72,10 +71,45 @@ namespace PlacementPlus.Systems.Network
             EntityCommandBuffer entityCommandBuffer = CreateCommandBuffer();
             while (rpcQueue.TryDequeue(out PlacementPlusRPC component))
             {
-                PlacementPlusMod.Log.LogInfo($"Sending RPC: {component.commandType}");
                 Entity e = entityCommandBuffer.CreateEntity(rpcArchetype);
                 entityCommandBuffer.SetComponent(e, component);
             }
+
+            var ecb = CreateCommandBuffer();
+            
+            Entities.ForEach((Entity rpcEntity, in PlacementMessageRPC rpc) =>
+                {
+                    switch (rpc.messageType)
+                    {
+                        case ModMessageType.MODE_MESSAGE:
+                            var mode1 = (BrushMode)rpc.messageData;
+                            ShowMessage("PlacementPlus/ModeMessage", mode1.ToString());
+                            break;
+                        /*case ModMessageType.ROOFING_MODE_MESSAGE:
+                            var mode2 = (RoofingToolMode)rpc.messageData;
+                            ShowMessage("PlacementPlus/RoofingToolModeMessage", mode2.ToString());
+                            break;*/
+                        case ModMessageType.BLOCK_MODE_MESSAGE:
+                            var mode3 = (BlockMode)rpc.messageData;
+                            ShowMessage("PlacementPlus/BlockToolModeMessage", mode3.ToString());
+                            break;
+                    }
+                    
+                    ecb.DestroyEntity(rpcEntity);
+                })
+                .WithAll<ReceiveRpcCommandRequest>()
+                .WithoutBurst()
+                .Run();
+        }
+
+        private static void ShowMessage(string baseMsg, string modeName)
+        {
+            string text = API.Localization.GetLocalizedTerm(baseMsg);
+            string modeText = API.Localization.GetLocalizedTerm($"PlacementPlus/{modeName}");
+            string emoteText = string.Format(text, modeText);
+            Vector3 PlayerCenter = Manager.main.player.center;
+            
+            Emote_Patch.SpawnModEmoteText(PlayerCenter, emoteText);
         }
     }
 }

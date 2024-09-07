@@ -16,9 +16,12 @@ namespace PlacementPlus.Systems.Network
     {
         private NativeHashMap<int, ObjectID> colorIndexLookup;
         private int maxPaintIndex = -1;
+        private EntityArchetype responseArchetype;
 
         protected override void OnCreate()
         {
+            responseArchetype = EntityManager.CreateArchetype(typeof(PlacementMessageRPC), typeof(SendRpcCommandRequest));
+            
             NeedDatabase();
             base.OnCreate();
         }
@@ -39,9 +42,10 @@ namespace PlacementPlus.Systems.Network
             var networkTime = SystemAPI.GetSingleton<NetworkTime>();
             var currentTick = networkTime.ServerTick;
 
+            var responseArchetypeLocal = responseArchetype;
+
             Entities.ForEach((Entity rpcEntity, in PlacementPlusRPC rpc, in ReceiveRpcCommandRequest req) =>
                 {
-                    PlacementPlusMod.Log.LogInfo($"Got PlacementPlusRPC: {rpc.commandType}, player: {rpc.player}, value: {rpc.valueChange}");
                     if (rpc.commandType == ModCommandType.UNDEFINED) return;
 
                     if (!SystemAPI.HasComponent<PlacementPlusState>(rpc.player))
@@ -74,7 +78,7 @@ namespace PlacementPlus.Systems.Network
 
                             ref var item = ref inventory.ElementAt(clientInput.equippedSlotIndex);
 
-                            ToggleToolMode(
+                            var resultMessage = ToggleToolMode(
                                 colorIndexLookupLocal,
                                 databaseLocal,
                                 paintToolLookup,
@@ -83,6 +87,17 @@ namespace PlacementPlus.Systems.Network
                                 rpc.valueChange > 0,
                                 maxPaintIndexLocal
                             );
+
+                            if (resultMessage.messageType != ModMessageType.UNDEFINED)
+                            {
+                                SendResponseMessage(
+                                    responseArchetypeLocal,
+                                    ecb,
+                                    resultMessage.messageType,
+                                    resultMessage.messageData,
+                                    req.SourceConnection
+                                );
+                            }
                             
                             ecb.SetComponent(rpc.player, placementState);
 
@@ -92,6 +107,14 @@ namespace PlacementPlus.Systems.Network
 
                             placementState.ToggleMode(currentTick);
                             ecb.SetComponent(rpc.player, placementState);
+
+                            SendResponseMessage(
+                                responseArchetypeLocal,
+                                ecb,
+                                ModMessageType.MODE_MESSAGE,
+                                (int)placementState.mode,
+                                req.SourceConnection
+                            );
                             break;
 
                         case ModCommandType.SET_REPLACE:
@@ -110,7 +133,28 @@ namespace PlacementPlus.Systems.Network
             base.OnUpdate();
         }
 
-        private static void ToggleToolMode(
+        private static void SendResponseMessage(
+            EntityArchetype messageArchetype,
+            EntityCommandBuffer ecb,
+            ModMessageType message,
+            int data,
+            Entity targetConnection
+        )
+        {
+            Entity e = ecb.CreateEntity(messageArchetype);
+            ecb.SetComponent(e, new PlacementMessageRPC()
+            {
+                messageType = message,
+                messageData = data
+            });
+            ecb.SetComponent(e, new SendRpcCommandRequest
+            {
+                TargetConnection = targetConnection
+            });
+        }
+        
+
+        private static PlacementMessageRPC ToggleToolMode(
             NativeHashMap<int, ObjectID> colorIndexLookup,
             BlobAssetReference<PugDatabase.PugDatabaseBank> database,
             ComponentLookup<PaintToolCD> paintToolLookup,
@@ -119,10 +163,10 @@ namespace PlacementPlus.Systems.Network
             bool backwards,
             int maxPaintIndex)
         {
-            if (item.objectID == ObjectID.None) return;
+            if (item.objectID == ObjectID.None) return default;
 
             ref var objectInfo = ref PugDatabase.GetEntityObjectInfo(item.objectID, database, item.variation);
-            if (objectInfo.objectID == ObjectID.None) return;
+            if (objectInfo.objectID == ObjectID.None) return default;
 
             Entity prefabEntity = objectInfo.prefabEntities[0];
 
@@ -130,15 +174,20 @@ namespace PlacementPlus.Systems.Network
             {
                 var paintTool = paintToolLookup[prefabEntity];
                 CyclePaintBrush(colorIndexLookup, ref item, ref state, paintTool, backwards, maxPaintIndex);
+                return default;
             }
-            else if (objectInfo.objectType == ObjectType.RoofingTool)
+
+            /*if (objectInfo.objectType == ObjectType.RoofingTool)
             {
-                state.ToggleRoofingMode(backwards);
-            }
-            else if (objectInfo.tileType == TileType.wall)
+                return state.ToggleRoofingMode(backwards);
+            }*/
+            
+            if (objectInfo.tileType == TileType.wall)
             {
-                state.ToggleBlockMode(backwards);
+                return state.ToggleBlockMode(backwards);
             }
+
+            return default;
         }
 
         private void InitColorIndexLookup()

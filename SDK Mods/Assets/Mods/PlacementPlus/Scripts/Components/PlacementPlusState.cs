@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using PlacementPlus.Commands;
 using PlacementPlus.Util;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -88,7 +89,7 @@ namespace PlacementPlus.Components
             changedOnTick = currentTick;
         }
         
-        public void ToggleRoofingMode(bool backwards)
+        public PlacementMessageRPC ToggleRoofingMode(bool backwards)
         {
             int newMode = (int)roofingMode + (backwards ? -1 : 1);
 
@@ -102,9 +103,15 @@ namespace PlacementPlus.Components
                 newMode = (int)RoofingToolMode.MAX - 1;
             }
             roofingMode = (RoofingToolMode)newMode;
+
+            return new PlacementMessageRPC()
+            {
+                messageType = ModMessageType.ROOFING_MODE_MESSAGE,
+                messageData = newMode
+            };
         }
         
-        public void ToggleBlockMode(bool backwards)
+        public PlacementMessageRPC ToggleBlockMode(bool backwards)
         {
             int newMode = (int)blockMode + (backwards ? -1 : 1);
 
@@ -119,6 +126,11 @@ namespace PlacementPlus.Components
             }
 
             blockMode = (BlockMode)newMode;
+            return new PlacementMessageRPC()
+            {
+                messageType = ModMessageType.BLOCK_MODE_MESSAGE,
+                messageData = newMode
+            };
         }
         
         public readonly BrushRect GetExtents()
