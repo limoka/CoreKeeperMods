@@ -69,7 +69,7 @@ namespace PlacementPlus.Systems.Network
 
                             int adminLevel = 0;
                             if (SystemAPI.HasComponent<ConnectionAdminLevelCD>(req.SourceConnection))
-                                adminLevel = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection).Value;
+                                adminLevel = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection).adminPrivileges;
 
                             if (guestMode && adminLevel <= 0) break;
 
