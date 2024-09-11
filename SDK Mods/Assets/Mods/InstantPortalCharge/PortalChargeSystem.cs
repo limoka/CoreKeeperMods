@@ -9,7 +9,9 @@ namespace InstantPortalCharge
     {
         protected override void OnUpdate()
         {
-            Entities.ForEach((ref ObjectDataCD objectDataCd) =>
+            Entities.ForEach((
+                    ref ObjectDataCD objectDataCd
+                ) =>
                 {
                     if (objectDataCd.amount < 1200)
                     {
@@ -23,7 +25,24 @@ namespace InstantPortalCharge
                 .WithNone<EntityDestroyedCD>()
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Schedule();
-            
+
+            Entities.ForEach((
+                    ref ObjectDataCD objectDataCd,
+                    in WayPointCD wayPoint,
+                    in DistanceToPlayerCD distance
+                ) =>
+                {
+                    if (objectDataCd.amount >= 600) return;
+                    
+                    float minDis = distance.minDistanceSq;
+                    if (!(minDis > 0) || !(minDis <= wayPoint.distanceToActivateSQ)) return;
+                    
+                    objectDataCd.amount = 600;
+                })
+                .WithName("WayPointCharge")
+                .WithBurst()
+                .Schedule();
+
             base.OnUpdate();
         }
     }
