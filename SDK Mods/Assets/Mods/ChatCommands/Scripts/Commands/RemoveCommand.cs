@@ -16,42 +16,42 @@ namespace ChatCommands.Chat.Commands
     {
         public CommandOutput Execute(string[] parameters, Entity sender)
         {
-            PlayerController player = sender.GetPlayerController();
-            if (player == null) return "null player!";
+            Entity player = sender.GetPlayerEntity();
+            if (player == Entity.Null) return "null player!";
 
             if (parameters.Length == 0) return new CommandOutput("Please enter target ID", CommandStatus.Error);
 
-            if (Enum.TryParse(parameters[0], out ObjectID target))
+            if (!Enum.TryParse(parameters[0], out ObjectID target)) 
+                return new CommandOutput($"No such object {parameters[0]}", CommandStatus.Error);
+            
+            EntityManager entityManager = API.Server.World.EntityManager;
+            EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<ObjectDataCD>(), ComponentType.ReadOnly<LocalTransform>());
+
+            var array = query.ToEntityArray(Allocator.Temp);
+            var matches = new List<Entity>();
+
+            foreach (Entity entity in array)
             {
-                EntityManager entityManager = API.Server.World.EntityManager;
-                EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<ObjectDataCD>(), ComponentType.ReadOnly<LocalTransform>());
-
-                var array = query.ToEntityArray(Allocator.Temp);
-                var matches = new List<Entity>();
-
-                foreach (Entity entity in array)
-                {
-                    ObjectDataCD objectData = entityManager.GetComponentData<ObjectDataCD>(entity);
-                    if (objectData.objectID == target) matches.Add(entity);
-                }
-
-                if (matches.Count == 0) return new CommandOutput("Found no such entity!", CommandStatus.Error);
-
-                if (parameters.Length > 1 && parameters.Contains("all"))
-                {
-                    foreach (Entity entity in matches) DestroyEntity(entity);
-                    return "Destroyed entities successfully!";
-                }
-
-                var sorted = matches
-                    .OrderBy(entity => { return math.length(entityManager.GetComponentData<LocalTransform>(entity).Position - player.WorldPosition.ToFloat3()); })
-                    .ToList();
-
-                DestroyEntity(sorted.First());
-                return "Destroyed entity successfully!";
+                ObjectDataCD objectData = entityManager.GetComponentData<ObjectDataCD>(entity);
+                if (objectData.objectID == target) matches.Add(entity);
             }
 
-            return new CommandOutput($"No such object {parameters[0]}", CommandStatus.Error);
+            if (matches.Count == 0) return new CommandOutput("Found no such entity!", CommandStatus.Error);
+
+            if (parameters.Length > 1 && parameters.Contains("all"))
+            {
+                foreach (Entity entity in matches) DestroyEntity(entity);
+                return "Destroyed entities successfully!";
+            }
+            
+            var translation = API.Server.World.EntityManager.GetComponentData<LocalTransform>(player);
+
+            var sorted = matches
+                .OrderBy(entity => math.length(entityManager.GetComponentData<LocalTransform>(entity).Position - translation.Position))
+                .ToList();
+
+            DestroyEntity(sorted.First());
+            return "Destroyed entity successfully!";
         }
 
         public string GetDescription()

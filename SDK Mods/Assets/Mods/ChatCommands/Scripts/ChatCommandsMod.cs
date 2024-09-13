@@ -8,7 +8,7 @@ namespace ChatCommands
 {
     public class ChatCommandsMod : IMod
     {
-        public const string VERSION = "2.0.3";
+        public const string VERSION = "2.1.1";
         public const string NAME = "Chat Commands";
         private LoadedMod modInfo;
 

@@ -1,5 +1,6 @@
 ﻿using CoreLib.Commands;
 using CoreLib.Commands.Communication;
+using UnityEngine;
 
 namespace ChatCommands.Chat.Commands
 {
@@ -22,6 +23,7 @@ namespace ChatCommands.Chat.Commands
             if (float.TryParse(parameters[0], out float value))
             {
                 Manager.ui.mapUI.revealLargeMap = true;
+                value = Mathf.Clamp(value, 0, 12);
                 MapUI_Patch.bigRevealRadius = value;
                 return $"Reveal radius is now {value}";
             }

@@ -54,4 +54,7 @@ MonoBehaviour:
   forceReimport: 1
   buildBundles: 0
   buildLinux: 0
-  buildBurst: 1
+  buildBurst: 0
+  cachedBuild: 0
+  assets: []
+  lastBuildLinux: 0
