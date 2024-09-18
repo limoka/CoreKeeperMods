@@ -59,7 +59,7 @@ namespace PlacementPlus
                 (__instance is PlacementHandlerDigging && itemInfo.objectType == ObjectType.Shovel) ||
                 __instance is PlacementHandlerRoofingTool ||
                 BrushExtension.IsItemValid(itemInfo))*/
-           if ((equipmentSlot.slotType == EquipmentSlotType.PlaceObjectSlot && PlacementPlusSystem.IsItemValid(ref info)) ||
+           if ((equipmentSlot.slotType == EquipmentSlotType.PlaceObjectSlot && ObjectPlacementLogic.IsItemValid(ref info)) ||
                equipmentSlot.slotType == EquipmentSlotType.ShovelSlot)
             {
                 BrushRect extents = state.GetExtents();

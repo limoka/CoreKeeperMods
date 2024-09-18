@@ -25,7 +25,7 @@ namespace PlacementPlus
     public class PlacementPlusMod : IMod
     {
         public const string MODNAME = "Placement Plus";
-        public const string VERSION = "2.0.0";
+        public const string VERSION = "2.0.2";
 
         public static Logger Log = new Logger(MODNAME);
         public static ConfigFile Config;
