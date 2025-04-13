@@ -1,6 +1,6 @@
 Key	Type	Desc	English	German	Japanese	Korean	Spanish	Chinese (Simplified)	Thai
-DummyMod/Dummy	Text	Dummy Name	Beating Dummy	Dummy schlagen	ダミービート	치는 더미	Muñeco de Paliza	殴打假人	ตีหุ่น
-Items/DummyMod:Dummy	Text	Dummy Name	Beating Dummy	Dummy schlagen	ダミービート	치는 더미	Muñeco de Paliza	殴打假人	ตีหุ่น
+DummyMod/Dummy	Text	Dummy Name	Beating Dummy	Zielpuppe	ダミービート	치는 더미	Muñeco de Paliza	殴打假人	ตีหุ่น
+Items/DummyMod:Dummy	Text	Dummy Name	Beating Dummy	Zielpuppe	ダミービート	치는 더미	Muñeco de Paliza	殴打假人	ตีหุ่น
 Items/DummyMod:DummyDesc	Text	Dummy Desc	Use this dummy to sharpen your fighting skills	Benutze diesen Dummy, um deine Kampffähigkeiten zu schärfen	あなたの戦闘スキルをシャープにするために、このダミーを使用してください	이 더미를 사용하여 전투 기술을 연마하십시오	Usa este muñeco para agudizar tus habilidades de combate	使用这个假人来提高你的战斗技能	ใช้หุ่นนี้เพื่อเพิ่มความคมชัดทักษะการต่อสู้ของคุณ
 DummyMod/ResetButton	Text	Reset	Reset	Zurücksetzen	リセット	재설정	Restablecer	重置	รีเซ็ต
 DumymMod/LastDamage	Text	Last Damage	Last Damage	Letzter Schaden	最後のダメージ	마지막 피해	Último Daño	最后的伤害	ความเสียหายครั้งสุดท้าย
@@ -8,5 +8,5 @@ DumymMod/MinDamage	Text	Min Damage	Min Damage	Minimaler Schaden	最小ダメー�
 DumymMod/MaxDamage	Text	Max Damage	Max Damage	Maximaler Schaden	最大ダメージ	최대 피해	Daño Máximo	最大伤害	ความเสียหายสูงสุด
 DumymMod/AverageDamage	Text	Average Damage	Average Damage	Durchschnittsschaden	平均ダメージ	평균 피해	Daño Promedio	平均伤害	ความเสียหายเฉลี่ย
 DumymMod/LastDps	Text	DPS	DPS	DPS	DPS	DPS	DPS	DPS的	เอสพีเอส
-DumymMod/MaxDps	Text	Max DPS	Max DPS	Maximaler DPS	最大DPS	최대	DPS máx.	最大DPS	แม็กซ์
+DumymMod/MaxDps	Text	Max DPS	Max DPS	Max. DPS	最大DPS	최대	DPS máx.	最大DPS	แม็กซ์
 DummyMod/KillButton	Text	DestroyDummy	Destroy	Zerstören	破壊する	파괴	Destruir	销毁	ทำลาย
