@@ -1,4 +1,5 @@
-﻿using PugProperties;
+﻿using Pug.UnityExtensions;
+using PugProperties;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;

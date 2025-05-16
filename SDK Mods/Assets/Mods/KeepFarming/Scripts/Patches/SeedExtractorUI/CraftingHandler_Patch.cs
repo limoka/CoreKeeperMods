@@ -9,7 +9,7 @@ namespace KeepFarming
     [HarmonyPatch]
     public static class CraftingHandler_Patch
     {
-        [HarmonyPatch(typeof(CraftingHandler), MethodType.Constructor, typeof(EntityMonoBehaviour), typeof(World))]
+        [HarmonyPatch(typeof(CraftingHandler), MethodType.Constructor, typeof(EntityMonoBehaviour), typeof(World), typeof(bool))]
         [HarmonyPostfix]
         public static void OnNew(CraftingHandler __instance, EntityMonoBehaviour entityMonoBehaviour, World world)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using KeepFarming;
 using Pug.Sprite;
+using Pug.UnityExtensions;
 using PugProperties;
 using PugTilemap;
 using UnityEngine;

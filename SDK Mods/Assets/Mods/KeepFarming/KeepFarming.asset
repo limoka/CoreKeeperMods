@@ -67,7 +67,7 @@ MonoBehaviour:
   modPath: Assets\Mods\KeepFarming
   forceReimport: 0
   buildBundles: 1
-  cacheBundles: 1
+  cacheBundles: 0
   buildLinux: 1
   buildBurst: 1
   assets:
