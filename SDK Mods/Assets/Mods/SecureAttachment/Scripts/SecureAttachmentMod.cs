@@ -72,7 +72,7 @@ namespace SecureAttachment
         public static ConfigFile Config;
 
         public const string MOD_ID = "SecureAttachment";
-        public const string VERSION = "2.0.2";
+        public const string VERSION = "2.0.3";
         public const string MOD_NAME = "Secure Attachment";
 
         internal static LoadedMod modInfo;

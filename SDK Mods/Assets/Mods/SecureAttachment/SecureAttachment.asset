@@ -50,8 +50,6 @@ MonoBehaviour:
   assets:
   - path: Assets/Mods/SecureAttachment/CrowbarSlot.prefab
     hash: 5011133C4AFEC08CACE23DC99717270060867CFAB99A092E478804D556F85B19
-  - path: Assets/Mods/SecureAttachment/End Times.mp3
-    hash: B010D16C42CB239797DFDA635633B06A202D23871F123FB05DE67A099094FB78
   - path: Assets/Mods/SecureAttachment/Item/WoodenWrench.prefab
     hash: BFAF2F441221B62AB785E8080625A77CDC023E90257EFCC21EEB89F3FB1E5F1C
   - path: Assets/Mods/SecureAttachment/Item/Wrench.prefab
@@ -59,9 +57,9 @@ MonoBehaviour:
   - path: Assets/Mods/SecureAttachment/Item/WrenchWorkbench.asset
     hash: FE56CD81CFFBF06D6C683E8CF42FB49813891D46C09BC98EE23AF96568AD6278
   - path: Assets/Mods/SecureAttachment/Localization/Localization.csv
-    hash: C135FD94AA52CEDCE546F6C936C55B50F642FF1305379B69317DCB18AF90D833
+    hash: ACAC1DF17F0AAD3FF7027DF6905423BE1C8A6EA84E700CC233841700D21720A4
   - path: Assets/Mods/SecureAttachment/SecureAttachment.asset
-    hash: 3C9A5AAF3987735422871F9F0DD324BA85C026F27F52BAB7F38998CE5BD6EB56
+    hash: 837ACCB0BAE5C22C702F7DA440B282B9EEB7C91B1E72FCCF6929E175717093E2
   - path: Assets/Mods/SecureAttachment/SecureAttachment_modio.asset
     hash: 77CFFE6B2C9253E13F162CDF50786ADAB6008D8C52F2089EC23418120999659F
   - path: Assets/Mods/SecureAttachment/SpriteAssetManifest.asset

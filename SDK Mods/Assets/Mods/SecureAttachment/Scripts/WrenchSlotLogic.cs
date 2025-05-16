@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CoreLib.Equipment;
 using PlayerEquipment;
+using Pug.UnityExtensions;
 using PugProperties;
 using Unity.Collections;
 using Unity.Entities;
