@@ -38,11 +38,13 @@ MonoBehaviour:
     - path: Scripts/Scripts/Commands/PlaceTileAreaCommand.cs
     - path: Scripts/Scripts/Commands/NoclipCommand.cs
     - path: Scripts/Scripts/Commands/MaxSkillsCommandHandler.cs
+    - path: Scripts/Scripts/Commands/InfoCommandHandler.cs
     - path: Scripts/Scripts/Commands/HideUICommand.cs
     - path: Scripts/Scripts/Commands/HealCommandHandler.cs
     - path: Scripts/Scripts/Commands/GiveCommandHandler.cs
     - path: Scripts/Scripts/Commands/FeedCommandHandler.cs
     - path: Scripts/Scripts/Commands/DisableAICommand.cs
+    - path: Scripts/Scripts/Commands/CopyCommandHandler.cs
     - path: Scripts/Scripts/Commands/ClearInvCommandHandler.cs
     - path: Scripts/Scripts/ChatCommandsMod.cs
     dependencies:
@@ -55,9 +57,10 @@ MonoBehaviour:
   buildBundles: 0
   cacheBundles: 0
   buildLinux: 0
+  buildBurst: 1
   assets:
   - path: Assets/Mods/ChatCommands/ChatCommands.asset
-    hash: 7E2FB121F1C01393462C052B9EEB5EA9220F1196C6E21AD034CB1334A3F7352D
+    hash: CE85B3E903EC850A3BCDEED34339A0E5647E4D91A86E321C5B4787FD5713980B
   - path: Assets/Mods/ChatCommands/ChatCommands_modio.asset
     hash: 6157E3BF27E3195A5039866A8E2B42D5DBD554B251FDF285E8D1761B718D8143
   lastBuildLinux: 0

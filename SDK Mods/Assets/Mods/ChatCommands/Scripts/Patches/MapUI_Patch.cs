@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 
 namespace ChatCommands.Chat
-{
+{/*
     [HarmonyPatch]
     public static class MapUI_Patch
     {
@@ -17,5 +17,5 @@ namespace ChatCommands.Chat
                 __result = bigRevealRadius;
             }
         }
-    }
+    }*/
 }

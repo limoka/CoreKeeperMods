@@ -2,6 +2,7 @@
 using CoreLib.Commands;
 using CoreLib.Commands.Communication;
 using HarmonyLib;
+using Pug.UnityExtensions;
 using PugMod;
 using Unity.Entities;
 using Unity.Mathematics;

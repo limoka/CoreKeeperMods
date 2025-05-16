@@ -8,7 +8,8 @@ namespace ChatCommands.Chat.Commands
     {
         public CommandOutput Execute(string[] parameters)
         {
-            if (parameters.Length <= 0)
+            return new CommandOutput("Command has been disabled (Not implemented)", CommandStatus.Error);
+            /*if (parameters.Length <= 0)
             {
                 return new CommandOutput("Please provide radius", CommandStatus.Error);
             }
@@ -28,7 +29,7 @@ namespace ChatCommands.Chat.Commands
                 return $"Reveal radius is now {value}";
             }
 
-            return new CommandOutput($"{parameters[0]} is not a valid number!", CommandStatus.Error);
+            return new CommandOutput($"{parameters[0]} is not a valid number!", CommandStatus.Error);*/
         }
 
         public string GetDescription()
