@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
 using PlacementPlus.Util;
+using Pug.UnityExtensions;
 using UnityEngine;
 
 namespace PlacementPlus

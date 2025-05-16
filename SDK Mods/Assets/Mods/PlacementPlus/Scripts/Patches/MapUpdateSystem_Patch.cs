@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Pug.UnityExtensions;
 using PugMod;
 using Unity.Collections;
 using Unity.Mathematics;
@@ -38,7 +39,7 @@ namespace PlacementPlus
                     var localPos = EntityMonoBehaviour.ToRenderFromWorld(pos.ToInt2());
                     var surfaceTile = tileLookup.GetTopTile(localPos);
                     Color color = colorLookup.GetColorByTileType(surfaceTile.tileset, surfaceTile.tileType);
-                    __instance.SetColorOverridesThisUpdate(new Vector3Int(pos.x, 0, pos.y), color);
+                    __instance.SetColorOverridesThisUpdate(new int2(pos.x, pos.y), color);
                 }
             }
 

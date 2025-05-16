@@ -4,6 +4,7 @@ using PlacementPlus.Access;
 using PlacementPlus.Components;
 using PlayerEquipment;
 using PlayerState;
+using Pug.UnityExtensions;
 using PugProperties;
 using PugTilemap;
 using PugTilemap.Quads;
@@ -400,10 +401,10 @@ namespace PlacementPlus
                         Value = PugRandom.InheritRngFromEntity(ref valueRW.Value)
                     });
                 }
-                ComponentLookup<OwnerCD> ownerLookup = ppLookups.ownerLookup;
+                ComponentLookup<OwnerReferenceCD> ownerLookup = ppLookups.ownerLookup;
                 if (ownerLookup.HasComponent(equipmentPrefab))
                 {
-                    ecb.SetComponent(entity, new OwnerCD
+                    ecb.SetComponent(entity, new OwnerReferenceCD
                     {
                         owner = equipmentAspect.entity
                     });
