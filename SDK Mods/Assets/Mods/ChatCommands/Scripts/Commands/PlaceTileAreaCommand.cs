@@ -60,7 +60,9 @@ namespace ChatCommands.Chat.Commands
                    "\nFirst pair is rect start position, second is rect end position" +
                    "\nPosition can be relative, if '~' is added to beginning" +
                    "\nTileset defines set of tiles (Most of the time its a biome)" +
-                   "\nTileType defines the kind of a tile: ground, wall, rail, etc.";
+                   "\nTileType defines the kind of a tile: ground, wall, rail, etc." +
+                   "\n\nExamples:" +
+                   "\n/placeTileArea dirt wall ~3 ~3 ~2 ~2 - place 2x2 cube of dirt wall 2 tiles away from player (top right, on both axis)";
         }
 
         public string[] GetTriggerNames()

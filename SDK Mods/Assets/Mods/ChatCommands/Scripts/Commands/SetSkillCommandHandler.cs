@@ -24,7 +24,10 @@ namespace ChatCommands.Chat.Commands
             if (player == Entity.Null) return "There was an issue, try again later.";
 
             if (!Enum.TryParse(parameters[0], out SkillID skillID))
-                return new CommandOutput($"Skill '{parameters[0]}' is not valid!", CommandStatus.Error);
+            {
+                var allNames = Enum.GetNames(typeof(SkillID));
+                return new CommandOutput($"Skill '{parameters[0]}' is not valid!\nKnown skill names: {string.Join(", ", allNames)}", CommandStatus.Error);
+            }
 
             int skillFromLevel = SkillExtensions.GetSkillFromLevel(skillID, level);
             SetSkillValue(player, skillID, skillFromLevel);
@@ -48,7 +51,11 @@ namespace ChatCommands.Chat.Commands
 
         public string GetDescription()
         {
-            return "Use /setSkill to set the given skill to the given level. Usage:\n/setSkill {skillName} {level}";
+            return "Use /setSkill to set the given skill to the given level. Usage:\n" +
+                   "/setSkill {skillName} {level}" +
+                   "\n\n" +
+                   "Example:\n" +
+                   "/setSkill Mining 100";
         }
 
         public string[] GetTriggerNames()

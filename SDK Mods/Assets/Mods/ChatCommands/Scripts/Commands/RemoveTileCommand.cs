@@ -59,7 +59,9 @@ namespace ChatCommands.Chat.Commands
                    "\n /removeTile {tileType} {x} {y}" +
                    "\n /removeTile {itemName} {x} {y}" +
                    "\nPosition can be relative, if '~' is added to beginning" +
-                   "\nTileType defines the kind of a tile: ground, wall, rail, etc.";
+                   "\nTileType defines the kind of a tile: ground, wall, rail, etc." +
+                   "\n\nExamples:" +
+                   "\n/removeTile wall ~1 ~1 - Remove wall tile 1 tile away from player (top right)";
         }
 
         public string[] GetTriggerNames()

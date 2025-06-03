@@ -1,5 +1,7 @@
 ﻿using CoreLib.Commands;
 using CoreLib.Commands.Communication;
+using CoreLib.Util.Extensions;
+using PugMod;
 using UnityEngine;
 
 namespace ChatCommands.Chat.Commands
@@ -8,33 +10,26 @@ namespace ChatCommands.Chat.Commands
     {
         public CommandOutput Execute(string[] parameters)
         {
-            return new CommandOutput("Command has been disabled (Not implemented)", CommandStatus.Error);
-            /*if (parameters.Length <= 0)
+            var mapUpdateSystem = API.Client.World.GetExistingSystemManaged<MapUpdateSystem>();
+            
+            if (parameters.Length <= 0)
             {
-                return new CommandOutput("Please provide radius", CommandStatus.Error);
+                mapUpdateSystem.ToggleMapReveal();
+                var mode = mapUpdateSystem.GetValue<bool>("_largeRevealDistance");
+                return$"Reveal mode now: { (mode ? "large" : "default") }";
             }
 
-            if (parameters[0] == "default")
-            {
-                Manager.ui.mapUI.revealLargeMap = false;
-                MapUI_Patch.bigRevealRadius = 12;
-                return "Reveal radius is reset";
-            }
-
-            if (float.TryParse(parameters[0], out float value))
-            {
-                Manager.ui.mapUI.revealLargeMap = true;
-                value = Mathf.Clamp(value, 0, 12);
-                MapUI_Patch.bigRevealRadius = value;
-                return $"Reveal radius is now {value}";
-            }
-
-            return new CommandOutput($"{parameters[0]} is not a valid number!", CommandStatus.Error);*/
+            var newMode = parameters[0] == "large";
+            mapUpdateSystem.SetValue("_largeRevealDistance", newMode);
+            
+            return$"Reveal mode now: { (newMode ? "large" : "default") }";
         }
 
         public string GetDescription()
         {
-            return "Use /setReveal {radius} to set map reveal radius\n";
+            return "Use /setReveal [mode] to set map reveal mode.\n" +
+                   "Valid modes: default, large. If no mode provided, will toggle.\n" +
+                   "Please note: this command NO LONGER supports setting reveal radius!";
         }
 
         public string[] GetTriggerNames()

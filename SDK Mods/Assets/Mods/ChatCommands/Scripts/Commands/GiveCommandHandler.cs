@@ -29,7 +29,11 @@ namespace ChatCommands.Chat.Commands
                 "Use /give to give yourself any item. \n" +
                 "/give {itemName} [count] [variation]\n" +
                 "The count parameter defaults to 1. Variation defaults to 0\n" +
-                "/give food {item1} + {item2} [count] Add any food. First item is used as a base ingredient.";
+                "/give food {item1} + {item2} [count] Add any food. First item is used as a base ingredient.\n" +
+                "\n" +
+                "Examples:\n" +
+                "/give iron bar 10\n" +
+                "/give food heart berry + glow tulip 10";
         }
 
         public string[] GetTriggerNames()

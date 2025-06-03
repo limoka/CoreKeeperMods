@@ -21,7 +21,8 @@ namespace ChatCommands.Chat.Commands
 
         public string GetDescription()
         {
-            return "Use /feed to fully feed player.\n/feed {amount} for a specific amount.";
+            return "Use /feed to fully feed player.\n" +
+                   "/feed {amount} for a specific amount.";
         }
 
         public string[] GetTriggerNames()

@@ -49,7 +49,9 @@ namespace ChatCommands.Chat.Commands
                    "\n /placeTile {itemName} {x} {y}" +
                    "\nPosition can be relative, if '~' is added to beginning" +
                    "\nTileset defines set of tiles (Most of the time its a biome)" +
-                   "\nTileType defines the kind of a tile: ground, wall, rail, etc.";
+                   "\nTileType defines the kind of a tile: ground, wall, rail, etc." +
+                   "\n\nExamples:" +
+                   "\n/placeTile dirt wall ~1 ~1 - Place a dirt wall 1 tile away from player (top right)";
         }
 
         public string[] GetTriggerNames()

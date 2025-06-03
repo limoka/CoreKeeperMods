@@ -59,7 +59,9 @@ namespace ChatCommands.Chat.Commands
                    "\n /removeTileArea {itemName} {sX} {sY} {eX} {eY}" +
                    "\nFirst pair is rect start position, second is rect end position" +
                    "\nPosition can be relative, if '~' is added to beginning" +
-                   "\nTileType defines the kind of a tile: ground, wall, rail, etc.";
+                   "\nTileType defines the kind of a tile: ground, wall, rail, etc." +
+                   "\n\nExamples:" +
+                   "\n/removeTileArea wall ~3 ~3 ~2 ~2 - remove 2x2 cube of wall 2 tiles away from player (top right, on both axis)";
         }
 
         public string[] GetTriggerNames()

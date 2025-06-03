@@ -21,8 +21,12 @@ namespace ChatCommands.Chat.Commands
 
             if (parameters.Length == 0) return new CommandOutput("Please enter target ID", CommandStatus.Error);
 
-            if (!Enum.TryParse(parameters[0], out ObjectID target)) 
-                return new CommandOutput($"No such object {parameters[0]}", CommandStatus.Error);
+            var removeAll = parameters.Any(s => s is "all" or "-all");
+            var fullName = string.Join(" ", parameters.Where(s => s is not ("all" or "-all")));
+            
+            CommandOutput output = CommandUtil.ParseItemName(fullName, out ObjectID target);
+            if (target == ObjectID.None)
+                return output;
             
             EntityManager entityManager = API.Server.World.EntityManager;
             EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<ObjectDataCD>(), ComponentType.ReadOnly<LocalTransform>());
@@ -38,7 +42,7 @@ namespace ChatCommands.Chat.Commands
 
             if (matches.Count == 0) return new CommandOutput("Found no such entity!", CommandStatus.Error);
 
-            if (parameters.Length > 1 && parameters.Contains("all"))
+            if (removeAll)
             {
                 foreach (Entity entity in matches) DestroyEntity(entity);
                 return "Destroyed entities successfully!";
@@ -57,7 +61,9 @@ namespace ChatCommands.Chat.Commands
         public string GetDescription()
         {
             return
-                "/remove {object ID} [all|slow] - Remove closest entity with matching ID. If any flag is set, all matching entites will be removed. If slow flag is set the command will use slower search pattern.";
+                "/remove {object ID} [-all] - Remove closest (in the vicinity) entity with matching ID. If all flag is set, all matching entites will be removed.\n" +
+                "\nExample:" +
+                "\n/remove CopperOreBoulder - Remove closest (in the vicinity) copper ore boulder";
         }
 
         public string[] GetTriggerNames()

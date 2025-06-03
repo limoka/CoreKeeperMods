@@ -40,7 +40,7 @@ namespace ChatCommands.Chat.Commands
 
         public string GetDescription()
         {
-            return "Sample a tile";
+            return "Use /sampleTile to sample tile at player's current position";
         }
 
         public string[] GetTriggerNames()

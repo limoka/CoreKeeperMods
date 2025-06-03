@@ -52,7 +52,9 @@ namespace ChatCommands.Chat.Commands
         {
             return "Use /spawn any entity into the world\n" +
                    "/spawn {object name} {x} {y} [variation]\n" +
-                   "x and y is target world position. Use '~' to set position relative to you.";
+                   "x and y is target world position. Use '~' to set position relative to you.\n" +
+                   "\nExample:\n" +
+                   "/spawn SlimeBlob ~1 ~1";
         }
 
         public string[] GetTriggerNames()

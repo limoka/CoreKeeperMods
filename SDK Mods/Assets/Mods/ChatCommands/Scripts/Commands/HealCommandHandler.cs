@@ -24,7 +24,9 @@ namespace ChatCommands.Chat.Commands
 
         public string GetDescription()
         {
-            return "Use /heal to fully heal player.\n/heal [amount] for a specific amount.";
+            return "Use /heal to fully heal player.\n" +
+                   "/heal [amount] for a specific amount.\n" +
+                   "Example: /heal";
         }
 
         public string[] GetTriggerNames()
@@ -40,9 +42,12 @@ namespace ChatCommands.Chat.Commands
             EntityManager entityManager = serverWorld.EntityManager;
             
             HealthCD health = entityManager.GetComponentData<HealthCD>(player);
-            int healAmount = amount < 0 ? health.maxHealth : amount;
+            var conditions = entityManager.GetBuffer<SummarizedConditionEffectsBuffer>(player);
+            int maxHealthWithConditions = health.GetMaxHealthWithConditions(conditions);
             
-            health.health = math.clamp(health.health + healAmount, 0, health.maxHealth);
+            int healAmount = amount < 0 ? maxHealthWithConditions : amount;
+            
+            health.health = math.clamp(health.health + healAmount, 0, maxHealthWithConditions);
             entityManager.SetComponentData(player, health);
             
             return $"Successfully healed {healAmount} HP";

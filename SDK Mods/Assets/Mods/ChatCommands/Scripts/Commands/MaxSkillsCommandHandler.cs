@@ -16,8 +16,9 @@ namespace ChatCommands.Chat.Commands
             for (int i = 0; i < (int)SkillID.NUM_SKILLS; ++i)
             {
                 SkillID skillID = (SkillID) i;
-                int maxSkillLevel = SkillExtensions.GetMaxSkillLevel(skillID);
-                SetSkillCommandHandler.SetSkillValue(player, skillID, maxSkillLevel);
+                int maxLevel = SkillExtensions.GetMaxSkillLevel(skillID);
+                int skillFromLevel = SkillExtensions.GetSkillFromLevel(skillID, maxLevel);
+                SetSkillCommandHandler.SetSkillValue(player, skillID, skillFromLevel);
             }
             
             return "Successfully maxed all skills";
