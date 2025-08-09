@@ -11,7 +11,7 @@ PlacementPlus/RANDOM_70_P	Text	Roofing Tool mode	Random 70% fill	Zufällige 70% 
 PlacementPlus/NONE	Text	Tool mode	None	Kein	なし	없지	Ninguna	无	ไม่มี
 PlacementPlus/HORIZONTAL	Text	Tool mode	Horizontal	Horizontal	水平	수평	Horizontal	水平方向	แนวนอน
 PlacementPlus/VERTICAL	Text	Tool mode	Vertical	Vertikal	縦型	수직	Vertical	垂直方向	แนวตั้ง
-PlacementPlus/SQUARE	Text	Tool mode	Square	Square	スクエア	광장	Cuadrado	广场	สแควร์
-PlacementPlus/BlockToolModeMessage	Text	Block Tool mode change message	Block placing mode set to {0}						
-PlacementPlus/GROUND	Text	Tool mode	Ground						
-PlacementPlus/WALL	Text	Tool mode	Wall						
+PlacementPlus/SQUARE	Text	Tool mode	Square	Quadrat	スクエア	광장	Cuadrado	广场	สแควร์
+PlacementPlus/BlockToolModeMessage	Text	Block Tool mode change message	Block placing mode set to {0}   BLock-Platzier-Modus auf {0} gesetzt						
+PlacementPlus/GROUND	Text	Tool mode	Ground  Boden						
+PlacementPlus/WALL	Text	Tool mode	Wall    Wand						
