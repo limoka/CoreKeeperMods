@@ -1,6 +1,6 @@
-﻿using System;
-using CoreLib.UserInterface;
-using UnityEngine;
+﻿
+
+using CoreLib.Submodule.UserInterface;
 
 namespace DummyMod
 {

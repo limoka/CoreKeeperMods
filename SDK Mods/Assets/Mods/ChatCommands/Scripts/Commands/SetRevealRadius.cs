@@ -1,8 +1,7 @@
-﻿using CoreLib.Commands;
-using CoreLib.Commands.Communication;
-using CoreLib.Util.Extensions;
+﻿using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
+using CoreLib.Util.Extension;
 using PugMod;
-using UnityEngine;
 
 namespace ChatCommands.Chat.Commands
 {
@@ -14,7 +13,7 @@ namespace ChatCommands.Chat.Commands
             
             if (parameters.Length <= 0)
             {
-                mapUpdateSystem.ToggleMapReveal();
+                MapUpdateSystem.ToggleMapReveal();
                 var mode = mapUpdateSystem.GetValue<bool>("_largeRevealDistance");
                 return$"Reveal mode now: { (mode ? "large" : "default") }";
             }

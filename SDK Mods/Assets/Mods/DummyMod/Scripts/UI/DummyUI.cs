@@ -1,6 +1,7 @@
 ﻿using System;
-using CoreLib.UserInterface;
-using CoreLib.UserInterface.Util;
+using CoreLib.Submodule.UserInterface;
+using CoreLib.Submodule.UserInterface.Interface;
+using CoreLib.Submodule.UserInterface.Util;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
@@ -11,8 +12,8 @@ namespace DummyMod.UI
     {
         public GameObject root;
         public GameObject Root => root;
-        public bool showWithPlayerInventory => true;
-        public bool shouldPlayerCraftingShow => false;
+        public bool ShowWithPlayerInventory => true;
+        public bool ShouldPlayerCraftingShow => false;
 
         public PugText lastDamageText;
         public PugText minDamageText;

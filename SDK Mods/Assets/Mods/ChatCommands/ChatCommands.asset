@@ -22,42 +22,65 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/Scripts/Util/Extensions.cs
+      guid: 
     - path: Scripts/Scripts/Patches/MapUI_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Patches/EffectsManager_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Commands/ToggleInvincibleCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/SpawnCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/SetSkillCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/SetRevealRadius.cs
+      guid: 
     - path: Scripts/Scripts/Commands/SampleTileCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/ResetSkillsCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/RepeatCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/RemoveTileCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/RemoveTileAreaCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/RemoveCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/PlaceTileCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/PlaceTileAreaCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/NoclipCommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/MaxSkillsCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/InfoCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/HideUICommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/HealCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/GiveCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/FeedCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/DisableAICommand.cs
+      guid: 
     - path: Scripts/Scripts/Commands/CopyCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/Commands/ClearInvCommandHandler.cs
+      guid: 
     - path: Scripts/Scripts/ChatCommandsMod.cs
+      guid: 
     dependencies:
     - modName: CoreLib
-      required: 1
-    - modName: CoreLib.Commands
       required: 1
   modPath: Assets\Mods\ChatCommands
   forceReimport: 1
   buildBundles: 0
   cacheBundles: 0
   buildLinux: 0
-  buildBurst: 1
   assets:
   - path: Assets/Mods/ChatCommands/ChatCommands.asset
     hash: C97DE1E6798C6DDACF4D899BA9D1FFC44EA17EA40D55E08C480C5DE176D29452

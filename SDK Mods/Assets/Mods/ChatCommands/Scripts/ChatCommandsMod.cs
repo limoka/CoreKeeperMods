@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using CoreLib;
-using CoreLib.Commands;
+using CoreLib.Submodule.Command;
+using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
 using PugMod;
 using UnityEngine;
 
@@ -22,8 +24,8 @@ namespace ChatCommands
                 return;
             }
 
-            CoreLibMod.LoadModule(typeof(CommandsModule));
-            CommandsModule.AddCommands(modInfo.ModId, NAME);
+            CoreLibMod.LoadSubmodule(typeof(CommandModule));
+            CommandModule.AddCommands(modInfo.ModId, NAME);
 
             Debug.Log($"[{NAME}]: Mod loaded successfully");
         }

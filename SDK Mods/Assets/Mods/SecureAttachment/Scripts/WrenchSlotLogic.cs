@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using CoreLib.Equipment;
+using CoreLib.Submodule.EquipmentSlot.Interface;
 using PlayerEquipment;
 using Pug.UnityExtensions;
-using PugProperties;
+using Pug.Properties;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;

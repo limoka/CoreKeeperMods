@@ -1,10 +1,8 @@
 ﻿using Pug.UnityExtensions;
-using PugProperties;
+using Pug.Properties;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.NetCode;
 using Unity.Transforms;
-using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
 namespace KeepFarming
@@ -33,7 +31,7 @@ namespace KeepFarming
             var summarizedConditionsBuffer = GetBufferLookup<SummarizedConditionsBuffer>(true);
             EntityCommandBuffer ecb = CreateCommandBuffer();
             
-            Entities.ForEach((Entity entity,
+            /*Entities.ForEach((Entity entity,
                     in ObjectDataCD objectData,
                     in LocalTransform transform,
                     in DynamicBuffer<DropsLootBuffer> dropsLootBuffer,
@@ -53,7 +51,7 @@ namespace KeepFarming
 
                     for (int i = 0; i < dropsLootBuffer.Length; i++)
                     {
-                        LootDrop lootDrop = dropsLootBuffer[i].lootDrop;
+                        var lootDrop = dropsLootBuffer[i];
                         if (lootDrop.lootDropID == ObjectID.None) continue;
 
                         float3 dropPosition = center + new float3(random.NextFloat(-0.3f, 0.3f), 0f, random.NextFloat(-0.3f, 0.3f));
@@ -90,9 +88,10 @@ namespace KeepFarming
                 .WithName("ExtraSeedDrop")
                 .WithAll<EntityDestroyedCD>()
                 .WithAll<PlantCD>()
-                .Run();
+                .Run();*/
 
             base.OnUpdate();
         }
     }
+#pragma warning restore SGICE002
 }

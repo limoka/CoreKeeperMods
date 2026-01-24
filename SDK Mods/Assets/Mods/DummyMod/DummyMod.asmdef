@@ -16,9 +16,7 @@
         "Unity.Properties",
         "Unity.Transforms",
         "PugMod.SDK",
-        "CoreLib",
-        "CoreLib.Entity",
-        "CoreLib.UserInterface"
+        "CoreLib"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

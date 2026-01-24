@@ -4,13 +4,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using CoreLib.Localization;
-using CoreLib.Util.Extensions;
+using CoreLib.Util.Extension;
 using HarmonyLib;
 using KeepFarming.Components;
 using KeepFarming.Util;
-using Pug.Sprite;
-using PugConversion;
+using Pug.Conversion;
 using PugMod;
 using Unity.Entities;
 using Unity.NetCode;
@@ -44,67 +42,9 @@ namespace KeepFarming
                 if (seedAuthoring != null)
                 {
                     AddPersistentGoldenSeed(monoBehaviour.gameObject);
-                    continue;
-                }
-                
-                var cookingIngredient = monoBehaviour.GetComponent<CookingIngredientAuthoring>();
-                var givesConditions = monoBehaviour.GetComponent<GivesConditionsWhenConsumedAuthoring>();
-                var flower = monoBehaviour.GetComponent<FlowerAuthoring>();
-                if (cookingIngredient == null ||
-                    flower == null) continue;
-
-                AddGradientMap(cookingIngredient, monoBehaviour.gameObject.name);
-                
-                if (monoBehaviour is EntityMonoBehaviourData data)
-                {
-                    CreateJuice(
-                        data.objectInfo.objectID.ToString(), 
-                        givesConditions, 
-                        cookingIngredient, 
-                        flower);
-                }
-
-                if (monoBehaviour is ObjectAuthoring objectAuthoring)
-                {
-                    CreateJuice(
-                        objectAuthoring.objectName,
-                        givesConditions, 
-                        cookingIngredient, 
-                        flower);
                 }
             }
-            SpriteAssetManager_Patch.ReloadAssets();
-        }
-
-        public static void AddGradientMap(CookingIngredientAuthoring authoring, string name)
-        {
-            var key = new CookingIngredientCD()
-            {
-                darkestColor = authoring.darkestColor,
-                darkColor = authoring.darkColor,
-                brightColor = authoring.brightColor,
-                brightestColor = authoring.brightestColor
-            };
-
-            if (gradientMaps.ContainsKey(key)) return;
-            
-            var gradientMap = new Texture2D(256, 1, TextureFormat.RGBA32, false)
-            {
-                filterMode = FilterMode.Point,
-                name = $"gm_mod_{name.ToLower()}"
-            };
-
-            for (int i = 0; i < 64; i++)
-            {
-                gradientMap.SetPixel(i, 0, key.darkestColor);
-                gradientMap.SetPixel(64 + i, 0, key.darkColor);
-                gradientMap.SetPixel(128 + i, 0, key.brightColor);
-                gradientMap.SetPixel(192 + i, 0, key.brightestColor);
-            }
-            
-            gradientMap.Apply();
-                
-            gradientMaps[key] = gradientMap;
+            //SpriteAssetManager_Patch.ReloadAssets();
         }
 
         [HarmonyPatch(typeof(ConversionManager), "CreateAndEnqueue")]
@@ -123,82 +63,6 @@ namespace KeepFarming
                 __instance.EntityManager.AddBuffer<LinkedEntityGroup>(__result).Add(__result);
             }
         }
-
-        private static void CreateJuice(
-            string fruitName, 
-            GivesConditionsWhenConsumedAuthoring givesConditions,
-            CookingIngredientAuthoring cookingIngredient, 
-            FlowerAuthoring flower)
-        {
-            if (flower.plantVariation > 0) return;
-            
-            var plantName = flower.plantID.ToString();
-            if (SeedExtractorSystem.juiceData.Any(data => data.plantName.Equals(plantName))) return;
-
-            var item = Object.Instantiate(KeepFarmingMod.juiceItemTemplate);
-            item.hideFlags = HideFlags.HideAndDontSave;
-
-            item.AddComponent<CopiedPrefabAuthoring>();
-
-            var newItemId = $"KeepFarming:{fruitName}Juice";
-            item.name = $"{newItemId}_Prefab";
-
-            var juiceTemplate = item.GetComponent<JuiceTemplate>();
-            var objectAuthoring = item.AddComponent<ObjectAuthoring>();
-            objectAuthoring.objectType = juiceTemplate.objectType;
-            objectAuthoring.tags = juiceTemplate.tags;
-            objectAuthoring.rarity = juiceTemplate.rarity;
-            objectAuthoring.objectName = newItemId;
-            
-            Object.Destroy(juiceTemplate);
-
-            var juiceAuthoring = item.AddComponent<JuiceAuthoring>();
-            juiceAuthoring.brightestColor = cookingIngredient.brightestColor;
-            juiceAuthoring.brightColor = cookingIngredient.brightColor;
-            juiceAuthoring.darkColor = cookingIngredient.darkColor;
-            juiceAuthoring.darkestColor = cookingIngredient.darkestColor;
-
-            if (givesConditions != null)
-            {
-                var itemGivesConditions = item.AddComponent<GivesConditionsWhenConsumedAuthoring>();
-                itemGivesConditions.Values = new List<ConditionDataContainer>();
-
-                foreach (ConditionDataContainer value in givesConditions.Values)
-                {
-                    if (value.conditionData.conditionID != ConditionID.None)
-                    {
-                        itemGivesConditions.Values.Add(new ConditionDataContainer()
-                        {
-                            conditionData = value.conditionData
-                        });
-                    }
-                }
-            }
-            else
-            {
-                KeepFarmingMod.Log.LogWarning($"{fruitName} does not have conditions!");
-            }
-
-            var localizedTerm = API.Localization.GetLocalizedTerm($"Items/{fruitName}");
-
-            if (localizedTerm == null)
-            {
-                localizedTerm = SplitCamelCase(fruitName);
-            }
-            
-            LocalizationModule.AddTerm($"Items/{newItemId}", $"{localizedTerm} Juice");
-            LocalizationModule.AddTerm($"Items/{newItemId}Desc", $"Delicious juice made from fresh fruit!");
-            
-            SeedExtractorSystem.juiceData.Add(new SeedExtractorSystem.JuiceData()
-            {
-                plantName = plantName,
-                juiceName = newItemId
-            });
-            
-            KeepFarmingMod.Log.LogDebug($"Adding juice for object {fruitName}!");
-            API.Authoring.RegisterAuthoringGameObject(item);
-        }
-
 
         private static void AddPersistentGoldenSeed(GameObject prefabGo)
         {
@@ -240,7 +104,7 @@ namespace KeepFarming
             
             var ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
             newPrefab.name += "P";
-            ghost.SetValue("prefabId", GetGUID(newPrefab.name));
+            ghost.SetValue("prefabId", GetGuid(newPrefab.name));
             ghost.ForcePrefabConversion = true;
 
             var seedAuthoring = newPrefab.GetComponent<SeedAuthoring>();
@@ -253,7 +117,7 @@ namespace KeepFarming
             if (alwaysDropZero != null)
                 Object.Destroy(alwaysDropZero);
             
-            KeepFarmingMod.Log.LogDebug($"Adding golden persistent seed for object {objectName}!");
+            KeepFarmingMod.Log.LogInfo($"Adding golden persistent seed for object {objectName}!");
             API.Authoring.RegisterAuthoringGameObject(newPrefab);
         }
 
@@ -316,14 +180,14 @@ namespace KeepFarming
 
             var ghost = newPrefab.GetComponent<GhostAuthoringComponent>();
             newPrefab.name += "P";
-            ghost.SetValue("prefabId", GetGUID(newPrefab.name));
+            ghost.SetValue("prefabId", GetGuid(newPrefab.name));
             ghost.ForcePrefabConversion = true;
 
-            KeepFarmingMod.Log.LogDebug($"Adding golden persistent plant for object {objectName}!");
+            KeepFarmingMod.Log.LogInfo($"Adding golden persistent plant for object {objectName}!");
             API.Authoring.RegisterAuthoringGameObject(newPrefab);
         }
         
-        public static string GetGUID(string objectId)
+        public static string GetGuid(string objectId)
         {
             using MD5 md5 = MD5.Create();
             byte[] hash = md5.ComputeHash(Encoding.UTF8.GetBytes(objectId));

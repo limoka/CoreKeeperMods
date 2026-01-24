@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 
 namespace MovableSpawners.Patches
@@ -30,15 +31,12 @@ namespace MovableSpawners.Patches
             if (objectData.objectID == ObjectID.SummonArea &&
                 objectData.variation < spawnerColors.Length)
             {
-                var colorData = __instance.colorReplacementData;
+                var newColor = spawnerColors[objectData.variation];
                 
-                colorData.srcColors.Add(oldColor);
-                ColorList list = new ColorList();
-                colorData.replacementColors.Add(list);
-
-                list.colorList.Add(spawnerColors[objectData.variation]);
-
-                __instance.SetActiveColorReplacement(1);
+                __instance.SetColorReplacement(
+                    new List<Color> { oldColor },
+                    new List<Color> { newColor }
+                );
             }
         }
     }

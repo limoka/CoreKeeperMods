@@ -1,6 +1,6 @@
-﻿using CoreLib.Util.Extensions;
+﻿using CoreLib.Util.Extension;
 using HarmonyLib;
-using PugConversion;
+using Pug.Conversion;
 using Unity.Entities;
 using UnityEngine;
 
@@ -10,9 +10,9 @@ namespace MovableSpawners.Patches
     public static class GhostConverter_Patch
     {
 
-        [HarmonyPatch("PugConversion.GhostPostConverter", nameof(PugPostConverter.PostConvert))]
+        [HarmonyPatch("PugConversion.GhostPostConverter", nameof(PostConverter.PostConvert))]
         [HarmonyPrefix]
-        public static void OnPostConvert(PugPostConverter __instance, GameObject authoring)
+        public static void OnPostConvert(PostConverter __instance, GameObject authoring)
         {
             var entityData = authoring.GetComponent<EntityMonoBehaviourData>();
             if (entityData == null ||

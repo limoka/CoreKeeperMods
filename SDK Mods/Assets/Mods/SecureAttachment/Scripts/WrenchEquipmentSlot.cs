@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using CoreLib;
-using CoreLib.Equipment;
-using CoreLib.Submodules.ModEntity;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.Entity;
+using CoreLib.Submodule.EquipmentSlot;
+using CoreLib.Submodule.EquipmentSlot.Interface;
+using CoreLib.Util.Extension;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -21,11 +22,11 @@ namespace SecureAttachment
         public const string WrenchObjectType = "SecureAttachment:Wrench";
 
         protected override EquipmentSlotType slotType =>
-            EquipmentModule.GetEquipmentSlotType<WrenchEquipmentSlot>();
+            EquipmentSlotModule.GetEquipmentSlotType<WrenchEquipmentSlot>();
 
         public ObjectType GetSlotObjectType()
         {
-            return EntityModule.GetObjectType(WrenchObjectType);
+            return EquipmentSlotModule.GetObjectType(WrenchObjectType);
         }
 
         private ContainedObjectsBuffer AsBuffer(ObjectDataCD objectDataCd)

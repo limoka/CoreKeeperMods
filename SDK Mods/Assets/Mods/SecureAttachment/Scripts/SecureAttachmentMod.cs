@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using CoreLib;
-using CoreLib.Audio;
 using CoreLib.Data.Configuration;
-using CoreLib.Equipment;
-using CoreLib.Submodules.ModEntity;
-using CoreLib.Submodules.ModEntity.Atributes;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.Audio;
+using CoreLib.Submodule.Entity;
+using CoreLib.Submodule.EquipmentSlot;
+using CoreLib.Util.Extension;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
@@ -16,7 +15,6 @@ using Object = UnityEngine.Object;
 
 namespace SecureAttachment
 {
-    [EntityModification]
     public class SecureAttachmentMod : IMod
     {
         public static HashSet<ObjectID> mountedObjects = new HashSet<ObjectID>
@@ -89,9 +87,9 @@ namespace SecureAttachment
         {
             Log.LogInfo($"Loading {MOD_NAME}, version: {VERSION}");
 
-            CoreLibMod.LoadModules(
+            CoreLibMod.LoadSubmodule(
                 typeof(EntityModule),
-                typeof(EquipmentModule),
+                typeof(EquipmentSlotModule),
                 typeof(AudioModule));
 
             modInfo = this.GetModInfo();
@@ -115,9 +113,9 @@ namespace SecureAttachment
             
             API.Authoring.OnObjectTypeAdded += ModifyPlaceables;
 
-            EquipmentModule.RegisterEquipmentSlot<WrenchEquipmentSlot>(
+            EquipmentSlotModule.RegisterEquipmentSlot<WrenchEquipmentSlot>(
                 WrenchEquipmentSlot.WrenchObjectType,
-                EquipmentModule.PLACEMENT_PREFAB,
+                EquipmentSlotModule.PLACEMENT_PREFAB,
                 new WrenchSlotLogic()
             );
 
@@ -137,12 +135,6 @@ namespace SecureAttachment
         public void ModObjectLoaded(Object obj)
         {
             if (obj == null) return;
-
-            if (obj is WorkbenchDefinition workbenchDefinition)
-            {
-                EntityModule.AddModWorkbench(workbenchDefinition);
-                return;
-            }
 
             if (obj is AudioClip clip && obj.name.Contains("wrench"))
             {

@@ -1,4 +1,4 @@
-﻿using PugAutomation;
+﻿using Pug.Automation;
 using Unity.Entities;
 using Unity.NetCode;
 
@@ -21,7 +21,7 @@ namespace InfiniteOreBoulder
                 .WithBurst()
                 .WithAll<PugAutomationCD>()
                 .WithAll<DropsLootWhenDamagedCD>()
-                .WithAll<MineableDamageDecreaseCD>()
+                //TODO .WithAll<MineableDamageDecreaseCD>()
                 .WithNone<EntityDestroyedCD>()
                 .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
                 .Schedule();

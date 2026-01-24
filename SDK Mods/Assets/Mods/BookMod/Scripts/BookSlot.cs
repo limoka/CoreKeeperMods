@@ -1,9 +1,10 @@
 ﻿using BookMod.Components;
 using BookMod.Model;
 using BookMod.UI;
-using CoreLib.Equipment;
-using CoreLib.UserInterface;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.EquipmentSlot;
+using CoreLib.Submodule.EquipmentSlot.Interface;
+using CoreLib.Submodule.UserInterface;
+using PlayerEquipment;
 
 namespace BookMod
 {
@@ -11,10 +12,9 @@ namespace BookMod
     {
         public const string BookObjectType = "BookMod:Book";
         
-        protected override EquipmentSlotType slotType => EquipmentModule.GetEquipmentSlotType<BookSlot>();
+        protected override EquipmentSlotType slotType => EquipmentSlotModule.GetEquipmentSlotType<BookSlot>();
 
-
-        public override void HandleInput(bool interactPressed, bool interactReleased, bool secondInteractPressed, bool secondInteractReleased,
+      /*  public override void HandleInput(bool interactPressed, bool interactReleased, bool secondInteractPressed, bool secondInteractReleased,
             bool interactIsHeldDown,
             bool secondInteractIsHeldDown)
         {
@@ -24,7 +24,7 @@ namespace BookMod
             {
                 OpenBook();
             }
-        }
+        }*/
 
         private void OpenBook()
         {
@@ -45,7 +45,7 @@ namespace BookMod
 
         public ObjectType GetSlotObjectType()
         {
-            return EquipmentModule.GetObjectType(BookObjectType);
+            return EquipmentSlotModule.GetObjectType(BookObjectType);
         }
 
         private ContainedObjectsBuffer AsBuffer(ObjectDataCD objectDataCd)
@@ -63,14 +63,14 @@ namespace BookMod
 
             ContainedObjectsBuffer objectsBuffer = AsBuffer(objectDataCd);
 
-            controller.InvokeVoid("ActivateCarryableItemSpriteAndSkin", new object[]
+          /*  controller.InvokeVoid("ActivateCarryableItemSpriteAndSkin", new object[]
             {
                 controller.carryablePlaceItemSprite,
                 controller.carryablePlaceItemPugSprite,
                 controller.carryableSwingItemSkinSkin,
                 objectInfo,
                 objectsBuffer
-            });
+            });*/
 
             controller.carryablePlaceItemSprite.sprite = objectInfo.smallIcon;
             controller.carryablePlaceItemColorReplacer.UpdateColorReplacerFromObjectData(objectsBuffer);

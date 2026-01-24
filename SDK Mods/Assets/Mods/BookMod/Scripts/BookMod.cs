@@ -4,12 +4,12 @@ using System.Text;
 using BookMod.Components;
 using BookMod.Model;
 using CoreLib;
-using CoreLib.Equipment;
-using CoreLib.Localization;
-using CoreLib.Submodules.ModEntity;
-using CoreLib.Submodules.ModEntity.Components;
-using CoreLib.UserInterface;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.Entity;
+using CoreLib.Submodule.Entity.Component;
+using CoreLib.Submodule.EquipmentSlot;
+using CoreLib.Submodule.Localization;
+using CoreLib.Submodule.UserInterface;
+using CoreLib.Util.Extension;
 using PugMod;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
@@ -31,11 +31,11 @@ namespace BookMod
         
         public void EarlyInit()
         {
-            CoreLibMod.LoadModules(
+            CoreLibMod.LoadSubmodule(
                 typeof(LocalizationModule), 
                 typeof(UserInterfaceModule),
                 typeof(EntityModule),
-                typeof(EquipmentModule));
+                typeof(EquipmentSlotModule));
             
             var modInfo = this.GetModInfo();
             if (modInfo == null)
@@ -97,7 +97,7 @@ namespace BookMod
                 ObjectAuthoring objectAuthoring = bookItem.GetComponent<TemplateObject>().Convert();
 
                 objectAuthoring.objectName = $"BookMod:Book_{i}";
-                objectAuthoring.objectType = EquipmentModule.GetObjectType(BookSlot.BookObjectType);
+                objectAuthoring.objectType = EquipmentSlotModule.GetObjectType(BookSlot.BookObjectType);
 
                 BookAuthoring bookAuthoring = bookItem.GetComponent<BookAuthoring>();
                 bookAuthoring.bookId = i;
@@ -136,14 +136,6 @@ namespace BookMod
             if (template != null)
             {
                 templateBook = go;
-            }
-                
-            var slot = go.GetComponent<EquipmentSlot>();
-
-            if (slot != null)
-            {
-                EntityModule.AddToAuthoringList(go);
-                EquipmentModule.RegisterEquipmentSlot<BookSlot>(go);
             }
         }
 

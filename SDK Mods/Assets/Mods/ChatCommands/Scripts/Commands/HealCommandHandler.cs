@@ -1,4 +1,6 @@
-﻿using CoreLib.Commands;
+﻿using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
+using CoreLib.Submodule.Command.Util;
 using CoreLib.Util;
 using PugMod;
 using Unity.Entities;

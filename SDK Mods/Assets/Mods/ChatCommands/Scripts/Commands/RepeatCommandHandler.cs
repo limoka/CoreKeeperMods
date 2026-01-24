@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using CoreLib.Commands;
-using CoreLib.Commands.Communication;
+using CoreLib.Submodule.Command;
+using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
+using CoreLib.Submodule.Command.Util;
 using Unity.Entities;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,10 +21,10 @@ namespace ChatCommands.Chat.Commands
             if (!int.TryParse(parameters[0], out int times))
                 return new CommandOutput($"'{parameters[0]}' is not a valid number!", CommandStatus.Error);
 
-            if (!CommandsModule.GetCommandHandler(parameters[1], out CommandPair command))
+            if (!CommandModule.GetCommandHandler(parameters[1], out CommandPair command))
                 return new CommandOutput($"Command named '{parameters[1]}' does not exist!", CommandStatus.Error);
 
-            if (!command.isServer)
+            if (!command.IsServer)
                 return new CommandOutput("Non Server sided commands are not supported by repeat!", CommandStatus.Error);
             
             int count = 0;
@@ -35,7 +37,7 @@ namespace ChatCommands.Chat.Commands
                 {
                     int currentIndex = i;
                     string[] outParams = newParameters.Select(data => data.prefix + data.Execute(currentIndex, times) + data.postfix).ToArray();
-                    CommandOutput output = command.serverHandler.Execute(outParams, sender);
+                    CommandOutput output = command.ServerHandler.Execute(outParams, sender);
                     if (output.status is CommandStatus.Error or CommandStatus.Warning) return output.AppendAtStart("Error while repeating: ");
 
                     count++;

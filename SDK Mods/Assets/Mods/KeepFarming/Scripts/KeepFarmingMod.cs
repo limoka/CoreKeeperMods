@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CoreLib;
+﻿using CoreLib;
 using CoreLib.Data.Configuration;
-using CoreLib.Localization;
-using CoreLib.Submodules.ModEntity;
-using CoreLib.Submodules.ModEntity.Atributes;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.Entity;
+using CoreLib.Submodule.Entity.Attribute;
+using CoreLib.Submodule.Localization;
+using CoreLib.Util.Extension;
 using KeepFarming.Components;
 using Mods.KeepFarming.Scripts;
-using Mods.KeepFarming.Scripts.Prefab;
 using PugMod;
-using Unity.Burst;
 using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
@@ -19,7 +14,6 @@ using Object = UnityEngine.Object;
 
 namespace KeepFarming
 {
-    [EntityModification]
     public class KeepFarmingMod : IMod
     {
         public const string VERSION = "2.1.8";
@@ -49,11 +43,9 @@ namespace KeepFarming
                 return;
             }
 
-            CoreLibMod.LoadModules(typeof(LocalizationModule), typeof(EntityModule));
+            CoreLibMod.LoadSubmodule(typeof(LocalizationModule), typeof(EntityModule));
 
-            EntityModule.RegisterDynamicItemHandler<JuiceDynamicItemHandler>();
             EntityModule.RegisterDynamicItemHandler<GoldenSeedDynamicItemHandler>();
-            EntityModule.RegisterEntityModifications(modInfo.ModId);
 
             file = new ConfigFile("KeepFarming/Config.cfg", true, modInfo);
 
@@ -160,19 +152,6 @@ namespace KeepFarming
             if (gameObject == null)
             {
                 return;
-            }
-            
-            var entityMono = gameObject.GetComponent<EntityMonoBehaviour>();
-            if (entityMono != null)
-            {
-                EntityModule.EnablePooling(gameObject);
-            }
-
-            var seedExtractor = gameObject.GetComponent<SeedExtractor>();
-
-            if (seedExtractor != null)
-            {
-                EntityModule.AddToAuthoringList(gameObject);
             }
 
             var juiceTemplate = gameObject.GetComponent<JuiceTemplate>();

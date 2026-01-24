@@ -1,4 +1,4 @@
-﻿using CoreLib.Audio;
+﻿using CoreLib.Submodule.Audio;
 using Unity.Entities;
 
 namespace SecureAttachment

@@ -1,6 +1,6 @@
 ﻿using KeepFarming.Components;
 using Pug.UnityExtensions;
-using PugProperties;
+using Pug.Properties;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;

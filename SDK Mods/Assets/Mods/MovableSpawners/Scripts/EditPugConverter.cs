@@ -1,10 +1,10 @@
 ﻿using MovableSpawners;
-using PugConversion;
+using Pug.Conversion;
 using UnityEngine;
 
 namespace Mods.MovableSpawners.Scripts
 {
-    public class EditPugConverter : PugConverter
+    public class EditPugConverter : Converter
     {
         public override void Convert(GameObject authoring)
         {

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using CoreLib;
 using CoreLib.Data.Configuration;
-using CoreLib.RewiredExtension;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.ControlMapping;
+using CoreLib.Util.Extension;
 using HarmonyLib;
 using Inventory;
 using PlacementPlus.Components;
@@ -129,7 +129,7 @@ namespace PlacementPlus
                 return;
             }
 
-            CoreLibMod.LoadModule(typeof(RewiredExtensionModule));
+            CoreLibMod.LoadSubmodule(typeof(ControlMappingModule));
             
             Config = new ConfigFile("PlacementPlus/PlacementPlus.cfg", true, modInfo);
             
@@ -143,16 +143,16 @@ namespace PlacementPlus
 
             ParseConfigString();
             
-            RewiredExtensionModule.AddKeybind(CHANGE_ORIENTATION, "Change Orientation", KeyboardKeyCode.C);
-            RewiredExtensionModule.AddKeybind(INCREASE_SIZE, "Increase Size", KeyboardKeyCode.KeypadPlus);
-            RewiredExtensionModule.AddKeybind(DECREASE_SIZE, "Decrease Size", KeyboardKeyCode.KeypadMinus);
-            RewiredExtensionModule.AddKeybind(CHANGE_TOOL_MODE, "Change Tool Mode", KeyboardKeyCode.V);
-            RewiredExtensionModule.AddKeybind(REPLACE_BUTTON, "Hold to replace tiles", KeyboardKeyCode.LeftAlt);
-            RewiredExtensionModule.AddKeybind(REVERSE_DIRECTION, "Hold to reverse direction", KeyboardKeyCode.CapsLock);
+            ControlMappingModule.AddKeyboardBind(CHANGE_ORIENTATION,  KeyboardKeyCode.C);
+            ControlMappingModule.AddKeyboardBind(INCREASE_SIZE,  KeyboardKeyCode.KeypadPlus);
+            ControlMappingModule.AddKeyboardBind(DECREASE_SIZE,  KeyboardKeyCode.KeypadMinus);
+            ControlMappingModule.AddKeyboardBind(CHANGE_TOOL_MODE,  KeyboardKeyCode.V);
+            ControlMappingModule.AddKeyboardBind(REPLACE_BUTTON, KeyboardKeyCode.LeftAlt);
+            ControlMappingModule.AddKeyboardBind(REVERSE_DIRECTION, KeyboardKeyCode.CapsLock);
             
             modInfo.TryLoadBurstAssembly();
             
-            RewiredExtensionModule.rewiredStart += OnRewiredStart;
+            ControlMappingModule.rewiredStart += OnRewiredStart;
             API.Authoring.OnObjectTypeAdded += EditPlayer;
             
             Log.LogInfo("Placement Plus mod is loaded!");

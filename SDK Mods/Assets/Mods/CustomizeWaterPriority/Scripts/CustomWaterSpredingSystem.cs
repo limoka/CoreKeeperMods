@@ -1,4 +1,5 @@
-﻿using PugTilemap;
+﻿using Pug.UnityExtensions;
+using PugTilemap;
 using PugTilemap.Quads;
 using Unity.Collections;
 using Unity.Entities;

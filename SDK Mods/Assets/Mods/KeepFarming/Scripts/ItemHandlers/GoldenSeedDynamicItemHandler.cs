@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using CoreLib.Submodules.ModEntity.Interfaces;
+using CoreLib.Submodule.Entity.Interface;
 using KeepFarming;
 using KeepFarming.Components;
 using PugMod;
@@ -9,28 +9,28 @@ namespace Mods.KeepFarming.Scripts
 {
     public class GoldenSeedDynamicItemHandler : IDynamicItemHandler
     {
-        private static List<Color> srcColors;
-        private static List<Color> dstColors;
+        private static readonly List<Color> _srcColors;
+        private static readonly List<Color> _dstColors;
         
         static GoldenSeedDynamicItemHandler()
         {
-            Color[] _originalColors = new Color[5];
+            Color[] originalColors = new Color[5];
             
-            UnityEngine.ColorUtility.TryParseHtmlString("#0f5630", out _originalColors[0]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#0a6d27", out _originalColors[1]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#239029", out _originalColors[2]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#5ca537", out _originalColors[3]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#a3ce4a", out _originalColors[4]);
-            srcColors = new List<Color>(_originalColors);
+            ColorUtility.TryParseHtmlString("#0f5630", out originalColors[0]);
+            ColorUtility.TryParseHtmlString("#0a6d27", out originalColors[1]);
+            ColorUtility.TryParseHtmlString("#239029", out originalColors[2]);
+            ColorUtility.TryParseHtmlString("#5ca537", out originalColors[3]);
+            ColorUtility.TryParseHtmlString("#a3ce4a", out originalColors[4]);
+            _srcColors = new List<Color>(originalColors);
             
-            Color[] _newColors = new Color[5];
+            Color[] newColors = new Color[5];
             
-            UnityEngine.ColorUtility.TryParseHtmlString("#824223", out _newColors[0]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#da6210", out _newColors[1]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#e2a12c", out _newColors[2]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#f2df3a", out _newColors[3]);
-            UnityEngine.ColorUtility.TryParseHtmlString("#f7eec7", out _newColors[4]);
-            dstColors = new List<Color>(_newColors);
+            ColorUtility.TryParseHtmlString("#824223", out newColors[0]);
+            ColorUtility.TryParseHtmlString("#da6210", out newColors[1]);
+            ColorUtility.TryParseHtmlString("#e2a12c", out newColors[2]);
+            ColorUtility.TryParseHtmlString("#f2df3a", out newColors[3]);
+            ColorUtility.TryParseHtmlString("#f7eec7", out newColors[4]);
+            _dstColors = new List<Color>(newColors);
         }
 
         public bool ShouldApply(ObjectDataCD objectData)
@@ -48,17 +48,12 @@ namespace Mods.KeepFarming.Scripts
             text.dontLocalize = true;
         }
 
-        public bool ApplyColors(ObjectDataCD objectData, ColorReplacementData colorData)
+        public void ApplyColors(ObjectDataCD objectData, ColorReplacer replacer)
         {
-            colorData.srcColors = srcColors;
-            colorData.replacementColors = new List<ColorList>()
-            {
-                new ColorList()
-                {
-                    colorList = dstColors
-                }
-            };
-            return true;
+            replacer.SetColorReplacement(
+                _srcColors,
+                _dstColors
+            );
         }
     }
 }

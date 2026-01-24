@@ -1,10 +1,10 @@
-﻿using CoreLib.Util.Extensions;
+﻿using CoreLib.Util.Extension;
 using HarmonyLib;
 using PlacementPlus.Components;
 using PlacementPlus.Systems;
 using PlayerEquipment;
 using PugMod;
-using PugProperties;
+using Pug.Properties;
 using PugTilemap;
 using Unity.Entities;
 using Unity.NetCode;

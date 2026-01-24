@@ -1,10 +1,8 @@
-﻿using CoreLib.Commands;
-using CoreLib.Commands.Communication;
-using CoreLib.Util;
-using CoreLib.Util.Extensions;
+﻿using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
+using CoreLib.Submodule.Command.Util;
 using PugMod;
 using Unity.Entities;
-using Unity.Entities.Internal;
 
 namespace ChatCommands.Chat.Commands
 {

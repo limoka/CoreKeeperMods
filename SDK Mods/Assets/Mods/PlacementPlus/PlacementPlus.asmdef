@@ -18,8 +18,7 @@
         "Unity.Transforms",
         "PugMod.SDK",
         "CoreLib",
-        "CoreLib.RewiredExtension",
-        "Unity.Physics.Custom"
+                "Unity.Physics.Custom"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -83,8 +82,9 @@
         "Sentry.Unity.Native.dll",
         "ZipSaveFolder.dll",
         "0Harmony.dll",
-        "PlacementPlus.Access.dll",
-        "Pug.ECS.Extensions.dll"
+        "Pug.ECS.Extensions.dll",
+        "Pug.Automation.dll",
+        "Pug.Automation.Components.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

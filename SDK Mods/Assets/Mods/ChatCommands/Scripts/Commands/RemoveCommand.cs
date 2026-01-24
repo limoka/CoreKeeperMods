@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using CoreLib.Commands;
-using CoreLib.Commands.Communication;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
+using CoreLib.Submodule.Command.Util;
 using PugMod;
 using Unity.Collections;
 using Unity.Entities;

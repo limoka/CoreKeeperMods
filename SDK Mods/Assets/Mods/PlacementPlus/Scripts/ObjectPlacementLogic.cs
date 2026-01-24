@@ -1,11 +1,10 @@
 ﻿using Inventory;
 using Mods.PlacementPlus.Scripts.Util;
-using PlacementPlus.Access;
 using PlacementPlus.Components;
 using PlayerEquipment;
 using PlayerState;
 using Pug.UnityExtensions;
-using PugProperties;
+using Pug.Properties;
 using PugTilemap;
 using PugTilemap.Quads;
 using Unity.Collections;
@@ -278,7 +277,7 @@ namespace PlacementPlus
                 return;
             }
 
-            var result = AccessExtensions.CanPlaceObjectAtPosition_PlacePublic(
+            var result = 0;/* AccessExtensions.CanPlaceObjectAtPosition_PlacePublic(
                 equipmentPrefab,
                 position,
                 1,
@@ -288,7 +287,7 @@ namespace PlacementPlus
                 sharedData,
                 lookupData
             );
-
+*/
             if (result == 0) return;
 
             if (!PlayerController.CanConsumeEntityInSlot(

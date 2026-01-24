@@ -1,6 +1,5 @@
-﻿using CoreLib.Util.Extensions;
+﻿using CoreLib.Util.Extension;
 using Mods.PlacementPlus.Scripts.Util;
-using PlacementPlus.Access;
 using PlacementPlus.Components;
 using PlayerEquipment;
 using Unity.Collections;
@@ -45,7 +44,7 @@ namespace PlacementPlus
             
             local.canPlaceObject = true;
             NativeHashMap<int3, bool> tilesChecked = new NativeHashMap<int3, bool>(32, Allocator.Temp);
-            if (AccessExtensions.FindPlaceablePositionFromMouseOrJoystick(
+            /*if (AccessExtensions.FindPlaceablePositionFromMouseOrJoystick(
                     placementPrefab,
                     currentSize.x,
                     currentSize.y,
@@ -69,7 +68,7 @@ namespace PlacementPlus
                 in equipmentUpdateAspect, 
                 in equipmentUpdateSharedData, 
                 in equipmentUpdateLookupData
-                );
+                );*/
             local.canPlaceObject = true;
         }
     }

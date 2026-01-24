@@ -1,8 +1,8 @@
 ﻿using CoreLib;
-using CoreLib.Submodules.ModEntity;
-using CoreLib.Submodules.ModEntity.Atributes;
-using CoreLib.UserInterface;
-using CoreLib.Util.Extensions;
+using CoreLib.Submodule.Entity;
+using CoreLib.Submodule.Entity.Attribute;
+using CoreLib.Submodule.UserInterface;
+using CoreLib.Util.Extension;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
@@ -10,7 +10,6 @@ using Logger = CoreLib.Util.Logger;
 
 namespace DummyMod
 {
-    [EntityModification]
     public class TheDummyMod : IMod
     {
         public const string VERSION = "1.0.5";
@@ -23,7 +22,7 @@ namespace DummyMod
         public void EarlyInit()
         {
             Log.LogInfo($"Mod version: {VERSION}");
-            CoreLibMod.LoadModules(
+            CoreLibMod.LoadSubmodule(
                 typeof(UserInterfaceModule),
                 typeof(EntityModule));
 
@@ -34,7 +33,6 @@ namespace DummyMod
                 return;
             }
 
-            EntityModule.RegisterEntityModifications(modInfo.ModId);
             modInfo.TryLoadBurstAssembly();
 
             Log.LogInfo("Mod loaded successfully");
@@ -80,21 +78,6 @@ namespace DummyMod
 
         public void ModObjectLoaded(Object obj)
         {
-            if (obj is not GameObject go) return;
-            
-            var entityMono = go.GetComponent<EntityMonoBehaviour>();
-            if (entityMono != null)
-            {
-                EntityModule.EnablePooling(go);
-            }
-
-            UserInterfaceModule.RegisterModUI(go);
-
-            var objectAuthoring = go.GetComponent<ObjectAuthoring>();
-            if (objectAuthoring != null)
-            {
-                EntityModule.AddToAuthoringList(go);
-            }
         }
 
         public void Update() { }

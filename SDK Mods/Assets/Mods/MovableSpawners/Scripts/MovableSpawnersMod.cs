@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using CoreLib.Util.Extensions;
+using CoreLib.Util.Extension;
 using MovableSpawners.Patches;
 using PugMod;
 using Unity.Burst;
@@ -77,8 +77,8 @@ namespace MovableSpawners
 
             entitymanager.AddComponentData(entity, new HealthRegenerationCD()
             {
-                normHealthPerFifthSecond = 1,
-                startHealDelay = 5
+                NormalizedHealthIncreasePerFiveSeconds = 1,
+                HealDelayAfterLeavingCombat = 5
             });
 
             if (entitymanager.HasComponent<AllowHealthRegenerationInCombatCD>(entity))

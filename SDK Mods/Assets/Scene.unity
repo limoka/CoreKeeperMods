@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,6 +122,222 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!21 &205365185
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CustomLitAmplify (Instance)
+  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - PixelSnap: 0
+    - _AddDirectionalLight: 0
+    - _AlphaClipThreshold: 0.5
+    - _AlphaCutoff: 0.5
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DirLightShadowOpacity: 1
+    - _EmissiveIndirectMultiplier: 1
+    - _EnvironmentReflections: 1
+    - _FlashAmount: 0
+    - _IsTallSprite: 0
+    - _LightBufferPass: 0
+    - _MultiplyFlashTintWithLight: 0
+    - _NoDirectionalShadow: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflectionOffset: 0
+    - _Reflections: 0
+    - _SceneLighting: 0
+    - _Shininess: 0.1
+    - _ShowOutline: 0
+    - _SpecularHighlights: 1
+    - _SpriteIsLyingDown: 0
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
+    - _TransparentPass: 0
+    - _UseOuter: 0
+    - __dirty: 0
+    - _useTransparentVertices: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
+    - _MinUV: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 1}
+    - _ReflectionColor: {r: 0.24999979, g: 0.24999979, b: 0.24999979, a: 1}
+    - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _tint: {r: 1, g: 1, b: 1, a: 0}
+    - groupOffsets: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &347571264
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CustomLitAmplify (Instance)
+  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - PixelSnap: 0
+    - _AddDirectionalLight: 0
+    - _AlphaClipThreshold: 0.5
+    - _AlphaCutoff: 0.5
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DirLightShadowOpacity: 1
+    - _EmissiveIndirectMultiplier: 1
+    - _EnvironmentReflections: 1
+    - _FlashAmount: 0
+    - _IsTallSprite: 0
+    - _LightBufferPass: 0
+    - _MultiplyFlashTintWithLight: 0
+    - _NoDirectionalShadow: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflectionOffset: 0
+    - _Reflections: 0
+    - _SceneLighting: 0
+    - _Shininess: 0.1
+    - _ShowOutline: 0
+    - _SpecularHighlights: 1
+    - _SpriteIsLyingDown: 0
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
+    - _TransparentPass: 0
+    - _UseOuter: 0
+    - __dirty: 0
+    - _useTransparentVertices: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
+    - _MinUV: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 1}
+    - _ReflectionColor: {r: 0.24999979, g: 0.24999979, b: 0.24999979, a: 1}
+    - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _tint: {r: 1, g: 1, b: 1, a: 0}
+    - groupOffsets: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &414122294
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,6 +456,68 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1001 &506050355
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1966864593303865, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_Name
+      value: ChestMinecart
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774662867543839, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212183559674200729, guid: a8b647d7ece7a0e43ae06e71f52b4a56,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 347571264}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a8b647d7ece7a0e43ae06e71f52b4a56, type: 3}
 --- !u!1001 &528267737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -249,6 +526,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1875908901375717, guid: 781c822a54baf4a45b688d3e9d2fb42c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1966864593303865, guid: 781c822a54baf4a45b688d3e9d2fb42c, type: 3}
       propertyPath: m_Name
       value: ModMinecart
@@ -293,107 +574,267 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 1454248320529925075, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: skin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454248320529925075, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: syncSprite
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454248320529925075, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: m_startVariantHash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1454248320529925075, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: m_startAnimationHash
+      value: -281135240
+      objectReference: {fileID: 0}
+    - target: {fileID: 6495450142894500284, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: skin
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6495450142894500284, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: animationTimescale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6495450142894500284, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: m_startVariantHash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6495450142894500284, guid: 781c822a54baf4a45b688d3e9d2fb42c,
+        type: 3}
+      propertyPath: m_startAnimationHash
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 781c822a54baf4a45b688d3e9d2fb42c, type: 3}
---- !u!1001 &568026650
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1609737541258970, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 1609737541258970, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.0625
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.1875
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4404115914860314, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1609737541258970, guid: 3205602db7b0f5e478d0c5ee31bbaf7b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 568026652}
-  m_SourcePrefab: {fileID: 100100000, guid: 3205602db7b0f5e478d0c5ee31bbaf7b, type: 3}
---- !u!1 &568026651 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1609737541258970, guid: 3205602db7b0f5e478d0c5ee31bbaf7b,
-    type: 3}
-  m_PrefabInstance: {fileID: 568026650}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &568026652
-MonoBehaviour:
+--- !u!21 &1052964924
+Material:
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 568026651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a86932bc70f84695bc6298922e79015a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pixelSize: 16
-  freeAxis:
-    x: 0
-    y: 0
-    z: 0
+  m_Name: CustomLitAmplify (Instance)
+  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - PixelSnap: 0
+    - _AddDirectionalLight: 0
+    - _AlphaClipThreshold: 0.5
+    - _AlphaCutoff: 0.5
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DirLightShadowOpacity: 1
+    - _EmissiveIndirectMultiplier: 1
+    - _EnvironmentReflections: 1
+    - _FlashAmount: 0
+    - _IsTallSprite: 0
+    - _LightBufferPass: 0
+    - _MultiplyFlashTintWithLight: 0
+    - _NoDirectionalShadow: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflectionOffset: 0
+    - _Reflections: 0
+    - _SceneLighting: 0
+    - _Shininess: 0.1
+    - _ShowOutline: 0
+    - _SpecularHighlights: 1
+    - _SpriteIsLyingDown: 0
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
+    - _TransparentPass: 0
+    - _UseOuter: 0
+    - __dirty: 0
+    - _useTransparentVertices: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
+    - _MinUV: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 1}
+    - _ReflectionColor: {r: 0.24999979, g: 0.24999979, b: 0.24999979, a: 1}
+    - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _tint: {r: 1, g: 1, b: 1, a: 0}
+    - groupOffsets: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!21 &1602105690
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CustomLitAmplify (Instance)
+  m_Shader: {fileID: 4800000, guid: 5329a08211ea3db478223b9a8f6f85b6, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissiveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - PixelSnap: 0
+    - _AddDirectionalLight: 0
+    - _AlphaClipThreshold: 0.5
+    - _AlphaCutoff: 0.5
+    - _Cull: 0
+    - _Cutoff: 0.5
+    - _DirLightShadowOpacity: 1
+    - _EmissiveIndirectMultiplier: 1
+    - _EnvironmentReflections: 1
+    - _FlashAmount: 0
+    - _IsTallSprite: 0
+    - _LightBufferPass: 0
+    - _MultiplyFlashTintWithLight: 0
+    - _NoDirectionalShadow: 0
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReflectionOffset: 0
+    - _Reflections: 0
+    - _SceneLighting: 0
+    - _Shininess: 0.1
+    - _ShowOutline: 0
+    - _SpecularHighlights: 1
+    - _SpriteIsLyingDown: 0
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
+    - _TransparentPass: 0
+    - _UseOuter: 0
+    - __dirty: 0
+    - _useTransparentVertices: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 0}
+    - _MainColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _MaxUV: {r: 0, g: 0, b: 0, a: 0}
+    - _MinUV: {r: 0, g: 0, b: 0, a: 0}
+    - _OutlineColor: {r: 0.51886785, g: 0.51886785, b: 0.51886785, a: 1}
+    - _ReflectionColor: {r: 0.24999979, g: 0.24999979, b: 0.24999979, a: 1}
+    - _SpecularColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
+    - _SpriteColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpriteRect: {r: 0, g: 0, b: 0, a: 0}
+    - _Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _tint: {r: 1, g: 1, b: 1, a: 0}
+    - groupOffsets: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
 --- !u!1 &1632097956
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,12 +981,12 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
-    frameInfluence: 0.1
-    jitterScale: 1
-    mipBias: 0
-    varianceClampScale: 0.9
-    contrastAdaptiveSharpening: 0
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1001 &1908494009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -625,6 +1066,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 102316937, guid: 25cee0ade3ce1bf458a7b304a082bcd4,
         type: 3}
+    - target: {fileID: 212183559674200729, guid: 70eac1e0a22cde84db9fdfee60a81613,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 1602105690}
     - target: {fileID: 3511683002298891352, guid: 70eac1e0a22cde84db9fdfee60a81613,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -646,6 +1092,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 828991456, guid: f6b5b2ca89ea7bc4fafb6bcb7475fa41,
         type: 3}
+    - target: {fileID: 4280068245768669899, guid: 70eac1e0a22cde84db9fdfee60a81613,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 1052964924}
+    - target: {fileID: 6422691162401008136, guid: 70eac1e0a22cde84db9fdfee60a81613,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 205365185}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -783,4 +1239,4 @@ SceneRoots:
   - {fileID: 2428055270835715521}
   - {fileID: 1908494009}
   - {fileID: 528267737}
-  - {fileID: 568026650}
+  - {fileID: 506050355}

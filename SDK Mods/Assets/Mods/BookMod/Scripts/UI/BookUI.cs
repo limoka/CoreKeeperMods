@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using BookMod.Model;
-using CoreLib.UserInterface;
-using CoreLib.UserInterface.Util;
+using CoreLib.Submodule.UserInterface.Interface;
+using CoreLib.Submodule.UserInterface.Util;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -14,8 +14,8 @@ namespace BookMod.UI
     {
         public GameObject root;
         public GameObject Root => root;
-        public bool showWithPlayerInventory => false;
-        public bool shouldPlayerCraftingShow => false;
+        public bool ShowWithPlayerInventory => false;
+        public bool ShouldPlayerCraftingShow => false;
 
         public SpriteRenderer background;
         public SmallTitleUIBackground title;
@@ -73,7 +73,7 @@ namespace BookMod.UI
             background.sprite = craftingUITheme.background;
             
             title.defaultTitle = currentBook.title;
-            title.UpdateThemeTextAndBackground(craftingUITheme, WindowAlignment.Left);
+            title.UpdateThemeTextAndBackground(craftingUITheme, 0);
             
             var page = currentBook.pages[currentPage];
             float startPos = 0;

@@ -1,6 +1,5 @@
 ﻿using BookMod.UI;
-using CoreLib.UserInterface;
-using CoreLib.UserInterface.Patches;
+using CoreLib.Submodule.UserInterface;
 using HarmonyLib;
 
 namespace BookMod.Patches

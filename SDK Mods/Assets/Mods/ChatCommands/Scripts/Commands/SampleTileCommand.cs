@@ -1,6 +1,7 @@
 ﻿using System.Text;
-using CoreLib.Commands;
-using CoreLib.Commands.Communication;
+using CoreLib.Submodule.Command.Data;
+using CoreLib.Submodule.Command.Interface;
+using CoreLib.Submodule.Command.Util;
 using CoreLib.Util;
 using PugTilemap;
 using Unity.Collections;

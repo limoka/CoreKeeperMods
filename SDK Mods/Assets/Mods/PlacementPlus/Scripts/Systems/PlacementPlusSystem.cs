@@ -1,12 +1,12 @@
-﻿using CoreLib.Util.Extensions;
+﻿using CoreLib.Util.Extension;
 using Inventory;
 using Mods.PlacementPlus.Scripts.Util;
-using PlacementPlus.Access;
 using PlacementPlus.Components;
 using PlayerCommand;
 using PlayerEquipment;
 using PlayerState;
-using PugProperties;
+using Pug.Automation;
+using Pug.Properties;
 using PugTilemap;
 using PugTilemap.Quads;
 using Unity.Collections;
@@ -26,13 +26,13 @@ namespace PlacementPlus.Systems
     [UpdateBefore(typeof(EquipmentUpdateSystem))]
     public partial class PlacementPlusSystem : PugSimulationSystemBase
     {
-        private uint _tickRate;
+        private int _tickRate;
 
         private EntityArchetype _achievementArchetype;
 
         protected override void OnCreate()
         {
-            _tickRate = (uint)NetworkingManager.GetSimulationTickRateForPlatform();
+            _tickRate = PlatformConfiguration.Instance.SessionConfiguration.SimulationTickRate;
             _achievementArchetype = AchievementSystem.GetRpcArchetype(EntityManager);
 
             RequireForUpdate<PhysicsWorldSingleton>();
@@ -88,7 +88,7 @@ namespace PlacementPlus.Systems
                 currentTick = currentTick,
                 databaseBank = databaseBank,
                 worldInfoCD = worldInfoCD,
-                tickRate = _tickRate,
+                tickRate = (uint)_tickRate,
                 physicsWorld = SystemAPI.GetSingleton<PhysicsWorldSingleton>().PhysicsWorld,
                 physicsWorldHistory = SystemAPI.GetSingleton<PhysicsWorldHistorySingleton>(),
                 inventoryUpdateBufferEntity = SystemAPI.GetSingletonEntity<InventoryChangeBuffer>(),
@@ -184,9 +184,14 @@ namespace PlacementPlus.Systems
                     bool interactHeldRaw = clientInput.IsButtonStateSet(CommandInputButtonStateNames.Interact_HeldDown);
                     bool secondInteractHeldRaw = clientInput.IsButtonStateSet(CommandInputButtonStateNames.SecondInteract_HeldDown);
                     if (!PlayerController.CurrentStateAllowInteractions(
-                            worldInfoCD, equipmentAspect.playerGhost.ValueRO,
+                            worldInfoCD, 
+                            equipmentAspect.playerGhost.ValueRO,
                             equipmentAspect.playerStateCD.ValueRO,
-                            equipmentAspect.equipmentSlotCD.ValueRO, secondInteractHeldRaw && !interactHeldRaw, clientInput))
+                            equipmentAspect.equipmentSlotCD.ValueRO, 
+                            secondInteractHeldRaw && !interactHeldRaw,
+                            clientInput,
+                            equipmentAspect.playerSleepStateCD.ValueRO, 
+                            false))
                     {
                         return;
                     }
@@ -198,8 +203,7 @@ namespace PlacementPlus.Systems
                         equipmentAspect.equippedObjectCD.ValueRO,
                         databaseBank,
                         cooldownLookup,
-                        equipmentAspect.syncedSharedCooldownTimers,
-                        equipmentAspect.localPlayerSharedCooldownTimers, currentTick);
+                        equipmentAspect.syncedSharedCooldownTimers, currentTick);
                     if (onCooldown) return;
 
                     var slotType = equipmentAspect.equipmentSlotCD.ValueRO.slotType;
