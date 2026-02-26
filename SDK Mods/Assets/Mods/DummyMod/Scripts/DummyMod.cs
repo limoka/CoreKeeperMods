@@ -12,7 +12,7 @@ namespace DummyMod
 {
     public class TheDummyMod : IMod
     {
-        public const string VERSION = "1.0.5";
+        public const string VERSION = "1.0.7";
         public const string MOD_ID = "DummyMod";
 
         internal static Logger Log = new Logger("Dummy Mod");
