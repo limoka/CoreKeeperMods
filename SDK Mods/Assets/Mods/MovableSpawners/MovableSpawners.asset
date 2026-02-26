@@ -22,25 +22,35 @@ MonoBehaviour:
     requiredOn: 3
     files:
     - path: Localization/Localization.csv
+      guid: 
     - path: Scripts/Scripts/SummonAreaIndestructibleSystem.cs
+      guid: 
     - path: Scripts/Scripts/SummonAreaIndestructibleStateCD.cs
+      guid: 
     - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Patches/MemoryManager_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Patches/GhostConverter_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Patches/ColorReplacer_Patch.cs
+      guid: 
     - path: Scripts/Scripts/MovableSpawnersMod.cs
+      guid: 
     - path: Scripts/Scripts/EditPugConverter.cs
+      guid: 
     - path: Bundles/MovableSpawners_Windows.assetbundle
+      guid: 
     - path: Bundles/MovableSpawners_Linux.assetbundle
+      guid: 
     dependencies:
     - modName: CoreLib
       required: 1
   modPath: Assets\Mods\MovableSpawners
   forceReimport: 0
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
-  buildBurst: 1
-  cachedBuild: 0
   assets:
   - path: Assets/Mods/MovableSpawners/Animation/ModSummonArea.controller
     hash: D590F5C571A989521974D29AC7C7B2CEE01D009EA058D3C2E667248A6AFEFEDE

@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: 55566f63f747482fab3227e424739b2f
     name: ChatCommands
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
