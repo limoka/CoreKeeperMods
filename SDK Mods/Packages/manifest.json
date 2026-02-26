@@ -1,6 +1,7 @@
 {
   "dependencies": {
-	"ck.modding.corelib": "file:C:/Projects/Unity/Projects/CoreLib_v2/Assets/CoreLibPackage",
+	"ck.modding.corelib": "https://github.com/CoreKeeperMods/CoreLib.git?path=/Assets/CoreLibPackage#main",
+	"dev.pugstorm.corekeeper.assets": "file:../ImportedGameFolders/dev.pugstorm.corekeeper.assets-1.2.0.tgz",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "2.7.3",
     "com.unity.ai.navigation": "2.0.9",

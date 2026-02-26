@@ -1,12 +1,13 @@
 {
   "dependencies": {
     "ck.modding.corelib": {
-      "version": "file:C:/Projects/Unity/Projects/CoreLib_v2/Assets/CoreLibPackage",
+      "version": "https://github.com/CoreKeeperMods/CoreLib.git?path=/Assets/CoreLibPackage#main",
       "depth": 0,
-      "source": "local",
+      "source": "git",
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.1"
-      }
+      },
+      "hash": "06edc30e6154ea50a49eb586bb9721bb93fee10c"
     },
     "com.dbrizov.naughtyattributes": {
       "version": "file:com.dbrizov.naughtyattributes",
@@ -327,6 +328,12 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
+    },
+    "dev.pugstorm.corekeeper.assets": {
+      "version": "file:../ImportedGameFolders/dev.pugstorm.corekeeper.assets-1.2.0.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {}
     },
     "dev.pugstorm.mod": {
       "version": "file:dev.pugstorm.mod",
