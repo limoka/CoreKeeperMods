@@ -90,7 +90,7 @@ namespace Mods.PlacementPlus.Scripts.Util
                     out DynamicBuffer<ContainedObjectsBuffer> dynamicBuffer
                 );
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < dynamicBuffer.Length; i++)
             {
                 ContainedObjectsBuffer objectsBuffer = dynamicBuffer[i];
                 ref PugDatabase.EntityObjectInfo entityObjectInfo =
