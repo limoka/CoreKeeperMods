@@ -45,15 +45,15 @@ namespace PlacementPlus.Systems
 
         protected override void OnUpdate()
         {
-            var worldInfoCD = SystemAPI.GetSingleton<WorldInfoCD>();
+            //var worldInfoCD = SystemAPI.GetSingleton<WorldInfoCD>();
             var networkTime = SystemAPI.GetSingleton<NetworkTime>();
             var currentTick = networkTime.ServerTick;
 
             var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
 
-            var cooldownLookup = GetComponentLookup<CooldownCD>(true);
+            /*var cooldownLookup = GetComponentLookup<CooldownCD>(true);
             var ecb = CreateCommandBuffer();
-            var tileAccessor = CreateTileAccessor();
+            var tileAccessor = CreateTileAccessor();*/
 
             var givesConditionsLookup = SystemAPI.GetBufferLookup<GivesConditionsWhenEquippedBuffer>();
 
@@ -82,7 +82,7 @@ namespace PlacementPlus.Systems
                 .WithName("UpdateMaxSize")
                 .WithoutBurst()
                 .Schedule();
-
+/*
             var equipmentShared = new EquipmentUpdateSharedData
             {
                 currentTick = currentTick,
@@ -196,7 +196,6 @@ namespace PlacementPlus.Systems
                         return;
                     }
 
-                    bool interactHeld = interactHeldRaw | equipmentAspect.equipmentSlotCD.ValueRW.interactIsPendingToBeUsed;
                     bool secondInteractHeld = secondInteractHeldRaw | equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed;
 
                     bool onCooldown = EquipmentSlot.IsItemOnCooldown(
@@ -224,24 +223,9 @@ namespace PlacementPlus.Systems
 
                         equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed = false;
                     }
-                    /*else if (slotType == EquipmentSlotType.ShovelSlot ||
-                             slotType == (EquipmentSlotType)101)
-                    {
-                        var success = ShovelLogic.UpdateShovelPlus(
-                            equipmentAspect,
-                            equipmentShared,
-                            lookupData,
-                            interpolationDelay,
-                            digQueue,
-                            state,
-                            secondInteractHeld);
-                        if (!success) return;
-
-                        equipmentAspect.equipmentSlotCD.ValueRW.secondInteractIsPendingToBeUsed = false;
-                    }*/
                 })
                 .WithoutBurst()
-                .Schedule();
+                .Schedule();*/
 
             base.OnUpdate();
         }

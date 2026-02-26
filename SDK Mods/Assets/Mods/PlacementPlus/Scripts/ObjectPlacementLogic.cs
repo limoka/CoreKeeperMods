@@ -17,55 +17,6 @@ namespace PlacementPlus
 {
     internal static class ObjectPlacementLogic
     {
-        public static bool UpdatePlaceObjectPlus(
-            EquipmentUpdateAspect equipmentAspect,
-            EquipmentUpdateSharedData equipmentShared,
-            LookupEquipmentUpdateData lookupData, BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup,
-            PlacementPlusLookups ppLookups,
-            PlacementPlusState state,
-            bool secondInteractHeld
-        )
-        {
-            var containedObject = equipmentAspect.equippedObjectCD.ValueRO.containedObject;
-            if (containedObject.auxDataIndex > 0) return false;
-
-            ObjectDataCD objectData = containedObject.objectData;
-            ref PugDatabase.EntityObjectInfo entityObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID,
-                equipmentShared.databaseBank.databaseBankBlob, objectData.variation);
-
-            if (!IsItemValid(ref entityObjectInfo)) return false;
-
-            bool hasItemInMouse =
-                lookupData.containedObjectsBufferLookup.TryGetBuffer(equipmentAspect.entity,
-                    out DynamicBuffer<ContainedObjectsBuffer> dynamicBuffer) &&
-                lookupData.craftingLookup.TryGetComponent(equipmentAspect.entity, out CraftingCD craftingCD) &&
-                dynamicBuffer.Length > craftingCD.outputSlotIndex &&
-                dynamicBuffer[craftingCD.outputSlotIndex].objectID > ObjectID.None;
-            if (hasItemInMouse) return false;
-
-            var nativeList = new NativeList<PlacementHandler.EntityAndInfoFromPlacement>(Allocator.Temp);
-            MyPlacementHandler.UpdatePlaceablePosition(
-                equipmentAspect.equippedObjectCD.ValueRO.equipmentPrefab,
-                ref nativeList,
-                equipmentAspect,
-                equipmentShared,
-                lookupData,
-                state);
-            nativeList.Dispose();
-
-            equipmentAspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)100;
-            if (!secondInteractHeld) return false;
-
-            return PlaceItemGrid(
-                equipmentAspect,
-                equipmentShared,
-                lookupData,
-                conditionsLookup,
-                ppLookups,
-                state
-            );
-        }
-
         internal static bool IsItemValid(ref PugDatabase.EntityObjectInfo info)
         {
             if (info.objectType != ObjectType.PlaceablePrefab) return false;
@@ -94,7 +45,7 @@ namespace PlacementPlus
         public static bool PlaceItemGrid(
             in EquipmentUpdateAspect equipmentAspect,
             EquipmentUpdateSharedData sharedData,
-            LookupEquipmentUpdateData lookupData, BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup,
+            LookupEquipmentUpdateData lookupData,
             PlacementPlusLookups ppLookups,
             PlacementPlusState state
         )
@@ -137,7 +88,6 @@ namespace PlacementPlus
                     equipmentAspect,
                     sharedData,
                     lookupData,
-                    conditionsLookup,
                     ppLookups,
                     state,
                     tilesChecked,
@@ -171,7 +121,7 @@ namespace PlacementPlus
                 equipmentAspect,
                 sharedData,
                 lookupData,
-                conditionsLookup,
+                ppLookups,
                 out int shovelSlot,
                 out int pickaxeSlot,
                 out ObjectDataCD shovel,
@@ -218,7 +168,7 @@ namespace PlacementPlus
         public static void PlaceAt(
             in EquipmentUpdateAspect equipmentAspect,
             EquipmentUpdateSharedData sharedData,
-            LookupEquipmentUpdateData lookupData, BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup,
+            LookupEquipmentUpdateData lookupData, 
             PlacementPlusLookups ppLookups,
             PlacementPlusState state,
             NativeHashMap<int3, bool> tilesChecked,
@@ -248,7 +198,6 @@ namespace PlacementPlus
                         in equipmentAspect,
                         sharedData,
                         lookupData,
-                        conditionsLookup,
                         ppLookups,
                         ref entityObjectInfo,
                         ref placement,
@@ -277,7 +226,7 @@ namespace PlacementPlus
                 return;
             }
 
-            var result = 0;/* AccessExtensions.CanPlaceObjectAtPosition_PlacePublic(
+            var result = MyPlacementHandler.CanPlaceObjectAtPosition(
                 equipmentPrefab,
                 position,
                 1,
@@ -287,7 +236,7 @@ namespace PlacementPlus
                 sharedData,
                 lookupData
             );
-*/
+
             if (result == 0) return;
 
             if (!PlayerController.CanConsumeEntityInSlot(
@@ -332,7 +281,7 @@ namespace PlacementPlus
                 float3 offsetPositionFloat = new float3(position.x, 0f, position.z);
 
                 lookupData.objectPropertiesLookup.TryGetComponent(equipmentPrefab, out ObjectPropertiesCD objectPropertiesCD);
-                objectPropertiesCD.TryGet(245919617 /*currentPrefabVariation*/, out placement.currentPrefabVariation);
+                objectPropertiesCD.TryGet(PropertyID.PlaceableObject.variationToPlace, out placement.currentPrefabVariation);
 
                 if (lookupData.adaptiveEntityBufferLookup.TryGetBuffer(equipmentPrefab, out var dynamicBuffer2))
                 {
@@ -352,7 +301,7 @@ namespace PlacementPlus
                 {
                     placement.currentPrefabVariation = placement.rotationVariationToPlace;
                 }
-                else if (objectPropertiesCD.TryGet(1273594437 /* golden plant stuff*/, out int goldenPlantVariation))
+                else if (objectPropertiesCD.TryGet(PropertyID.Seed.rareSeedVariation, out int goldenPlantVariation))
                 {
                     if (goldenPlantVariation > 0)
                     {
@@ -463,7 +412,6 @@ namespace PlacementPlus
             in EquipmentUpdateAspect equipmentAspect,
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
-            BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup,
             PlacementPlusLookups ppLookups,
             ref PugDatabase.EntityObjectInfo entityObjectInfo,
             ref PlacementCD placement,
@@ -477,7 +425,7 @@ namespace PlacementPlus
                 equipmentAspect,
                 sharedData,
                 lookupData,
-                conditionsLookup,
+                ppLookups,
                 out int shovelSlot,
                 out int pickaxeSlot,
                 out ObjectDataCD shovel,

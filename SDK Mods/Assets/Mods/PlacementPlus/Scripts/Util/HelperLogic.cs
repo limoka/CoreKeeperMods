@@ -70,7 +70,7 @@ namespace Mods.PlacementPlus.Scripts.Util
             in EquipmentUpdateAspect equipmentAspect,
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
-            BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup,
+            PlacementPlusLookups ppLookup,
             out int shovelSlot,
             out int pickaxeSlot,
             out ObjectDataCD shovel,
@@ -100,8 +100,8 @@ namespace Mods.PlacementPlus.Scripts.Util
                         objectsBuffer.variation
                     );
 
-                int shovelDamage = GetShovelDamage(objectsBuffer.objectData, ref entityObjectInfo, conditionsLookup);
-                int pickaxeDamage = GetPickaxeDamage(objectsBuffer.objectData, ref entityObjectInfo, conditionsLookup);
+                int shovelDamage = GetShovelDamage(objectsBuffer.objectData, ref entityObjectInfo, ppLookup.conditionsLookup);
+                int pickaxeDamage = GetPickaxeDamage(objectsBuffer.objectData, ref entityObjectInfo, ppLookup.conditionsLookup);
 
 
                 if (shovelDamage > maxShovelDamage)

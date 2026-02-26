@@ -15,69 +15,160 @@ MonoBehaviour:
   metadata:
     guid: be5d8f55a80a4f58a6fbc8915f53d5b6
     name: PlacementPlus
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
     files:
-    - path: Localization/Localization.csv
     - path: Scripts/Scripts/Util/ReflectionExtensions.cs
+      guid: 746fa363722c44ad866abc36d9c44c50
     - path: Scripts/Scripts/Util/PlacementPlusLookups.cs
+      guid: 6ae09aaa002a427c9f49b8c78423cdb6
     - path: Scripts/Scripts/Util/MyPlacementHandler.cs
+      guid: 8b0cfb530e33451d9b45e146e29e414f
     - path: Scripts/Scripts/Util/HelperLogic.cs
+      guid: e548a6148496437eb5a24bcfbe25441e
     - path: Scripts/Scripts/Util/Extensions.cs
+      guid: 85d962c54cd9ea84da18b8c6dd12f3af
     - path: Scripts/Scripts/Systems/ShovelGridDigSystem.cs
+      guid: e46133d473a84c04902f6399c6b5771a
     - path: Scripts/Scripts/Systems/PlacementPlusSystem.cs
+      guid: bf9b17b7f45545418978eac7cf500e7c
     - path: Scripts/Scripts/Systems/PlacementPlusLateSystem.cs
+      guid: 7bf933af73024006a2863da46ddae77b
     - path: Scripts/Scripts/Systems/Network/ServerModCommandSystem.cs
+      guid: b63722bdc9da91c439ab85523e90e929
     - path: Scripts/Scripts/Systems/Network/ClientModCommandSystem.cs
+      guid: 0fbfb833c7999d5469a12a5d9f01d59e
     - path: Scripts/Scripts/ShovelLogic.cs
+      guid: 28a5eb09a2c447adba5c989f6afe20c2
     - path: Scripts/Scripts/PlacementPlusMod.cs
+      guid: 1b9da0b78bf773045a124e38a68811e6
     - path: Scripts/Scripts/Patches/ShovelSlot_Patch.cs
+      guid: 3d6f80fd7fa349a4fae84d20ab0f9921
     - path: Scripts/Scripts/Patches/RoofingToolSlot_Patch.cs
+      guid: ebba309a6f7841feafc6f0ac7afc6656
     - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
+      guid: cd33ac0e22fb53d44bd26e44f00f0b7d
     - path: Scripts/Scripts/Patches/PlaceObjectSlot_Patch.cs
+      guid: ce7832903a3fcb94a9e9bd7721fa6c68
     - path: Scripts/Scripts/Patches/PlacementHandler_Patch.cs
+      guid: 4106d58cc7eee974787d845874df06dd
     - path: Scripts/Scripts/Patches/MapUpdateSystem_Patch.cs
+      guid: 7941a8ce5d204a10af02eea187d60ff2
+    - path: Scripts/Scripts/Patches/EquipmentSystem_Patch.cs
+      guid: 04192507be094ec981107c105837e7d5
     - path: Scripts/Scripts/Patches/Emote_Patch.cs
+      guid: 3b8f67ac9b3940cd8c2987d68d93d5b2
     - path: Scripts/Scripts/ObjectPlacementLogic.cs
+      guid: 5474510d567d4aa7b78de3dbfe0d729d
     - path: Scripts/Scripts/Data/TileData.cs
+      guid: 092616b41a8b4aa4a83e73b944d54a73
     - path: Scripts/Scripts/Data/RoofingToolMode.cs
+      guid: 447ef4257fdd4f4d9be01a84979f86c6
     - path: Scripts/Scripts/Data/KeyMode.cs
+      guid: 65ba73c51a7dc3c429d7b18ff395a844
     - path: Scripts/Scripts/Data/DigShared.cs
+      guid: cf76bfba84ba4f14a4b0a057094f783f
     - path: Scripts/Scripts/Data/BrushRect.cs
+      guid: 46cca507331a5e2489a19c5d754739bc
     - path: Scripts/Scripts/Data/BrushMode.cs
+      guid: 2a9c6860e8b342ddbef4aa8967dd35c4
     - path: Scripts/Scripts/Data/BlockMode.cs
+      guid: 01a7dd06ccf04d2f898606aaa1c032dc
     - path: Scripts/Scripts/Components/ShovelDigQueueBuffer.cs
+      guid: 33fd235a11094e29bb51e5513946c286
     - path: Scripts/Scripts/Components/PlacementPlusState.cs
+      guid: c6d0d8bde2e64b869332f9400104c15d
     - path: Scripts/Scripts/Commands/PlacementPlusRPC.cs
+      guid: 0039f784fd9540a187c2014743e22ca9
     - path: Scripts/Scripts/BrushExtension.cs
+      guid: 507f0cb3378c04d4c917249cfb683996
     - path: Scripts/Generated/ClientModCommandSystem__System_13393711990.g.cs
-    - path: Scripts/Generated/PlacementPlusLateSystem__System_15056617330.g.cs
+      guid: 
     - path: Scripts/Generated/PlacementPlusSystem__System_11066732170.g.cs
+      guid: 
     - path: Scripts/Generated/ServerModCommandSystem__System_16204881150.g.cs
+      guid: 
     - path: Scripts/Generated/GhostComponentSerializerCollection.cs
+      guid: 
     - path: Scripts/Generated/PlacementPlus.Commands_PlacementMessageRPCCommandSerializer.cs
+      guid: 
     - path: Scripts/Generated/PlacementPlus.Commands_PlacementPlusRPCCommandSerializer.cs
+      guid: 
     - path: Scripts/Generated/PlacementPlus.Components_PlacementPlusStateSerializer.cs
-    - path: Libraries/PlacementPlus.Access.dll
+      guid: 
+    - path: Bundles/PlacementPlus_Windows.assetbundle
+      guid: 
+    - path: Bundles/PlacementPlus_Windows.assetbundle.manifest
+      guid: 
+    - path: Bundles/PlacementPlus_Linux.assetbundle
+      guid: 
+    - path: Bundles/PlacementPlus_Linux.assetbundle.manifest
+      guid: 
     dependencies:
     - modName: CoreLib
       required: 1
-    - modName: CoreLib.RewiredExtension
-      required: 1
   modPath: Assets/Mods\PlacementPlus
   forceReimport: 1
-  buildBundles: 0
+  buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
-  buildBurst: 1
   assets:
-  - path: Assets/Mods/PlacementPlus/Localization/Localization.csv
-    hash: A79CE4BF333ECF825F413550BDC90BECE513BC838688D5E185FC57CB1B45259E
+  - path: Assets/Mods/PlacementPlus/Data/Placement Plus.asset
+    hash: D7C2D9BD92D8980A67A73178525D71A5B4926F8D2BDC33A16EB3BB2979174B3D
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ChangeOrientation.asset
+    hash: BC4EC89722A3D7A19C7A042C17AD9CCE73E437B84009151E02EDC7BACE44488A
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ChangeToolMode.asset
+    hash: BDD31752C10DC4F645E24F9E6EB358EA416DA12A602AA44D80B31F97747DAE9D
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_DecreaseSize.asset
+    hash: 045AE3BE84494EB35D5CE139176B50CAD5E817442A6F7E0412F95CD6E4276BF4
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_IncreaseSize.asset
+    hash: 536F78D9B574AC5304D34947EF1544C36A5640090337880CBC5E0016CE64E8C1
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ReplaceButton.asset
+    hash: 7D4C5FB549F80F1CCED8B73265AF973F39599C87AC640D1192FD739E295E094C
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ReverseDirection.asset
+    hash: 2FF91D31AC32F72A9D1B6199EBB403CC396F2960B2BEA4613AF2CBB2DBF979B1
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlusCategory.asset
+    hash: BFAA5E2E024933BBA98FF74D4FBBAE96818F3D29A49680FBB7542AE9866F32BE
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlusDescription.asset
+    hash: F4663DA08B36D2AAEFFED9AC20DDFBA6615F1FBC3B1D53D8ACA6DE3096DC9024
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/ADD_ROOF.asset
+    hash: CC84CE1CFBBDA3CEAEE2C0663BEDA5540D47C0E7598DF1597BE1DE3D6FF977BA
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/BlockToolModeMessage.asset
+    hash: E3774AF98459B2E5ECE3AEEFD83F11BB171FC483090D2CF0C5A15AAE71771022
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CHESS_PATTERN.asset
+    hash: 9B1DA6CCC0B5435001997FCBBEB88190A39BABD632383CFD8C0D8302730066D1
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CIRCLE.asset
+    hash: 2090D8084410A3EAFD5A02F106E90B1B4363EF399D939B81E174485E2B5C2C0B
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CLEAR_ROOF.asset
+    hash: 6BA3AA520A59931443480766B006E34E4CAA7243E9445D08D23BFAA2FB5BC75C
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/GROUND.asset
+    hash: 703FB3122B02F5D455E3A909607E194BD9F5E6ECCBCB301A88DB8754F0FD2C42
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/HORIZONTAL.asset
+    hash: A56D093F999F14A2C17B3D36D171FE827722E1E1DAEE53F33E46B1F633DF5415
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/ModeMessage.asset
+    hash: 4576BBE923238DE49DF8C17E11808871D43A5365D0030FE57F111E38A36183C6
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/NONE.asset
+    hash: 1D7CC01F44B368A01AA4C7E2B4741F3FA9CF84CA48620F22CC9589A6C71693A2
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RANDOM_60_P.asset
+    hash: EBF564BEEABDB00CFD24A06B07374082D8B1B39E606B24F7B09C72C5FE5E8AD1
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RANDOM_70_P.asset
+    hash: 49605EA51F57A4DDE301FE2C82E9C0BFA6A1D91856CB094B9F9DF681FC6AE5E2
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RoofingToolModeMessage.asset
+    hash: 4B0BF7D5D3A587493717FBCEDD27BE27B166755FA2EE24EF4D5656355AA26F34
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SQUARE.asset
+    hash: FC8D36045697B0EC2CF20403B7172961309888B1F41B42DDAE71EABF1665F6DC
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/TOGGLE.asset
+    hash: 0154D77E8FB133B7184EAF3F6B770C57FF97D4948928D01F03FEED28808C760D
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/VERTICAL.asset
+    hash: 5E72FC19A2555A14A027587FB441661305C938E54B581369851C66120AB5428D
+  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/WALL.asset
+    hash: A4892170789D14ECEDA5A9C55B0BA5622EB4A15D19EFC53DD38C35AA7416C6C8
   - path: Assets/Mods/PlacementPlus/PlacementPlus.asset
-    hash: BF09AB0460F7436F8711E520B63AEA07CB90F5C1FD90BAA86243778EEDC38624
+    hash: 340EF36C0B929167A2478BABD916863661101034D9317073356F81C978396BF4
   - path: Assets/Mods/PlacementPlus/PlacementPlus_modio.asset
     hash: A128470398E45D199BC8F51C4121614407A547D6A264DE9A21BD5E57DC90B8C6
   - path: Assets/Mods/PlacementPlus/todo.txt

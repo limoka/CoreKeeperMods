@@ -1,6 +1,6 @@
 ﻿using PlayerEquipment;
 using Unity.Entities;
-
+/*
 namespace PlacementPlus.Systems
 {
     [WorldSystemFilter(WorldSystemFilterFlags.ClientSimulation | WorldSystemFilterFlags.ServerSimulation)]
@@ -27,4 +27,4 @@ namespace PlacementPlus.Systems
             base.OnUpdate();
         }
     }
-}
+}*/

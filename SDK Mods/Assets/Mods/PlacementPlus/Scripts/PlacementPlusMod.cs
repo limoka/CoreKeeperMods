@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security;
+using System.Security.Permissions;
 using CoreLib;
 using CoreLib.Data.Configuration;
 using CoreLib.Submodule.ControlMapping;
@@ -8,6 +10,7 @@ using HarmonyLib;
 using Inventory;
 using PlacementPlus.Components;
 using PlacementPlus.Systems.Network;
+using PlayerEquipment;
 using PugMod;
 using PugTilemap;
 using Rewired;
@@ -25,7 +28,7 @@ namespace PlacementPlus
     public class PlacementPlusMod : IMod
     {
         public const string MODNAME = "Placement Plus";
-        public const string VERSION = "2.1.2";
+        public const string VERSION = "2.1.4";
 
         public static Logger Log = new Logger(MODNAME);
         public static ConfigFile Config;
@@ -143,14 +146,16 @@ namespace PlacementPlus
 
             ParseConfigString();
             
-            ControlMappingModule.AddKeyboardBind(CHANGE_ORIENTATION,  KeyboardKeyCode.C);
-            ControlMappingModule.AddKeyboardBind(INCREASE_SIZE,  KeyboardKeyCode.KeypadPlus);
-            ControlMappingModule.AddKeyboardBind(DECREASE_SIZE,  KeyboardKeyCode.KeypadMinus);
-            ControlMappingModule.AddKeyboardBind(CHANGE_TOOL_MODE,  KeyboardKeyCode.V);
-            ControlMappingModule.AddKeyboardBind(REPLACE_BUTTON, KeyboardKeyCode.LeftAlt);
-            ControlMappingModule.AddKeyboardBind(REVERSE_DIRECTION, KeyboardKeyCode.CapsLock);
+            int catID = ControlMappingModule.AddNewCategory("PlacementPlus");
             
-            modInfo.TryLoadBurstAssembly();
+            ControlMappingModule.AddKeyboardBind(CHANGE_ORIENTATION,  KeyboardKeyCode.C, categoryId: catID);
+            ControlMappingModule.AddKeyboardBind(INCREASE_SIZE,  KeyboardKeyCode.KeypadPlus, categoryId: catID);
+            ControlMappingModule.AddKeyboardBind(DECREASE_SIZE,  KeyboardKeyCode.KeypadMinus, categoryId: catID);
+            ControlMappingModule.AddKeyboardBind(CHANGE_TOOL_MODE,  KeyboardKeyCode.V, categoryId: catID);
+            ControlMappingModule.AddKeyboardBind(REPLACE_BUTTON, KeyboardKeyCode.LeftAlt, categoryId: catID);
+            ControlMappingModule.AddKeyboardBind(REVERSE_DIRECTION, KeyboardKeyCode.CapsLock, categoryId: catID);
+            
+            //modInfo.TryLoadBurstAssembly();
             
             ControlMappingModule.rewiredStart += OnRewiredStart;
             API.Authoring.OnObjectTypeAdded += EditPlayer;
@@ -200,6 +205,9 @@ namespace PlacementPlus
         public void Init()
         {
             API.Client.OnWorldCreated += ClientWorldInit;
+            
+            BurstDisabler.DisableBurstForSystemAndJobs<EquipmentUpdateSystem>();
+            //BurstDisabler.DisableBurstForSystem<EquipmentLateUpdateSystem>();
         }
 
         private void ClientWorldInit()
