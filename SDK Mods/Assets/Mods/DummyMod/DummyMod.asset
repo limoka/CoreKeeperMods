@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: fdb20da62db84fd191836a1f3ce71263
     name: DummyMod
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
@@ -22,54 +23,108 @@ MonoBehaviour:
     requiredOn: 3
     files:
     - path: Localization/Localization.csv
+      guid: 38ef78ef985efe34080aea1ee9ce7880
     - path: Scripts/Scripts/UI/DummyUI.cs
+      guid: 58fcc43c6e32488daaac366b01cd83a5
     - path: Scripts/Scripts/System/Network/ServerModCommandSystem.cs
+      guid: 9500ad39f90763a4885b3455e8821f16
     - path: Scripts/Scripts/System/Network/ClientModCommandSystem.cs
+      guid: 40ddb3c6481f33742836d5a0b706a397
     - path: Scripts/Scripts/System/DummySystem.cs
+      guid: e3c1a8c0303547048f4497e45fa918be
     - path: Scripts/Scripts/DummyMod.cs
+      guid: b8ccdb5522e540b99be65891b703fb2a
     - path: Scripts/Scripts/Dummy.cs
+      guid: 28d35eccc7c34118b8794fc0e2232ab5
     - path: Scripts/Scripts/Components/SpawnDummyAuthoring.cs
+      guid: e90cd64027ba4f37ab3a195ab7581517
     - path: Scripts/Scripts/Components/DummyDamageBuffer.cs
+      guid: 7a00a9b6677943099be5abdd238fb9c4
     - path: Scripts/Scripts/Components/DummyCommandRPC.cs
+      guid: 497eee5c39a348c3b4339d90e3ce3cb9
     - path: Scripts/Scripts/Components/DummyAuthoring.cs
+      guid: 37e1a5c8d5db41cb8364186e3d693172
     - path: Scripts/Generated/ClientModCommandSystem__System_10954148410.g.cs
+      guid: 
     - path: Scripts/Generated/DummySystem__System_8485351380.g.cs
+      guid: 
     - path: Scripts/Generated/ServerModCommandSystem__System_7343971010.g.cs
+      guid: 
     - path: Scripts/Generated/DummyMod_DummyCDSerializer.cs
+      guid: 
     - path: Scripts/Generated/DummyMod_DummyCommandRPCCommandSerializer.cs
+      guid: 
     - path: Scripts/Generated/GhostComponentSerializerCollection.cs
+      guid: 
     - path: Bundles/DummyMod_Windows.assetbundle
+      guid: 
+    - path: Bundles/DummyMod_Windows.assetbundle.manifest
+      guid: 
     - path: Bundles/DummyMod_Linux.assetbundle
+      guid: 
+    - path: Bundles/DummyMod_Linux.assetbundle.manifest
+      guid: 
     dependencies:
     - modName: CoreLib
-      required: 1
-    - modName: CoreLib.Entity
-      required: 1
-    - modName: CoreLib.UserInterface
       required: 1
   modPath: Assets\Mods\DummyMod
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
-  buildBurst: 1
   assets:
+  - path: Assets/Mods/DummyMod/Data/DummyMod.asset
+    hash: 52A74FE8EF2E8770AE7B822FEB7B29B2321198186B46C0F8DC8AFC85B63748E0
+  - path: Assets/Mods/DummyMod/Data/SpriteAsset/DummyBase.asset
+    hash: C16D3BD1711FD555CFE5CB66856B8A3A93182FC0692C2CB8A8429F1682FB5F7C
+  - path: Assets/Mods/DummyMod/Data/SpriteAsset/DummyMain.asset
+    hash: 0BB92380C5F33C79390824E1BE578EFE058443B58979249D1ED22A769CBD875F
+  - path: Assets/Mods/DummyMod/Data/SpriteAsset/Shadow.asset
+    hash: D2E3E68D88C680B0EB2487454C2C7E5A04CFABAA64001B8469C4E70D505B2ED8
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/AverageDamage.asset
+    hash: A814AA26DFEC28791D8F14157A6A9C2F6B1573195547BDE134462D3C97CF2996
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/Dummy.asset
+    hash: DA0CDE23D64244D9D3187AB074B1D8DA3E1479CD730E581A9929E6CE7DCE4B2E
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/KillButton.asset
+    hash: D643AB8BB8CE0BE104FDAE7303CC4B38EA112D3C55CCE48695D59D451DB32A2F
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/LastDamage.asset
+    hash: D5DFE879A4CE2C587549A53A9EB8F732C445E830EFFAB4118ADCC9584995BCB1
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/LastDps.asset
+    hash: 5751BE50C89622ADE11ACB609E7E23789E6E41612D82E056A13BD4CE4EF2A56D
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/MaxDamage.asset
+    hash: B0A50C376EA200697522A734737056D5D35E63868536BEE5D2A35912CAC4A553
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/MaxDps.asset
+    hash: 8812630E4B6434F5A1B9F323D6351E21338275500CE250BC01F5ABF61976B643
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/MinDamage.asset
+    hash: 3C4E1FB481ACB3C2E4F62BBC0EF54C1C06BAB751BA357F6FC7CA7E50B2E5E47F
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/ResetButton.asset
+    hash: 8C377F90DB8BD824C849598C317DC69FEE866C7D7C5ECCB8EBC469F062024BF5
+  - path: Assets/Mods/DummyMod/Data/TextDataBlock/Items/DummyMod_Dummy.asset
+    hash: 757B868F6F928EA48890D2AFA3D1BD59679528051EFB138D35DB39D3F214BC69
   - path: Assets/Mods/DummyMod/DummyMod.asset
-    hash: 26F6A3F8A5670476175754EF418CDF7044144C4AC189B81255C53969029FB0DB
+    hash: AB7A5A81CC945E90D5F96F57C3FDDEBD5789F267502DE42F8D2C7508A50B3903
   - path: Assets/Mods/DummyMod/DummyMod_modio.asset
-    hash: FFA2BF880E3D6BF41D3972871DCD3D7F7692FA06CA45935E313EC6D06571B154
+    hash: 4C2C8A2ECCF70D0FF6D4B5887668ABCDF058506E70C40918BDB5A0B9D99DCFA5
+  - path: Assets/Mods/DummyMod/DummyMod_Steam.asset
+    hash: BF4AEA78FCFE084538742A474E7595779EA113545044900CC3161723644483F6
   - path: Assets/Mods/DummyMod/Localization/Localization.csv
-    hash: DA32D4341F565C95053BD4D0062131E45B5305194D521D9D122E2A088081E14D
+    hash: F61DD4812575FA6B26A73666FBA184382CEF7FE8EBC894F682D94ECAAFC979C2
   - path: Assets/Mods/DummyMod/Prefab/Dummy.prefab
-    hash: 878C6B56A69EAB6533880927030E5A5D4DBDB7E04594DB498AE38F20C0856A11
+    hash: 6A95B6621E3A5DC2B48D0CD60D3901C31A1FE937B537A301CBA4A67BECCD0518
   - path: Assets/Mods/DummyMod/Prefab/DummyCreature.prefab
-    hash: E89477C51FAF01D53F7BE21F813871FF671A0CDEDF48E37E6FB4FB80838641A5
+    hash: 6723127C47C0D33A80DAC1E916A8BC8FCD2CBBF7D52AA2206F0DA196CC80EB3E
   - path: Assets/Mods/DummyMod/Prefab/DummyItem.prefab
-    hash: D57E9283D65DD8D09C386A03A6E303A4BB31D97C528071EC21A4098A001B0395
+    hash: B181FF0D8354D29DC091BFE8C7A5E72CE90EEA8DC27253B3712E1D43DE9BA40C
+  - path: Assets/Mods/DummyMod/SpriteAssetManifest.asset
+    hash: 2BB40D9031AA64279521413088DFF393D58B3F77C6E7941799BB55B7AA99D3D0
   - path: Assets/Mods/DummyMod/Textures/dummy.png
     hash: CF9008346C0CA2506DB19AACD9A1717899B70766BEDC7667E0D8CFBB3A72E79E
+  - path: Assets/Mods/DummyMod/Textures/dummy_base.png
+    hash: 7C092531BE14F66820CA776E70840C555E2C118476F0E3F7B2EDBE10101BA730
+  - path: Assets/Mods/DummyMod/Textures/dummy_main.png
+    hash: 84C2CFF572B1EFB8F020A76B9220F5D9C72248295E4FF3693B5A316201C0C615
   - path: Assets/Mods/DummyMod/Textures/wood-button.png
     hash: D34F4A44F4C5EBE8B683E16575FB59292A7BAD11FCC4639488E7956DA186C4E1
   - path: Assets/Mods/DummyMod/UI/DummyUI.prefab
-    hash: AFCC0F3777403D0C6D3A298C6EC6E81FB9173BD82A1C1C91B94418F0772A4B87
+    hash: 95085077F45C3BF4DA439B3106625AC8CB5882C9853BE3D55157BF6027CE4011
   lastBuildLinux: 1

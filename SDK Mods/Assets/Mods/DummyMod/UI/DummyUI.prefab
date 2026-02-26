@@ -73,6 +73,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2524686428922255557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +168,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5454600246142776423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,19 +234,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -244,13 +266,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &1066407348080043347
 GameObject:
@@ -296,19 +323,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -322,13 +355,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &1260601572412529405
 GameObject:
@@ -403,6 +441,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7016110102767894557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,19 +507,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 5
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -487,13 +539,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.7098, g: 0.502, b: 0.2784, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 2
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &1926241419317424384
 GameObject:
@@ -539,19 +596,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
-  textString: DumymMod/MaxDamage
+  textString: DummyMod/MaxDamage
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -565,13 +628,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.21960784, g: 0.2, b: 0.11764706, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &2283508230505952109
 GameObject:
@@ -625,6 +693,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2037740850767331129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -707,19 +783,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -733,13 +815,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &2983823738499948201
 GameObject:
@@ -785,19 +872,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
-  textString: DumymMod/AverageDamage
+  textString: DummyMod/AverageDamage
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -811,13 +904,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.21960784, g: 0.2, b: 0.11764706, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &3285916205184201281
 GameObject:
@@ -863,19 +961,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
-  textString: DumymMod/LastDps
+  textString: DummyMod/LastDps
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -889,13 +993,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.21960784, g: 0.2, b: 0.11764706, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &4045078381531642499
 GameObject:
@@ -941,19 +1050,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
-  textString: DumymMod/MinDamage
+  textString: DummyMod/MinDamage
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -967,13 +1082,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.21960784, g: 0.2, b: 0.11764706, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &4106744170382353299
 GameObject:
@@ -1048,6 +1168,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2565680817437233116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1135,6 +1263,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6342943090738827979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,6 +1334,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1277,19 +1416,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
-  textString: DumymMod/MaxDps
+  textString: DummyMod/MaxDps
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -1303,13 +1448,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.21960784, g: 0.2, b: 0.11764706, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &5310279678455457893
 GameObject:
@@ -1360,6 +1510,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1439,19 +1592,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -1465,13 +1624,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &5532379384888776355
 GameObject:
@@ -1567,6 +1731,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1675,6 +1842,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4374308172199452127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1744,6 +1919,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   canBeClicked: 1
   disabledColor: {r: 1, g: 1, b: 1, a: 1}
   onLeftClick:
@@ -1776,6 +1959,7 @@ MonoBehaviour:
   - {fileID: 4994444887440495826}
   spritesShownPressed:
   - {fileID: 2126398028035247626}
+  skipUpdatingSpritesColor: 0
   showHoverTitle: 0
   optionalTitle:
     mTerm: 
@@ -1790,6 +1974,7 @@ MonoBehaviour:
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
+  optionalShortCut: 0
   adjustSpritesToFitTextSize: 0
   spritesSizePadding: {x: 0, y: 0}
   text: {fileID: 0}
@@ -1875,19 +2060,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
-  textString: DumymMod/LastDamage
+  textString: DummyMod/LastDamage
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -1901,13 +2092,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.21960784, g: 0.2, b: 0.11764706, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &6706819184727865549
 GameObject:
@@ -1982,6 +2178,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1460473128264964575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2069,6 +2273,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7066609159312266405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2134,6 +2346,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   root: {fileID: 7868305860576778410}
   lastDamageText: {fileID: 5688196014983117651}
   minDamageText: {fileID: 5645401341710500383}
@@ -2207,6 +2427,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2280,6 +2503,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7958251647671762036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2349,6 +2580,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
   canBeClicked: 1
   disabledColor: {r: 1, g: 1, b: 1, a: 1}
   onLeftClick:
@@ -2381,6 +2620,7 @@ MonoBehaviour:
   - {fileID: 2173082512962446904}
   spritesShownPressed:
   - {fileID: 8211331372699386696}
+  skipUpdatingSpritesColor: 0
   showHoverTitle: 0
   optionalTitle:
     mTerm: 
@@ -2395,6 +2635,7 @@ MonoBehaviour:
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
+  optionalShortCut: 0
   adjustSpritesToFitTextSize: 0
   spritesSizePadding: {x: 0, y: 0}
   text: {fileID: 0}
@@ -2509,6 +2750,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5307318763763484991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2567,19 +2816,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -2593,13 +2848,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &7379291602341048066
 GameObject:
@@ -2645,19 +2905,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 5
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -2671,13 +2937,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 0.2196, g: 0.2, b: 0.1176, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &7571302718772059723
 GameObject:
@@ -2752,6 +3023,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1541031678459575257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2839,6 +3118,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8609182915484650671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2931,19 +3218,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 0
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: 
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -2957,13 +3250,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 3
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &8053164781540433050
 GameObject:
@@ -3014,6 +3312,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3098,6 +3399,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3206,6 +3510,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5014655066876114067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3264,19 +3576,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: DummyMod/ResetButton
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -3290,13 +3608,18 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 4
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0
 --- !u!1 &8985765943781049711
 GameObject:
@@ -3347,6 +3670,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3436,6 +3762,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3509,6 +3838,14 @@ MonoBehaviour:
   leftUIElements: []
   rightUIElements: []
   childElements: []
+  selectFirstEnabledElementInList: 0
+  invokeSelectionEvents: 0
+  onElementSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  onElementDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8903444722865551857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3567,19 +3904,25 @@ MonoBehaviour:
   m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  centerInParent: 0
+  activeInPlatforms: -1
+  activeInStoreFronts: -1
   renderOnStart: 1
   keepEnabledOnStart: 1
   alwaysUpdateDynamicTextPixelPos: 0
   isWrittenToByUser: 0
+  checkForProfanity: 0
   isHidden: 0
   trackDynamicTextCharacterEndPositions: 0
   localize: 1
+  topAligned: 0
   languagesToForceLatinFont: 
   localizePlaceholders: 0
   dontResetEffectsOnRender: 0
   hideInStreamerMode: 0
   maxWidth: 3
   textString: DummyMod/KillButton
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -3593,11 +3936,16 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 1}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 0
     orderInLayer: 4
     maskInteraction: 0
   styleOverrides: []
+  usePooledResources: 1
   freeResourcesOnDisable: 0

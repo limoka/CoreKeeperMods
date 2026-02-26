@@ -33,7 +33,7 @@ namespace DummyMod
                 return;
             }
 
-            modInfo.TryLoadBurstAssembly();
+            //modInfo.TryLoadBurstAssembly();
 
             Log.LogInfo("Mod loaded successfully");
         }
@@ -78,6 +78,9 @@ namespace DummyMod
 
         public void ModObjectLoaded(Object obj)
         {
+            if (obj is not GameObject go) return;
+
+            UserInterfaceModule.RegisterModUI(go);
         }
 
         public void Update() { }

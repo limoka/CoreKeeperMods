@@ -107,11 +107,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1750685436123586}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1908045241, guid: 8755fc0f8990e9f418149df4a482da57, type: 3}
+  m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_asset: {fileID: 11400000, guid: ff7d5713d0fb4bb458e296c5dd7eecf0, type: 2}
+  m_asset: {fileID: 0}
   skin: {fileID: 0}
+  m_assetRef:
+    m_address:
+      m_low: 5455214829394286355
+      m_high: -1086353919135260072
+  skinRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   color: {r: 1, g: 1, b: 1, a: 1}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -119,6 +127,18 @@ MonoBehaviour:
   primaryGradientMap: {fileID: 0}
   secondaryGradientMap: {fileID: 0}
   tertiaryGradientMap: {fileID: 0}
+  primaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  secondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  tertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   material: {fileID: 2100000, guid: 571bf3c761ee86c4f9d8e65be27151be, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
@@ -126,6 +146,11 @@ MonoBehaviour:
   m_randomStartTime: 0
   processAnimationEvents: 0
   syncSource: {fileID: 0}
+  syncAnimation: 1
+  syncVariant: 1
+  syncSprite: 0
+  maskChannel: 0
+  maskInteraction: 0
 --- !u!1 &1856544564124895
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +163,7 @@ GameObject:
   - component: {fileID: 3503659787593696317}
   - component: {fileID: 95106109642842753}
   - component: {fileID: 7445824816296798332}
+  - component: {fileID: 8123140464713604230}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Untagged
@@ -209,9 +235,10 @@ MonoBehaviour:
   outlineControllers: []
   hasDisableableParticles: 0
   previousHealth: 0
+  m_spriteObjectOrientationHash: 0
 --- !u!95 &95106109642842753
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -225,6 +252,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -271,6 +299,21 @@ MonoBehaviour:
   additionalFlashableSprites: []
   spriteObjects: []
   renderers: []
+--- !u!114 &8123140464713604230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856544564124895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialSize: 16
+  maxFreeSize: 16
+  maxSize: 1024
 --- !u!1 &1919332005757889
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,11 +419,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 102593323930722758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1908045241, guid: 8755fc0f8990e9f418149df4a482da57, type: 3}
+  m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_asset: {fileID: 11400000, guid: 9bc2712b82d4feb4b84e1158ddc8b3cc, type: 2}
+  m_asset: {fileID: 0}
   skin: {fileID: 0}
+  m_assetRef:
+    m_address:
+      m_low: -93305842610048725
+      m_high: -3696390016150188360
+  skinRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   color: {r: 1, g: 1, b: 1, a: 1}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -388,6 +439,18 @@ MonoBehaviour:
   primaryGradientMap: {fileID: 0}
   secondaryGradientMap: {fileID: 0}
   tertiaryGradientMap: {fileID: 0}
+  primaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  secondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  tertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   material: {fileID: 2100000, guid: e9579b7574bbaa146a669beeabfcbb75, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
@@ -395,6 +458,11 @@ MonoBehaviour:
   m_randomStartTime: 0
   processAnimationEvents: 0
   syncSource: {fileID: 0}
+  syncAnimation: 1
+  syncVariant: 1
+  syncSprite: 0
+  maskChannel: 0
+  maskInteraction: 0
 --- !u!1 &338602715322754561
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,6 +584,7 @@ MonoBehaviour:
   hideInStreamerMode: 0
   maxWidth: 5
   textString: DummyMod/Dummy
+  textSuffix: 
   formatFields: []
   overrideMaterial: {fileID: 0}
   offsetKey: 
@@ -529,9 +598,13 @@ MonoBehaviour:
     extraLineSpacing: 0
     extraEmptyLineSpacing: 0
     forceMonospace: 0
+    wrapAtComma: 0
     rightToLeftXOffset: 0
     invertHorizontalAlignment: 0
     color: {r: 1, g: 1, b: 1, a: 0.18039216}
+    outline: 0
+    outlineColor: {r: 0, g: 0, b: 0, a: 0}
+    supportColorTags: 0
     sortingLayer: 1241602095
     orderInLayer: 9999
     maskInteraction: 0
@@ -584,7 +657,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weightMultiplier: 1
   useDiscreteOutlineColor: 0
-  entityMono: {fileID: 3503659787593696317}
   requiredFactionToInteract: 0
   optionalIcon: {fileID: 0}
   optionalOutlineController: {fileID: 0}
@@ -661,6 +733,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -745,6 +820,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -926,6 +1004,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1002,11 +1083,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7000585869365353982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1908045241, guid: 8755fc0f8990e9f418149df4a482da57, type: 3}
+  m_Script: {fileID: 1908045241, guid: 292700ef68995bdb2163e35989fc7eb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_asset: {fileID: 11400000, guid: 76c895e4c4bf4e046862c0e887a21657, type: 2}
+  m_asset: {fileID: 0}
   skin: {fileID: 0}
+  m_assetRef:
+    m_address:
+      m_low: 5621834561475876324
+      m_high: 6275381835396571752
+  skinRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   color: {r: 1, g: 1, b: 1, a: 1}
   emissiveColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1014,6 +1103,18 @@ MonoBehaviour:
   primaryGradientMap: {fileID: 0}
   secondaryGradientMap: {fileID: 0}
   tertiaryGradientMap: {fileID: 0}
+  primaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  secondaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
+  tertiaryGradientMapRef:
+    m_address:
+      m_low: 0
+      m_high: 0
   material: {fileID: 2100000, guid: 571bf3c761ee86c4f9d8e65be27151be, type: 2}
   m_startAnimationHash: 0
   m_startVariantHash: 0
@@ -1021,6 +1122,11 @@ MonoBehaviour:
   m_randomStartTime: 0
   processAnimationEvents: 0
   syncSource: {fileID: 0}
+  syncAnimation: 1
+  syncVariant: 1
+  syncSprite: 0
+  maskChannel: 0
+  maskInteraction: 0
 --- !u!1 &8312454337007269185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,6 +1211,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

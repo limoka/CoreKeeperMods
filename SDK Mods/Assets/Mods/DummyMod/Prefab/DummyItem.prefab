@@ -30,9 +30,9 @@ GameObject:
   - component: {fileID: 6467545257263412825}
   - component: {fileID: 3408452410834206746}
   - component: {fileID: 2975659086408752802}
-  - component: {fileID: 8707560192038489190}
   - component: {fileID: 8365828615642464507}
   - component: {fileID: -1284714892300779187}
+  - component: {fileID: 4574837750736357231}
   m_Layer: 0
   m_Name: DummyItem
   m_TagString: Untagged
@@ -75,6 +75,7 @@ MonoBehaviour:
   objectType: 800
   tags: 
   rarity: 0
+  salvageMultiplier: 1
   graphicalPrefab: {fileID: 1856544564124895, guid: 051647fd02a9f094d8d8bc33efcfefdc,
     type: 3}
   isCustomScenePrefab: 0
@@ -260,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 793611198, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playFailedEffectOnZeroDamage: 0
 --- !u!114 &114391434732298940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,9 +282,8 @@ MonoBehaviour:
   maxHealthMultiplier: 1
   hasHealthRegeneration: 1
   healInCombatAsWell: 0
-  healDirectlyWhenLeavingCombat: 0
-  healthPercentagePerFifthSecond: 100
-  startHealDelay: 5
+  healthIncreasePercentPerFiveSeconds: 100
+  healDelayAfterLeavingCombat: 5
   level: {fileID: 0}
 --- !u!114 &114556803251445676
 MonoBehaviour:
@@ -299,6 +300,8 @@ MonoBehaviour:
   prefabTileSize: {x: 1, y: 1}
   prefabCornerOffset: {x: 0, y: 0}
   centerIsAtEntityPosition: 0
+  objectCanBeToggledToNewNonRotationOption: 0
+  toggledToNewNonRotationOptions: 0
   variationToPlace: 0
   canBePlacedOnPlayer: 0
   canBePlacedOnAnyWalkableTile: 1
@@ -319,6 +322,7 @@ MonoBehaviour:
   appearInMapUI: 0
   mapColor: {r: 0, g: 0, b: 0, a: 0}
   alignWithPlayerDirection: 0
+  displayPlaceableType: 0
 --- !u!114 &114717773080482599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +359,7 @@ MonoBehaviour:
   TrackInterpolationDelay: 0
   GhostGroup: 0
   UsePreSerialization: 0
+  DontUsePredictionBackup: 0
 --- !u!114 &114716709423320655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,10 +381,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1089278989, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: -1089278989, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0
+  refreshStateOnNewDamageTaken: 0
 --- !u!114 &114073873616023817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,7 +395,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 282287656, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: 282287656, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   overrideTimeBeforeDestroy: 0
@@ -405,7 +411,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1359265570381211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 178800199, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: 178800199, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playIdleAnimation: 1
@@ -459,9 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 1751214620, guid: 9a1db145e9314404d8da91bdc1557235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actAsDestructibleWhileAboveHealthThreshold: 0
   dontBlockPlayerMovement: 0
-  trackLastAttacker: 0
 --- !u!114 &1133485972362148781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,8 +511,9 @@ MonoBehaviour:
   cantBeAffectedByHealing: 0
   dontShowStatsTextOnItem: 0
   initialConditions: []
+  initialConditionsWithRandomChance: []
   level: {fileID: 0}
-  conditionsTable: {fileID: 11400000, guid: 8b91885f220ea8c4a99163bfda87b38b, type: 2}
+  conditionsTable: {fileID: 11400000, guid: 4360a97a55074eb4db3072feb01222c3, type: 2}
 --- !u!114 &6467545257263412825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,18 +548,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e1a5c8d5db41cb8364186e3d693172, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8707560192038489190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359265570381211}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 276b4b9264304dc2b5f1e3feb621bc98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8365828615642464507
@@ -603,5 +596,19 @@ MonoBehaviour:
   - AlwaysDropVariationZeroAuthoring
   - DummyMod.SpawnDummyAuthoring
   - DummyMod.DummyAuthoring
-  - CoreLib.Submodules.ModEntity.Components.SupportsPooling
   - Interaction.LocalInteractableAuthoring
+  - CoreLib.Submodule.Entity.Component.SupportsCoreLib
+--- !u!114 &4574837750736357231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359265570381211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ae7684ea6f84c868d0b30fa9ecd2b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bindToRootWorkbench: 0
+  amount: 1
