@@ -6,6 +6,8 @@
 RailLogistics*
 previews*
 
+/[Ii]mported[Gg]ame[Ff]olders*
+
 *.ase
 *.ase.meta
 /[Aa]ssets/Plugins/CoreKeeper*

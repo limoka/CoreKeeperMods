@@ -7,7 +7,7 @@
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.1"
       },
-      "hash": "06edc30e6154ea50a49eb586bb9721bb93fee10c"
+      "hash": "8a668f1716a7ca905b2c3b26e2c1d634961febe2"
     },
     "com.dbrizov.naughtyattributes": {
       "version": "file:com.dbrizov.naughtyattributes",
@@ -68,7 +68,7 @@
     },
     "com.unity.editorcoroutines": {
       "version": "1.0.1",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
