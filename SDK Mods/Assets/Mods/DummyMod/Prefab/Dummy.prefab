@@ -267,7 +267,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1856544564124895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1417890464, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: 1417890464, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   customFlashColor: {r: 1, g: 1, b: 1, a: 1}
@@ -297,7 +297,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   flashableSprite: {fileID: 0}
   additionalFlashableSprites: []
-  spriteObjects: []
+  spriteObjects:
+  - {fileID: 4863160145705710925}
+  - {fileID: 1514227125856356710}
   renderers: []
 --- !u!114 &8123140464713604230
 MonoBehaviour:
@@ -505,7 +507,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 338602715322754561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1432129127, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: -1432129127, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 8312454337007269185}
@@ -563,7 +565,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1028540136469857082}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1873953792, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: 1873953792, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   centerInParent: 0
@@ -652,7 +654,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1838034669824527650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1216031652, guid: 3519ac58e5ff54941a4a69512016923c, type: 3}
+  m_Script: {fileID: -1216031652, guid: 548e3dd2d27c1e2d0bdf82f0889cb8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weightMultiplier: 1
