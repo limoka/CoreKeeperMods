@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,69 +14,23 @@ using IL2CPPUtils = UnhollowerBaseLib.UnhollowerUtils;
 using IL2CPPUtils = Il2CppInterop.Common.Il2CppInteropUtils;
 #endif
 
+#nullable enable
+
 namespace UnityExplorer.UI.Widgets
 {
     internal class TimeScaleWidget
     {
-        public TimeScaleWidget(GameObject parent)
+        public static TimeScaleWidget? Instance;
+
+        public static void SetUp(GameObject parent)
         {
-            Instance = this;
-
-            ConstructUI(parent);
-
-            InitPatch();
-        }
-
-        static TimeScaleWidget Instance;
-
-        ButtonRef lockBtn;
-        bool locked;
-        InputFieldRef timeInput;
-        float desiredTime;
-        bool settingTimeScale;
-
-        public void Update()
-        {
-            // Fallback in case Time.timeScale patch failed for whatever reason
-            if (locked)
-                SetTimeScale(desiredTime);
-
-            if (!timeInput.Component.isFocused)
-                timeInput.Text = Time.timeScale.ToString("F2");
-        }
-
-        void SetTimeScale(float time)
-        {
-            settingTimeScale = true;
-            Time.timeScale = time;
-            settingTimeScale = false;
-        }
-
-        // UI event listeners
-
-        void OnTimeInputEndEdit(string val)
-        {
-            if (float.TryParse(val, out float f))
+            if (Instance == null)
             {
-                SetTimeScale(f);
-                desiredTime = f;
+                Instance = new TimeScaleWidget(parent);
             }
         }
 
-        void OnPauseButtonClicked()
-        {
-            OnTimeInputEndEdit(timeInput.Text);
-
-            locked = !locked;
-
-            Color color = locked ? new Color(0.3f, 0.3f, 0.2f) : new Color(0.2f, 0.2f, 0.2f);
-            RuntimeHelper.SetColorBlock(lockBtn.Component, color, color * 1.2f, color * 0.7f);
-            lockBtn.ButtonText.text = locked ? "Unlock" : "Lock";
-        }
-
-        // UI Construction
-
-        void ConstructUI(GameObject parent)
+        private TimeScaleWidget(GameObject parent)
         {
             Text timeLabel = UIFactory.CreateLabel(parent, "TimeLabel", "Time:", TextAnchor.MiddleRight, Color.grey);
             UIFactory.SetLayoutElement(timeLabel.gameObject, minHeight: 25, minWidth: 35);
@@ -92,6 +47,74 @@ namespace UnityExplorer.UI.Widgets
             lockBtn.OnClick += OnPauseButtonClicked;
         }
 
+        public float DesiredTime { get; private set; }
+
+        private readonly InputFieldRef timeInput;
+        private readonly ButtonRef lockBtn;
+
+        private bool locked;
+        private bool settingTimeScale;
+
+        public void Update()
+        {
+            // Fallback in case Time.timeScale patch failed for whatever reason
+            if (locked)
+            {
+                UpdateTimeScale();
+            }
+
+            if (!timeInput.Component.isFocused)
+            {
+                timeInput.Text = Time.timeScale.ToString("F2");
+            }
+        }
+
+        public void LockTo(float timeScale)
+        {
+            locked = true;
+            SetTimeScale(timeScale);
+            UpdateUi();
+        }
+
+        public void OnPauseButtonClicked()
+        {
+            OnTimeInputEndEdit(timeInput.Text);
+
+            locked = !locked;
+
+            UpdateUi();
+        }
+
+        void UpdateTimeScale()
+        {
+            settingTimeScale = true;
+            Time.timeScale = DesiredTime;
+            settingTimeScale = false;
+        }
+
+        void SetTimeScale(float floatVal)
+        {
+            DesiredTime = floatVal;
+            UpdateTimeScale();
+        }
+
+        // UI event listeners
+
+        void OnTimeInputEndEdit(string val)
+        {
+            if (float.TryParse(val, out float f))
+            {
+                SetTimeScale(f);
+            }
+        }
+
+        void UpdateUi()
+        {
+            Color color = locked ? new Color(0.3f, 0.3f, 0.2f) : new Color(0.2f, 0.2f, 0.2f);
+            RuntimeHelper.SetColorBlock(lockBtn.Component, color, color * 1.2f, color * 0.7f);
+            lockBtn.ButtonText.text = locked ? "Unlock" : "Lock";
+        }
+
         // Only allow Time.timeScale to be set if the user hasn't "locked" it or if we are setting the value internally.
 
         static void InitPatch()
@@ -99,16 +122,28 @@ namespace UnityExplorer.UI.Widgets
 
             try
             {
-                MethodInfo target = typeof(Time).GetProperty("timeScale").GetSetMethod();
+                var target = typeof(Time).GetProperty("timeScale")?.GetSetMethod();
+                if (target == null)
+                {
+                    return;
+                }
+#if CPP
+            var fieldInfo = IL2CPPUtils.GetIl2CppMethodInfoPointerFieldForGeneratedMethod(target);
+            if (fieldInfo == null)
+            {
+                return;
+            }
+#endif
                 ExplorerCore.Harmony.Patch(target,
                     prefix: new(AccessTools.Method(typeof(TimeScaleWidget), nameof(Prefix_Time_set_timeScale))));
             }
-            catch { }
+            catch (Exception e)
+            {
+                ExplorerCore.LogError($"Failed to patch Time.timeScale setter, {e.Message}");
+            }
         }
 
         static bool Prefix_Time_set_timeScale()
-        {
-            return !Instance.locked || Instance.settingTimeScale;
-        }
+            => Instance == null || !Instance.locked || Instance.settingTimeScale;
     }
 }

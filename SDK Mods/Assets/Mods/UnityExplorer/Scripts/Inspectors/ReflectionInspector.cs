@@ -500,7 +500,7 @@ namespace UnityExplorer.Inspectors
             //InspectorPanel.Instance.UIRoot.GetComponent<Mask>().enabled = false;
             //MemberScrollPool.Viewport.GetComponent<Mask>().enabled = false;
             //MemberScrollPool.Viewport.GetComponent<Image>().color = new Color(0.12f, 0.12f, 0.12f);
-            
+
             return UIRoot;
         }
 

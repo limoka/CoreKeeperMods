@@ -70,7 +70,6 @@ namespace UnityExplorer.CacheObject
                                  .ThenBy(it => it.NameForFiltering));
             sorted.AddRange(methods.OrderBy(it => Array.IndexOf(types, it.DeclaringType))
                                  .ThenBy(it => it.NameForFiltering));
-            
             return sorted;
         }
 

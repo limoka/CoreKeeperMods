@@ -1,23 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using UnityEngine;
 using UniverseLib.Utility;
+
+#nullable enable
 
 namespace UnityExplorer.Inspectors.MouseInspectors
 {
     public class WorldInspector : MouseInspectorBase
     {
-        private static Camera MainCamera;
-        private static GameObject lastHitObject;
+        private static Camera? MainCamera;
+        private static GameObject? lastHitObject;
 
         public override void OnBeginMouseInspect()
         {
-            MainCamera = Camera.main;
-
-            if (!MainCamera)
+            if (!EnsureMainCamera())
             {
-                ExplorerCore.LogWarning("No MainCamera found! Cannot inspect world!");
-                return;
+                ExplorerCore.LogWarning("No valid cameras found! Cannot inspect world!");
             }
         }
+
 
         public override void ClearHitData()
         {
@@ -31,22 +33,27 @@ namespace UnityExplorer.Inspectors.MouseInspectors
 
         public override void UpdateMouseInspect(Vector2 mousePos)
         {
-            if (!MainCamera)
-                MainCamera = Camera.main;
-            if (!MainCamera)
+            // Attempt to ensure camera each time UpdateMouseInspect is called
+            // in case something changed or wasn't set initially.
+            var camera = EnsureMainCamera();
+            if (camera == null)
             {
                 ExplorerCore.LogWarning("No Main Camera was found, unable to inspect world!");
                 MouseInspector.Instance.StopInspect();
                 return;
             }
 
-            Ray ray = MainCamera.ScreenPointToRay(mousePos);
+            Ray ray = camera.ScreenPointToRay(mousePos);
             Physics.Raycast(ray, out RaycastHit hit, 1000f);
 
             if (hit.transform)
+            {
                 OnHitGameObject(hit.transform.gameObject);
+            }
             else if (lastHitObject)
+            {
                 MouseInspector.Instance.ClearHitData();
+            }
         }
 
         internal void OnHitGameObject(GameObject obj)
@@ -54,14 +61,67 @@ namespace UnityExplorer.Inspectors.MouseInspectors
             if (obj != lastHitObject)
             {
                 lastHitObject = obj;
-                MouseInspector.Instance.objNameLabel.text = $"<b>Click to Inspect:</b> <color=cyan>{obj.name}</color>";
-                MouseInspector.Instance.objPathLabel.text = $"Path: {obj.transform.GetTransformPath(true)}";
+                MouseInspector.Instance.UpdateObjectNameLabel($"<b>Click to Inspect:</b> <color=cyan>{obj.name}</color>");
+                MouseInspector.Instance.UpdateObjectPathLabel($"Path: {obj.transform.GetTransformPath(true)}");
             }
         }
 
         public override void OnEndInspect()
         {
             // not needed
+        }
+
+
+        private static Camera? EnsureMainCamera()
+        {
+            if (MainCamera != null)
+            {
+                return MainCamera;
+            }
+
+            if (TryGetValidMainCamera(out var camera))
+            {
+                MainCamera = camera;
+                MouseInspector.Instance.UpdateInspectorTitle(
+                    $"<b>World Inspector ({camera.name})</b> (press <b>ESC</b> to cancel)"
+                );
+                ExplorerCore.Log($"Using '{camera.transform.GetTransformPath(true)}'");
+                return camera;
+            }
+            return null;
+        }
+
+        private static bool TryGetValidMainCamera(
+#if NETFRAMEWORK
+        out Camera camera)
+#else
+            [NotNullWhen(true)] out Camera? camera)
+#endif
+        {
+            camera = Camera.main;
+            if (camera != null)
+            {
+                return true;
+            }
+
+            ExplorerCore.LogWarning("No Camera.main found, trying to find a camera named 'Main Camera' or 'MainCamera'...");
+            camera = Camera.allCameras.FirstOrDefault(
+                c => c.name == "Main Camera" || c.name == "MainCamera");
+            if (camera != null)
+            {
+                return true;
+            }
+
+            ExplorerCore.LogWarning("No camera named 'Main Camera' or 'MainCamera' found, using the first camera created...");
+            camera = Camera.allCameras.FirstOrDefault();
+            if (camera != null)
+            {
+                return true;
+            }
+
+            // If we reach here, no cameras were found at all.
+            ExplorerCore.LogWarning("No valid main cameras found!");
+            return false;
         }
     }
 }

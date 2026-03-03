@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityExplorer.Access;
 using UniverseLib;
+
+#nullable enable
 
 namespace UnityExplorer.ObjectExplorer
 {
@@ -18,9 +21,15 @@ namespace UnityExplorer.ObjectExplorer
             internal set
             {
                 if (selectedScene.HasValue && selectedScene == value)
+                {
                     return;
+                }
+                if (!value.HasValue)
+                {
+                    return;
+                }
                 selectedScene = value;
-                OnInspectedSceneChanged?.Invoke((Scene)selectedScene);
+                OnInspectedSceneChanged?.Invoke(selectedScene.Value);
             }
         }
         private static Scene? selectedScene;
@@ -36,10 +45,10 @@ namespace UnityExplorer.ObjectExplorer
         public static List<string> AllSceneNames { get; private set; } = new();
 
         /// <summary>Invoked when the currently inspected Scene changes. The argument is the new scene.</summary>
-        public static event Action<Scene> OnInspectedSceneChanged;
+        public static event Action<Scene>? OnInspectedSceneChanged;
 
         /// <summary>Invoked whenever the list of currently loaded Scenes changes. The argument contains all loaded scenes after the change.</summary>
-        public static event Action<List<Scene>> OnLoadedScenesUpdated;
+        public static event Action<List<Scene>>? OnLoadedScenesUpdated;
 
         /// <summary>Generally will be 2, unless DontDestroyExists == false, then this will be 1.</summary>
         internal static int DefaultSceneCount => 1 + (DontDestroyExists ? 1 : 0);
@@ -53,28 +62,55 @@ namespace UnityExplorer.ObjectExplorer
         /// <summary>Whether or not the "DontDestroyOnLoad" scene exists in this game.</summary>
         public static bool DontDestroyExists { get; private set; }
 
+        private const string dontDestroyName = "DontDestroyOnLoad";
+
         internal static void Init()
         {
             // Check if the game has "DontDestroyOnLoad"
-
-            string internalName = (string)AccessTools.Method(typeof(Scene), "GetNameInternal")
-                .Invoke(null, new object[] { -12 });
-            
-            DontDestroyExists = internalName == "DontDestroyOnLoad";
+            try
+            {
+                Type? sceneType = ReflectionUtility.GetTypeByName("UnityEngine.SceneManagement.Scene");
+                if (sceneType == null)
+                {
+                    throw new Exception("This version of Unity does not ship with the 'Scene' class, or it was not unstripped.");
+                }
+                MethodInfo? method = sceneType.GetMethod("GetNameInternal", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+                string? sceneName = (string?)method?.Invoke(null, new object[] { -12 });
+                if (string.IsNullOrEmpty(sceneName))
+                {
+                    throw new Exception("Scene.GetNameInternal returned null for DontDestroyOnLoad scene.");
+                }
+                DontDestroyExists = sceneName == dontDestroyName;
+            }
+            catch (Exception ex)
+            {
+                ExplorerCore.LogWarning($"Unable to check for existence of DontDestroyOnLoad scene via Scene.GetNameInternal: {ex}");
+#pragma warning disable CS0618 // 型またはメンバーが旧型式です
+                ExplorerCore.LogWarning("Falling back to checking loaded scenes for DontDestroyOnLoad via SceneManager.GetAllScenes(). This uses a deprecated API.");
+                // 非推奨APIだけど、6年近くたってもまだ使われてるので仕方なく使う
+                DontDestroyExists = SceneManager.GetAllScenes().Any(s => s.name == dontDestroyName);
+#pragma warning restore CS0618 // 型またはメンバーが旧型式です
+            }
 
             // Try to get all scenes in the build settings. This may not work.
             try
             {
                 Type sceneUtil = ReflectionUtility.GetTypeByName("UnityEngine.SceneManagement.SceneUtility");
                 if (sceneUtil == null)
+                {
                     throw new Exception("This version of Unity does not ship with the 'SceneUtility' class, or it was not unstripped.");
+                }
 
-                System.Reflection.MethodInfo method = sceneUtil.GetMethod("GetScenePathByBuildIndex", ReflectionUtility.FLAGS);
+                MethodInfo? method = sceneUtil.GetMethod("GetScenePathByBuildIndex", ReflectionUtility.FLAGS);
                 int sceneCount = SceneManager.sceneCountInBuildSettings;
                 for (int i = 0; i < sceneCount; i++)
                 {
-                    string scenePath = (string)method.Invoke(null, new object[] { i });
-                    AllSceneNames.Add(scenePath);
+                    string? scenePath = (string?)method?.Invoke(null, new object[] { i });
+                    if (string.IsNullOrEmpty(scenePath))
+                    {
+                        continue;
+                    }
+                    AllSceneNames.Add(scenePath!);
                 }
 
                 WasAbleToGetScenesInBuild = true;
@@ -100,11 +136,15 @@ namespace UnityExplorer.ObjectExplorer
             {
                 Scene scene = SceneManager.GetSceneAt(i);
                 if (scene == default || !scene.isLoaded || !scene.IsValid())
+                {
                     continue;
+                }
 
                 // If we have not yet confirmed inspectedExists, check if this scene is our currently inspected one.
                 if (!inspectedExists && scene == SelectedScene)
+                {
                     inspectedExists = true;
+                }
 
                 LoadedScenes.Add(scene);
             }
@@ -115,23 +155,32 @@ namespace UnityExplorer.ObjectExplorer
 
             // Default to first scene if none selected or previous selection no longer exists.
             if (!inspectedExists)
+            {
                 SelectedScene = LoadedScenes.First();
+            }
 
             // Notify on the list changing at all
             OnLoadedScenesUpdated?.Invoke(LoadedScenes);
 
             // Finally, update the root objects list.
-            if (SelectedScene != null && ((Scene)SelectedScene).IsValid())
-                CurrentRootObjects = RuntimeHelper.GetRootGameObjects((Scene)SelectedScene);
+            if (SelectedScene.HasValue && SelectedScene.Value.IsValid())
+            {
+                CurrentRootObjects = RuntimeHelper.GetRootGameObjects(SelectedScene.Value);
+            }
             else
             {
                 UnityEngine.Object[] allObjects = RuntimeHelper.FindObjectsOfTypeAll(typeof(GameObject));
                 List<GameObject> objects = new();
                 foreach (UnityEngine.Object obj in allObjects)
                 {
-                    GameObject go = obj.TryCast<GameObject>();
-                    if (go.transform.parent == null && !go.scene.IsValid())
+                    GameObject? go = obj.TryCast<GameObject>();
+                    if (go != null &&
+                        go.transform != null &&
+                        go.transform.parent == null && 
+                        !go.scene.IsValid())
+                    {
                         objects.Add(go);
+                    }
                 }
                 CurrentRootObjects = objects;
             }

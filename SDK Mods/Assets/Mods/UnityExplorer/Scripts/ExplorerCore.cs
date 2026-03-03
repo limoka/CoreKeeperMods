@@ -1,28 +1,33 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UniverseLib;
+
 using UnityExplorer.Config;
+using UnityExplorer.ObjectExplorer;
 using UnityExplorer.Runtime;
 using UnityExplorer.UI;
 using UnityExplorer.UI.Panels;
 using UInputManager = UniverseLib.Input.InputManager;
+using HarmonyPatch = HarmonyLib.Harmony;
+
+// Code taken from https://github.com/yukieiji/UnityExplorer/tree/master
 
 namespace UnityExplorer
 {
     public static class ExplorerCore
     {
         public const string NAME = "UnityExplorer";
-        public const string VERSION = "4.10.7";
-        public const string AUTHOR = "Sinai";
+        public const string VERSION = "4.13.3";
+        public const string AUTHOR = "Sinai, yukieiji, Limoka";
         public const string GUID = "com.sinai.unityexplorer";
 
         public static IExplorerLoader Loader { get; private set; }
         public static string ExplorerFolder => Path.Combine(Loader.ExplorerFolderDestination, Loader.ExplorerFolderName);
         public const string DEFAULT_EXPLORER_FOLDER_NAME = "sinai-dev-UnityExplorer";
 
-        public static HarmonyLib.Harmony Harmony { get; } = new HarmonyLib.Harmony(GUID);
+        public static HarmonyPatch Harmony { get; } = new HarmonyPatch(GUID);
 
         /// <summary>
         /// Initialize UnityExplorer with the provided Loader implementation.
@@ -43,7 +48,9 @@ namespace UnityExplorer
             Universe.Init(ConfigManager.Startup_Delay_Time.Value, LateInit, Log, new()
             {
                 Disable_EventSystem_Override = ConfigManager.Disable_EventSystem_Override.Value,
-                Force_Unlock_Mouse = ConfigManager.Force_Unlock_Mouse.Value
+                Force_Unlock_Mouse = ConfigManager.Force_Unlock_Mouse.Value,
+                Disable_Setup_Force_ReLoad_ManagedAssemblies = ConfigManager.Disable_Setup_Force_ReLoad_ManagedAssemblies.Value,
+                Bypass_UniverseLib_ICall = ConfigManager.Bypass_UniverseLib_ICall.Value
             });
 
             UERuntimeHelper.Init();
@@ -69,11 +76,7 @@ namespace UnityExplorer
 
         internal static void Update()
         {
-            // check master toggle
-            if (UInputManager.GetKeyDown(ConfigManager.Master_Toggle.Value))
-            {
-                UE_UIManager.ShowMenu = !UE_UIManager.ShowMenu;
-            }
+            ExplorerKeybind.Update();
         }
 
 
@@ -168,7 +171,9 @@ namespace UnityExplorer
 
             // Copy each file into it's new directory.
             foreach (FileInfo fi in source.GetFiles())
+            {
                 fi.MoveTo(Path.Combine(target.ToString(), fi.Name));
+            }
 
             // Copy each subdirectory using recursion.
             foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())

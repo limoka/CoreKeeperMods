@@ -13,7 +13,7 @@ namespace UnityExplorer.Hooks
 {
     public class HookInstance
     {
-        // Static 
+        // Static
 
         static readonly StringBuilder evaluatorOutput;
         static readonly ScriptEvaluator scriptEvaluator = new(new StringWriter(evaluatorOutput = new StringBuilder()));
@@ -53,7 +53,7 @@ namespace UnityExplorer.Hooks
                 Patch();
         }
 
-        // Evaluator.source_file 
+        // Evaluator.source_file
         private static readonly FieldInfo fi_sourceFile = AccessTools.Field(typeof(Evaluator), "source_file");
         // TypeDefinition.Definition
         private static readonly PropertyInfo pi_Definition = AccessTools.Property(typeof(TypeDefinition), "Definition");
@@ -112,7 +112,7 @@ namespace UnityExplorer.Hooks
             {
                 if (ex is FormatException)
                 {
-                    string output = scriptEvaluator._textWriter.ToString();
+                    string output = scriptEvaluator.ToString();
                     string[] outputSplit = output.Split('\n');
                     if (outputSplit.Length >= 2)
                         output = outputSplit[outputSplit.Length - 2];

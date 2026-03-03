@@ -87,8 +87,10 @@ namespace UnityExplorer.ObjectExplorer
 
                 if (type == typeof(GameObject))
                     go = obj.TryCast<GameObject>();
-                else if (typeof(Component).IsAssignableFrom(type))
-                    go = obj.TryCast<Component>()?.gameObject;
+                else if (
+                    typeof(Component).IsAssignableFrom(type) &&
+                    obj is Component comp)
+                    go = comp.gameObject;
 
                 if (go)
                 {
@@ -129,17 +131,27 @@ namespace UnityExplorer.ObjectExplorer
         {
             List<object> list = new();
 
-            string nameFilter = "";
-            if (!string.IsNullOrEmpty(input))
-                nameFilter = input;
+            if (string.IsNullOrEmpty(input))
+            {
+                return list;
+            }
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type type in asm.GetTypes())
+                foreach (Type type in asm.TryGetTypes())
                 {
-                    if (!string.IsNullOrEmpty(nameFilter) && !type.FullName.ContainsIgnoreCase(nameFilter))
-                        continue;
-                    list.Add(type);
+                    try
+                    {
+                        if (!type.FullName.ContainsIgnoreCase(input))
+                        {
+                            continue;
+                        }
+                        list.Add(type);
+                    }
+                    catch (Exception e)
+                    {
+                        ExplorerCore.LogError($"Error while searching for singletons in {type.FullName}!  {e.Message}");
+                    }
                 }
             }
 
@@ -164,30 +176,35 @@ namespace UnityExplorer.ObjectExplorer
         {
             List<object> instances = new();
 
-            string nameFilter = "";
-            if (!string.IsNullOrEmpty(input))
-                nameFilter = input;
+            if (string.IsNullOrEmpty(input))
+            {
+                return instances;
+            }
 
-            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+            BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy;
 
             foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
             {
                 // Search all non-static, non-enum classes.
-                foreach (Type type in asm.GetTypes().Where(it => !(it.IsSealed && it.IsAbstract) && !it.IsEnum))
+                foreach (Type type in asm.TryGetTypes().Where(it => !(it.IsSealed && it.IsAbstract) && !it.IsEnum))
                 {
                     try
                     {
-                        if (!string.IsNullOrEmpty(nameFilter) && !type.FullName.ContainsIgnoreCase(nameFilter))
+                        if (!type.FullName.ContainsIgnoreCase(input))
+                        {
                             continue;
+                        }
 
                         ReflectionUtility.FindSingleton(instanceNames, type, flags, instances);
                     }
-                    catch { }
+                    catch (Exception e)
+                    {
+                        ExplorerCore.LogError($"Error while searching for singletons in {type.FullName}!  {e.Message}");
+                    }
                 }
             }
 
-            return instances;
+            return instances.Distinct().ToList();
         }
-
     }
 }

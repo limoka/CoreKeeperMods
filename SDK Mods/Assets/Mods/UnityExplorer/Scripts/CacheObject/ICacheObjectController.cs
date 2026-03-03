@@ -37,7 +37,7 @@ namespace UnityExplorer.CacheObject
 
             if (cell.Occupant != null && cell.Occupant != entry)
                 cell.Occupant.UnlinkFromView();
-            
+
             if (entry.CellView != cell)
                 entry.SetView(cell);
 

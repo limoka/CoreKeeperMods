@@ -250,11 +250,7 @@ namespace UnityExplorer.UI.Widgets
         {
             try
             {
-#if CPP
-                HideFlags enumVal = hideFlagsValues[FlagsDropdown.options._items[value].text];
-#else
                 HideFlags enumVal = hideFlagsValues[FlagsDropdown.options[value].text];
-#endif
                 Target.hideFlags = enumVal;
 
                 UpdateGameObjectInfo(false, true);

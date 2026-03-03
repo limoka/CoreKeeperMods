@@ -26,13 +26,13 @@ namespace UnityExplorer.UI.Panels
         public Text HighlightText { get; private set; }
         public Text LineNumberText { get; private set; }
 
-        public Dropdown HelpDropdown { get; private set; }
+        public Dropdown Dropdown { get; private set; }
 
         // events
         public Action<string> OnInputChanged;
         public Action OnResetClicked;
         public Action OnCompileClicked;
-        public Action<int> OnHelpDropdownChanged;
+        public Action<int> OnDropdownChanged;
         public Action<bool> OnCtrlRToggled;
         public Action<bool> OnSuggestionsToggled;
         public Action<bool> OnAutoIndentToggled;
@@ -79,7 +79,7 @@ namespace UnityExplorer.UI.Panels
             compileButton.ButtonText.fontSize = 15;
             compileButton.OnClick += () => { OnCompileClicked?.Invoke(); };
 
-            ButtonRef resetButton = UIFactory.CreateButton(toolsRow, "ResetButton", "Reset", new Color(0.33f, 0.33f, 0.33f));
+            ButtonRef resetButton = UIFactory.CreateButton(toolsRow, "ResetButton", "Refresh", new Color(0.33f, 0.33f, 0.33f));
             UIFactory.SetLayoutElement(resetButton.Component.gameObject, minHeight: 28, minWidth: 80, flexibleHeight: 0);
             resetButton.ButtonText.fontSize = 15;
             resetButton.OnClick += () => { OnResetClicked?.Invoke(); };
@@ -87,9 +87,9 @@ namespace UnityExplorer.UI.Panels
             // Help dropdown
 
             GameObject helpDrop = UIFactory.CreateDropdown(toolsRow, "HelpDropdown", out Dropdown dropdown, "Help", 14, null);
-            UIFactory.SetLayoutElement(helpDrop, minHeight: 25, minWidth: 100);
-            HelpDropdown = dropdown;
-            HelpDropdown.onValueChanged.AddListener((int val) => { this.OnHelpDropdownChanged?.Invoke(val); });
+            UIFactory.SetLayoutElement(helpDrop, minHeight: 25, minWidth: 100, flexibleWidth: 9999);
+            Dropdown = dropdown;
+            Dropdown.onValueChanged.AddListener((int val) => { this.OnDropdownChanged?.Invoke(val); });
 
             // Enable Ctrl+R toggle
 

@@ -123,18 +123,18 @@ namespace UnityExplorer.CacheObject
                 if (!Evaluating)
                     RuntimeHelper.SetColorBlock(cell.EvaluateButton.Component, evalDisabledColor, evalDisabledColor * 1.3f);
             }
-            
+
             if (State == ValueState.NotEvaluated && !ShouldAutoEvaluate)
             {
                 SetValueState(cell, ValueStateArgs.Default);
                 cell.RefreshSubcontentButton();
-                
+
                 return false;
             }
 
             if (State == ValueState.NotEvaluated)
                 Evaluate();
-            
+
             return true;
         }
 

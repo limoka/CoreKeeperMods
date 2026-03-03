@@ -52,7 +52,6 @@ namespace UnityExplorer.UI
         private static readonly Vector2 NAVBAR_DIMENSIONS = new(1020f, 35f);
 
         private static ButtonRef closeBtn;
-        private static TimeScaleWidget timeScaleWidget;
 
         private static int lastScreenWidth;
         private static int lastScreenHeight;
@@ -106,7 +105,7 @@ namespace UnityExplorer.UI
             new MouseInspector(MouseInspector.inspectorUIBase);
 
             // Call some initialize methods
-            Notification.Init();
+            Notification.Init(UIRoot);
             ConsoleController.Init();
 
             // Failsafe fix, in some games all dropdowns displayed values are blank on startup for some reason.
@@ -140,7 +139,7 @@ namespace UnityExplorer.UI
                 UniverseLib.Config.ConfigManager.Force_Unlock_Mouse = !UniverseLib.Config.ConfigManager.Force_Unlock_Mouse;
 
             // update the timescale value
-            timeScaleWidget.Update();
+            TimeScaleWidget.Instance?.Update();
 
             // check screen dimension change
             Display display = DisplayManager.ActiveDisplay;
@@ -251,7 +250,7 @@ namespace UnityExplorer.UI
             UIFactory.SetLayoutGroup<HorizontalLayoutGroup>(NavbarTabButtonHolder, false, true, true, true, 4, 2, 2, 2, 2);
 
             // Time scale widget
-            timeScaleWidget = new(navbarPanel);
+            TimeScaleWidget.SetUp(navbarPanel);
 
             //spacer
             GameObject spacer = UIFactory.CreateUIObject("Spacer", navbarPanel);

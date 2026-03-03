@@ -2,48 +2,55 @@
 using UnityEngine.UI;
 using UniverseLib.UI;
 
+#nullable enable
+
 namespace UnityExplorer.UI
 {
-    public static class Notification
+    public sealed class Notification
     {
-        private static Text popupLabel;
+        private readonly Text popupLabel;
+        private float _timeOfLastNotification;
 
-        private static string _currentNotification;
-        private static float _timeOfLastNotification;
+        private static Notification? _instance;
 
-        public static void Init()
+        public static void Init(GameObject parent)
         {
-            ConstructUI();
-        }
-
-        public static void ShowMessage(string message)
-        {
-            popupLabel.text = message;
-            _currentNotification = message;
-            _timeOfLastNotification = Time.realtimeSinceStartup;
-
-            popupLabel.transform.localPosition = UE_UIManager.UIRootRect.InverseTransformPoint(DisplayManager.MousePosition) + (Vector3.up * 25);
-        }
-
-        public static void Update()
-        {
-            if (_currentNotification != null)
+            if (_instance == null)
             {
-                if (Time.realtimeSinceStartup - _timeOfLastNotification > 2f)
-                {
-                    _currentNotification = null;
-                    popupLabel.text = "";
-                }
+                _instance = new Notification(parent);
             }
         }
 
-        private static void ConstructUI()
+        private Notification(GameObject parent)
         {
-            popupLabel = UIFactory.CreateLabel(UE_UIManager.UIRoot, "ClipboardNotification", "", TextAnchor.MiddleCenter);
+            popupLabel = UIFactory.CreateLabel(parent, "ClipboardNotification", "", TextAnchor.MiddleCenter);
             popupLabel.rectTransform.sizeDelta = new(500, 100);
             popupLabel.gameObject.AddComponent<Outline>();
             CanvasGroup popupGroup = popupLabel.gameObject.AddComponent<CanvasGroup>();
             popupGroup.blocksRaycasts = false;
         }
+
+        private void ShowMessageImp(string message)
+        {
+            popupLabel.text = message;
+            _timeOfLastNotification = Time.realtimeSinceStartup;
+
+            popupLabel.transform.localPosition = UE_UIManager.UIRootRect.InverseTransformPoint(DisplayManager.MousePosition) + (Vector3.up * 25);
+        }
+
+        private void UpdateImp()
+        {
+            if (popupLabel.text != string.Empty &&
+                Time.realtimeSinceStartup - _timeOfLastNotification > 2f)
+            {
+                popupLabel.text = string.Empty;
+            }
+        }
+
+        public static void ShowMessage(string message)
+            => _instance?.ShowMessageImp(message);
+
+        public static void Update()
+            => _instance?.UpdateImp();
     }
 }
