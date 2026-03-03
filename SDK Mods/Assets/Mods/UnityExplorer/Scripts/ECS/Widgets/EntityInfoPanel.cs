@@ -40,7 +40,7 @@ namespace ECSExtension.Widgets
             if (force || (!NameInput.Component.isFocused && GetEntityName() != lastName))
             {
                 lastName = GetEntityName();
-                Owner.Tab.TabText.text = $"[ECS] {GetEntityName()}";
+                Owner.UpdateTabName();
                 NameInput.Text = GetEntityName();
             }
             
@@ -73,7 +73,7 @@ namespace ECSExtension.Widgets
 
         public string GetEntityName()
         {
-            return Owner.entityManager.GetName(Target);
+            return Owner.GetEntityName();
         }
 
         public bool IsEntityEnabled()

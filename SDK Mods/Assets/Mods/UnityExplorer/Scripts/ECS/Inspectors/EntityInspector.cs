@@ -87,12 +87,17 @@ namespace ECSExtension
 
             ECSHelper.WorldDestroyed += OnWorldDestroyed;
 
-            string currentBaseTabText = $"[ECS] {GetEntityName()}";
-            Tab.TabText.text = currentBaseTabText;
-            
+            UpdateTabName();
+
             entityInfoPanel.UpdateEntityInfo(true, true);
 
             RuntimeHelper.StartCoroutine(InitCoroutine());
+        }
+
+        public void UpdateTabName()
+        {
+            string entityName = GetEntityName();
+            Tab.TabText.text = $"[ECS] {entityName}";
         }
 
         private void OnWorldDestroyed(World obj)
