@@ -177,6 +177,23 @@ namespace ECSExtension
             return entityManager.GetBuffer<T>(currentEntity);
         }
 
+        public bool IsComponentEnabled(ComponentType type)
+        {
+            return currentWorld.EntityManager.IsComponentEnabled(currentEntity, type);
+        }
+
+        public void SetIsComponentEnabled(ComponentType type, bool value)
+        {
+            try
+            {
+                currentWorld.EntityManager.SetComponentEnabled(currentEntity, type, value);
+            }
+            catch (Exception e)
+            {
+                ExplorerCore.LogWarning($"Exception settings component enabled: {e.ReflectionExToString()}");
+            }
+        }
+        
         public void RemoveComponent(ComponentType type)
         {
             currentWorld.EntityManager.RemoveComponent(currentEntity, type);

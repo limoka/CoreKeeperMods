@@ -37,6 +37,7 @@ namespace ECSExtension
             base.OnCellBorrowed(cell);
 
             cell.OnDestroyClicked += OnDestroyClicked;
+            cell.OnEnabledToggled += OnEnabledToggled;
         }
 
         private void OnComponentClicked(int index)
@@ -110,6 +111,22 @@ namespace ECSExtension
             InspectorManager.Inspect(data.TryEvaluate(), data);
         }
 
+        private void OnEnabledToggled(bool value, int index)
+        {
+            try
+            {
+                var entries = GetEntries();
+                var comp = entries[index];
+
+                Parent.SetIsComponentEnabled(comp, value);
+                Parent.UpdateComponents();
+            }
+            catch (Exception ex)
+            {
+                ExplorerCore.LogWarning($"Exception destroying Component: {ex.ReflectionExToString()}");
+            }
+        }
+        
         private void OnDestroyClicked(int index)
         {
             try
@@ -136,7 +153,7 @@ namespace ECSExtension
 
             try
             {
-                cell.ConfigureCell(entries[index]);
+                cell.ConfigureCell(entries[index], Parent);
             }
             catch (Exception e)
             {
