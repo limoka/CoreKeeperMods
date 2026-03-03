@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
@@ -78,7 +79,14 @@ namespace ECSExtension.Widgets
 
         public bool IsEntityEnabled()
         {
-            return !Owner.entityManager.HasComponent<Disabled>(Target);
+            try
+            {
+                return !Owner.entityManager.HasComponent<Disabled>(Target);
+            }
+            catch (Exception e)
+            {
+                return true;
+            }
         }
         
         #region UI event listeners

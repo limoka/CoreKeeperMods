@@ -8,6 +8,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using UnityEngine;
+using UnityExplorer;
 using UniverseLib;
 using UniverseLib.Runtime;
 using UniverseLib.UI.Widgets.ScrollView;
@@ -122,7 +123,16 @@ namespace ECSExtension.Panels
         {
             if (entities != null && index < entities.Length)
             {
-                cell.ConfigureCell(entities.ElementAt(index), world.EntityManager);
+                try
+                {
+                    cell.ConfigureCell(entities.ElementAt(index), world.EntityManager);
+                }
+                catch (Exception e)
+                {
+                    ExplorerCore.LogWarning($"Exception setting entity cell data: {e.ReflectionExToString()}");
+                    cell.Disable();
+                }
+                
             }
             else
                 cell.Disable();
