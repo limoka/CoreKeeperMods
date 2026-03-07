@@ -1,4 +1,5 @@
-﻿using CoreLib;
+﻿using System;
+using CoreLib;
 using CoreLib.Data.Configuration;
 using CoreLib.Submodule.Entity;
 using CoreLib.Submodule.Entity.Attribute;
@@ -7,7 +8,9 @@ using CoreLib.Util.Extension;
 using KeepFarming.Components;
 using Mods.KeepFarming.Scripts;
 using PugMod;
+using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 using Object = UnityEngine.Object;
@@ -23,12 +26,7 @@ namespace KeepFarming
         public static ConfigEntry<bool> enableExtraSeedChance;
         public static ConfigEntry<float> extraSeedChanceMultiplier;
 
-        public static ConfigEntry<float> seedExtractionChance;
-        public static ConfigEntry<float> juiceOutputChance;
-
         public static ConfigEntry<bool> migrationMode;
-
-        internal static GameObject juiceItemTemplate;
 
         internal static Logger Log = new Logger(NAME);
         internal static ConfigFile file;
@@ -51,7 +49,7 @@ namespace KeepFarming
 
             LoadConfigOptions();
 
-            modInfo.TryLoadBurstAssembly();
+            API.Authoring.OnObjectTypeAdded += EditFruits;
 
             Log.LogInfo("Mod loaded successfully");
         }
@@ -73,20 +71,6 @@ namespace KeepFarming
                 "Value to multiply normal seed gain chance, to derive extra seed chance"
             );
 
-            seedExtractionChance = file.Bind(
-                "SeedExtractor",
-                "SeedExtractionChance",
-                0.3f,
-                "Chance to gain seed from fruit using Seed Extractor machine"
-            );
-
-            juiceOutputChance = file.Bind(
-                "SeedExtractor",
-                "JuiceOutputChance",
-                0.5f,
-                "Chance to gain juice from fruit using Seed Extractor machine"
-            );
-
             migrationMode = file.Bind(
                 "Misc",
                 "EnableMigrationMode",
@@ -102,44 +86,63 @@ namespace KeepFarming
             );
         }
 
-
-        [EntityModification(ObjectID.AutomationTable)]
-        private static void EditAutomationTable(Entity entity, GameObject authoring, EntityManager entityManager)
+        private void EditFruits(Entity entity, GameObject authoringdata, EntityManager entitymanager)
         {
-            var canCraftBuffer = entityManager.GetBuffer<CanCraftObjectsBuffer>(entity);
-            var lastIndex = canCraftBuffer.Length - 1;
-            var item = API.Authoring.GetObjectID("KeepFarming:SeedExtractor");
+            if (migrationMode.Value) return;
 
-            if (canCraftBuffer[lastIndex].objectID == ObjectID.None)
+            var cookingIngredient = authoringdata.GetComponent<CookingIngredientAuthoring>();
+            var flower = authoringdata.GetComponent<FlowerAuthoring>();
+            if (cookingIngredient == null || flower == null) return;
+
+            var entityMono = authoringdata.GetComponent<EntityMonoBehaviourData>();
+            var objectAuthoring = authoringdata.GetComponent<ObjectAuthoring>();
+            if (entityMono == null && objectAuthoring == null) return;
+            
+            string objectName = "";
+            
+            if (entityMono != null)
+                objectName = entityMono.ObjectInfo.objectID.ToString();
+
+            if (objectAuthoring != null)
+                objectName = objectAuthoring.objectName;
+            
+            if (!objectName.Contains("rare", StringComparison.OrdinalIgnoreCase)) return;
+            
+            Log.LogInfo($"Checking Fruit {authoringdata.name}");
+
+            var extractable = entitymanager.GetComponentData<ExtractableCD>(entity);
+            if (!extractable.extractedObjectOutputArray.IsCreated) return;
+
+            try
             {
-                Log.LogInfo($"Adding itemId {item} to AutomationTable");
-                canCraftBuffer[lastIndex] = new CanCraftObjectsBuffer
+                ref var array = ref extractable.extractedObjectOutputArray.Value;
+                if (array.Length == 0) return;
+
+                var seedId = array[0].objectID;
+
+                using (var builder = new BlobBuilder(Allocator.Temp))
                 {
-                    objectID = item,
-                    amount = 1,
-                    entityAmountToConsume = 0
-                };
-            }
-            else
-            {
-                for (int i = 0; i < canCraftBuffer.Length; i++)
-                {
-                    if (canCraftBuffer[i].objectID == item) return;
+                    ref var root = ref builder.ConstructRoot<BlobArray<ExtractedObjectOutputElementData>>();
+
+                    var arrayBuilder = builder.Allocate(ref root, 1);
+                    Log.LogInfo($"Fruit {authoringdata.name} will now drop {seedId} (2)");
+                    arrayBuilder[0] = new ExtractedObjectOutputElementData
+                    {
+                        objectID = seedId,
+                        variation = 2,
+                        minMaxRandomAmountOverride = float2.zero
+                    };
+
+                    extractable.extractedObjectOutputArray =
+                        builder.CreateBlobAssetReference<BlobArray<ExtractedObjectOutputElementData>>(Allocator.Persistent);
                 }
 
-                addBufferEntry(canCraftBuffer, item);
+                entitymanager.SetComponentData(entity, extractable);
             }
-        }
-
-        private static void addBufferEntry(DynamicBuffer<CanCraftObjectsBuffer> canCraftBuffer, ObjectID itemId)
-        {
-            Log.LogInfo($"Adding itemId {itemId} to AutomationTable");
-            canCraftBuffer.Add(new CanCraftObjectsBuffer
+            catch (Exception e)
             {
-                objectID = itemId,
-                amount = 1,
-                entityAmountToConsume = 0
-            });
+                Log.LogInfo($"Got an exception while updating fruit: {e}");
+            }
         }
 
         public void Init() { }
@@ -152,12 +155,6 @@ namespace KeepFarming
             if (gameObject == null)
             {
                 return;
-            }
-
-            var juiceTemplate = gameObject.GetComponent<JuiceTemplate>();
-            if (juiceTemplate != null)
-            {
-                juiceItemTemplate = gameObject;
             }
         }
 

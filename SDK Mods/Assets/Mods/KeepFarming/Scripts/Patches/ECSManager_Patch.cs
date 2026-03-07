@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using CoreLib.Util.Extension;
 using HarmonyLib;
 using KeepFarming.Components;
-using KeepFarming.Util;
 using Pug.Conversion;
 using PugMod;
 using Unity.Entities;
@@ -21,9 +18,6 @@ namespace KeepFarming
     public class ECSManager_Patch
     {
         private static Regex camelCaseSplitPattern = new Regex("([A-Z])", RegexOptions.Compiled);
-        
-        internal static Dictionary<CookingIngredientCD, Texture2D> gradientMaps = new Dictionary<CookingIngredientCD, Texture2D>(new CookingIngredientComparer());
-
         
         [HarmonyPatch(typeof(ECSManager), nameof(ECSManager.Init))]
         [HarmonyPrefix]
@@ -44,7 +38,6 @@ namespace KeepFarming
                     AddPersistentGoldenSeed(monoBehaviour.gameObject);
                 }
             }
-            //SpriteAssetManager_Patch.ReloadAssets();
         }
 
         [HarmonyPatch(typeof(ConversionManager), "CreateAndEnqueue")]

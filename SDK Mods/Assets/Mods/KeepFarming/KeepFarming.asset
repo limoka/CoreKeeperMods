@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: 2590a5c3a3924269a55d9f350b7ec7d1
     name: KeepFarming
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
@@ -22,54 +23,55 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Localization/Localization.csv
-    - path: Scripts/Scripts/Util/CookingIngredientComparer.cs
-    - path: Scripts/Scripts/System/SeedExtractorSystem.cs
+      guid: cb964bf0b75f94940b522041befc077c
     - path: Scripts/Scripts/System/ModConditionsSystem.cs
+      guid: 8d1773218d6e42918d4e29adaf33f02b
     - path: Scripts/Scripts/System/MigrationSystem.cs
+      guid: 28a6ec75543b42fd86752f072426de1a
     - path: Scripts/Scripts/System/GoldenSeedDropSystem.cs
+      guid: 78f17d9779854fd991de8690c5f4d1ac
     - path: Scripts/Scripts/System/AdditionalDropSystem.cs
-    - path: Scripts/Scripts/Prefab/SeedExtractor.cs
+      guid: 79f2d9a7ffdd499082338bc071ce8f3f
     - path: Scripts/Scripts/Patches/WaterCan/PlacementHandler_Patch.cs
-    - path: Scripts/Scripts/Patches/SpriteAssetManager_Patch.cs
-    - path: Scripts/Scripts/Patches/SeedExtractorUI/ProcessResourcesCraftingUI_Patch.cs
-    - path: Scripts/Scripts/Patches/SeedExtractorUI/OutputUI_Patch.cs
-    - path: Scripts/Scripts/Patches/SeedExtractorUI/ItemSlotsUIContainer_Patch.cs
-    - path: Scripts/Scripts/Patches/SeedExtractorUI/CraftingHandler_Patch.cs
-    - path: Scripts/Scripts/Patches/SeedExtractorLogic/PugAutomationSystem_Patch.cs
-    - path: Scripts/Scripts/Patches/SeedExtractorLogic/PugAutomationStartCraftSystem_Patch.cs
+      guid: 2ab87044cb2e4576ba73a3bfd948f0d4
     - path: Scripts/Scripts/Patches/Plant_Patch.cs
+      guid: 6627a9f9fc594f60b452216be3f4311a
     - path: Scripts/Scripts/Patches/ECSManager_Patch.cs
+      guid: 0e28912ad0ac48b19e05f3237b396273
     - path: Scripts/Scripts/KeepFarmingMod.cs
-    - path: Scripts/Scripts/Jobs/ModifiedMoverMoveAndPickupJob.cs
-    - path: Scripts/Scripts/ItemHandlers/JuiceDynamicItemHandler.cs
+      guid: 8435dae31e5c49c984f8e0a0af9afa39
     - path: Scripts/Scripts/ItemHandlers/GoldenSeedDynamicItemHandler.cs
-    - path: Scripts/Scripts/Components/SeedExtractorAuthoring.cs
-    - path: Scripts/Scripts/Components/JuiceTemplate.cs
-    - path: Scripts/Scripts/Components/JuiceAuthoring.cs
+      guid: ab61fc1767384f93ba483120a436588b
     - path: Scripts/Scripts/Components/GoldenSeedAuthoring.cs
+      guid: e8ab1607cb9046b7ba6a9f263b8a1f9c
     - path: Scripts/Scripts/Components/DropsGoldenSeedAuthoring.cs
+      guid: 9c94d7bd52c2487789a406fcf85e9624
     - path: Scripts/Scripts/Components/CopiedPrefabAuthoring.cs
+      guid: f371d7de4121439b90f0e18f2ca6455f
     - path: Scripts/Generated/AdditionalDropSystem__System_2453087690.g.cs
+      guid: 
     - path: Scripts/Generated/GoldenSeedDropSystem__System_6504373280.g.cs
+      guid: 
     - path: Scripts/Generated/MigrationSystem__System_10921447250.g.cs
+      guid: 
     - path: Scripts/Generated/ModConditionsSystem__System_9420457030.g.cs
-    - path: Scripts/Generated/SeedExtractorSystem__System_19768682500.g.cs
-    - path: Libraries/KeepFarming.Access.dll
-    - path: Bundles/KeepFarming_Linux.assetbundle
+      guid: 
     - path: Bundles/KeepFarming_Windows.assetbundle
+      guid: 
+    - path: Bundles/KeepFarming_Windows.assetbundle.manifest
+      guid: 
+    - path: Bundles/KeepFarming_Linux.assetbundle
+      guid: 
+    - path: Bundles/KeepFarming_Linux.assetbundle.manifest
+      guid: 
     dependencies:
     - modName: CoreLib
-      required: 1
-    - modName: CoreLib.Localization
-      required: 1
-    - modName: CoreLib.Entity
       required: 1
   modPath: Assets\Mods\KeepFarming
   forceReimport: 0
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
-  buildBurst: 1
   assets:
   - path: Assets/Mods/KeepFarming/Animation/Animation.zip
     hash: 58E43C2F41A023DFA1DC8730CC4206BE7BAB8A81C42E1D342FEAA89595A83532
@@ -83,54 +85,32 @@ MonoBehaviour:
     hash: 975CC112352CE53A70444ADF5DDC5AC29E95E07CA96AA46549322F8FD01AAB0B
   - path: Assets/Mods/KeepFarming/Animation.zip
     hash: AE00A2A3BBD082D0348F4DF89C8C0CCAED300C36D45E4894F11A252B24A5A23A
+  - path: Assets/Mods/KeepFarming/Data/Keep Farming.asset
+    hash: 2558FE9A8133D34EE90CBF9ED23056CFDA00CA3062E80E130CED829E605FA9A9
+  - path: Assets/Mods/KeepFarming/Data/TextDataBlock/Items/KeepFarming_AnyFruit.asset
+    hash: 44264050FCD63BC08D21DECCFAE09A0D687AB38196A8EE8F11388DCCC225B47D
+  - path: Assets/Mods/KeepFarming/Data/TextDataBlock/Items/KeepFarming_AnySeed.asset
+    hash: 49DCE4A058AB0FFD11371DEB44D8F02DC115DA4766B2172DF311A85CD0E7E2DB
+  - path: Assets/Mods/KeepFarming/Data/TextDataBlock/Items/KeepFarming_SeedExtractor.asset
+    hash: 8898F6888A4280EF55797D1AA8C02D546BC077E22C06B38F88AB5D73CFA9E796
+  - path: Assets/Mods/KeepFarming/Data/TextDataBlock/KeepFarming/Golden.asset
+    hash: 79340B2D58C60CA4CF05B900839AA5BA38592F4C3F0C4A2B509EEE91F9CA250F
+  - path: Assets/Mods/KeepFarming/Data/TextDataBlock/KeepFarming/Processing.asset
+    hash: F6D6B5CD7EB89FFDEDF98DE39E89D6C25C0E2F143470F775FA45C9F18A04AAF4
   - path: Assets/Mods/KeepFarming/KeepFarming.asset
-    hash: DC2EBA68D23716BB878656B591753416B616B0C98531FA326BED45AAE1566C90
+    hash: BD59E978515BC0BE6B92C4153560F08CB662D95FC981AFF296A13CF90820A4CE
   - path: Assets/Mods/KeepFarming/KeepFarming_modio.asset
     hash: C42DBDD8988FE6E8214DDE8E1772D3310F164F4FCD6D89E21668343756A2FF72
   - path: Assets/Mods/KeepFarming/Localization/Localization.csv
     hash: 9DA2B5FACF0507FEE797842220E62BAF62CF585D54EAF13E5BE21EB58843C52E
-  - path: Assets/Mods/KeepFarming/Prefab/AnyFruit.prefab
-    hash: 7C7E103806BA384005FB0AC7A679EF0B60959A32A7A13BB868188E5AA94EA262
-  - path: Assets/Mods/KeepFarming/Prefab/AnySeed.prefab
-    hash: BFED0DB082E9982E6FC49376217E789B5C964CB9D2356E0410111BFD7570F9DE
-  - path: Assets/Mods/KeepFarming/Prefab/FruitJuiceTemplate.prefab
-    hash: 11FC356AD077DB00E1C7759072B81BE6F025DDD09717FE4C654699C2DED696AB
-  - path: Assets/Mods/KeepFarming/Prefab/SeedExtractor.prefab
-    hash: 077701EB8EB33993AF08B1D4BF5F80CB8C5084628D5CD4CDDA9C9568AABAC61E
-  - path: Assets/Mods/KeepFarming/Prefab/SeedExtractorEntity.prefab
-    hash: 6EA9F7C911F7784FDF4516F50EA83EC610BF48B93C5DE16FBA97C50805CB059A
   - path: Assets/Mods/KeepFarming/SpriteAssetManifest.asset
-    hash: 10B789012B481613D28563B42C245D09198B6B55C89677B1AD1255D7F7699A9F
+    hash: DABAE3E1012E7D8A15CD39E096D2A0ECC3A1B846C0ED8F032A2CE2C7C6FADDF7
   - path: Assets/Mods/KeepFarming/Textures/any-seed.png
     hash: EF8CB8FB1FA906C793F832AC6A8FB8AF941544C66840830AFDDCE05E68B1EDAD
   - path: Assets/Mods/KeepFarming/Textures/block-shadow.png
     hash: 4DF57E7941BDE9E103EC7801DBCB3DA7915C8306C2D1DE76758F5D91E1910155
-  - path: Assets/Mods/KeepFarming/Textures/gm_test.png
-    hash: 49FC28E085176000ED908AE4F4E381C7FDF4550C76EDB748034098B8D1A389C8
-  - path: Assets/Mods/KeepFarming/Textures/gm_test_1.png
-    hash: 437A11A3D28D2DEA49707224A949F920BB9612C33B4D4366B8297DB2D5094C37
-  - path: Assets/Mods/KeepFarming/Textures/juice-bottle.png
-    hash: 62F37792587EC64F7B62CDBE47293D87C34BB8CF05BC777F09E712F04D836F25
-  - path: Assets/Mods/KeepFarming/Textures/plant-mush.png
-    hash: 7E9FA5DA553CC44A3DD46E3B68D13DAD64C5F45BF8718973F778F12E7235C692
-  - path: Assets/Mods/KeepFarming/Textures/plant-mush_0.png
-    hash: 894882F7E0441A9255884116F501B004DCF0B5CAC8A2FDEEAD515C9E30E41952
-  - path: Assets/Mods/KeepFarming/Textures/seed-extractor-base.png
-    hash: 8C87F14D0611010D2FD4F6044ECE8FC9D1A42E5D993FED271B2557C893AB1B7C
   - path: Assets/Mods/KeepFarming/Textures/seed-extractor-crop.ase
     hash: B7F8EBBF574B428620754A2613FBF84879A46DA5C19BC1FBD1B8E21B0FF4E894
   - path: Assets/Mods/KeepFarming/Textures/seed-extractor-full.ase
     hash: B66759C63DDEB888CC85DA3F5C02701D20265CA6C8D086A5689BCA24300F16A8
-  - path: Assets/Mods/KeepFarming/Textures/seed-extractor-icons.png
-    hash: 9E30ABB51A2E10BF5827909C53AF5B2B6405EB31F5AC253A60B162B9421327FC
-  - path: Assets/Mods/KeepFarming/Textures/seed-extractor-top.png
-    hash: DDEBF00C8DCCF689F6D1D8AF802B843E046446CAC4B802192D45F3E4AABDB4B8
-  - path: Assets/Mods/KeepFarming/Textures/seed-extractor_0.png
-    hash: A53BCC425AD477B2A3C6977D6AA45631C95B1874F7612E589154ACFF6F28DAFD
-  - path: Assets/Mods/KeepFarming/Textures/Sprite/Plant Mush.asset
-    hash: 60FF51535F16908ED95699C0311157A94FC3690AAE6B13C8272A70AFCD29941C
-  - path: Assets/Mods/KeepFarming/Textures/Sprite/Seed Extractor Top.asset
-    hash: 1EDE7AF90B5FA27A9B44F21D05ECD9A0C01B0C85BF6F9DBC297DB5B4451ECBA8
-  - path: Assets/Mods/KeepFarming/Textures/Sprite/Seed Extractor.asset
-    hash: D9CC4EFDF04A04737CFA20146A5301DFB75DE857867018D36C23B1A630919488
   lastBuildLinux: 1

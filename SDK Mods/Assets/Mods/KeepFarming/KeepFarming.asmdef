@@ -82,7 +82,7 @@
         "ZipSaveFolder.dll",
         "0Harmony.dll",
         "SpriteInstancing.dll",
-        "KeepFarming.Access.dll"
+        "ScriptableData.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

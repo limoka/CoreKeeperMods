@@ -31,7 +31,7 @@ namespace KeepFarming
             var summarizedConditionsBuffer = GetBufferLookup<SummarizedConditionsBuffer>(true);
             EntityCommandBuffer ecb = CreateCommandBuffer();
             
-            /*Entities.ForEach((Entity entity,
+            Entities.ForEach((Entity entity,
                     in ObjectDataCD objectData,
                     in LocalTransform transform,
                     in DynamicBuffer<DropsLootBuffer> dropsLootBuffer,
@@ -88,7 +88,7 @@ namespace KeepFarming
                 .WithName("ExtraSeedDrop")
                 .WithAll<EntityDestroyedCD>()
                 .WithAll<PlantCD>()
-                .Run();*/
+                .Run();
 
             base.OnUpdate();
         }
