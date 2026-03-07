@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.Entities;
+using UnityExplorer;
 
 
 namespace UniverseLib.Runtime
@@ -12,7 +13,9 @@ namespace UniverseLib.Runtime
         public static string GetNameSafe(this EntityManager entityManager, Entity entity)
         {
             string name = entityManager.GetName(entity);
-            if (string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name)) return name;
+            
+            try
             {
                 if (entityManager.HasComponent<ObjectDataCD>(entity))
                 {
@@ -20,14 +23,17 @@ namespace UniverseLib.Runtime
                     
                     if (data.variation == 0)
                         return $"{entity} - {data.objectID}";
-                    else
-                        return $"{entity} - {data.objectID} ({data.variation})";
+                        
+                    return $"{entity} - {data.objectID} ({data.variation})";
                 }
-                
-                return entity.ToString();
+            }
+            catch (Exception e)
+            {
+                ExplorerCore.LogWarning($"Exception getting entity name from ObjectDataCD: {e.ReflectionExToString()}");
             }
 
-            return name;
+                
+            return entity.ToString();
         }
     }
 }
