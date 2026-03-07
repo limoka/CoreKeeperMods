@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using Mods.UnityExplorer.Scripts.Loader.CoreKeeper;
 using Unity.Collections;
+using Unity.Entities;
 using UnityEngine;
 using UnityExplorer.CacheObject.IValues;
 using UnityExplorer.CacheObject.Views;
@@ -23,7 +24,8 @@ namespace UnityExplorer.CacheObject
         String,
         Enum,
         Collection,
-        ECSCollection,
+        INativeList,
+        BlobReference,
         Dictionary,
         ValueStruct,
         Color,
@@ -191,11 +193,13 @@ namespace UnityExplorer.CacheObject
                 return ValueState.ValueStruct;
             else if (ReflectionUtility.IsDictionary(type))
                 return ValueState.Dictionary;
+            else if (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == typeof(BlobAssetReference<>))
+                return ValueState.BlobReference;
             else if (!typeof(Transform).IsAssignableFrom(type) && ReflectionUtility.IsEnumerable(type))
             {
                 if (type.GetInterfaces().Any(it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(INativeList<>)))
                 {
-                    return ValueState.ECSCollection;
+                    return ValueState.INativeList;
                 }
                 
                 return ValueState.Collection;
@@ -233,7 +237,7 @@ namespace UnityExplorer.CacheObject
                     break;
 
                 //Handle ECS collections
-                case ValueState.ECSCollection:
+                case ValueState.INativeList:
                     if (!valueIsNull)
                     {
                         var entryType = Value.GetType().GenericTypeArguments.FirstOrDefault();
@@ -341,7 +345,8 @@ namespace UnityExplorer.CacheObject
                     else
                         SetValueState(cell, new(true, inspectActive: true, subContentButtonActive: true));
                     break;
-                case ValueState.ECSCollection:
+                case ValueState.INativeList:
+                case ValueState.BlobReference:
                 case ValueState.Collection:
                 case ValueState.Dictionary:
                     SetValueState(cell, new(true, inspectActive: !valueIsNull, subContentButtonActive: !valueIsNull));

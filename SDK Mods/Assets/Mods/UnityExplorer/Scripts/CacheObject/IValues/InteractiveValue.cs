@@ -1,4 +1,5 @@
 ﻿using System;
+using Mods.UnityExplorer.Scripts.ECS.Cache;
 using UnityEngine;
 using UniverseLib.UI.ObjectPool;
 
@@ -13,7 +14,8 @@ namespace UnityExplorer.CacheObject.IValues
                 ValueState.Exception or ValueState.String => typeof(InteractiveString),
                 ValueState.Enum => typeof(InteractiveEnum),
                 ValueState.Collection => typeof(InteractiveList),
-                ValueState.ECSCollection => typeof(ECSInteractiveCollection),
+                ValueState.INativeList => typeof(InteractiveINativeList),
+                ValueState.BlobReference => typeof(InteractiveBlobReference),
                 ValueState.Dictionary => typeof(InteractiveDictionary),
                 ValueState.ValueStruct => typeof(InteractiveValueStruct),
                 ValueState.Color => typeof(InteractiveColor),

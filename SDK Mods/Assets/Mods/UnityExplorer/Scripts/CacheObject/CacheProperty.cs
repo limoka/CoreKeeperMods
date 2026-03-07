@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Reflection.Emit;
 using UnityExplorer.Inspectors;
 
 namespace UnityExplorer.CacheObject
@@ -33,10 +34,24 @@ namespace UnityExplorer.CacheObject
             try
             {
                 object ret;
-                if (HasArguments)
-                    ret = PropertyInfo.GetValue(DeclaringInstance, this.Evaluator.TryParseArguments());
+                
+                bool isByRef = PropertyInfo.GetMethod != null && PropertyInfo.GetMethod.ReturnType.IsByRef;
+
+                if (isByRef)
+                {
+                    if (!HasArguments)
+                        ret = GetByRefValue(DeclaringInstance);
+                    else
+                        throw new Exception("Reading such values not supported!");
+                }
                 else
-                    ret = PropertyInfo.GetValue(DeclaringInstance, null);
+                {
+                    if (HasArguments)
+                        ret = PropertyInfo.GetValue(DeclaringInstance, Evaluator.TryParseArguments());
+                    else
+                        ret = PropertyInfo.GetValue(DeclaringInstance, null);
+                }
+
                 LastException = null;
                 return ret;
             }
@@ -45,6 +60,52 @@ namespace UnityExplorer.CacheObject
                 LastException = ex;
                 return null;
             }
+        }
+
+        private object GetByRefValue(object instance)
+        {
+            var getMethod = PropertyInfo.GetMethod;
+            if (getMethod == null) return null;
+
+            Type returnType = getMethod.ReturnType.GetElementType(); // The T in 'ref T'
+            Type declaringType = PropertyInfo.DeclaringType;
+            if (declaringType == null) return null;
+            
+            var dm = new DynamicMethod(
+                $"GetRef_{PropertyInfo.Name}",
+                typeof(object),
+                new[] { typeof(object) },
+                PropertyInfo.Module,
+                true);
+
+            var il = dm.GetILGenerator();
+            var nullLabel = il.DefineLabel();
+
+            il.Emit(OpCodes.Ldarg_0);
+            if (declaringType.IsValueType)
+                il.Emit(OpCodes.Unbox, declaringType); // Address for struct
+            else
+                il.Emit(OpCodes.Castclass, declaringType); // Cast for class
+
+            if (declaringType.IsValueType)
+                il.Emit(OpCodes.Call, getMethod);
+            else
+                il.Emit(OpCodes.Callvirt, getMethod);
+            
+            il.Emit(OpCodes.Dup);
+            il.Emit(OpCodes.Ldnull);
+            il.Emit(OpCodes.Beq, nullLabel);
+
+            il.Emit(OpCodes.Ldobj, returnType);
+            il.Emit(OpCodes.Box, returnType);
+            il.Emit(OpCodes.Ret);
+
+            il.MarkLabel(nullLabel);
+            il.Emit(OpCodes.Pop);
+            il.Emit(OpCodes.Ldnull);
+            il.Emit(OpCodes.Ret);
+
+            return dm.Invoke(null, new[] { instance });
         }
 
         protected override void TrySetValue(object value)

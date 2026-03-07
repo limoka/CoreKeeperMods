@@ -8,7 +8,7 @@ using UniverseLib;
 
 namespace UnityExplorer.CacheObject.IValues
 {
-    public class ECSInteractiveCollection : InteractiveList
+    public class InteractiveINativeList : InteractiveList
     {
         public override void CacheEntries(object value)
         {
@@ -16,7 +16,7 @@ namespace UnityExplorer.CacheObject.IValues
             {
                 var entryType = value.GetType().GenericTypeArguments.FirstOrDefault();
 
-                var genericMethod = typeof(ECSInteractiveCollection)
+                var genericMethod = typeof(InteractiveINativeList)
                     .GetMethod(nameof(CacheINativeList))
                     .MakeGenericMethod(entryType);
 
