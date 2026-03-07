@@ -43,11 +43,22 @@ namespace UnityExplorer.UI.Panels
             InspectorManager.PanelWidth = this.Rect.rect.width;
             InspectorManager.OnPanelResized(Rect.rect.width);
         }
+        
+        private void BlockToggled(bool val)
+        {
+            BlockClicks = val;
+        }
 
         protected override void ConstructPanelContent()
         {
             GameObject closeHolder = this.TitleBar.transform.Find("CloseHolder").gameObject;
 
+            GameObject toggleObj = UIFactory.CreateToggle(closeHolder, "BlockClicks", out var blockToggle, out Text text);
+            UIFactory.SetLayoutElement(toggleObj, minHeight: 25, minWidth: 25);
+            text.text = "Block Clicks";
+            blockToggle.onValueChanged.AddListener(BlockToggled);
+            toggleObj.transform.SetSiblingIndex(0);
+            
             // Inspect under mouse dropdown on title bar
 
             GameObject mouseDropdown = UIFactory.CreateDropdown(closeHolder, "MouseInspectDropdown", out MouseInspectDropdown, "Mouse Inspect", 14,
@@ -56,7 +67,7 @@ namespace UnityExplorer.UI.Panels
             MouseInspectDropdown.options.Add(new Dropdown.OptionData("Mouse Inspect"));
             MouseInspectDropdown.options.Add(new Dropdown.OptionData("World"));
             MouseInspectDropdown.options.Add(new Dropdown.OptionData("UI"));
-            mouseDropdown.transform.SetSiblingIndex(0);
+            mouseDropdown.transform.SetSiblingIndex(mouseDropdown.transform.GetSiblingIndex() - 1);
 
             // add close all button to titlebar
 

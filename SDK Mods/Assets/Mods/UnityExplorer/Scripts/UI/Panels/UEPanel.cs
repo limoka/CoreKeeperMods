@@ -21,6 +21,8 @@ namespace UnityExplorer.UI.Panels
         public virtual bool NavButtonWanted => true;
         public ButtonRef NavButton { get; internal set; }
 
+        public bool BlockClicks = true;
+
         protected override PanelDragger CreatePanelDragger()
         {
             return new UEPanelDragger(this);

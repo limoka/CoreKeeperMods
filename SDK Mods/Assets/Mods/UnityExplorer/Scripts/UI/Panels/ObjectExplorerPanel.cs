@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityExplorer.ObjectExplorer;
 using UniverseLib;
 using UniverseLib.UI;
@@ -92,9 +93,22 @@ namespace UnityExplorer.UI.Panels
 
             SetTab(SelectedTab);
         }
+        
+        private void BlockToggled(bool val)
+        {
+            BlockClicks = val;
+        }
 
         protected override void ConstructPanelContent()
         {
+            GameObject closeHolder = this.TitleBar.transform.Find("CloseHolder").gameObject;
+
+            GameObject toggleObj = UIFactory.CreateToggle(closeHolder, "BlockClicks", out var blockToggle, out Text text);
+            UIFactory.SetLayoutElement(toggleObj, minHeight: 25, minWidth: 25);
+            text.text = "Block Clicks";
+            blockToggle.onValueChanged.AddListener(BlockToggled);
+            toggleObj.transform.SetSiblingIndex(0);
+            
             // Tab bar
             tabGroup = UIFactory.CreateHorizontalGroup(ContentRoot, "TabBar", true, true, true, true, 2, new Vector4(2, 2, 2, 2));
             UIFactory.SetLayoutElement(tabGroup, minHeight: 25, flexibleHeight: 0);
