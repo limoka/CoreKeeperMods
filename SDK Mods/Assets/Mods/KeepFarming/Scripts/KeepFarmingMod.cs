@@ -19,7 +19,7 @@ namespace KeepFarming
 {
     public class KeepFarmingMod : IMod
     {
-        public const string VERSION = "2.1.8";
+        public const string VERSION = "3.0.0";
         public const string NAME = "Keep Farming";
         private LoadedMod modInfo;
 
