@@ -81,17 +81,10 @@ namespace ECSExtension
                 return;
             }
 
-            currentWorld = validWorlds[0];
-            entityManager = currentWorld.EntityManager;
-            currentWorldIndex = 0;
-
             ECSHelper.WorldDestroyed += OnWorldDestroyed;
 
-            UpdateTabName();
-
-            entityInfoPanel.UpdateEntityInfo(true, true);
-
-            RuntimeHelper.StartCoroutine(InitCoroutine());
+            currentWorldIndex = -1;
+            SetWorld(0);
         }
 
         public void UpdateTabName()
@@ -116,18 +109,30 @@ namespace ECSExtension
 
         public void SetWorld(int index)
         {
-            if (index >= 0 && index < validWorlds.Count)
-            {
-                currentWorld = validWorlds[index];
-                entityManager = currentWorld.EntityManager;
-                currentWorldIndex = index;
-                RuntimeHelper.StartCoroutine(InitCoroutine());
-            }
+            if (index < 0 || index >= validWorlds.Count) return;
+            if (currentWorldIndex == index) return;
+            
+            var world = validWorlds[index];
+            
+            if (!world.EntityManager.Exists(currentEntity)) return;
+            
+            ExplorerCore.Log($"Now using world {index} ({world.Name}) for entity {currentEntity}");
+            
+            currentWorld = validWorlds[index];
+            entityManager = currentWorld.EntityManager;
+            currentWorldIndex = index;
+            
+            ExplorerCore.Log($"UpdateEntityInfo");
+            UpdateTabName();
+            entityInfoPanel.UpdateEntityInfo(true, true);
+            
+            ExplorerCore.Log($"Start InitCoroutine");
+            InitCoroutine();
         }
 
-        private IEnumerator InitCoroutine()
+        private void InitCoroutine()
         {
-            yield return null;
+            ExplorerCore.Log($"InitCoroutine()");
             
             UpdateComponents();
 
@@ -137,6 +142,7 @@ namespace ECSExtension
 
         private NativeArray<ComponentType> GetComponents()
         {
+            ExplorerCore.Log($"GetComponents()");
             if (currentEntity != Entity.Null)
             {
                 return entityManager.GetComponentTypes(currentEntity);
@@ -275,6 +281,7 @@ namespace ECSExtension
 
         public void UpdateComponents()
         {
+            ExplorerCore.Log($"UpdateComponents()");
             ecsComponentList.RefreshData();
             ecsComponentList.ScrollPool.Refresh(true);
         }

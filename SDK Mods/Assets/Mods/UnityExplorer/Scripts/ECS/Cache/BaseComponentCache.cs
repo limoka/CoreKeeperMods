@@ -8,16 +8,17 @@ using UnityExplorer.CacheObject.Views;
 
 namespace ECSExtension.Cache
 {
-    public abstract class BaseComponentCache<T>  : CacheObjectBase 
+    public abstract class BaseComponentCache<T>  : CacheObjectBase
     {
-        protected EntityManager entityManager;
-        protected Entity entity;
+        private readonly EntityInspector _inspector;
+        
+        protected EntityManager EntityManager => _inspector.currentWorld.EntityManager;
+        protected Entity Entity => _inspector.currentEntity;
 
         protected BaseComponentCache(EntityInspector inspector)
         {
             Owner = inspector;
-            entityManager = inspector.currentWorld.EntityManager;
-            entity = inspector.currentEntity;
+            _inspector = inspector;
             SetFallbackType(typeof(T));
         }
 

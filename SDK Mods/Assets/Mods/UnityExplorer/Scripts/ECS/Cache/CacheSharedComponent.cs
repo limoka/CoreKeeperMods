@@ -15,7 +15,7 @@ namespace ECSExtension.Cache
         {
             if (value is T component)
             {
-                entityManager.SetSharedComponent(entity, component);
+                EntityManager.SetSharedComponent(Entity, component);
             }
         }
 
@@ -23,7 +23,7 @@ namespace ECSExtension.Cache
         {
             try
             {
-                return entityManager.GetSharedComponent<T>(entity);
+                return EntityManager.GetSharedComponent<T>(Entity);
             }
             catch (Exception e)
             {

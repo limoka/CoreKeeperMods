@@ -116,7 +116,6 @@ namespace ECSExtension.Widgets
         void OnWorldDropdownChanged(int value)
         {
             Owner.SetWorld(value);
-            UpdateEntityInfo(false, true);
         }
 
         void OnDestroyClicked()

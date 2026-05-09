@@ -16,7 +16,7 @@ namespace ECSExtension.Cache
         {
             if (value is T component)
             {
-                entityManager.SetComponentData(entity, component);
+                EntityManager.SetComponentData(Entity, component);
             }
         }
 
@@ -24,7 +24,7 @@ namespace ECSExtension.Cache
         {
             try
             {
-                return entityManager.GetComponentData<T>(entity);
+                return EntityManager.GetComponentData<T>(Entity);
             }
             catch (Exception e)
             {
