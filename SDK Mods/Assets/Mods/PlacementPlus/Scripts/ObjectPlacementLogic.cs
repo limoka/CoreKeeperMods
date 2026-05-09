@@ -33,9 +33,7 @@ namespace PlacementPlus
                 info.tileType != TileType.none) return false;
 
             if (info.prefabTileSize.x != 1 || info.prefabTileSize.y != 1) return false;
-
-
-            //TODO bursting
+            
             if (PlacementPlusMod.defaultExclude.Contains(info.objectID)) return false;
             if (PlacementPlusMod.userExclude.Contains(info.objectID)) return false;
 
@@ -62,7 +60,6 @@ namespace PlacementPlus
                 placement.timeSincePlaced.GetElapsedSeconds(sharedData.currentTick, sharedData.tickRate) < 1f &&
                 math.all(placement.bestPositionToPlaceAt == placement.positionLastPlacedAt))
             {
-                PlacementPlusMod.Log.LogInfo("Aborting due to a second timer");
                 return false;
             }
 

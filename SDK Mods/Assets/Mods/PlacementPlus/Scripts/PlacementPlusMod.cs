@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security;
-using System.Security.Permissions;
 using CoreLib;
 using CoreLib.Data.Configuration;
 using CoreLib.Submodule.ControlMapping;
 using CoreLib.Util.Extension;
 using HarmonyLib;
-using Inventory;
 using PlacementPlus.Components;
 using PlacementPlus.Systems.Network;
 using PlayerEquipment;
 using PugMod;
-using PugTilemap;
 using Rewired;
-using Unity.Burst;
-using Unity.Collections;
 using Unity.Entities;
-using Unity.NetCode;
 using UnityEngine;
-using Action = CoreKeeperInput.Action;
 using Object = UnityEngine.Object;
 using Logger = CoreLib.Util.Logger;
 
