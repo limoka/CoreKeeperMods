@@ -17,7 +17,7 @@ namespace PlacementPlus
 {
     internal static class ObjectPlacementLogic
     {
-        internal static bool IsItemValid(ref PugDatabase.EntityObjectInfo info)
+        internal static bool IsItemValid(ref PugDatabase.EntityObjectInfo info, ref ObjectPropertiesCD properties)
         {
             if (info.objectType != ObjectType.PlaceablePrefab) return false;
             if (info.tileType != TileType.floor &&
@@ -33,6 +33,7 @@ namespace PlacementPlus
                 info.tileType != TileType.none) return false;
 
             if (info.prefabTileSize.x != 1 || info.prefabTileSize.y != 1) return false;
+            if (properties.Has(PropertyID.PlaceableObject.hasVariationsThatCanBePlacedOnWalls)) return false;
             
             if (PlacementPlusMod.defaultExclude.Contains(info.objectID)) return false;
             if (PlacementPlusMod.userExclude.Contains(info.objectID)) return false;

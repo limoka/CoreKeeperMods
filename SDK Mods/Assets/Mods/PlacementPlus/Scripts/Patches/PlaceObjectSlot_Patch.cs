@@ -34,17 +34,20 @@ namespace PlacementPlus
             ref PugDatabase.EntityObjectInfo entityObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID,
                 equipmentUpdateSharedData.databaseBank.databaseBankBlob, objectData.variation);
 
-            if (!ObjectPlacementLogic.IsItemValid(ref entityObjectInfo)) return true;
+            ComponentLookup<ObjectPropertiesCD> objectPropertiesLookup = equipmentUpdateLookupData.objectPropertiesLookup;
+            
+            Entity equipmentPrefab = equipmentUpdateAspect.equippedObjectCD.ValueRO.equipmentPrefab;
+            if (!objectPropertiesLookup.TryGetComponent(equipmentPrefab, out ObjectPropertiesCD properties))
+                return false;
+            
+            if (!ObjectPlacementLogic.IsItemValid(ref entityObjectInfo, ref properties)) return true;
             
             if (clientInput.IsButtonStateSet(CommandInputButtonStateNames.Rotate_Pressed))
             {
                 PlaceObjectSlot.Rotate(equipmentUpdateAspect, equipmentUpdateSharedData, equipmentUpdateLookupData);
             }
             
-            Entity equipmentPrefab = equipmentUpdateAspect.equippedObjectCD.ValueRO.equipmentPrefab;
-            ComponentLookup<ObjectPropertiesCD> objectPropertiesLookup = equipmentUpdateLookupData.objectPropertiesLookup;
-            if (objectPropertiesLookup.TryGetComponent(equipmentPrefab, out ObjectPropertiesCD objectPropertiesCD) && 
-                objectPropertiesCD.Has(PropertyID.PlaceableObject.alignWithPlayerDirection))
+            if (properties.Has(PropertyID.PlaceableObject.alignWithPlayerDirection))
             {
                 PlaceObjectSlot.AlignWithPlayer(equipmentUpdateAspect, equipmentUpdateSharedData, equipmentUpdateLookupData);
             }

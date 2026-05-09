@@ -69,6 +69,7 @@ namespace PlacementPlus
             ObjectID.Minecart,
             ObjectID.Boat,
             ObjectID.SpeederBoat,
+            ObjectID.Torch
         };
 
         public static HashSet<ObjectID> userExclude = new HashSet<ObjectID>
