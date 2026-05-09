@@ -76,6 +76,8 @@ namespace PlacementPlus
             NativeHashMap<int3, bool> tilesChecked = new NativeHashMap<int3, bool>(32, Allocator.Temp);
             equipmentAspect.equipmentSlotCD.ValueRW.slotType = EquipmentSlotType.PlaceObjectSlot;
 
+            float3 playerPosition = lookupData.localTransformLookup.GetRefRO(equipmentAspect.entity).ValueRO.Position;
+            
             bool usedShovel = false;
             bool usedPickaxe = false;
 
@@ -92,6 +94,7 @@ namespace PlacementPlus
                     ref placement,
                     ref consumeAmount,
                     pos,
+                    playerPosition,
                     ref usedShovel,
                     ref usedPickaxe
                 );
@@ -173,6 +176,7 @@ namespace PlacementPlus
             ref PlacementCD placement,
             ref int consumeAmount,
             int3 position,
+            float3 playerPosition,
             ref bool usedShovel,
             ref bool usedPickaxe
         )
@@ -201,6 +205,7 @@ namespace PlacementPlus
                         ref placement,
                         false,
                         posInt2,
+                        playerPosition,
                         ref usedShovel,
                         ref usedPickaxe
                     ))
@@ -420,6 +425,7 @@ namespace PlacementPlus
             ref PlacementCD placement,
             bool doConsume,
             int2 position,
+            float3 playerPosition,
             ref bool usedShovel,
             ref bool usedPickaxe
         )
@@ -525,7 +531,6 @@ namespace PlacementPlus
                 sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative),
                 tileUpdateBuffer);
 
-            var posFloat = position.ToFloat3();
             var giveObject = targetObjectData;
             
             if (targetWallObjectData.objectID != ObjectID.None && tile.tileType == TileType.ground)
@@ -535,7 +540,7 @@ namespace PlacementPlus
                 giveObject.objectID,
                 giveObject.variation,
                 1,
-                posFloat,
+                playerPosition,
                 equipmentAspect.entity,
                 sharedData.databaseBank.databaseBankBlob,
                 sharedData.ecb
@@ -555,7 +560,7 @@ namespace PlacementPlus
                         1,
                         true,
                         lookupData.godModeLookup.IsComponentEnabled(equipmentAspect.entity),
-                        posFloat,
+                        playerPosition,
                         placement.currentPrefabVariation)
                 });
 
@@ -567,7 +572,7 @@ namespace PlacementPlus
                         inventoryChangeBuffers,
                         shovelSlot,
                         shovel,
-                        posFloat);
+                        playerPosition);
                 }
 
                 if (tile.tileType == TileType.wall)
@@ -578,7 +583,7 @@ namespace PlacementPlus
                         inventoryChangeBuffers,
                         pickaxeSlot,
                         pickaxe,
-                        posFloat);
+                        playerPosition);
                 }
             }
 
