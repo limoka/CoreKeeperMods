@@ -513,7 +513,26 @@ namespace PlacementPlus
                 if (pickaxeSlot == -1) return false;
 
                 var reduction = ppLookups.damageReductionLookup[itemEntity];
-                if (finalMiningDamage - reduction.reduction <= 0) return false;
+                if (finalMiningDamage - reduction.reduction <= 0)
+                {
+                    DynamicBuffer<GhostEffectEventBuffer> ghostEffectEventBuffer = equipmentAspect.ghostEffectEventBuffer;
+                    ref GhostEffectEventBufferPointerCD bufferPointer = ref equipmentAspect.ghostEffectEventBufferPointerCD.ValueRW;
+                    
+                    var newEvent = new GhostEffectEventBuffer
+                    {
+                        Tick = sharedData.currentTick,
+                        value = new EffectEventCD
+                        {
+                            entity = equipmentAspect.entity,
+                            localOnlyEffect = 1,
+                            effectID = EffectID.Emote,
+                            value1 = (int)Emote.EmoteType.NeedHigherMiningSkill
+                        }
+                    };
+
+                    ghostEffectEventBuffer.AddToRingBuffer(ref bufferPointer, newEvent);
+                    return false;
+                }
 
                 usedPickaxe = true;
             }
