@@ -260,7 +260,9 @@ namespace PlacementPlus
                 var dynamicBuffer = lookupData.tileUpdateBufferLookup[sharedData.tileUpdateBufferEntity];
 
                 if (tileAccessor.HasType(posInt2, targetType)) return;
-                if (targetType == TileType.wall && !tileAccessor.HasType(posInt2, TileType.ground)) return;
+                if (targetType == TileType.wall && 
+                    !tileAccessor.HasType(posInt2, TileType.ground) &&
+                    !tileAccessor.HasType(posInt2, TileType.bridge)) return;
 
                 var isInGodMode = sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative);
                 EntityUtility.AddTile(
