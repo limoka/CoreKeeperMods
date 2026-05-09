@@ -442,6 +442,13 @@ namespace PlacementPlus
                 out ObjectDataCD shovel,
                 out ObjectDataCD pickaxe
             );
+            
+            lookupData.summarizedConditionEffectsBufferLookup.TryGetBuffer(equipmentAspect.entity, out var conditionsBuffer);
+
+            var baseDamage = conditionsBuffer[(int)ConditionEffect.Mining].value;
+            var miningMult = conditionsBuffer[(int)ConditionEffect.MiningPercentage].value;
+
+            var finalMiningDamage = (baseDamage + 20 + pickaxeDamage) * (1f + miningMult / 100f);
 
             TileAccessor tileAccessor = sharedData.tileAccessor;
 
@@ -506,7 +513,7 @@ namespace PlacementPlus
                 if (pickaxeSlot == -1) return false;
 
                 var reduction = ppLookups.damageReductionLookup[itemEntity];
-                if (pickaxeDamage - reduction.reduction <= 0) return false;
+                if (finalMiningDamage - reduction.reduction <= 0) return false;
 
                 usedPickaxe = true;
             }

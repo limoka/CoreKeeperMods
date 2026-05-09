@@ -37,6 +37,9 @@ namespace PlacementPlus.Systems
 
             var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
 
+            var levelLookup = SystemAPI.GetComponentLookup<LevelCD>();
+            var levelEntitiesLookup = SystemAPI.GetBufferLookup<LevelEntitiesBuffer>();
+            
             var givesConditionsLookup = SystemAPI.GetBufferLookup<GivesConditionsWhenEquippedBuffer>();
 
             Entities.ForEach((
@@ -49,8 +52,10 @@ namespace PlacementPlus.Systems
                     ObjectDataCD objectData = equippedObjectCD.containedObject.objectData;
                     ref PugDatabase.EntityObjectInfo entityObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID,
                         databaseBank.databaseBankBlob, objectData.variation);
-
-                    int damage = HelperLogic.GetShovelDamage(objectData, ref entityObjectInfo, givesConditionsLookup);
+                    
+                    var conditionsBuffer = HelperLogic.GetConditionsBuffer(objectData, ref entityObjectInfo, levelLookup, levelEntitiesLookup, givesConditionsLookup);
+                    
+                    int damage = HelperLogic.GetShovelDamage(objectData, ref entityObjectInfo, conditionsBuffer);
                     if (damage == 0)
                     {
                         state.currentMaxSize = maxSize;

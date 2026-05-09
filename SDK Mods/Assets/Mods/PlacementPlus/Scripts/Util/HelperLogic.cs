@@ -93,16 +93,27 @@ namespace Mods.PlacementPlus.Scripts.Util
             for (int i = 0; i < dynamicBuffer.Length; i++)
             {
                 ContainedObjectsBuffer objectsBuffer = dynamicBuffer[i];
+                if (objectsBuffer.objectData.objectID == ObjectID.None) continue;
+                if (objectsBuffer.objectData.amount == 0) continue;
+                
                 ref PugDatabase.EntityObjectInfo entityObjectInfo =
                     ref PugDatabase.GetEntityObjectInfo(
                         objectsBuffer.objectID,
                         sharedData.databaseBank.databaseBankBlob,
                         objectsBuffer.variation
                     );
+                if (entityObjectInfo.prefabEntities.Length <= 0) continue;
 
-                int shovelDamage = GetShovelDamage(objectsBuffer.objectData, ref entityObjectInfo, ppLookup.conditionsLookup);
-                int pickaxeDamage = GetPickaxeDamage(objectsBuffer.objectData, ref entityObjectInfo, ppLookup.conditionsLookup);
+                var conditionsBuffer = GetConditionsBuffer(
+                    objectsBuffer.objectData, 
+                    ref entityObjectInfo, 
+                    lookupData.levelLookup,
+                    lookupData.levelEntitiesLookup, 
+                    ppLookup.conditionsLookup
+                    );
 
+                int shovelDamage = GetShovelDamage(objectsBuffer.objectData, ref entityObjectInfo, conditionsBuffer);
+                int pickaxeDamage = GetPickaxeDamage(objectsBuffer.objectData, ref entityObjectInfo, conditionsBuffer);
 
                 if (shovelDamage > maxShovelDamage)
                 {
@@ -121,26 +132,55 @@ namespace Mods.PlacementPlus.Scripts.Util
 
             return maxPickaxeDamage;
         }
-        
-        
+
+        public static DynamicBuffer<GivesConditionsWhenEquippedBuffer> GetConditionsBuffer(
+            ObjectDataCD objectData,
+            ref PugDatabase.EntityObjectInfo entityObjectInfo,
+            ComponentLookup<LevelCD> levelLookup,
+            BufferLookup<LevelEntitiesBuffer> levelEntitiesLookup,
+            BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup
+        )
+        {
+            var prefab = entityObjectInfo.prefabEntities[0];
+            var levelEntity = EntityUtility.GetLevelEntity(prefab, objectData,
+                levelEntitiesLookup,
+                levelLookup);
+                
+            DynamicBuffer<GivesConditionsWhenEquippedBuffer> conditionsBuffer;
+            if (levelEntity != Entity.Null)
+            {
+                if (!conditionsLookup.TryGetBuffer(levelEntity, out conditionsBuffer)) return default;
+            }
+            else
+            {
+                if (!conditionsLookup.TryGetBuffer(prefab, out conditionsBuffer)) return default;
+            }
+
+            return conditionsBuffer;
+        }
+
+
         public static int GetShovelDamage(
             ObjectDataCD item,
             ref PugDatabase.EntityObjectInfo objectInfo,
-            BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup)
+            DynamicBuffer<GivesConditionsWhenEquippedBuffer> conditionBuffer)
         {
-            if (item.objectID == ObjectID.None) return 0;
-            if (item.amount == 0) return 0;
-
+            if (!conditionBuffer.IsCreated) return 0;
             if (objectInfo.objectType != ObjectType.Shovel) return 0;
-
-            var entity = objectInfo.prefabEntities[0];
-            if (!conditionsLookup.TryGetBuffer(entity, out var buffer)) return 0;
-
-            foreach (GivesConditionsWhenEquippedBuffer condition in buffer)
+            
+            bool isReinforced = PugDatabase.HasComponent<DurabilityCD>(item) && PugDatabase.GetComponent<DurabilityCD>(item).IsReinforced(item.amount);
+            
+            foreach (GivesConditionsWhenEquippedBuffer condition in conditionBuffer)
             {
                 if (condition.equipmentCondition.id != ConditionID.DiggingIncrease) continue;
+                var value = condition.equipmentCondition.value;
+                
+                var bonus = 0;
 
-                return condition.equipmentCondition.value;
+                if (isReinforced)
+                    bonus = ConditionExtensions.GetReinforcedBonusValue(value, new ConditionInfo { Id = ConditionID.DiggingIncrease});
+                
+                return value + bonus;
             }
 
             return 0;
@@ -149,22 +189,25 @@ namespace Mods.PlacementPlus.Scripts.Util
         public static int GetPickaxeDamage(
             ObjectDataCD item,
             ref PugDatabase.EntityObjectInfo objectInfo,
-            BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup
+            DynamicBuffer<GivesConditionsWhenEquippedBuffer> conditionBuffer
         )
         {
-            if (item.objectID == ObjectID.None) return 0;
-            if (item.amount == 0) return 0;
-
+            if (!conditionBuffer.IsCreated) return 0;
             if (objectInfo.objectType != ObjectType.MiningPick) return 0;
-
-            var entity = objectInfo.prefabEntities[0];
-            if (!conditionsLookup.TryGetBuffer(entity, out var buffer)) return 0;
-
-            foreach (GivesConditionsWhenEquippedBuffer condition in buffer)
+            
+            bool isReinforced = PugDatabase.HasComponent<DurabilityCD>(item) && PugDatabase.GetComponent<DurabilityCD>(item).IsReinforced(item.amount);
+            
+            foreach (GivesConditionsWhenEquippedBuffer condition in conditionBuffer)
             {
                 if (condition.equipmentCondition.id != ConditionID.MiningIncrease) continue;
+                var value = condition.equipmentCondition.value;
+                
+                var bonus = 0;
 
-                return condition.equipmentCondition.value;
+                if (isReinforced)
+                    bonus = ConditionExtensions.GetReinforcedBonusValue(value, new ConditionInfo { Id = ConditionID.MiningIncrease});
+                
+                return value + bonus;
             }
 
             return 0;
