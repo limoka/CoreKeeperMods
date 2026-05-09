@@ -270,6 +270,7 @@ namespace PlacementPlus
                 if (targetType == TileType.wall && 
                     !tileAccessor.HasType(posInt2, TileType.ground) &&
                     !tileAccessor.HasType(posInt2, TileType.bridge)) return;
+                if (targetType == TileType.ground && tileAccessor.HasType(posInt2, TileType.bridge)) return;
 
                 var isInGodMode = sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative);
                 EntityUtility.AddTile(
