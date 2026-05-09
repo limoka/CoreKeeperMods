@@ -324,6 +324,8 @@ namespace PlacementPlus
                 {
                     direction = DirectionBasedOnVariationCD.GetDirectionFromVariation(placement.rotationVariationToPlace).ToFloat3();
                 }
+                else if (PlacementHandler.ObjectCanBeToggledToNewNonRotationOption(equipmentPrefab, lookupData.objectPropertiesLookup))
+                    placement.currentPrefabVariation = placement.nonRotationVariationToPlace;
 
                 var ecb = sharedData.ecb;
 
