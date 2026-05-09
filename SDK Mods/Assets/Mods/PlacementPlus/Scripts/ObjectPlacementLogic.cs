@@ -196,6 +196,7 @@ namespace PlacementPlus
                         sharedData,
                         lookupData,
                         ppLookups,
+                        state,
                         ref entityObjectInfo,
                         ref placement,
                         false,
@@ -414,6 +415,7 @@ namespace PlacementPlus
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
             PlacementPlusLookups ppLookups,
+            PlacementPlusState state,
             ref PugDatabase.EntityObjectInfo entityObjectInfo,
             ref PlacementCD placement,
             bool doConsume,
@@ -438,18 +440,35 @@ namespace PlacementPlus
             int itemTileset = entityObjectInfo.tileset;
             TileType itemTileType = entityObjectInfo.tileType;
 
-            TileCD tile;
-            bool foundTile;
+            TileCD tile = new TileCD();
+            bool foundTile = false;
 
             if (itemTileType == TileType.wall)
             {
-                foundTile = tileAccessor.GetType(position, TileType.wall, out tile);
-                var tileInfo = PugDatabase.TryGetTileItemInfo(TileType.ground, (Tileset)itemTileset, sharedData.tileWithTilesetToObjectDataMapCD);
-
-                if (!foundTile && tileInfo.objectID != ObjectID.None)
+                var groundTileInfo = PugDatabase.TryGetTileItemInfo(TileType.ground, (Tileset)itemTileset, sharedData.tileWithTilesetToObjectDataMapCD);
+                
+                switch (state.blockMode)
                 {
-                    foundTile = tileAccessor.GetType(position, TileType.ground, out tile);
-                    itemTileType = TileType.ground;
+                    case BlockMode.TOGGLE:
+                        foundTile = tileAccessor.GetType(position, TileType.wall, out tile);
+
+                        if (!foundTile && groundTileInfo.objectID != ObjectID.None)
+                        {
+                            foundTile = tileAccessor.GetType(position, TileType.ground, out tile);
+                            itemTileType = TileType.ground;
+                        }
+                        break;
+                    case BlockMode.GROUND:
+                        if (groundTileInfo.objectID != ObjectID.None)
+                        {
+                            foundTile = tileAccessor.GetType(position, TileType.ground, out tile);
+                            itemTileType = TileType.ground;
+                        }
+                        break;
+                    case BlockMode.WALL:
+                        foundTile = tileAccessor.GetType(position, TileType.wall, out tile);
+                        
+                        break;
                 }
             }
             else
