@@ -1,4 +1,5 @@
 ﻿using Inventory;
+using PlacementPlus;
 using PlayerEquipment;
 using Unity.Entities;
 using Unity.Mathematics;
@@ -141,6 +142,8 @@ namespace Mods.PlacementPlus.Scripts.Util
             BufferLookup<GivesConditionsWhenEquippedBuffer> conditionsLookup
         )
         {
+            if (entityObjectInfo.prefabEntities.Length <= 0) return default;
+            
             var prefab = entityObjectInfo.prefabEntities[0];
             var levelEntity = EntityUtility.GetLevelEntity(prefab, objectData,
                 levelEntitiesLookup,
@@ -168,19 +171,11 @@ namespace Mods.PlacementPlus.Scripts.Util
             if (!conditionBuffer.IsCreated) return 0;
             if (objectInfo.objectType != ObjectType.Shovel) return 0;
             
-            bool isReinforced = PugDatabase.HasComponent<DurabilityCD>(item) && PugDatabase.GetComponent<DurabilityCD>(item).IsReinforced(item.amount);
-            
             foreach (GivesConditionsWhenEquippedBuffer condition in conditionBuffer)
             {
                 if (condition.equipmentCondition.id != ConditionID.DiggingIncrease) continue;
-                var value = condition.equipmentCondition.value;
                 
-                var bonus = 0;
-
-                if (isReinforced)
-                    bonus = ConditionExtensions.GetReinforcedBonusValue(value, new ConditionInfo { Id = ConditionID.DiggingIncrease});
-                
-                return value + bonus;
+                return  condition.equipmentCondition.value;
             }
 
             return 0;
