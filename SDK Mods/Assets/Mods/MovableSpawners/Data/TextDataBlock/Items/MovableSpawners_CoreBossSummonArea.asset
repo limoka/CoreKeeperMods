@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2108018792, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
+  m_Name: MovableSpawners_CoreBossSummonArea
+  m_EditorClassIdentifier: 
+  m_overload:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_address:
+    m_low: -8614119377608698267
+    m_high: -2143101176411883205
+  m_dynamicCollections:
+    m_list: []
+  m_localizedTexts:
+    keys:
+    - m_low: 8319415704751845611
+      m_high: -6023042414290333943
+    - m_low: -2957573344710624914
+      m_high: 6297677370195620808
+    - m_low: 681352171529052915
+      m_high: 2314507893210082619
+    - m_low: 6040640903323332866
+      m_high: 4472318406855671320
+    - m_low: 5554070574462901973
+      m_high: -3923471906115629047
+    - m_low: 4644340974835219079
+      m_high: -8672482724880852038
+    - m_low: -7722434995445778156
+      m_high: 2655981564484923289
+    - m_low: -2052239290651699458
+      m_high: -8389256263833660117
+    - m_low: 7851011593462244222
+      m_high: 4794823751170882376
+    - m_low: -998452581336238672
+      m_high: -1236628366252422438
+    - m_low: 555117963105384372
+      m_high: 3194402766475108890
+    - m_low: 7837645069971566515
+      m_high: 4238944138262099067
+    - m_low: 7031320391619404414
+      m_high: 5017443214120506826
+    values:
+    - m_language:
+        m_address:
+          m_low: 8319415704751845611
+          m_high: -6023042414290333943
+      title: "\u6838\u5FC3\u6307\u6325\u5B98\u53EC\u5524\u7B26\u6587\u77F3"
+      description: "\u53EF\u4EE5\u5524\u9192\u5F3A\u654C\u4F9B\u4F60\u6311\u6218\u7684\u53EC\u5524\u7B26\u6587\u77F3\u3002\u5728\u4E0A\u9762\u653E\u7F6E\u53EC\u5524\u4EBA\u5076\u5373\u53EF\u53EC\u5524\u9996\u9886\u3002"
+    - m_language:
+        m_address:
+          m_low: -2957573344710624914
+          m_high: 6297677370195620808
+      title: "\u6838\u5FC3\u6307\u63EE\u5B98\u53EC\u559A\u7B26\u6587"
+      description: "\u53EF\u4EE5\u91CD\u65B0\u559A\u9192\u5F37\u5927\u6575\u4EBA\u4F9B\u4F60\u6311\u6230\u7684\u53EC\u559A\u7B26\u6587\u3002\u5C07\u5176\u653E\u7F6E\u5728\u53EC\u559A\u795E\u50CF\u4E0A\u5373\u53EF\u53EC\u559A\u982D\u76EE\u3002"
+    - m_language:
+        m_address:
+          m_low: 681352171529052915
+          m_high: 2314507893210082619
+      title: Core Commander summoning rune
+      description: Summoning rune that can reawaken a mighty foe for you to fight.
+        Place a summoning idol on top to summon the boss.
+    - m_language:
+        m_address:
+          m_low: 6040640903323332866
+          m_high: 4472318406855671320
+      title: "Rune d\u2019invocation du commandant du Noyau"
+      description: "Une rune d\u2019invocation capable de r\xE9veiller un puissant
+        ennemi pour vous combattre. Placez une idole d\u2019invocation dessus pour
+        invoquer le boss."
+    - m_language:
+        m_address:
+          m_low: 5554070574462901973
+          m_high: -3923471906115629047
+      title: "Kernkommandant-Beschw\xF6rungsrune"
+      description: "Beschw\xF6rungsrune, die einen m\xE4chtigen Gegner f\xFCr einen
+        Kampf erneut erwecken kann. Platziere ein Beschw\xF6rungs-Abbild darauf,
+        um den Boss zu beschw\xF6ren."
+    - m_language:
+        m_address:
+          m_low: 4644340974835219079
+          m_high: -8672482724880852038
+      title: Runa di evocazione del Comandante del Nucleo
+      description: Runa di evocazione in grado di risvegliare un potente nemico da
+        affrontare. Posiziona un idolo di evocazione su di essa per evocare il boss.
+    - m_language:
+        m_address:
+          m_low: -7722434995445778156
+          m_high: 2655981564484923289
+      title: "\u30B3\u30A2\u30FB\u30B3\u30DE\u30F3\u30C0\u30FC\u306E\u53EC\u559A\u30EB\u30FC\u30F3"
+      description: "\u5F37\u5927\u306A\u6575\u3092\u547C\u3073\u623B\u3057\u3066\u6226\u3046\u3053\u3068\u304C\u3067\u304D\u308B\u53EC\u559A\u30EB\u30FC\u30F3\u3002\u53EC\u559A\u306E\u5076\u50CF\u3092\u305D\u306E\u4E0A\u306B\u7F6E\u304F\u3068\u3001\u30DC\u30B9\u3092\u53EC\u559A\u3067\u304D\u308B\u3002"
+    - m_language:
+        m_address:
+          m_low: -2052239290651699458
+          m_high: -8389256263833660117
+      title: "\uCF54\uC5B4 \uC9C0\uD718\uAD00 \uC18C\uD658 \uB8EC"
+      description: "\uAC15\uB825\uD55C \uC801\uC744 \uB2E4\uC2DC \uAE68\uC6CC \uB9DE\uC11C
+        \uC2F8\uC6B8 \uC218 \uC788\uAC8C \uD574\uC8FC\uB294 \uC18C\uD658 \uB8EC\uC785\uB2C8\uB2E4.
+        \uC704\uC5D0 \uC18C\uD658 \uC6B0\uC0C1\uC744 \uC124\uCE58\uD574 \uBCF4\uC2A4\uB97C
+        \uC18C\uD658\uD558\uC138\uC694."
+    - m_language:
+        m_address:
+          m_low: 7851011593462244222
+          m_high: 4794823751170882376
+      title: "Runa invocadora de Comandante do N\xFAcleo"
+      description: "Runa invocadora que pode fazer um inimigo poderoso ressurgir
+        para voc\xEA enfrentar. Instale um \xEDdolo invocador nela para invocar o
+        chefe."
+    - m_language:
+        m_address:
+          m_low: -998452581336238672
+          m_high: -1236628366252422438
+      title: "\u0420\u0443\u043D\u0430 \u043F\u0440\u0438\u0437\u044B\u0432\u0430
+        \u043A\u043E\u043C\u0430\u043D\u0434\u0443\u044E\u0449\u0435\u0433\u043E
+        \u042F\u0434\u0440\u0430"
+      description: "\u0420\u0443\u043D\u0430 \u043F\u0440\u0438\u0437\u044B\u0432\u0430,
+        \u0441\u043F\u043E\u0441\u043E\u0431\u043D\u0430\u044F \u043F\u0440\u043E\u0431\u0443\u0434\u0438\u0442\u044C
+        \u043C\u043E\u0433\u0443\u0447\u0435\u0433\u043E \u0432\u0440\u0430\u0433\u0430
+        \u0434\u043B\u044F \u0441\u0440\u0430\u0436\u0435\u043D\u0438\u044F. \u041F\u043E\u043C\u0435\u0441\u0442\u0438
+        \u0438\u0434\u043E\u043B \u043F\u0440\u0438\u0437\u044B\u0432\u0430 \u043D\u0430
+        \u043D\u0435\u0435, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u0438\u0437\u0432\u0430\u0442\u044C
+        \u0431\u043E\u0441\u0441\u0430."
+    - m_language:
+        m_address:
+          m_low: 555117963105384372
+          m_high: 3194402766475108890
+      title: "Runa de invocaci\xF3n del comandante del N\xFAcleo"
+      description: "Runa de invocaci\xF3n que puede despertar a un poderoso enemigo
+        para luchar contra \xE9l. Coloca un \xEDdolo de invocaci\xF3n encima para
+        invocar al jefe."
+    - m_language:
+        m_address:
+          m_low: 7837645069971566515
+          m_high: 4238944138262099067
+      title: "\u0E23\u0E39\u0E19\u0E2D\u0E31\u0E0D\u0E40\u0E0A\u0E34\u0E0D\u0E1C\u0E39\u0E49\u0E1A\u0E31\u0E0D\u0E0A\u0E32\u0E01\u0E32\u0E23\u0E41\u0E01\u0E48\u0E19\u0E1E\u0E25\u0E31\u0E07\u0E07\u0E32\u0E19"
+      description: "\u0E23\u0E39\u0E19\u0E2D\u0E31\u0E0D\u0E40\u0E0A\u0E34\u0E0D\u0E17\u0E35\u0E48\u0E2A\u0E32\u0E21\u0E32\u0E23\u0E16\u0E1B\u0E25\u0E38\u0E01\u0E28\u0E31\u0E15\u0E23\u0E39\u0E17\u0E35\u0E48\u0E41\u0E02\u0E47\u0E07\u0E41\u0E01\u0E23\u0E48\u0E07\u0E02\u0E36\u0E49\u0E19\u0E21\u0E32\u0E43\u0E2B\u0E49\u0E04\u0E38\u0E13\u0E15\u0E48\u0E2D\u0E2A\u0E39\u0E49\u0E14\u0E49\u0E27\u0E22\u0E44\u0E14\u0E49
+        \u0E27\u0E32\u0E07\u0E40\u0E17\u0E27\u0E23\u0E39\u0E1B\u0E2D\u0E31\u0E0D\u0E40\u0E0A\u0E34\u0E0D\u0E25\u0E07\u0E44\u0E1B\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E2D\u0E31\u0E0D\u0E40\u0E0A\u0E34\u0E0D\u0E1A\u0E2D\u0E2A"
+    - m_language:
+        m_address:
+          m_low: 7031320391619404414
+          m_high: 5017443214120506826
+      title: "\u0420\u0443\u043D\u0430 \u0432\u0438\u043A\u043B\u0438\u043A\u0443
+        \u043A\u043E\u043C\u0430\u043D\u0434\u0438\u0440\u0430 \u044F\u0434\u0440\u0430"
+      description: "\u0420\u0443\u043D\u0430 \u0432\u0438\u043A\u043B\u0438\u043A\u0443,
+        \u0437\u0434\u0430\u0442\u043D\u0430 \u043F\u0440\u043E\u0431\u0443\u0434\u0438\u0442\u0438
+        \u043C\u043E\u0433\u0443\u0442\u043D\u044C\u043E\u0433\u043E \u0432\u043E\u0440\u043E\u0433\u0430
+        \u0434\u043B\u044F \u0431\u0438\u0442\u0432\u0438. \u041F\u043E\u043C\u0456\u0441\u0442\u0456\u0442\u044C
+        \u0456\u0434\u043E\u043B \u0432\u0438\u043A\u043B\u0438\u043A\u0443 \u043D\u0430
+        \u043D\u0435\u0457, \u0449\u043E\u0431 \u0432\u0438\u043A\u043B\u0438\u043A\u0430\u0442\u0438
+        \u0431\u043E\u0441\u0430."
+  m_localizationHint: 
+  m_prevImportPrimaryEntry:
+    m_language:
+      m_address:
+        m_low: 0
+        m_high: 0
+    title: Core Commander summoning rune
+    description: Summoning rune that can reawaken a mighty foe for you to fight.
+      Place a summoning idol on top to summon the boss.
+  m_shouldBeLocalized: 1
+  m_header: Items
+  references:
+    version: 2
+    RefIds: []

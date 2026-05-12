@@ -80,7 +80,8 @@
         "Sentry.Unity.iOS.dll",
         "Sentry.Unity.Native.dll",
         "ZipSaveFolder.dll",
-        "0Harmony.dll"
+        "0Harmony.dll",
+        "ScriptableData.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

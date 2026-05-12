@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2108018792, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
+  m_Name: SummonArea7
+  m_EditorClassIdentifier: 
+  m_overload:
+    m_address:
+      m_low: 0
+      m_high: 0
+  m_address:
+    m_low: -881534202626844660
+    m_high: 8885794090479921306
+  m_dynamicCollections:
+    m_list: []
+  m_localizedTexts:
+    keys:
+    - m_low: 8319415704751845611
+      m_high: -6023042414290333943
+    - m_low: -2957573344710624914
+      m_high: 6297677370195620808
+    - m_low: 681352171529052915
+      m_high: 2314507893210082619
+    - m_low: 6040640903323332866
+      m_high: 4472318406855671320
+    - m_low: 5554070574462901973
+      m_high: -3923471906115629047
+    - m_low: 4644340974835219079
+      m_high: -8672482724880852038
+    - m_low: -7722434995445778156
+      m_high: 2655981564484923289
+    - m_low: -2052239290651699458
+      m_high: -8389256263833660117
+    - m_low: 7851011593462244222
+      m_high: 4794823751170882376
+    - m_low: -998452581336238672
+      m_high: -1236628366252422438
+    - m_low: 555117963105384372
+      m_high: 3194402766475108890
+    - m_low: 7837645069971566515
+      m_high: 4238944138262099067
+    - m_low: 7031320391619404414
+      m_high: 5017443214120506826
+    values:
+    - m_language:
+        m_address:
+          m_low: 8319415704751845611
+          m_high: -6023042414290333943
+      title: "\u5DE8\u578B\u8749\u53EC\u5524\u7B26\u6587\u77F3"
+      description: 
+    - m_language:
+        m_address:
+          m_low: -2957573344710624914
+          m_high: 6297677370195620808
+      title: "\u5DE8\u578B\u87EC\u53EC\u559A\u7B26\u6587"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 681352171529052915
+          m_high: 2314507893210082619
+      title: Giant Cicada summoning rune
+      description: 
+    - m_language:
+        m_address:
+          m_low: 6040640903323332866
+          m_high: 4472318406855671320
+      title: "Rune d\u2019invocation de la cigale g\xE9ante"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 5554070574462901973
+          m_high: -3923471906115629047
+      title: "Riesenzikade-Beschw\xF6rungsrune"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 4644340974835219079
+          m_high: -8672482724880852038
+      title: Runa di evocazione della Cicala gigantesca
+      description: 
+    - m_language:
+        m_address:
+          m_low: -7722434995445778156
+          m_high: 2655981564484923289
+      title: "\u30B8\u30E3\u30F3\u30DC\u30BC\u30DF\u306E\u53EC\u559A\u30EB\u30FC\u30F3"
+      description: 
+    - m_language:
+        m_address:
+          m_low: -2052239290651699458
+          m_high: -8389256263833660117
+      title: "\uAC70\uB300 \uB9E4\uBBF8 \uC18C\uD658 \uB8EC"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 7851011593462244222
+          m_high: 4794823751170882376
+      title: Runa invocadora da Cigarra Gigante
+      description: 
+    - m_language:
+        m_address:
+          m_low: -998452581336238672
+          m_high: -1236628366252422438
+      title: "\u0420\u0443\u043D\u0430 \u043F\u0440\u0438\u0437\u044B\u0432\u0430
+        \u043E\u0433\u0440\u043E\u043C\u043D\u043E\u0439 \u0446\u0438\u043A\u0430\u0434\u044B"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 555117963105384372
+          m_high: 3194402766475108890
+      title: "Runa de invocaci\xF3n de la cigarra gigante"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 7837645069971566515
+          m_high: 4238944138262099067
+      title: "\u0E23\u0E39\u0E19\u0E2D\u0E31\u0E0D\u0E40\u0E0A\u0E34\u0E0D\u0E08\u0E31\u0E4A\u0E01\u0E08\u0E31\u0E48\u0E19\u0E22\u0E31\u0E01\u0E29\u0E4C"
+      description: 
+    - m_language:
+        m_address:
+          m_low: 7031320391619404414
+          m_high: 5017443214120506826
+      title: "\u0420\u0443\u043D\u0430 \u0432\u0438\u043A\u043B\u0438\u043A\u0443
+        \u0432\u0435\u043B\u0435\u0442\u0435\u043D\u0441\u044C\u043A\u043E\u0457
+        \u0446\u0438\u043A\u0430\u0434\u0438"
+      description: 
+  m_localizationHint: 
+  m_prevImportPrimaryEntry:
+    m_language:
+      m_address:
+        m_low: 0
+        m_high: 0
+    title: Giant Cicada summoning rune
+    description: 
+  m_shouldBeLocalized: 1
+  m_header: Items
+  references:
+    version: 2
+    RefIds: []

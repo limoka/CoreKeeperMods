@@ -1,7 +1,7 @@
-﻿using Unity.Collections;
+﻿using Mods.MovableSpawners.Scripts.Data;
+using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.NetCode;
 using Unity.Transforms;
 
 namespace MovableSpawners
@@ -10,47 +10,62 @@ namespace MovableSpawners
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation | WorldSystemFilterFlags.ClientSimulation)]
     public partial class SummonAreaIndestructibleSystem : PugSimulationSystemBase
     {
-        public static float bossTriggerDistance = 100;
+        private const float BossTriggerDistance = 100;
 
         protected override void OnUpdate()
         {
-            NativeList<LocalTransform> bosses = new NativeList<LocalTransform>(Allocator.TempJob);
-            var ecb = CreateCommandBuffer();
-            float triggerDistance = bossTriggerDistance;
+            using var bosses = new NativeList<BossInfo>(Allocator.Temp);
 
-            Entities.ForEach((in LocalTransform transform) =>
+            foreach (var (objectData, transform) in 
+                     SystemAPI.Query<RefRO<ObjectDataCD>, RefRO<LocalTransform>>()
+                         .WithAll<BossCD>()
+                         .WithNone<EntityDestroyedCD>()
+                         .WithOptions(EntityQueryOptions.IncludeDisabledEntities))
             {
-                bosses.Add(transform);
-            })
-                .WithAll<BossCD>()
-                .WithNone<EntityDestroyedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
-                .Schedule();
-
-            Entities.ForEach((Entity entity, ref SummonAreaIndestructibleStateCD state, in LocalTransform spawner) =>
+                bosses.Add(new BossInfo(objectData.ValueRO.objectID, transform.ValueRO));
+            }
+            
+            var ecb = CreateCommandBuffer();
+            var coreBossLookup = SystemAPI.GetComponentLookup<CoreBossSpawnCD>();
+            var destroyIfNotOnTile = SystemAPI.GetComponentLookup<DestroyEntityIfNotOnTileCD>();
+            
+            foreach (var (transform, area, indestructibleState, entity) in
+                     SystemAPI.Query<RefRO<LocalTransform>, RefRO<SummonAreaCD>, EnabledRefRW<IndestructibleCD>>()
+                         .WithNone<EntityDestroyedCD>()
+                         .WithOptions(EntityQueryOptions.IncludeDisabledEntities |
+                                      EntityQueryOptions.IgnoreComponentEnabledState)
+                         .WithEntityAccess())
+            {
+                var isCore = coreBossLookup.HasComponent(entity);
+                if (isCore)
                 {
-                    bool near = false;
-                    foreach (LocalTransform boss in bosses)
-                    {
-                        near |= math.distance(spawner.Position, boss.Position) < triggerDistance;
-                        if (near) break;
-                    }
+                    var coreBoss = coreBossLookup[entity];
+                    if (coreBoss.state != CoreBossSpawnState.Hidden) return;
+                }
+                
+                var near = false;
+                foreach (var boss in bosses)
+                {
+                    if (boss.bossID != area.ValueRO.bossToSummon && boss.bossID != area.ValueRO.optionalBossToSummon) continue;
+                    if (!(math.distance(transform.ValueRO.Position, boss.transform.Position) < BossTriggerDistance)) continue;
+                    
+                    near = true;
+                    break;
+                }
+                
+                if (indestructibleState.ValueRO != near)
+                {
+                    indestructibleState.ValueRW = near;
 
-                    if (state.lastFoundBoss != near)
-                    {
-                        if (near)
-                            ecb.AddComponent<IndestructibleCD>(entity);
-                        else
-                            ecb.RemoveComponent<IndestructibleCD>(entity);
-                    }
-
-                    state.lastFoundBoss = near;
-                })
-                .WithAll<SummonAreaCD>()
-                .WithNone<EntityDestroyedCD>()
-                .WithEntityQueryOptions(EntityQueryOptions.IncludeDisabledEntities)
-                .WithDisposeOnCompletion(bosses)
-                .Schedule();
+                    if (!isCore) continue;
+                    
+                    var hasDestroy = destroyIfNotOnTile.HasComponent(entity);
+                    if (hasDestroy && near)
+                        ecb.RemoveComponent<DestroyEntityIfNotOnTileCD>(entity);
+                    else if (!hasDestroy && !near)
+                        ecb.AddComponent<DestroyEntityIfNotOnTileCD>(entity);
+                }
+            }
             
             base.OnUpdate();
         }

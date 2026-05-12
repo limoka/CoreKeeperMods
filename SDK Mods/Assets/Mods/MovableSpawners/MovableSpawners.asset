@@ -15,33 +15,46 @@ MonoBehaviour:
   metadata:
     guid: 257f346cbe1b4983b7f203dfa772d902
     name: MovableSpawners
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 3
     files:
-    - path: Localization/Localization.csv
-      guid: 
     - path: Scripts/Scripts/SummonAreaIndestructibleSystem.cs
-      guid: 
-    - path: Scripts/Scripts/SummonAreaIndestructibleStateCD.cs
-      guid: 
+      guid: 9fd2a47e28944fbaaa4c67780730ac0d
     - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
-      guid: 
+      guid: ffbe24df9f694e70b3e2cf7c45b5e037
     - path: Scripts/Scripts/Patches/MemoryManager_Patch.cs
-      guid: 
-    - path: Scripts/Scripts/Patches/GhostConverter_Patch.cs
-      guid: 
+      guid: df09fa66e10f4bc0b15aa00e61324167
+    - path: Scripts/Scripts/Patches/ConversionManager_Patch.cs
+      guid: 3f9ed72eb3164957b658b2b92b17b39c
     - path: Scripts/Scripts/Patches/ColorReplacer_Patch.cs
-      guid: 
+      guid: a39a5de0222a447a8d33953003c4818e
     - path: Scripts/Scripts/MovableSpawnersMod.cs
+      guid: 60899ee0276a454cb58b5162de0cbf64
+    - path: Scripts/Scripts/ModSummonAreaSystem.cs
+      guid: 23d5c522d1594387b635c28f73eabc05
+    - path: Scripts/Scripts/Data/SpawnerEdited.cs
+      guid: 7231e6bc32cb4b98b64cb4ff0f9fc67b
+    - path: Scripts/Scripts/Data/ModSummonAreaAuthoring.cs
+      guid: 091a1088a77b47769e0f1693fc29b3f3
+    - path: Scripts/Scripts/Data/ModDropLootAuthoring.cs
+      guid: 7c95c272784d4cfb85708f350d4a7480
+    - path: Scripts/Scripts/Data/BossInfo.cs
+      guid: 176bad3f33214c7e8b0af7bd66f2077f
+    - path: Scripts/Generated/ModSummonAreaSystem__System_3918378010.g.cs
       guid: 
-    - path: Scripts/Scripts/EditPugConverter.cs
+    - path: Scripts/Generated/SummonAreaIndestructibleSystem__System_14520036420.g.cs
       guid: 
     - path: Bundles/MovableSpawners_Windows.assetbundle
       guid: 
+    - path: Bundles/MovableSpawners_Windows.assetbundle.manifest
+      guid: 
     - path: Bundles/MovableSpawners_Linux.assetbundle
+      guid: 
+    - path: Bundles/MovableSpawners_Linux.assetbundle.manifest
       guid: 
     dependencies:
     - modName: CoreLib
@@ -53,23 +66,47 @@ MonoBehaviour:
   buildLinux: 1
   assets:
   - path: Assets/Mods/MovableSpawners/Animation/ModSummonArea.controller
-    hash: D590F5C571A989521974D29AC7C7B2CEE01D009EA058D3C2E667248A6AFEFEDE
+    hash: 029D19101828A7DF2A5A0BC40A23111C77CD92F43BE55111C5E77328AE54AAC5
   - path: Assets/Mods/MovableSpawners/Animation/objectDestroyed.anim
-    hash: 94C24D2E17EC9604CB34FC1E4037EA061A8AE7CA8FC8B94A0B3C85EA2326B1F2
+    hash: 12772A351D1B582E38FBC2EE0F8B1DAC92A4CF7A43546D8440B783FFAC5E50CA
   - path: Assets/Mods/MovableSpawners/Animation/objectTakeDamage.anim
-    hash: 69AEDA2283CB27765F8634B0EFD78E78547FED35B92253790A6ADC0D09308A83
+    hash: EDC930A5C18313B9B52965FF279E1EC1CEEC7AA48BC59543A56BEC0E5A62767D
   - path: Assets/Mods/MovableSpawners/Animation/objectVisable.anim
-    hash: 975CC112352CE53A70444ADF5DDC5AC29E95E07CA96AA46549322F8FD01AAB0B
+    hash: FA051B2A8D87688B50C24F752798C8203145C0E9D3973493CE90D8861CB978E3
   - path: Assets/Mods/MovableSpawners/Animation/SummonAreaGlow.anim
-    hash: 4B91A194D7F6B70640032836B9A73322C24B3429D4E24861C17185CD49ABD269
+    hash: EA679D5B3225139D1FA0F430CFFD8322E8C1262FCE6FC5EBE7B7B7048A80C2D9
   - path: Assets/Mods/MovableSpawners/Animation/SummonAreaIdle.anim
-    hash: 642448BC5D03B32AA694014F2AD8B9114F6BC1D0DA7462D152DAF64EA6EDC12F
-  - path: Assets/Mods/MovableSpawners/Localization/Localization.csv
-    hash: 9912D1E280B740DC506BA52194CC71A1680201C6489BC18C24B5A7FB515E8530
+    hash: 05D9FD42FEEC8F459FCAB0DBF8D3433A40473AD2247AC55D59E3414F40DABEA6
+  - path: Assets/Mods/MovableSpawners/Data/MovableSpawners.asset
+    hash: BE3BBC654B88AA476031DBA20AAF33E423F0F4F296241A0A1291FAD86104E487
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/MovableSpawners_CoreBossSummonArea.asset
+    hash: CE7C05835639B190415F932B435EDBE855C53F9EF63389EA4A259753EEEB19BB
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea.asset
+    hash: C4CB5CBA27C47644649CC482492C3320BAFD0C4A439B2CDD6E1E2E2D2101AAD8
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea1.asset
+    hash: 90FD50DC4F4B49E5CE7F3B21D4FD3D84C233014C9217F8A14B3BBD36A79FFC54
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea2.asset
+    hash: 152C1CB2DAAC33708BDC9481A19EF811835EC28B3584F7A39ABBAC839724C50F
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea3.asset
+    hash: 6CCB8928674BF59C670E9247E1827062B86AA44C25DD84D491C2A2A5A4BAD122
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea4.asset
+    hash: F9EE3438352FA4A0BD2430E5C72B4C61FB444B02A599348F146B5B94D3B11914
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea5.asset
+    hash: 16351C2E0AF82DFAD151D5C340042681B2FF3B819283380F90D12AE86DAB14CF
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea6.asset
+    hash: 6667CDEB9905F5EC2C10C086C585C506C6D54CCF26157E8ACF0A4CCA38298C7A
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea7.asset
+    hash: 5C1673C518AB5864A5ABDDE65901A263FB49D766744282BEA0BB0037973E8434
+  - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea8.asset
+    hash: EE4B2EFFEA7A59EFF1D61B862CDCD27B0D124558BD4DBA1D77FCCA844216339F
+  - path: Assets/Mods/MovableSpawners/Item/CoreBossSummonArea.prefab
+    hash: 4EDC74D800BE1F86CDAC6A077DC2A27DC8B653B7770490339FB3DADA4DBE9B81
   - path: Assets/Mods/MovableSpawners/MovableSpawners.asset
-    hash: 7F104D7BB941CABA97A7B052F274C32EEE51D2DA50C846D0BED65EEC2ACE1004
+    hash: 48EF5DCCCAAF9A877968CA9EF2C6B6F628DA3821251DDB5C226184FA341533A7
   - path: Assets/Mods/MovableSpawners/MovableSpawners_modio.asset
-    hash: CB6779F49BADCF35DB199716925F534B8E5D81065F9271F4C6B64788751EE9F3
+    hash: 694677B92F61BABE234C8CD074F6AAD617146645C2C2A36720B846AE7D4D25C6
+  - path: Assets/Mods/MovableSpawners/Textures/boss-rune-icons.png
+    hash: 2A1DD7519ABD3CE73F72CADF981678FC6097F1172EBE2338ED52E073BC05F904
   - path: Assets/Mods/MovableSpawners/Textures/icon-big.png
     hash: C5249CF04C40366416847F645D60AC978B434EA49929CFAB7459367A3C2CBBE7
   - path: Assets/Mods/MovableSpawners/Textures/icon-small.png

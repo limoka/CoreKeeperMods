@@ -1,9 +1,5 @@
-﻿using System.Linq;
-using CoreLib.Util.Extension;
-using MovableSpawners.Patches;
+﻿using CoreLib.Util.Extension;
 using PugMod;
-using Unity.Burst;
-using Unity.Entities;
 using UnityEngine;
 using Logger = CoreLib.Util.Logger;
 
@@ -14,11 +10,14 @@ namespace MovableSpawners
         internal static Logger Log = new Logger(NAME);
         internal const string Textures = "Assets/Mods/MovableSpawners/Textures/";
         
-        public const string VERSION = "1.0.6";
+        public const string VERSION = "2.0.0";
         public const string NAME = "Movable Spawners";
         private static LoadedMod modInfo;
 
         internal static AssetBundle AssetBundle => modInfo.AssetBundles[0];
+        
+        internal static Sprite[] icons;
+        internal static Sprite errorIcon;
 
         public void EarlyInit()
         {
@@ -36,67 +35,17 @@ namespace MovableSpawners
                 return;
             }
 
-            API.Authoring.OnObjectTypeAdded += EditSpawners;
-            
-            modInfo.TryLoadBurstAssembly();
+            icons = AssetBundle.LoadAssetWithSubAssets<Sprite>(Textures + "boss-rune-icons.png");
+            errorIcon = AssetBundle.LoadAsset<Sprite>(Textures + "icon-small.png");
 
-            Log.LogInfo($"Mod loaded successfully");
+            System.Array.Sort(
+                icons,
+                (a, b) => string.Compare(a.name, b.name, System.StringComparison.Ordinal)
+            );
+            
+            Log.LogInfo($"Movable Spawners Mod loaded successfully");
         }
-
-        private void EditSpawners(Entity entity, GameObject authoringdata, EntityManager entitymanager)
-        {
-            var entityData = authoringdata.GetComponent<EntityMonoBehaviourData>();
-            if (entityData == null ||
-                entityData.objectInfo.objectID != ObjectID.SummonArea) return;
-            
-            Log.LogInfo($"Editing {entityData.objectInfo.objectID}, {entityData.objectInfo.variation}");
-            
-            entityData.objectInfo.objectType = ObjectType.PlaceablePrefab;
-            entityData.objectInfo.rarity = Rarity.Legendary;
-            entityData.objectInfo.isStackable = false;
-            entityData.objectInfo.prefabTileSize = new Vector2Int(3, 3);
-            entityData.objectInfo.prefabCornerOffset = new Vector2Int(-1, -1);
-            entityData.objectInfo.centerIsAtEntityPosition = true;
-            
-            entityData.objectInfo.smallIcon = AssetBundle.LoadAsset<Sprite>(Textures + "icon-small.png");
-            entityData.objectInfo.icon = AssetBundle.LoadAsset<Sprite>(Textures + "icon-big.png");
-
-            entitymanager.RemoveComponent<IndestructibleCD>(entity);
-            entitymanager.RemoveComponent<NonHittableCD>(entity);
-            entitymanager.AddComponent<SummonAreaIndestructibleStateCD>(entity);
-
-            entitymanager.AddComponent<MineableCD>(entity);
-            if (entitymanager.HasComponent<AlwaysDropVariationZeroCD>(entity))
-            {
-                entitymanager.RemoveComponent<AlwaysDropVariationZeroCD>(entity);
-            }
-
-            entitymanager.AddComponentData(entity, new DamageReductionCD(){
-                 maxDamagePerHit = 1
-            });
-
-            entitymanager.AddComponentData(entity, new HealthRegenerationCD()
-            {
-                NormalizedHealthIncreasePerFiveSeconds = 1,
-                HealDelayAfterLeavingCombat = 5
-            });
-
-            if (entitymanager.HasComponent<AllowHealthRegenerationInCombatCD>(entity))
-            {
-                entitymanager.RemoveComponent<AllowHealthRegenerationInCombatCD>(entity);
-            }
-            
-            entitymanager.AddComponent<IsInCombatCD>(entity);
-            //TODo is it needed?
-           //entitymanager.AddComponent<AnimationCD>(entity);
-            entitymanager.AddComponent<StateInfoCD>(entity);
-            entitymanager.AddComponent<IdleStateCD>(entity);
-            entitymanager.AddComponent<StunnedStateCD>(entity);
-            entitymanager.AddComponent<TookDamageStateCD>(entity);
-            entitymanager.AddComponent<DamageEffectCD>(entity);
-            entitymanager.AddComponent<TriggerAnimationOnDeathCD>(entity);
-        }
-
+        
         public void Init()
         {
         }
