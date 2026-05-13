@@ -103,8 +103,8 @@ MonoBehaviour:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: 
-      description: 
+      title: Batendo Manequim
+      description: Use este manequim para afiar suas habilidades de luta
     - m_language:
         m_address:
           m_low: -998452581336238672
@@ -138,7 +138,7 @@ MonoBehaviour:
     title: Beating Dummy
     description: Use this dummy to sharpen your fighting skills
   m_shouldBeLocalized: 1
-  m_header: Items
+  m_header: 
   references:
     version: 2
     RefIds: []
