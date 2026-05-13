@@ -160,7 +160,7 @@ MonoBehaviour:
   - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/WALL.asset
     hash: 165B58D95A9AD887F0F02CD7925FD34BA6BAF8BA2639D0762B984AE6145E3917
   - path: Assets/Mods/PlacementPlus/PlacementPlus.asset
-    hash: 418B463CC3AA75D636C9563047C5E381CD9954FB36515ACF733E69FC8BF95D48
+    hash: A1DB6D673BA00B64D7412F28B20605A518A4E7F41570DBD9396D05F1CF9B976B
   - path: Assets/Mods/PlacementPlus/PlacementPlus_modio.asset
     hash: E48E58BA18CE1BAADEEC1DBF920B8FD6CACBB2F75955D4C994F95CD41959702F
   - path: Assets/Mods/PlacementPlus/PlacementPlus_Steam.asset
