@@ -54,13 +54,13 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u653E\u7F6EPlus"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u653E\u7F6EPlus"
       description: 
     - m_language:
         m_address:
@@ -72,61 +72,61 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: PlacementPlus
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: PlacementPlus
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:
@@ -134,9 +134,9 @@ MonoBehaviour:
       m_address:
         m_low: 0
         m_high: 0
-    title: 
+    title: PlacementPlus
     description: 
-  m_shouldBeLocalized: 0
+  m_shouldBeLocalized: 1
   m_header: ControlMapper
   references:
     version: 2

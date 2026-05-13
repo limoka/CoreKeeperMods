@@ -54,13 +54,13 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u5730\u9762"
+      title: "\u4EC5\u5730\u5757"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u4EC5\u5730\u5757"
       description: 
     - m_language:
         m_address:
