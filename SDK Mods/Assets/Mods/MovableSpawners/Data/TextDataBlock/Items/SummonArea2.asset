@@ -54,8 +54,8 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u866B\u5DE2\u4E4B\u6BCD\u53EC\u5524\u7B26\u6587\u77F3"
-      description: 
+      title: "\u866B\u5DE2\u4E4B\u6BCD\u53EC\u5524\u7B26\u6587"
+      description: "\u53EF\u4EE5\u5524\u9192\u5F3A\u654C\u4F9B\u4F60\u6311\u6218\u7684\u53EC\u5524\u7B26\u6587\uFF0C\u5728\u4E0A\u9762\u653E\u7F6E\u5BF9\u5E94\u9053\u5177\u5373\u53EF\u53EC\u5524\u9996\u9886\u3002"
     - m_language:
         m_address:
           m_low: -2957573344710624914
