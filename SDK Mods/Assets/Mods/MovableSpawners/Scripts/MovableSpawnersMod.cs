@@ -10,7 +10,7 @@ namespace MovableSpawners
         internal static Logger Log = new Logger(NAME);
         internal const string Textures = "Assets/Mods/MovableSpawners/Textures/";
         
-        public const string VERSION = "2.0.0";
+        public const string VERSION = "2.0.1";
         public const string NAME = "Movable Spawners";
         private static LoadedMod modInfo;
 
