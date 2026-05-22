@@ -63,13 +63,26 @@ namespace ECSExtension
         {
             base.OnBorrowedFromPool(target);
 
+            try
+            {
+                LoadPane(target);
+            }
+            catch (Exception e)
+            {
+                ExplorerCore.LogError($"Got exception trying to load Entity Inspector: {e}");
+                CloseInspector();
+            }
+        }
+
+        private void LoadPane(object target)
+        {
             currentEntity = (Entity)target;
             Target = currentEntity;
 
             validWorlds = new List<World>();
             foreach (World world in World.All)
             {
-                if (world.EntityManager.Exists(currentEntity))
+                if (world.EntityManager.ExistsDeep(currentEntity))
                 {
                     validWorlds.Add(world);
                 }
@@ -114,7 +127,7 @@ namespace ECSExtension
             
             var world = validWorlds[index];
             
-            if (!world.EntityManager.Exists(currentEntity)) return;
+            if (!world.EntityManager.ExistsDeep(currentEntity)) return;
             
             ExplorerCore.Log($"Now using world {index} ({world.Name}) for entity {currentEntity}");
             
@@ -122,18 +135,14 @@ namespace ECSExtension
             entityManager = currentWorld.EntityManager;
             currentWorldIndex = index;
             
-            ExplorerCore.Log($"UpdateEntityInfo");
             UpdateTabName();
             entityInfoPanel.UpdateEntityInfo(true, true);
             
-            ExplorerCore.Log($"Start InitCoroutine");
             InitCoroutine();
         }
 
         private void InitCoroutine()
         {
-            ExplorerCore.Log($"InitCoroutine()");
-            
             UpdateComponents();
 
             LayoutRebuilder.ForceRebuildLayoutImmediate(InspectorPanel.Instance.ContentRect);
@@ -142,7 +151,6 @@ namespace ECSExtension
 
         private NativeArray<ComponentType> GetComponents()
         {
-            ExplorerCore.Log($"GetComponents()");
             if (currentEntity != Entity.Null)
             {
                 return entityManager.GetComponentTypes(currentEntity);
@@ -281,7 +289,6 @@ namespace ECSExtension
 
         public void UpdateComponents()
         {
-            ExplorerCore.Log($"UpdateComponents()");
             ecsComponentList.RefreshData();
             ecsComponentList.ScrollPool.Refresh(true);
         }

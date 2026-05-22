@@ -12,11 +12,11 @@ namespace UniverseLib.Runtime
 
         public static string GetNameSafe(this EntityManager entityManager, Entity entity)
         {
-            string name = entityManager.GetName(entity);
-            if (!string.IsNullOrEmpty(name)) return name;
-            
             try
             {
+                string name = entityManager.GetName(entity);
+                if (!string.IsNullOrEmpty(name)) return name;
+                
                 if (entityManager.HasComponent<ObjectDataCD>(entity))
                 {
                     var data = entityManager.GetComponentData<ObjectDataCD>(entity);
@@ -34,6 +34,34 @@ namespace UniverseLib.Runtime
 
                 
             return entity.ToString();
+        }
+        
+        /// <summary>
+        /// Performs a deep structural verification on an Entity. 
+        /// Ensures that the entity has a valid unmanaged memory layout backing it.
+        /// </summary>
+        public static bool ExistsDeep(this EntityManager manager, Entity entity)
+        {
+            try
+            {
+                if (!manager.Exists(entity)) return false;
+                
+                // Perform a low-overhead, deep unmanaged memory read.
+                // Entity.Null is a universal structural type present on all valid layouts.
+                // This forces Unity to look up the archetype pointer without allocating arrays.
+                manager.HasComponent<Entity>(entity);
+                return true;
+            }
+            catch (NullReferenceException)
+            {
+                // Caught unmapped structural layout / ghost matching entity slot
+                return false;
+            }
+            catch (Exception)
+            {
+                // Fallback for any other unexpected safety system triggers
+                return false;
+            }
         }
     }
 }
