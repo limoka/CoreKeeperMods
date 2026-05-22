@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb89f0a3ed349468023ba7361badee2, type: 3}
   m_Name: WrenchWorkbench
   m_EditorClassIdentifier: 
-  itemId: SecureAttachment:WrenchWorkbench
+  workbenchType: 0
+  itemID: SecureAttachment:WrenchWorkbench
+  rarity: 0
   bigIcon: {fileID: -990479668, guid: 97fdeb9efa812fd468a2b9ba7ff82281, type: 3}
   smallIcon: {fileID: -516623663, guid: 97fdeb9efa812fd468a2b9ba7ff82281, type: 3}
-  texture: {fileID: 0}
-  assetSkin: {fileID: 11400000, guid: 8c4ac50d83c9da64f97d98970be97d74, type: 2}
+  assetRef:
+    m_address:
+      m_low: -2318014908199824691
+      m_high: 7974386942266224041
   bindToRootWorkbench: 1
   recipe:
   - objectName: Wood
@@ -24,10 +28,16 @@ MonoBehaviour:
   canCraft:
   - objectName: SecureAttachment:WoodenWrench
     amount: 1
-  - objectName: SecureAttachment:Wrench
+  - objectName: SecureAttachment:IronWrench
+    amount: 1
+  - objectName: SecureAttachment:ScarletWrench
     amount: 1
   relatedWorkbenches: []
-  title: 
-  leftTitle: 
-  rightTitle: 
+  refreshRelatedWorkbenchTitles: 0
+  titles:
+  - mTerm: crafting
+    mRTL_IgnoreArabicFix: 0
+    mRTL_MaxLineLength: 0
+    mRTL_ConvertNumbers: 0
+    m_DontLocalizeParameters: 0
   skin: 0

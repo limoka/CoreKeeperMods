@@ -15,55 +15,114 @@ MonoBehaviour:
   metadata:
     guid: e042d3d4e3174daab6dc10eb322c5ab6
     name: SecureAttachment
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
     disableHarmonyPatching: 0
     requiredOn: 0
     files:
-    - path: Localization/Localization.csv
-    - path: Scripts/Scripts/WrenchSlotLogic.cs
     - path: Scripts/Scripts/WrenchEquipmentSlot.cs
-    - path: Scripts/Scripts/UnmountEffect.cs
+      guid: 33f64136b10c31846a50be368fdb6c5b
+    - path: Scripts/Scripts/Util/UnmountEffect.cs
+      guid: c9792d61f76041e19db9c990a5348989
+    - path: Scripts/Scripts/Util/ModUtils.cs
+      guid: 0e4915d6479c4fefba892e06ba2680db
+    - path: Scripts/Scripts/Systems/WrenchSlotLogic.cs
+      guid: 51a62b71aa614b4f8d129902d88f49c5
+    - path: Scripts/Scripts/Systems/Serialization/MountedSerializeSystem.cs
+      guid: f36a42233ae84da38ba88885c9208306
+    - path: Scripts/Scripts/Systems/Serialization/MountedDeserializeSystem.cs
+      guid: 533b419f02c94c9292f2ec8c936010fe
+    - path: Scripts/Scripts/Systems/Network/ServerModCommandSystem.cs
+      guid: c2a603d92ae8e2a4f95761222e498d4f
+    - path: Scripts/Scripts/Systems/Network/ClientModCommandSystem.cs
+      guid: 4c5cadbb19f9bf64db05c0b1aa708437
+    - path: Scripts/Scripts/Systems/MountingSystem.cs
+      guid: d7db946ed7ad4f43a6f6a62faeb14043
     - path: Scripts/Scripts/SecureAttachmentMod.cs
-    - path: Scripts/Scripts/Components/WrenchCDAuthoring.cs
-    - path: Scripts/Scripts/Components/MountedCDAuthoring.cs
+      guid: 9767daa8e40bb60459669bd5454026eb
+    - path: Scripts/Scripts/Data/WrenchMode.cs
+      guid: 42d9e026f1b04e778b54d52f9d116181
+    - path: Scripts/Scripts/Data/SecureAttachmentRPC.cs
+      guid: 3815df77ce0b9b145b503a974e8a69b7
+    - path: Scripts/Scripts/Data/MountType.cs
+      guid: 7bf7f7b96e5a43018ac95d8cb57a76f6
+    - path: Scripts/Scripts/Data/MessageType.cs
+      guid: 639713a26ed64a0b9d188759b16666b1
+    - path: Scripts/Scripts/Data/ActionResult.cs
+      guid: b8dfe857f4004ce3afd2e5d480c4b770
+    - path: Scripts/Scripts/Components/WrenchStateCD.cs
+      guid: 84512d8355b3478da14878be9f31219c
+    - path: Scripts/Scripts/Components/WrenchAuthoring.cs
+      guid: 132ec735c4243e74ab3e68cf96916f3b
+    - path: Scripts/Scripts/Components/MountStateLoadedCD.cs
+      guid: ed10eebfcf354bb298e3e3d4ba95ef14
+    - path: Scripts/Scripts/Components/CanBeMountedAuthoring.cs
+      guid: 51472f9e9e4270a44a981dcbef6791f7
+    - path: Scripts/Generated/ClientModCommandSystem__System_8548586520.g.cs
+      guid: 
+    - path: Scripts/Generated/MountedDeserializeSystem__System_12614382550.g.cs
+      guid: 
+    - path: Scripts/Generated/MountedSerializeSystem__System_13859001940.g.cs
+      guid: 
+    - path: Scripts/Generated/MountingSystem__System_9490792140.g.cs
+      guid: 
+    - path: Scripts/Generated/ServerModCommandSystem__System_21365008480.g.cs
+      guid: 
+    - path: Scripts/Generated/GhostComponentSerializerCollection.cs
+      guid: 
+    - path: Scripts/Generated/SecureAttachment_MountedCDSerializer.cs
+      guid: 
+    - path: Scripts/Generated/SecureAttachment_SecureAttachmentRPCCommandSerializer.cs
+      guid: 
+    - path: Scripts/Generated/SecureAttachment_WrenchStateCDSerializer.cs
+      guid: 
     - path: Bundles/SecureAttachment_Windows.assetbundle
+      guid: 
+    - path: Bundles/SecureAttachment_Windows.assetbundle.manifest
+      guid: 
     - path: Bundles/SecureAttachment_Linux.assetbundle
+      guid: 
+    - path: Bundles/SecureAttachment_Linux.assetbundle.manifest
+      guid: 
     dependencies:
     - modName: CoreLib
-      required: 1
-    - modName: CoreLib.Resources
-      required: 1
-    - modName: CoreLib.Audio
-      required: 1
-    - modName: CoreLib.Entity
-      required: 1
-    - modName: CoreLib.Equipment
       required: 1
   modPath: Assets\Mods\SecureAttachment
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
-  buildBurst: 1
   assets:
-  - path: Assets/Mods/SecureAttachment/CrowbarSlot.prefab
-    hash: 5011133C4AFEC08CACE23DC99717270060867CFAB99A092E478804D556F85B19
+  - path: Assets/Mods/SecureAttachment/Data/Secure Attachment.asset
+    hash: 8A27CA8D044BEE4D6E6593AFCC5DB4023D3F88916C3862F7D2A4730004882CBE
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/ControlMapper/SecureAttachment_ToggleWrenchMode.asset
+    hash: 2B31F97BCA5440436CAD18E3AA53E9AC51A0DE6C22B450162372E30A0A66BE83
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/Emotes/MOD_SecureAttachment_WrenchAuto.asset
+    hash: AD6888B8804872913132ED60F73A5D7F6322E2A300CE5A6C8D441F8D1DB0DFE6
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/Emotes/MOD_SecureAttachment_WrenchMount.asset
+    hash: 843E2890C693F3C8235E53901DA9325F7A41312321745ED6A395B86FC67E5CF7
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/Emotes/MOD_SecureAttachment_WrenchUnmount.asset
+    hash: E76EC34F8A60746EC149D87D128411760624D7312609D4F7DEDC9D9AF75A083B
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/Items/SecureAttachment_WoodenWrench.asset
+    hash: 457A99304EA5E80B23150C29DD040AD3ED223B1334037170592A743F7DE42539
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/Items/SecureAttachment_Wrench.asset
+    hash: 1B1F95A66A25CE0D2C4E87595347F74C67212DCFA8F5C5B8CD1C7F1815405519
+  - path: Assets/Mods/SecureAttachment/Data/TextDataBlock/Items/SecureAttachment_WrenchWorkbench.asset
+    hash: 0C96C95289EF7C651A4FABE0923C168F17A2D1ED4B300BA24068400739984710
   - path: Assets/Mods/SecureAttachment/Item/WoodenWrench.prefab
-    hash: BFAF2F441221B62AB785E8080625A77CDC023E90257EFCC21EEB89F3FB1E5F1C
+    hash: 3A9D84AB6643FCE8F2BDA8592F95B016A8FA53C2DF42B9B820827BEB0454476E
   - path: Assets/Mods/SecureAttachment/Item/Wrench.prefab
-    hash: 7772F358341628EC56676823A3C31E88C67168D6C07B46B87997F925C8F9753A
+    hash: 5193FA6F301D5C2200D197C49D65946D2457BE2DED46377AFD14B42AF7531C35
   - path: Assets/Mods/SecureAttachment/Item/WrenchWorkbench.asset
     hash: FE56CD81CFFBF06D6C683E8CF42FB49813891D46C09BC98EE23AF96568AD6278
-  - path: Assets/Mods/SecureAttachment/Localization/Localization.csv
-    hash: ACAC1DF17F0AAD3FF7027DF6905423BE1C8A6EA84E700CC233841700D21720A4
   - path: Assets/Mods/SecureAttachment/SecureAttachment.asset
-    hash: 837ACCB0BAE5C22C702F7DA440B282B9EEB7C91B1E72FCCF6929E175717093E2
+    hash: A3BF898BB91E55B9CE2A7DBEE7B8313FB1BD33FBB305BE3094FCFCC371F1ABA0
   - path: Assets/Mods/SecureAttachment/SecureAttachment_modio.asset
-    hash: 77CFFE6B2C9253E13F162CDF50786ADAB6008D8C52F2089EC23418120999659F
+    hash: 39929E41087A7DD26A87D1F890ACD7E8F9E41394078B22845FD140A385E95F63
   - path: Assets/Mods/SecureAttachment/SpriteAssetManifest.asset
-    hash: 497BA3269B5E53AB60E3428C11982EC7685C6C1A3D89A9AEEFB89C3404947C80
+    hash: 9D3BA09F1F052BD788E6C4E76BD33A62F266D7542BF8A693628549F764E37F21
   - path: Assets/Mods/SecureAttachment/Textures/wb-0.png
     hash: CC73F77F79D0F20FCAC9215D7A290A2D54E7D124812A1AC9F2F2DC40BBDA3430
   - path: Assets/Mods/SecureAttachment/Textures/wb-1.png
@@ -78,8 +137,6 @@ MonoBehaviour:
     hash: 851987F9CA403812D6CA56A05742701F353249EFA2394AD2F7D15EC865FF0884
   - path: Assets/Mods/SecureAttachment/Textures/wrench.png
     hash: 8E333164E3F267D78C00BC2631F72752BAF5CD2DC7DF4A3ABF6F50CEA9131F6C
-  - path: Assets/Mods/SecureAttachment/Textures/WrenchWorkbenchSkin.asset
-    hash: 8B2754BA4C2BE889D0DB176AB16F291168A3E755BB348CFBD45FB702D51A54C9
   - path: Assets/Mods/SecureAttachment/wrench-sound.ogg
     hash: 42FFB49855DFA224A5C387F74F8097A43575EA0202A203FC3031D68D9FB65F12
   lastBuildLinux: 1

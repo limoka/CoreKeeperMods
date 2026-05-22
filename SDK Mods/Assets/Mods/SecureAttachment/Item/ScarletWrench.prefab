@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 7027779410844283671}
   - component: {fileID: 5138834593386820571}
   - component: {fileID: 1555800786928821173}
+  - component: {fileID: 276647565003021990}
+  - component: {fileID: 4486375379989684860}
   m_Layer: 0
-  m_Name: WoodenWrench
+  m_Name: ScarletWrench
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 318086258, guid: 3392f4c23e1d8662d749dabb2361ee02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectName: SecureAttachment:WoodenWrench
+  objectName: SecureAttachment:ScarletWrench
   initialAmount: 1
   variation: 0
   variationIsDynamic: 0
@@ -73,12 +75,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sellValue: -1
   buyValueMultiplier: 1
-  icon: {fileID: -990479668, guid: 8990f558eb590b54f80676f83a87e5e0, type: 3}
+  icon: {fileID: -1628800428, guid: 63838ae7b342300449386f12681c9bd5, type: 3}
   iconOffset: {x: 0, y: 0}
-  smallIcon: {fileID: -516623663, guid: 8990f558eb590b54f80676f83a87e5e0, type: 3}
+  smallIcon: {fileID: -1783174021, guid: 63838ae7b342300449386f12681c9bd5, type: 3}
   isStackable: 0
   requiredObjectsToCraft:
-  - objectName: Wood
+  - objectName: ScarletBar
     amount: 4
   craftingTime: 1
 --- !u!114 &5138834593386820571
@@ -106,4 +108,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 132ec735c4243e74ab3e68cf96916f3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mountType: 2
+  mountType: 3
+--- !u!114 &276647565003021990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7027779410844283664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925cf9ecd69b4c81809f227010e3c81f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabTileSize: {x: 4, y: 4}
+--- !u!114 &4486375379989684860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7027779410844283664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1293511809, guid: 3392f4c23e1d8662d749dabb2361ee02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartOnSmallestSize: 0

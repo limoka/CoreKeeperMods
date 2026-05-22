@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using CoreLib;
-using CoreLib.Submodule.Entity;
-using CoreLib.Submodule.EquipmentSlot;
+﻿using CoreLib.Submodule.EquipmentSlot;
 using CoreLib.Submodule.EquipmentSlot.Interface;
-using CoreLib.Util.Extension;
-using Unity.Collections;
-using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Physics;
-using Unity.Transforms;
 using UnityEngine;
 using PlayerEquipment;
 
@@ -17,8 +7,6 @@ namespace SecureAttachment
 {
     public class WrenchEquipmentSlot : PlaceObjectSlot, IModEquipmentSlot
     { 
-        private int size = 0;
-
         public const string WrenchObjectType = "SecureAttachment:Wrench";
 
         protected override EquipmentSlotType slotType =>
@@ -28,14 +16,34 @@ namespace SecureAttachment
         {
             return EquipmentSlotModule.GetObjectType(WrenchObjectType);
         }
-
-        private ContainedObjectsBuffer AsBuffer(ObjectDataCD objectDataCd)
+        
+        public static void ToggleMode()
         {
-            return new ContainedObjectsBuffer()
+            var pc = Manager.main.player;
+            if (pc == null) return;
+            
+            if (Manager.ui.isAnyInventoryShowing) return;
+            if (Manager.ui.instrumentUI.isShowing) return;
+            if (Manager.menu.IsAnyMenuActive()) return;
+            if (!Manager.input.singleplayerInputModule.InputEnabled) return;
+            
+            var heldObject = pc.GetHeldObject();
+            var heldObjectInfo = PugDatabase.GetObjectInfo(heldObject.objectID);
+
+            if (heldObjectInfo == null ||
+                heldObjectInfo.objectType != EquipmentSlotModule.GetObjectType(WrenchObjectType)) return;
+
+            var message = new SecureAttachmentRPC()
             {
-                objectData = objectDataCd
+                command = MessageType.CycleWrenchMode,
+                player = pc.entity
             };
+
+            var entityManager = pc.world.EntityManager;
+            
+            entityManager.SendCommand(message);
         }
+        
 
         public void UpdateSlotVisuals(PlayerController controller)
         {
