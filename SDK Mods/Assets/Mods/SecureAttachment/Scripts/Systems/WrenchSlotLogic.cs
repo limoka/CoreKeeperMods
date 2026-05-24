@@ -66,17 +66,28 @@ namespace SecureAttachment
             int2 toolSize = EquipmentSlot.GetTileSizeFromVariation(aspect.equipmentSlotCD.ValueRO, in aspect.placementSizeByEquipmentTypeBuffer, objectInfo.prefabTileSize);
             
             var wrenchState = _wrenchStateLookup[aspect.entity];
+
+            var targets = FindTargetsIn(sharedData, lookupData, pos, toolSize);
+            if (!targets.IsCreated) return false;
             
             int successCount = 0;
             int failureCount = 0;
+            
+            var processedEntities = new NativeParallelHashSet<Entity>(toolSize.x * toolSize.y, Allocator.Temp);
             
             for (int i = 0; i < toolSize.x; i++)
             {
                 for (int j = 0; j < toolSize.y; j++)
                 {
-                    int3 currentPos = pos + new int3(i, 0, j);
+                    int2 currentPos = pos.ToInt2() + new int2(i, j);
 
-                    var result = MountAtPos(aspect, sharedData, lookupData, wrenchCd, wrenchState, currentPos);
+                    if (!targets.TryGetValue(currentPos, out Entity target) || 
+                        target == Entity.Null) continue;
+                    
+                    if (processedEntities.Contains(target)) continue;
+                    processedEntities.Add(target);
+                    
+                    var result = MountEntity(aspect, sharedData, lookupData, wrenchCd, wrenchState, target);
 
                     if (result == ActionResult.Success)
                         successCount++;
@@ -84,6 +95,9 @@ namespace SecureAttachment
                         failureCount++;
                 }
             }
+
+            processedEntities.Dispose();
+            targets.Dispose();
 
             if (successCount == 0 && failureCount == 0) return false;
                 
@@ -99,32 +113,14 @@ namespace SecureAttachment
             return false;
         }
 
-        private ActionResult MountAtPos(
+        private ActionResult MountEntity(
             EquipmentUpdateAspect aspect, 
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData, 
             WrenchCD wrench,
             WrenchStateCD wrenchState,
-            int3 pos
+            Entity target
         ) {
-            var targets = new NativeList<Entity>(Allocator.Temp);
-            FindPotentialTargets(sharedData, lookupData, ref targets, pos);
-
-            Entity target = Entity.Null;
-            
-            foreach (Entity entity in targets)
-            {
-                LocalTransform transform = lookupData.localTransformLookup[entity];
-                int2 objectPos = transform.Position.RoundToInt2();
-
-                if (!math.all(objectPos == pos.ToInt2())) continue;
-
-                target = entity;
-                break;
-            }
-
-            if (target == Entity.Null) return ActionResult.Skipped;
-            
             MountedCD mountedCd = default;
 
             if (_mountedLookup.HasComponent(target))
@@ -223,32 +219,53 @@ namespace SecureAttachment
             ghostEffectEventBuffer.AddToRingBuffer(ref bufferPtr, buffer);
         }
 
-        private void FindPotentialTargets(
+        private NativeParallelHashMap<int2, Entity> FindTargetsIn(
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
-            ref NativeList<Entity> targets,
-            int3 center)
+            int3 pos,
+            int2 toolSize
+        )
         {
-            NativeList<ColliderCastHit> results = new NativeList<ColliderCastHit>(Allocator.Temp);
+            // 1. Calculate the total bounding box of your grid area
+            float3 minCorner = pos;
+            float3 maxCorner = pos + new int3(toolSize.x - 1, 0, toolSize.y - 1);
 
-            PhysicsCollider collider = GetBoxCollider(new float3(0, -0.5f, 0), new float3(1, 1, 1), 0xffffffff);
-            ColliderCastInput input = PhysicsManager.GetColliderCastInput(center, center, collider);
+            // Center is the midpoint between corners
+            float3 totalCenter = (minCorner + maxCorner) * 0.5f;
+
+            // Size is the distance between corners plus the size of a grid cell (1, 1, 1)
+            // We add padding (e.g., 0.5f halfExtents) so it safely encapsulates the boundaries
+            float3 totalHalfExtents = ((maxCorner - minCorner) + new float3(1f, 1f, 1f)) * 0.5f;
+
+            // 2. Perform ONE overlap check for the entire region
+            NativeList<DistanceHit> results = new NativeList<DistanceHit>(Allocator.Temp);
+            CollisionFilter filter = CollisionFilter.Default;
 
             sharedData.physicsWorldHistory.GetCollisionWorldFromTick(
                 sharedData.currentTick, 1U,
                 ref sharedData.physicsWorld,
                 out CollisionWorld collisionWorld);
 
-            bool res = collisionWorld.CastCollider(input, ref results);
-            if (!res) return;
+            bool hasHits =
+                collisionWorld.OverlapBox(totalCenter, quaternion.identity, totalHalfExtents, ref results, filter);
+
+            if (!hasHits)
+            {
+                results.Dispose();
+                return default;
+            }
+
+            // 3. Collect and map unique entities to their rounded grid positions
+            // A single entity might span across multiple cells, but the map ensures 1:1 lookups
+            var gridTargetMap = new NativeParallelHashMap<int2, Entity>(results.Length, Allocator.Temp);
 
             // ReSharper disable once ForCanBeConvertedToForeach
             for (int i = 0; i < results.Length; i++)
             {
-                ColliderCastHit castHit = results[i];
-                Entity entity = castHit.Entity;
+                Entity entity = results[i].Entity;
                 
                 if (!lookupData.objectPropertiesLookup.HasComponent(entity)) continue;
+                if (!lookupData.localTransformLookup.HasComponent(entity)) continue;
 
                 var properties = lookupData.objectPropertiesLookup[entity];
                 if (!properties.IsValid || !properties.Has(PropertyID.PlaceableObject.placeableObject)) continue;
@@ -256,27 +273,15 @@ namespace SecureAttachment
                 bool hasMounted = _mountedLookup.HasComponent(entity);
                 if (!hasMounted) continue;
                 
-                targets.Add(entity);
+                LocalTransform transform = lookupData.localTransformLookup[entity];
+                int2 objectPos = transform.Position.RoundToInt2();
+
+                // Overwrite or add the entity to its grid position coordinate
+                gridTargetMap.TryAdd(objectPos, entity);
             }
-        }
 
-        public static PhysicsCollider GetBoxCollider(
-            float3 position,
-            float3 size,
-            uint layerMaskCollidesWith)
-        {
-            BlobAssetReference<Unity.Physics.Collider> blobAssetReference = Unity.Physics.BoxCollider.Create(new BoxGeometry()
-            {
-                Center = position,
-                Orientation = quaternion.identity,
-                Size = size,
-                BevelRadius = 0.0f
-            }, PhysicsManager.GetCollisionFilter(uint.MaxValue, layerMaskCollidesWith));
-
-            return new PhysicsCollider()
-            {
-                Value = blobAssetReference
-            };
+            results.Dispose();
+            return gridTargetMap;
         }
 
         public int CanPlaceObjectAtPosition(Entity placementPrefab, int3 posToPlaceAt, int width, int height, NativeHashMap<int3, bool> tilesChecked,
