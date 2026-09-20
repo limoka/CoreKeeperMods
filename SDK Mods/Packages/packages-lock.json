@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "ck.modding.corelib": {
-      "version": "https://github.com/CoreKeeperMods/CoreLib.git?path=/Assets/CoreLibPackage#main",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.editorcoroutines": "1.0.1",
-        "com.unity.sharp-zip-lib": "1.4.1"
-      }
-    },
     "com.dbrizov.naughtyattributes": {
       "version": "file:com.dbrizov.naughtyattributes",
       "depth": 0,
@@ -68,7 +59,7 @@
     },
     "com.unity.editorcoroutines": {
       "version": "1.0.1",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -266,7 +257,7 @@
     },
     "com.unity.sharp-zip-lib": {
       "version": "1.4.1",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
