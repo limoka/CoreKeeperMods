@@ -138,7 +138,7 @@ MonoBehaviour:
     title: Beating Dummy
     description: Use this dummy to sharpen your fighting skills
   m_shouldBeLocalized: 1
-  m_header: 
+  m_header: Items
   references:
     version: 2
     RefIds: []
