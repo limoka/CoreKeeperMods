@@ -26,7 +26,6 @@ namespace PlacementPlus
             ref bool __result
         )
         {
-            
             var containedObject = equipmentUpdateAspect.equippedObjectCD.ValueRO.containedObject;
             if (containedObject.auxDataIndex > 0) return true;
 

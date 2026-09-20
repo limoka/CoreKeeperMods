@@ -154,14 +154,17 @@ namespace PlacementPlus
             int width = extents.width + 1;
             int height = extents.height + 1;
 
-            equipmentAspect.critterDamageFromPlacingCD.ValueRW = new CritterDamageFromPlacingCD
+
+            var dealDamage = new DealDamageToEntityBuffer
             {
-                triggered = true,
-                pos = placement.bestPositionToPlaceAt,
-                size = new float3(width, 1f, height),
-                canDamageFlyingCritter = false,
-                killEvenIfSquashBugsIsOff = true
+                attackType = DealDamageToEntityBuffer.AttackType.CritterDamage,
+                hitPosition = placement.bestPositionToPlaceAt,
+                optionalFromPosition = placement.bestPositionToPlaceAt,
+                critterDamageSize = new float3(width, 1f, height),
+                critterDamageCanDamageFlying = false,
+                critterDamageKillEvenIfSquashBugsIsOff = true
             };
+            equipmentAspect.dealDamageToEntityBuffer.Add(dealDamage);
 
             return true;
         }
