@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: -472462764, guid: e853a5af7d19630282ad0af7b5dabadc, type: 3}
   m_Name: DummyMod
   m_EditorClassIdentifier: 
-  enableOverloading: 0
+  enableOverloading: 1

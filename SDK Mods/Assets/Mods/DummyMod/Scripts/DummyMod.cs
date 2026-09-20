@@ -3,6 +3,7 @@ using CoreLib.Submodule.Entity;
 using CoreLib.Submodule.Entity.Attribute;
 using CoreLib.Submodule.UserInterface;
 using CoreLib.Util.Extension;
+using Interaction;
 using PugMod;
 using Unity.Entities;
 using UnityEngine;
@@ -33,8 +34,6 @@ namespace DummyMod
                 return;
             }
 
-            //modInfo.TryLoadBurstAssembly();
-
             Log.LogInfo("Mod loaded successfully");
         }
 
@@ -42,38 +41,15 @@ namespace DummyMod
 
         public void Shutdown() { }
 
-        [EntityModification(ObjectID.Carpenter)]
-        private static void EditAutomationTable(Entity entity, GameObject authoring, EntityManager entityManager)
+        [EntityModification(ObjectID.TrainingDummy)]
+        private static void EditTrainingDummy(Entity entity, GameObject authoring, EntityManager entityManager)
         {
-            var canCraftBuffer = entityManager.GetBuffer<CanCraftObjectsBuffer>(entity);
-            var item = API.Authoring.GetObjectID("DummyMod:Dummy");
-            
-            for (int i = 0; i < canCraftBuffer.Length; i++)
+            Log.LogInfo("Modifying TrainingDummy");
+            entityManager.AddComponentData(entity, new DummyCD()
             {
-                if (canCraftBuffer[i].objectID == item) return;
-                if (canCraftBuffer[i].objectID != ObjectID.None) continue;
-
-                Log.LogInfo($"Adding itemId {item} to AutomationTable");
-                var craft = canCraftBuffer[i];
-                craft.objectID = item;
-                craft.amount = 1;
-                craft.entityAmountToConsume = 0;
-                canCraftBuffer[i] = craft;
-                return;
-            }
-
-            addBufferEntry(canCraftBuffer, item);
-        }
-
-        private static void addBufferEntry(DynamicBuffer<CanCraftObjectsBuffer> canCraftBuffer, ObjectID itemId)
-        {
-            Log.LogInfo($"Adding itemId {itemId} to AutomationTable");
-            canCraftBuffer.Add(new CanCraftObjectsBuffer
-            {
-                objectID = itemId,
-                amount = 1,
-                entityAmountToConsume = 0
+                minDamage = int.MaxValue
             });
+            entityManager.AddBuffer<DummyDamageBuffer>(entity);
         }
 
         public void ModObjectLoaded(Object obj)

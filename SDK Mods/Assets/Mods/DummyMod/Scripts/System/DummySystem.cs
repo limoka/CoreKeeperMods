@@ -24,19 +24,6 @@ namespace DummyMod
 
         protected override void OnUpdate()
         {
-            var ecb = CreateCommandBuffer();
-
-            Entities.ForEach((Entity entity, ref ObjectDataCD objectData) =>
-                {
-                    objectData.variation = 1;
-                    objectData.variationUpdateCount++;
-
-                    ecb.RemoveComponent<SpawnDummyCD>(entity);
-                })
-                .WithAll<SpawnDummyCD>()
-                .WithoutBurst()
-                .Schedule();
-
             var time = SystemAPI.Time;
             var healthChangeBufferEntityLocal = healthChangeBufferEntity;
 

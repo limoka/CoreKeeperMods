@@ -4,7 +4,7 @@ using CoreLib.Submodule.UserInterface;
 
 namespace DummyMod
 {
-    public class Dummy : EntityMonoBehaviour
+    public class ModTrainingDummy : TrainingDummy
     {
 
         public void OnUse()
