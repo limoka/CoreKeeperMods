@@ -62,9 +62,9 @@ namespace ChatCommands.Chat.Commands
 
         public static CommandOutput TryPlaceTile(int tileset, TileType tileType, int2 pos)
         {
-            PugMapTileset tilesetData = TilesetTypeUtility.GetTileset(tileset);
+            TilesetDataBlock tilesetData = TilesetDataBlock.Get(tileset);
             LayerName layerName = TileTypeToLayerName.GetLayerName(tileType);
-            QuadGenerator quadGenerator = tilesetData.GetDef(layerName);
+            QuadGenerator quadGenerator = tilesetData.layerDefinition.Get().GetDef(layerName);
             if (quadGenerator == null) return new CommandOutput($"Tileset {tileset}, tileType: {tileType} does not exist!", CommandStatus.Error);
 
             PlaceTile(pos, tileset, tileType);

@@ -90,7 +90,7 @@ namespace ChatCommands.Chat.Commands
                 return new CommandOutput("I'm going to pretend you did not ask for this. You don't know what you are doing!", CommandStatus.Warning);
 
             ObjectInfo info = PugDatabase.GetObjectInfo(objId);
-            bool hasSpawnablePrefab = info.prefabInfos[0].prefab != null;
+            bool hasSpawnablePrefab = info.prefabInfo.graphicalRef.hasAddress;
             EntityManager entityManager = API.Server.World.EntityManager;
             var database = entityManager.GetDatabase();
 
