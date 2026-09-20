@@ -83,7 +83,7 @@ namespace MovableSpawners.Patches
             }
             
             authoring.RemoveComponent<NonHittableAuthoring>();
-            authoring.RemoveComponent<AlwaysDropVariationZeroAuthoring>();
+            authoring.RemoveComponent<AlwaysDropSpecificVariationAuthoring>();
 
             var health = authoring.GetComponent<HealthAuthoring>();
             

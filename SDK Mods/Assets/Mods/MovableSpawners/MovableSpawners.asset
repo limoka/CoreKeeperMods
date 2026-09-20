@@ -40,10 +40,6 @@ MonoBehaviour:
       guid: 7c95c272784d4cfb85708f350d4a7480
     - path: Scripts/Scripts/Data/BossInfo.cs
       guid: 176bad3f33214c7e8b0af7bd66f2077f
-    - path: Scripts/Generated/ModSummonAreaSystem__System_3918378010.g.cs
-      guid: 
-    - path: Scripts/Generated/SummonAreaIndestructibleSystem__System_14520036420.g.cs
-      guid: 
     - path: Bundles/MovableSpawners_Windows.assetbundle
       guid: 
     - path: Bundles/MovableSpawners_Windows.assetbundle.manifest
@@ -61,6 +57,8 @@ MonoBehaviour:
   cacheBundles: 0
   buildLinux: 1
   assets:
+  - path: Assets/Mods/MovableSpawners/Data/EntityAuthoringDataBlock/CoreBossSummonArea.asset
+    hash: FBD8A5338795D3429B076FBFE47CAD0F39856CD87CEED1563A5CBD28362BE60D
   - path: Assets/Mods/MovableSpawners/Data/MovableSpawners.asset
     hash: BE3BBC654B88AA476031DBA20AAF33E423F0F4F296241A0A1291FAD86104E487
   - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/MovableSpawners_CoreBossSummonArea.asset
@@ -84,9 +82,9 @@ MonoBehaviour:
   - path: Assets/Mods/MovableSpawners/Data/TextDataBlock/Items/SummonArea8.asset
     hash: 1FDDEC5EF3B7AFA7BF23E70AEC416217104F08A805C6F97C14959B69BD8331C5
   - path: Assets/Mods/MovableSpawners/Item/CoreBossSummonArea.prefab
-    hash: 2084F7B857A171C16F257357E6E61D40AB57222EE708081637DEE106AFF30E3F
+    hash: C75C68F6949BBBEF08CE3D743B01ACB53E1791C4B998DA933C81EFFE03B0AF2B
   - path: Assets/Mods/MovableSpawners/MovableSpawners.asset
-    hash: 08B3F89791E886E419005FD0CDE71CA77287252327845310D4B05D9BFF2B6CC4
+    hash: 69ACA1E556B8509CFB566195B4FF18F7EB4A5883C8B43CA8888A13EE9EBCDB4E
   - path: Assets/Mods/MovableSpawners/MovableSpawners_modio.asset
     hash: 694677B92F61BABE234C8CD074F6AAD617146645C2C2A36720B846AE7D4D25C6
   - path: Assets/Mods/MovableSpawners/MovableSpawners_Steam.asset

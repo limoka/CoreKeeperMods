@@ -32,6 +32,7 @@ namespace MovableSpawners
             foreach (var (transform, area, indestructibleState, entity) in
                      SystemAPI.Query<RefRO<LocalTransform>, RefRO<SummonAreaCD>, EnabledRefRW<IndestructibleCD>>()
                          .WithNone<EntityDestroyedCD>()
+                         .WithAll<ObjectDataCD>()
                          .WithOptions(EntityQueryOptions.IncludeDisabledEntities |
                                       EntityQueryOptions.IgnoreComponentEnabledState)
                          .WithEntityAccess())
@@ -40,7 +41,7 @@ namespace MovableSpawners
                 if (isCore)
                 {
                     var coreBoss = coreBossLookup[entity];
-                    if (coreBoss.state != CoreBossSpawnState.Hidden) return;
+                    if (coreBoss.state != CoreBossSpawnState.Hidden) continue;
                 }
                 
                 var near = false;
