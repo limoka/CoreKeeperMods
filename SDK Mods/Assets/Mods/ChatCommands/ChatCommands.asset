@@ -23,57 +23,57 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/Scripts/Util/Extensions.cs
-      guid: 
+      guid: 597ccb2195a92e941b2e3c647482aeab
     - path: Scripts/Scripts/Patches/MapUI_Patch.cs
-      guid: 
+      guid: 2a31dc00613fcd148ae1f7cf2dfab99a
     - path: Scripts/Scripts/Patches/EffectsManager_Patch.cs
-      guid: 
+      guid: 9514d940505a6844981041b7a856ea2c
     - path: Scripts/Scripts/Commands/ToggleInvincibleCommandHandler.cs
-      guid: 
+      guid: f8deb680f29756c4596e7fb63b055d09
     - path: Scripts/Scripts/Commands/SpawnCommandHandler.cs
-      guid: 
+      guid: 6e9ab7fd04840b848b9a76d7899962d9
     - path: Scripts/Scripts/Commands/SetSkillCommandHandler.cs
-      guid: 
+      guid: 28948995f4969304aa788c31445a28a6
     - path: Scripts/Scripts/Commands/SetRevealRadius.cs
-      guid: 
+      guid: 5e1d6d084f364624bb55a0018222d533
     - path: Scripts/Scripts/Commands/SampleTileCommand.cs
-      guid: 
+      guid: 846ab76fd76119c49ad089990547b21c
     - path: Scripts/Scripts/Commands/ResetSkillsCommandHandler.cs
-      guid: 
+      guid: 21cb13ce9e0c4e04b8c87c94e212c312
     - path: Scripts/Scripts/Commands/RepeatCommandHandler.cs
-      guid: 
+      guid: 5c4d677175f5cb34f9918bfb2ca0fac5
     - path: Scripts/Scripts/Commands/RemoveTileCommand.cs
-      guid: 
+      guid: 5018ede70583d424a822aed97a09798a
     - path: Scripts/Scripts/Commands/RemoveTileAreaCommand.cs
-      guid: 
+      guid: 1131e36cfba7b4c4e9d918d960c8e841
     - path: Scripts/Scripts/Commands/RemoveCommand.cs
-      guid: 
+      guid: ecfe5e94e41b73d47b558bc9dc2a85bd
     - path: Scripts/Scripts/Commands/PlaceTileCommand.cs
-      guid: 
+      guid: 3063e23c8f00de24bafe4b8f8b3ac493
     - path: Scripts/Scripts/Commands/PlaceTileAreaCommand.cs
-      guid: 
+      guid: 6b66787a6917e9a43b13b5b31828b5d0
     - path: Scripts/Scripts/Commands/NoclipCommand.cs
-      guid: 
+      guid: a7930262d47763a45b66db48bb6c052a
     - path: Scripts/Scripts/Commands/MaxSkillsCommandHandler.cs
-      guid: 
+      guid: 184c07b80834c064e853be6632dc3acd
     - path: Scripts/Scripts/Commands/InfoCommandHandler.cs
-      guid: 
+      guid: f5612b1b1a5447b19d30ff881366ce88
     - path: Scripts/Scripts/Commands/HideUICommand.cs
-      guid: 
+      guid: 9299cb957da76b44dbb30328d4285b92
     - path: Scripts/Scripts/Commands/HealCommandHandler.cs
-      guid: 
+      guid: e0f12f521d84c6043acf7fad77ff0b0b
     - path: Scripts/Scripts/Commands/GiveCommandHandler.cs
-      guid: 
+      guid: b8924461a23111846b50ae835fcc5f8a
     - path: Scripts/Scripts/Commands/FeedCommandHandler.cs
-      guid: 
+      guid: 746371a757258ed48b9187a66ee32511
     - path: Scripts/Scripts/Commands/DisableAICommand.cs
-      guid: 
+      guid: 464b9ba0e8858b14c8f333e590071e4f
     - path: Scripts/Scripts/Commands/CopyCommandHandler.cs
-      guid: 
+      guid: 0d3e3670ea7b421bb86e8890dbfa241d
     - path: Scripts/Scripts/Commands/ClearInvCommandHandler.cs
-      guid: 
+      guid: 43be3c4ad7ecc39498be977304f809e0
     - path: Scripts/Scripts/ChatCommandsMod.cs
-      guid: 
+      guid: 9ced1182588885b4b9af389d07c0135f
     dependencies:
     - modName: CoreLib
       required: 1
@@ -84,7 +84,9 @@ MonoBehaviour:
   buildLinux: 0
   assets:
   - path: Assets/Mods/ChatCommands/ChatCommands.asset
-    hash: C97DE1E6798C6DDACF4D899BA9D1FFC44EA17EA40D55E08C480C5DE176D29452
+    hash: 39F4ABAFF9FBDF6B2A06A11CB7663BF1878C90766ECEFDE2594AB07A75A23B00
   - path: Assets/Mods/ChatCommands/ChatCommands_modio.asset
-    hash: 6157E3BF27E3195A5039866A8E2B42D5DBD554B251FDF285E8D1761B718D8143
+    hash: 47FD00BBC8D6EE356073A5366C6444FCD088E7DDF3534B72ACB15ECE02EB6D5D
+  - path: Assets/Mods/ChatCommands/ChatCommands_Steam.asset
+    hash: 985BFEC1ED45338D3C63DA7DB0A20E598C1D88D45544AA76CC0A5ACF634867F4
   lastBuildLinux: 0
