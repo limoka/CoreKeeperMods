@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: 4f78fc2ba7e44e4eb2f04aa511beefc3
     name: InstantPortalCharge
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
@@ -25,8 +26,7 @@ MonoBehaviour:
   modPath: Assets\Mods\InstantPortalCharge
   forceReimport: 1
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 0
-  buildBurst: 1
-  cachedBuild: 0
   assets: []
   lastBuildLinux: 0
