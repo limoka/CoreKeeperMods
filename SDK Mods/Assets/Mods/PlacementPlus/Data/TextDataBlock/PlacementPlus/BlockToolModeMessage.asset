@@ -78,7 +78,7 @@ MonoBehaviour:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: Blockplatzierungsmodus auf {0} gesetzt
+      title: "Block-Platzier-Modus auf {0} gesetzt\t"
       description: 
     - m_language:
         m_address:
@@ -138,7 +138,7 @@ MonoBehaviour:
     title: Block placing mode set to {0}
     description: 
   m_shouldBeLocalized: 1
-  m_header: PlacementPlus
+  m_header: mentPlus
   references:
     version: 2
     RefIds: []
