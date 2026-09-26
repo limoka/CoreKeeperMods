@@ -78,7 +78,7 @@ MonoBehaviour:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: "Block-Platzier-Modus auf {0} gesetzt\t"
+      title: Block-Platzier-Modus auf {0} gesetzt
       description: 
     - m_language:
         m_address:
