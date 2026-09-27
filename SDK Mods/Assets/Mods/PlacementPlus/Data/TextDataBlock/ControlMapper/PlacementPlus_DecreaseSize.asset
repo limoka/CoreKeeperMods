@@ -60,7 +60,7 @@ MonoBehaviour:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u7E2E\u5C0F\u653E\u7F6E\u7BC4\u570D"
       description: 
     - m_language:
         m_address:
@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: "R\xE9duire la taille"
       description: 
     - m_language:
         m_address:
@@ -84,7 +84,7 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Riduci dimensione
       description: 
     - m_language:
         m_address:
@@ -96,7 +96,7 @@ MonoBehaviour:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: 
+      title: "\uD06C\uAE30 \uC904\uC774\uAE30"
       description: 
     - m_language:
         m_address:
@@ -114,19 +114,19 @@ MonoBehaviour:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: "Reducir tama\xF1o"
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E25\u0E14\u0E02\u0E19\u0E32\u0E14"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0417\u043C\u0435\u043D\u0448\u0438\u0442\u0438 \u0440\u043E\u0437\u043C\u0456\u0440"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:

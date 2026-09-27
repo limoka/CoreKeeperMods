@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Sol
       description: 
     - m_language:
         m_address:
@@ -84,13 +84,13 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Terra
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u5730\u9762"
       description: 
     - m_language:
         m_address:
@@ -114,19 +114,19 @@ MonoBehaviour:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: Suelo
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E1E\u0E37\u0E49\u0E19\u0E14\u0E34\u0E19"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0417\u0435\u043C\u043B\u044F"
       description: 
   m_localizationHint: Tool mode
   m_prevImportPrimaryEntry:

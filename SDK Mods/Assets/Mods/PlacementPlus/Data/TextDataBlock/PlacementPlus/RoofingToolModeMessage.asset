@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: 'Mode de toit : {0}'
       description: 
     - m_language:
         m_address:
@@ -84,19 +84,19 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: "Modalit\xE0 tetto: {0}"
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: "\u5C4B\u6839\u3075\u304D\u88C5\u7F6E\u30E2\u30FC\u30C9\u306F {0} \u306B\u8A2D\u5B9A\u3055\u308C\u307E\u3057\u305F"
+      title: "\u5C4B\u6839\u30E2\u30FC\u30C9: {0}"
       description: 
     - m_language:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: "{0}\uB85C \uC124\uC815\uB41C \uB8E8\uD551 \uAC00\uC82F \uBAA8\uB4DC"
+      title: "\uC9C0\uBD95 \uBAA8\uB4DC: {0}"
       description: 
     - m_language:
         m_address:
@@ -108,27 +108,25 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u0420\u0435\u0436\u0438\u043C \u043F\u043E\u0442\u043E\u043B\u043E\u0447\u043D\u043E\u0433\u043E
-        \u0443\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u0430 \u0438\u0437\u043C\u0435\u043D\u0435\u043D
-        \u043D\u0430 {0}"
+      title: "\u0420\u0435\u0436\u0438\u043C \u043A\u0440\u044B\u0448\u0438: {0}"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: Modo de Gadget para techos establecido en {0}
+      title: 'Modo de techo: {0}'
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: "\u0E15\u0E31\u0E49\u0E07\u0E04\u0E48\u0E32\u0E42\u0E2B\u0E21\u0E14\u0E42\u0E1B\u0E23\u0E41\u0E01\u0E23\u0E21\u0E40\u0E1A\u0E47\u0E14\u0E40\u0E15\u0E25\u0E47\u0E14\u0E2B\u0E25\u0E31\u0E07\u0E04\u0E32\u0E40\u0E1B\u0E47\u0E19{0}"
+      title: "\u0E42\u0E2B\u0E21\u0E14\u0E2B\u0E25\u0E31\u0E07\u0E04\u0E32: {0}"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0420\u0435\u0436\u0438\u043C \u0434\u0430\u0445\u0443: {0}"
       description: 
   m_localizationHint: Roofing Tool mode change message
   m_prevImportPrimaryEntry:
@@ -136,7 +134,7 @@ MonoBehaviour:
       m_address:
         m_low: 681352171529052915
         m_high: 2314507893210082619
-    title: Roofing Gadget mode set to {0}
+    title: 'Roofing mode: {0}'
     description: 
   m_shouldBeLocalized: 1
   m_header: PlacementPlus

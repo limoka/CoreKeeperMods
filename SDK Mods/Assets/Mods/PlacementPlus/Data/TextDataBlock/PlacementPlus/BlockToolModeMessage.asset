@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: 'Placement de blocs : {0}'
       description: 
     - m_language:
         m_address:
@@ -84,19 +84,19 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: 'Posizionamento blocchi: {0}'
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u30D6\u30ED\u30C3\u30AF\u914D\u7F6E: {0}"
       description: 
     - m_language:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: 
+      title: "\uBE14\uB85D \uBC30\uCE58: {0}"
       description: 
     - m_language:
         m_address:
@@ -108,26 +108,27 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u0420\u0435\u0436\u0438\u043C \u0440\u0435\u0437\u043C\u0435\u0449\u0435\u043D\u0438\u044F
-        \u0438\u0437\u043C\u0435\u043D\u0435\u043D \u043D\u0430 {0}"
+      title: "\u0420\u0430\u0437\u043C\u0435\u0449\u0435\u043D\u0438\u0435: {0}"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: "Colocaci\xF3n de bloques: {0}"
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E01\u0E32\u0E23\u0E27\u0E32\u0E07\u0E1A\u0E25\u0E47\u0E2D\u0E01:
+        {0}"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0420\u043E\u0437\u043C\u0456\u0449\u0435\u043D\u043D\u044F \u0431\u043B\u043E\u043A\u0456\u0432:
+        {0}"
       description: 
   m_localizationHint: Block Tool mode change message
   m_prevImportPrimaryEntry:

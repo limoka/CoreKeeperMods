@@ -54,13 +54,13 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u5E38\u89C4"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u5E38\u898F"
       description: 
     - m_language:
         m_address:
@@ -72,25 +72,25 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: "G\xE9n\xE9ral"
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: 
+      title: Allgemein
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Generale
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u5168\u822C"
       description: 
     - m_language:
         m_address:
@@ -102,31 +102,31 @@ MonoBehaviour:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: 
+      title: Geral
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: 
+      title: "\u041E\u0431\u0449\u0438\u0435"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: General
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E17\u0E31\u0E48\u0E27\u0E44\u0E1B"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0417\u0430\u0433\u0430\u043B\u044C\u043D\u0456"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:
@@ -134,7 +134,7 @@ MonoBehaviour:
       m_address:
         m_low: 0
         m_high: 0
-    title: 
+    title: General
     description: 
   m_shouldBeLocalized: 1
   m_header: PlacementPlus_PlacementPlus

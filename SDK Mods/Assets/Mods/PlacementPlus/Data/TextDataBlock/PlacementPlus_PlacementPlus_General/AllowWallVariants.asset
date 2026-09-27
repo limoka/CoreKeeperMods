@@ -54,13 +54,13 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u5141\u8BB8\u5899\u9762\u8B8A\u4F53"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u5141\u8A31\u7246\u9762\u8B8A\u9AD4"
       description: 
     - m_language:
         m_address:
@@ -72,25 +72,25 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Autoriser variantes de mur
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: 
+      title: Wandvarianten erlauben
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Consenti varianti muro
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u58C1\u306E\u30D0\u30EA\u30A8\u30FC\u30B7\u30E7\u30F3\u3092\u8A31\u53EF"
       description: 
     - m_language:
         m_address:
@@ -102,31 +102,33 @@ MonoBehaviour:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: 
+      title: Permitir variantes de parede
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: 
+      title: "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044C \u0432\u0430\u0440\u0438\u0430\u043D\u0442\u044B
+        \u0441\u0442\u0435\u043D"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: Permitir variantes de pared
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E2D\u0E19\u0E38\u0E0D\u0E32\u0E15\u0E25\u0E32\u0E22\u0E1C\u0E19\u0E31\u0E07"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0414\u043E\u0437\u0432\u043E\u043B\u0438\u0442\u0438 \u0432\u0430\u0440\u0456\u0430\u043D\u0442\u0438
+        \u0441\u0442\u0456\u043D"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:
@@ -134,7 +136,7 @@ MonoBehaviour:
       m_address:
         m_low: 0
         m_high: 0
-    title: 
+    title: Allow Wall Variants
     description: 
   m_shouldBeLocalized: 1
   m_header: PlacementPlus_PlacementPlus_General

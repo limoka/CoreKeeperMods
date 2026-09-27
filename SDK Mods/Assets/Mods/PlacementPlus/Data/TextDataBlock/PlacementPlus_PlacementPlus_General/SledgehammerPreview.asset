@@ -54,13 +54,13 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u5927\u9524\u9884\u89C8"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u5927\u9318\u9810\u89BD"
       description: 
     - m_language:
         m_address:
@@ -72,25 +72,25 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: "Aper\xE7u de la masse"
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: 
+      title: "Vorschau f\xFCr Vorschlaghammer"
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Anteprima mazza
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u30B9\u30EC\u30C3\u30B8\u30CF\u30F3\u30DE\u30FC\u306E\u30D7\u30EC\u30D3\u30E5\u30FC"
       description: 
     - m_language:
         m_address:
@@ -102,31 +102,32 @@ MonoBehaviour:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: 
+      title: "Pr\xE9via da marreta"
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: 
+      title: "\u041F\u0440\u0435\u0434\u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440
+        \u043A\u0443\u0432\u0430\u043B\u0434\u044B"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: Vista previa de mazo
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E15\u0E31\u0E27\u0E2D\u0E22\u0E48\u0E32\u0E07\u0E04\u0E49\u0E2D\u0E19"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u041F\u0435\u0440\u0435\u0433\u043B\u044F\u0434 \u043A\u0443\u0432\u0430\u043B\u0434\u0438"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:
@@ -134,7 +135,7 @@ MonoBehaviour:
       m_address:
         m_low: 0
         m_high: 0
-    title: 
+    title: Sledgehammer Preview
     description: 
   m_shouldBeLocalized: 1
   m_header: PlacementPlus_PlacementPlus_General

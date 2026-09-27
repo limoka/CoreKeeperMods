@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: "Carr\xE9"
       description: 
     - m_language:
         m_address:
@@ -84,7 +84,7 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Quadrato
       description: 
     - m_language:
         m_address:
@@ -126,7 +126,7 @@ MonoBehaviour:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u041A\u0432\u0430\u0434\u0440\u0430\u0442"
       description: 
   m_localizationHint: Tool mode
   m_prevImportPrimaryEntry:

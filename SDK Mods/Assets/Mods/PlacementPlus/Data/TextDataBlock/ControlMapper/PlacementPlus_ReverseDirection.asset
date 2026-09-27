@@ -60,7 +60,7 @@ MonoBehaviour:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u53CD\u5411\u66F4\u6539\u653E\u7F6E\u6A21\u5F0F\uFF08\u6309\u4F4F\uFF09"
       description: 
     - m_language:
         m_address:
@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Maintenir pour inverser
       description: 
     - m_language:
         m_address:
@@ -84,7 +84,7 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Tieni premuto per invertire
       description: 
     - m_language:
         m_address:
@@ -96,7 +96,7 @@ MonoBehaviour:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: 
+      title: "\uB204\uB974\uBA74 \uBC29\uD5A5 \uBC18\uC804"
       description: 
     - m_language:
         m_address:
@@ -115,19 +115,20 @@ MonoBehaviour:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: "Mant\xE9n para invertir direcci\xF3n"
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E01\u0E14\u0E04\u0E49\u0E32\u0E07\u0E40\u0E1E\u0E37\u0E48\u0E2D\u0E01\u0E25\u0E31\u0E1A\u0E17\u0E34\u0E28\u0E17\u0E32\u0E07"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0423\u0442\u0440\u0438\u043C\u0443\u0439\u0442\u0435 \u0434\u043B\u044F
+        \u0437\u043C\u0456\u043D\u0438 \u043D\u0430\u043F\u0440\u044F\u043C\u043A\u0443"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:

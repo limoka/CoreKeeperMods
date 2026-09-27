@@ -60,7 +60,7 @@ MonoBehaviour:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u653E\u7F6EPlus\u76F8\u95DC\u64CD\u4F5C"
       description: 
     - m_language:
         m_address:
@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Toutes les actions du mod Placement Plus
       description: 
     - m_language:
         m_address:
@@ -84,7 +84,7 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Azioni del mod Placement Plus
       description: 
     - m_language:
         m_address:
@@ -96,7 +96,7 @@ MonoBehaviour:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: 
+      title: "Placement Plus \uBAA8\uB4DC \uAD00\uB828 \uB2E8\uCD95\uD0A4"
       description: 
     - m_language:
         m_address:
@@ -115,19 +115,21 @@ MonoBehaviour:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: Acciones del mod Placement Plus
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E04\u0E33\u0E2A\u0E31\u0E48\u0E07\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14\u0E02\u0E2D\u0E07\u0E21\u0E47\u0E2D\u0E14
+        Placement Plus"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0423\u0441\u0456 \u0434\u0456\u0457 \u043C\u043E\u0434\u0430 Placement
+        Plus"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:

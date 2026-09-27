@@ -54,13 +54,13 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u4EC5\u9650\u7BA1\u7406\u5458"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: 
+      title: "\u50C5\u9650\u7BA1\u7406\u54E1"
       description: 
     - m_language:
         m_address:
@@ -72,25 +72,25 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Admins uniquement
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: 
+      title: Nur Admins
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Solo admin
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u7BA1\u7406\u8005\u5C02\u7528"
       description: 
     - m_language:
         m_address:
@@ -102,31 +102,31 @@ MonoBehaviour:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: 
+      title: Apenas admins
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: 
+      title: "\u0422\u043E\u043B\u044C\u043A\u043E \u0430\u0434\u043C\u0438\u043D\u0438\u0441\u0442\u0440\u0430\u0442\u043E\u0440\u044B"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: Solo admins
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E40\u0E09\u0E1E\u0E32\u0E30\u0E1C\u0E39\u0E49\u0E14\u0E39\u0E41\u0E25\u0E23\u0E30\u0E1A\u0E1A"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0422\u0456\u043B\u044C\u043A\u0438 \u0430\u0434\u043C\u0456\u043D\u0438"
       description: 
   m_localizationHint: 
   m_prevImportPrimaryEntry:

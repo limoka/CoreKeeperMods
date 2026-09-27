@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Mur
       description: 
     - m_language:
         m_address:
@@ -84,13 +84,13 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Muro
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: 
+      title: "\u58C1"
       description: 
     - m_language:
         m_address:
@@ -114,19 +114,19 @@ MonoBehaviour:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: 
+      title: Pared
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: 
+      title: "\u0E01\u0E33\u0E41\u0E1E\u0E07"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0421\u0442\u0456\u043D\u0430"
       description: 
   m_localizationHint: Tool mode
   m_prevImportPrimaryEntry:

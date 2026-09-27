@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: 'Mode : {0}'
       description: 
     - m_language:
         m_address:
@@ -84,19 +84,19 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: "Modalit\xE0: {0}"
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: "\u5C4B\u6839\u3075\u304D\u88C5\u7F6E\u30E2\u30FC\u30C9\u306F {0} \u306B\u8A2D\u5B9A\u3055\u308C\u307E\u3057\u305F"
+      title: "\u30E2\u30FC\u30C9: {0}"
       description: 
     - m_language:
         m_address:
           m_low: -2052239290651699458
           m_high: -8389256263833660117
-      title: "{0}\u306B\u8A2D\u5B9A\u3055\u308C\u305F\u30E2\u30FC\u30C9"
+      title: "\uBAA8\uB4DC: {0}"
       description: 
     - m_language:
         m_address:
@@ -108,26 +108,25 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u0420\u0435\u0436\u0438\u043C \u0438\u0437\u043C\u0435\u043D\u0435\u043D
-        \u043D\u0430 {0}"
+      title: "\u0420\u0435\u0436\u0438\u043C: {0}"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: Modo establecido en {0}
+      title: 'Modo: {0}'
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: "\u0E42\u0E2B\u0E21\u0E14\u0E15\u0E31\u0E49\u0E07\u0E40\u0E1B\u0E47\u0E19{0}"
+      title: "\u0E42\u0E2B\u0E21\u0E14: {0}"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0420\u0435\u0436\u0438\u043C: {0}"
       description: 
   m_localizationHint: mode change message
   m_prevImportPrimaryEntry:

@@ -54,43 +54,43 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u6E05\u9664\u9876\u5149"
+      title: "\u5173\u95ED"
       description: 
     - m_language:
         m_address:
           m_low: -2957573344710624914
           m_high: 6297677370195620808
-      title: "\u6E05\u9664\u9876\u5149"
+      title: "\u95DC\u9589"
       description: 
     - m_language:
         m_address:
           m_low: 681352171529052915
           m_high: 2314507893210082619
-      title: Clear Roof
+      title: Close
       description: 
     - m_language:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Fermer
       description: 
     - m_language:
         m_address:
           m_low: 5554070574462901973
           m_high: -3923471906115629047
-      title: Klares Dach
+      title: "Schlie\xDFen"
       description: 
     - m_language:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Chiudi
       description: 
     - m_language:
         m_address:
           m_low: -7722434995445778156
           m_high: 2655981564484923289
-      title: "\u30AF\u30EA\u30A2\u30EB\u30FC\u30D5"
+      title: "\u9589\u3058\u308B"
       description: 
     - m_language:
         m_address:
@@ -102,31 +102,31 @@ MonoBehaviour:
         m_address:
           m_low: 7851011593462244222
           m_high: 4794823751170882376
-      title: Teto Transparente
+      title: Fechar
       description: 
     - m_language:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u041E\u0447\u0438\u0449\u0430\u0442\u044C \u043F\u043E\u0442\u043E\u043B\u043E\u043A"
+      title: "\u0417\u0430\u043A\u0440\u044B\u0442\u044C"
       description: 
     - m_language:
         m_address:
           m_low: 555117963105384372
           m_high: 3194402766475108890
-      title: Techo Transparente
+      title: Cerrar
       description: 
     - m_language:
         m_address:
           m_low: 7837645069971566515
           m_high: 4238944138262099067
-      title: "\u0E2B\u0E25\u0E31\u0E07\u0E04\u0E32\u0E43\u0E2A"
+      title: "\u0E1B\u0E34\u0E14"
       description: 
     - m_language:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0417\u0430\u043A\u0440\u0438\u0442\u0438"
       description: 
   m_localizationHint: Roofing Tool mode
   m_prevImportPrimaryEntry:
@@ -134,7 +134,7 @@ MonoBehaviour:
       m_address:
         m_low: 681352171529052915
         m_high: 2314507893210082619
-    title: Clear Roof
+    title: Close
     description: 
   m_shouldBeLocalized: 1
   m_header: PlacementPlus

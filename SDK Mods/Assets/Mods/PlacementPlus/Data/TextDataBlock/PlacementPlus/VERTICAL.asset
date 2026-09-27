@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Vertical
       description: 
     - m_language:
         m_address:
@@ -84,7 +84,7 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Verticale
       description: 
     - m_language:
         m_address:
@@ -126,7 +126,7 @@ MonoBehaviour:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0412\u0435\u0440\u0442\u0438\u043A\u0430\u043B\u044C\u043D\u043E"
       description: 
   m_localizationHint: Tool mode
   m_prevImportPrimaryEntry:

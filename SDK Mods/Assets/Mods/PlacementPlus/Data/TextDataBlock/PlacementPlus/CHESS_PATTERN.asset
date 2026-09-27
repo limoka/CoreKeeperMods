@@ -72,7 +72,7 @@ MonoBehaviour:
         m_address:
           m_low: 6040640903323332866
           m_high: 4472318406855671320
-      title: 
+      title: Damier
       description: 
     - m_language:
         m_address:
@@ -84,7 +84,7 @@ MonoBehaviour:
         m_address:
           m_low: 4644340974835219079
           m_high: -8672482724880852038
-      title: 
+      title: Scacchiera
       description: 
     - m_language:
         m_address:
@@ -108,7 +108,7 @@ MonoBehaviour:
         m_address:
           m_low: -998452581336238672
           m_high: -1236628366252422438
-      title: "\u0428\u0430\u0442\u043C\u0430\u0445\u0442\u043D\u043E"
+      title: "\u0428\u0430\u0445\u043C\u0430\u0442\u044B"
       description: 
     - m_language:
         m_address:
@@ -126,7 +126,7 @@ MonoBehaviour:
         m_address:
           m_low: 7031320391619404414
           m_high: 5017443214120506826
-      title: 
+      title: "\u0428\u0430\u0445\u043E\u0432\u0438\u0439 \u0432\u0456\u0437\u0435\u0440\u0443\u043D\u043E\u043A"
       description: 
   m_localizationHint: Roofing Tool mode
   m_prevImportPrimaryEntry:
