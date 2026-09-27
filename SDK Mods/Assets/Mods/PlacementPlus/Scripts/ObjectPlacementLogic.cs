@@ -1,4 +1,5 @@
 ﻿using Inventory;
+using System.Collections.Generic;
 using Mods.PlacementPlus.Scripts.Util;
 using PlacementPlus.Components;
 using PlayerEquipment;
@@ -17,6 +18,24 @@ namespace PlacementPlus
 {
     internal static class ObjectPlacementLogic
     {
+        // Bridging the "command buffer delay window" for object spawning: Spawning goes 
+        // through the ecb, so it isn't reflected in the world until the next tick. 
+        // If overlapping grids see that same cell as empty during that gap and double-spawn, 
+        // the game's post-validation (DestroyEntityIfPlacementNotValidCD) destroys 
+        // one of them, causing item drops to leak (Confirmed on 08-25: drops during hold-drag 
+        // overlap zones). We track cells spawned within the last 1 second to skip the second spawn.
+        private static readonly Dictionary<int2, float> s_recentObjectSpawns = new Dictionary<int2, float>();
+
+        private static bool RecentlySpawnedAt(int2 pos)
+        {
+            float now = UnityEngine.Time.realtimeSinceStartup;
+            if (s_recentObjectSpawns.TryGetValue(pos, out float t) && now - t < 1f)
+                return true;
+            if (s_recentObjectSpawns.Count > 256) s_recentObjectSpawns.Clear();
+            s_recentObjectSpawns[pos] = now;
+            return false;
+        }
+
         internal static bool IsItemValid(ref PugDatabase.EntityObjectInfo info, ref ObjectPropertiesCD properties)
         {
             if (info.objectType != ObjectType.PlaceablePrefab) return false;
@@ -33,12 +52,26 @@ namespace PlacementPlus
                 info.tileType != TileType.none) return false;
 
             if (info.prefabTileSize.x != 1 || info.prefabTileSize.y != 1) return false;
-            if (properties.Has(PropertyID.PlaceableObject.hasVariationsThatCanBePlacedOnWalls)) return false;
+            if (!PlacementPlusMod.allowWallVariants.Value &&
+                properties.Has(PropertyID.PlaceableObject.hasVariationsThatCanBePlacedOnWalls)) return false;
             
-            if (PlacementPlusMod.defaultExclude.Contains(info.objectID)) return false;
+            if (!PlacementPlusMod.ignoreBuiltinExclude.Value &&
+                PlacementPlusMod.defaultExclude.Contains(info.objectID)) return false;
             if (PlacementPlusMod.userExclude.Contains(info.objectID)) return false;
 
             return true;
+        }
+
+        // God mode is the game's "free build" switch: no item cost, no
+        // durability, and (matching vanilla destruction) no drops. A creative
+        // WORLD without god mode pays normally — user decision 2026-08-21;
+        // an earlier attempt wrongly made every creative world free.
+        private static bool IsFreePlacement(
+            in EquipmentUpdateAspect equipmentAspect,
+            EquipmentUpdateSharedData sharedData,
+            LookupEquipmentUpdateData lookupData)
+        {
+            return lookupData.godModeLookup.IsComponentEnabled(equipmentAspect.entity);
         }
 
         public static bool PlaceItemGrid(
@@ -46,7 +79,14 @@ namespace PlacementPlus
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
             PlacementPlusLookups ppLookups,
-            PlacementPlusState state
+            PlacementPlusState state,
+            // M2 (plan-deharmony): The BRUSH_PLACE RPC path evaluates to true — On Burst-enabled 
+            // servers, vanilla code just placed 1 block and started timeSincePlaced 
+            // (the same field as rows 67 & 74 of the game's PlaceObjectSlot.cs). This check 
+            // causes the RPC execution to early-return (Observed: a 9x9 brush leaves only a 1x1). 
+            // Even if bypassed, the occupancy/same-tile checks and "only consume actual placed cells" 
+            // accounting prevent double-placement and double-consumption.
+            bool ignorePlacementCooldown = false
         )
         {
             ref PlacementCD placement = ref equipmentAspect.placementCD.ValueRW;
@@ -57,7 +97,8 @@ namespace PlacementPlus
             ref PugDatabase.EntityObjectInfo entityObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID,
                 sharedData.databaseBank.databaseBankBlob, objectData.variation);
 
-            if (placement.timeSincePlaced.isRunning &&
+            if (!ignorePlacementCooldown &&
+                placement.timeSincePlaced.isRunning &&
                 placement.timeSincePlaced.GetElapsedSeconds(sharedData.currentTick, sharedData.tickRate) < 1f &&
                 math.all(placement.bestPositionToPlaceAt == placement.positionLastPlacedAt))
             {
@@ -73,6 +114,18 @@ namespace PlacementPlus
             BrushRect extents = state.GetExtents();
             var center = placement.bestPositionToPlaceAt.ToInt2();
             var consumeAmount = 0;
+
+            // Prediction spawn authorization logic (See the spawn branch comments in PlaceAt):
+            // Singleplayer / Host = serverPrefixAlive (the server prefix is alive in the same process). 
+            // Dedicated servers use server-authoritative spawning regardless of the tile count — 
+            // We previously allowed prediction as an exception for 1x1 (singleCell) objects, but 
+            // even 1x1 objects like conveyors incurred ghost matching and rollback costs during 
+            // prediction spawns. This caused continuous placement to become laggy and delay 
+            // placement by 6 cells (Observed on 08-26 — multi-tile objects are server-exclusive, 
+            // so they actually felt smoother). The trade-off is a half-beat delay, but this only 
+            // affects objects; tile (block) placement speed remains unaffected.
+            bool allowPredictedSpawn = sharedData.isServer ||
+                                       EquipmentSystem_Patch.serverPrefixAlive;
 
             NativeHashMap<int3, bool> tilesChecked = new NativeHashMap<int3, bool>(32, Allocator.Temp);
             equipmentAspect.equipmentSlotCD.ValueRW.slotType = EquipmentSlotType.PlaceObjectSlot;
@@ -97,7 +150,9 @@ namespace PlacementPlus
                     pos,
                     playerPosition,
                     ref usedShovel,
-                    ref usedPickaxe
+                    ref usedPickaxe,
+                    allowPredictedSpawn,
+                    extents.width == 0 && extents.height == 0
                 );
             }
 
@@ -105,18 +160,23 @@ namespace PlacementPlus
 
             tilesChecked.Dispose();
 
+            bool freePlacement = IsFreePlacement(in equipmentAspect, sharedData, lookupData);
+
             var inventoryChangeBuffers = lookupData.inventoryUpdateBuffer[sharedData.inventoryUpdateBufferEntity];
-            inventoryChangeBuffers.Add(new InventoryChangeBuffer
+            if (!freePlacement)
             {
-                inventoryChangeData = Create.ConsumeEntityAt(
-                    equipmentAspect.entity,
-                    equipmentAspect.equippedObjectCD.ValueRO.equippedSlotIndex,
-                    consumeAmount,
-                    true,
-                    lookupData.godModeLookup.IsComponentEnabled(equipmentAspect.entity),
-                    center.ToFloat3(),
-                    placement.currentPrefabVariation)
-            });
+                inventoryChangeBuffers.Add(new InventoryChangeBuffer
+                {
+                    inventoryChangeData = Create.ConsumeEntityAt(
+                        equipmentAspect.entity,
+                        equipmentAspect.equippedObjectCD.ValueRO.equippedSlotIndex,
+                        consumeAmount,
+                        true,
+                        lookupData.godModeLookup.IsComponentEnabled(equipmentAspect.entity),
+                        center.ToFloat3(),
+                        placement.currentPrefabVariation)
+                });
+            }
 
             HelperLogic.GetBestToolsSlots(
                 equipmentAspect,
@@ -129,7 +189,7 @@ namespace PlacementPlus
                 out ObjectDataCD pickaxe
             );
 
-            if (usedShovel)
+            if (usedShovel && !freePlacement)
             {
                 HelperLogic.ConsumeEquipmentInSlot(
                     equipmentAspect,
@@ -140,7 +200,7 @@ namespace PlacementPlus
                     center.ToFloat3());
             }
 
-            if (usedPickaxe)
+            if (usedPickaxe && !freePlacement)
             {
                 HelperLogic.ConsumeEquipmentInSlot(
                     equipmentAspect,
@@ -182,7 +242,11 @@ namespace PlacementPlus
             int3 position,
             float3 playerPosition,
             ref bool usedShovel,
-            ref bool usedPickaxe
+            ref bool usedPickaxe,
+            // Whether client prediction spawning is allowed for objects (non-tiles) — 
+            // Calculated and passed down by PlaceItemGrid (See the comments for the spawn branch below).
+            bool allowPredictedSpawn = true,
+            bool enforcePlacementTimer = true
         )
         {
             Entity equipmentPrefab = equipmentAspect.equippedObjectCD.ValueRO.equipmentPrefab;
@@ -191,13 +255,94 @@ namespace PlacementPlus
             var isTile = lookupData.tileLookup.HasComponent(equipmentPrefab);
             ObjectDataCD equippedObject = equipmentAspect.equippedObjectCD.ValueRO.containedObject.objectData;
 
+            // Creative-only void brush (BlockMode.REMOVE). NOT the raw Clear
+            // command: a cell with no tiles at all does not survive save/load —
+            // the game's "empty" is a PIT tile, which RemoveTile(ground) adds
+            // automatically (and its needed-tile cascade takes the wall down
+            // with the ground). No cost, no drops, and never in non-creative
+            // worlds even if the mode state leaks in.
+            if (isTile && state.blockMode == BlockMode.REMOVE)
+            {
+                if (!sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative)) return;
+
+                var removeBuffer = lookupData.tileUpdateBufferLookup[sharedData.tileUpdateBufferEntity];
+                var tilesAtCell = sharedData.tileAccessor.Get(posInt2, Allocator.Temp);
+                for (int i = 0; i < tilesAtCell.Length; i++)
+                {
+                    var cellTile = tilesAtCell[i];
+                    if (cellTile.tileType == TileType.pit) continue;
+                    // Do not touch water — if deleted, it enters a state where it cannot handle saving, 
+                    // causing it to look like a ghost block before reverting back into water upon reload 
+                    // (Reported by Vavann25 on 08-26). If the terrain underneath the water is deleted, 
+                    // the water will naturally flow on its own according to the game rules.
+                    if (cellTile.tileType == TileType.water) continue;
+
+                    EntityUtility.RemoveTile(
+                        cellTile.tileset,
+                        cellTile.tileType,
+                        posInt2,
+                        removeBuffer,
+                        sharedData.tileAccessor);
+                }
+                tilesAtCell.Dispose();
+                return;
+            }
+
+            // Survival Obsidian: The game rejects AddTile, but our code path finalizes the item 
+            // consumption without knowing that, causing items to be lost (Observed on 08-26 — 
+            // if a brush is used, this loss is multiplied by the number of cells). We skip this cell 
+            // without placing or consuming anything. 
+            // Why we block it here instead of using the exclusion list: Exclusions are turned off 
+            // entirely by the IgnoreBuiltinExclude setting (which was the case in the user's environment), 
+            // and adding it to the list completely breaks swapping/brushes while holding obsidian, 
+            // even in creative mode (Observed by Vavann25). The REMOVE mode is unaffected since it 
+            // already early-returns above.
+            if (isTile &&
+                !sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative) &&
+                (entityObjectInfo.objectID == ObjectID.WallObsidianBlock ||
+                 entityObjectInfo.objectID == ObjectID.GroundObsidianBlock)) return;
+
             if (isTile && state.replaceTiles)
             {
-                if (!PlayerController.CanConsumeEntityInSlot(
+                if (!IsFreePlacement(in equipmentAspect, sharedData, lookupData) &&
+                    !PlayerController.CanConsumeEntityInSlot(
                         equipmentPrefab,
                         equippedObject,
                         consumeAmount + 1,
                         lookupData.cattleLookup)) return;
+
+                // TOGGLE with a wall item replaces BOTH layers of the cell —
+                // wall and the ground under it (user decision 2026-08-21; the
+                // wall-first-else-ground original left the floor untouched).
+                // ReplaceAt reads the layer from state.blockMode, and state is
+                // a value copy, so forcing the mode per call is safe.
+                // GROUND MUST GO FIRST: the game's own multi-layer writes queue
+                // ground before the upper tile (SpawnTileOnDeath), and a ground
+                // add applied after the wall add erases the freshly placed wall.
+                if (state.blockMode == BlockMode.TOGGLE &&
+                    entityObjectInfo.tileType == TileType.wall)
+                {
+                    var groundPass = state;
+                    groundPass.blockMode = BlockMode.GROUND;
+                    var wallPass = state;
+                    wallPass.blockMode = BlockMode.WALL;
+
+                    if (ReplaceAt(in equipmentAspect, sharedData, lookupData, ppLookups,
+                            groundPass, ref entityObjectInfo, ref placement, false,
+                            posInt2, playerPosition, ref usedShovel, ref usedPickaxe))
+                    {
+                        consumeAmount++;
+                    }
+
+                    if (ReplaceAt(in equipmentAspect, sharedData, lookupData, ppLookups,
+                            wallPass, ref entityObjectInfo, ref placement, false,
+                            posInt2, playerPosition, ref usedShovel, ref usedPickaxe))
+                    {
+                        consumeAmount++;
+                    }
+
+                    return;
+                }
 
                 if (ReplaceAt(
                         in equipmentAspect,
@@ -220,7 +365,12 @@ namespace PlacementPlus
                 return;
             }
 
-            if (!CanPlaceItem(
+            // The game's "cross-placement prevention" timer (0.65s) is a rule designed for alternating 
+            // tile placement one by one. If applied per cell within a single brush stroke, minority tiles 
+            // break completely — placing a grid with mixed empty spaces and floors in simultaneous (TOGGLE) 
+            // mode resulted in only walls generating while empty spaces remained unchanged (Observed on 08-27). 
+            // Since multi-cell strokes are explicitly defined by the user's selected region, this rule is skipped.
+            if (enforcePlacementTimer && !CanPlaceItem(
                     equipmentAspect,
                     sharedData,
                     lookupData,
@@ -246,7 +396,8 @@ namespace PlacementPlus
 
             if (result == 0) return;
 
-            if (!PlayerController.CanConsumeEntityInSlot(
+            if (!IsFreePlacement(in equipmentAspect, sharedData, lookupData) &&
+                !PlayerController.CanConsumeEntityInSlot(
                     equipmentPrefab,
                     equippedObject,
                     consumeAmount + 1,
@@ -340,63 +491,90 @@ namespace PlacementPlus
                 else if (PlacementHandler.ObjectCanBeToggledToNewNonRotationOption(equipmentPrefab, lookupData.objectPropertiesLookup))
                     placement.currentPrefabVariation = placement.nonRotationVariationToPlace;
 
-                var ecb = sharedData.ecb;
-
-                Entity entity = EntityUtility.CreateEntity(
-                    ecb,
-                    entityObjectInfo.objectID,
-                    1,
-                    sharedData.databaseBank.databaseBankBlob,
-                    placement.currentPrefabVariation);
-
-                ecb.SetComponent(entity, LocalTransform.FromPosition(position));
-                ComponentLookup<RandomCD> componentLookup = ppLookups.randomLookup;
-                if (componentLookup.HasComponent(equipmentAspect.entity))
+                // We do not spawn entities during "multi-cell" client prediction on dedicated servers — 
+                // Objects predicted-spawned via grids (conveyors, etc.) continuously cycle through matching 
+                // and rolling back against server ghosts, causing multi-second freezes (Observed via 
+                // bisection on 08-25: blocks [tiles] are asymptomatic, but it triggers instantly the moment 
+                // an object is placed — this explains the legacy mod's "conveyor 9x9 = 10-second freeze" issue). 
+                // In this case, the server spawns authoritatively and replicates them down as ghosts (a half-beat delay). 
+                // Singleplayer/Host (Prediction = Authoritative) and 1x1 on dedicated servers (the scale where vanilla 
+                // also uses prediction spawns) maintain instant spawning — allowPredictedSpawn is calculated by 
+                // PlaceItemGrid. Inventory consumption prediction (consumeAmount) is maintained either way.
+                if (sharedData.isServer || allowPredictedSpawn)
                 {
-                    componentLookup = ppLookups.randomLookup;
-                    ref RandomCD valueRW = ref componentLookup.GetRefRW(equipmentAspect.entity).ValueRW;
+                    // Skip duplicate spawning due to grid overlaps in the ecb delay window (see comments at the top of the class).
+                    // ⚠️ Server-"ONLY" — Because the registry log is static, in singleplayer/host environments, 
+                    // the log from client-side prediction blocks the server execution running in the same process. 
+                    // This caused objects to flicker, return to the hand, and require a second placement to successfully install 
+                    // (Regression introduced in 1.2.0, reported by Uzume123 on 08-26). Client prediction duplicates are 
+                    // handled by the game's native prediction system; the delay window that causes overlapping item drops 
+                    // exists only on the server ecb side.
 
-                    ecb.SetComponent(entity, new RandomCD
+                    if (sharedData.isServer && RecentlySpawnedAt(posInt2)) return;
+
+                    var ecb = sharedData.ecb;
+
+                    Entity entity = EntityUtility.CreateEntity(
+                        ecb,
+                        entityObjectInfo.objectID,
+                        1,
+                        sharedData.databaseBank.databaseBankBlob,
+                        placement.currentPrefabVariation);
+
+                    ecb.SetComponent(entity, LocalTransform.FromPosition(position));
+                    ComponentLookup<RandomCD> componentLookup = ppLookups.randomLookup;
+                    if (componentLookup.HasComponent(equipmentAspect.entity))
                     {
-                        Value = PugRandom.InheritRngFromEntity(ref valueRW.Value)
-                    });
-                }
-                ComponentLookup<OwnerReferenceCD> ownerLookup = ppLookups.ownerLookup;
-                if (ownerLookup.HasComponent(equipmentPrefab))
-                {
-                    ecb.SetComponent(entity, new OwnerReferenceCD
-                    {
-                        owner = equipmentAspect.entity
-                    });
-                }
-                ComponentLookup<IsExplosiveCD> isExplosiveLookup = ppLookups.isExplosiveLookup;
-                if (isExplosiveLookup.TryGetComponent(equipmentPrefab, out var isExplosiveCD))
-                {
-                    if (isExplosiveCD.bombInheritsFaction)
-                    {
-                        ComponentLookup<FactionCD> factionLookup = ppLookups.factionLookup;
-                        if (factionLookup.HasComponent(equipmentPrefab))
+                        componentLookup = ppLookups.randomLookup;
+                        ref RandomCD valueRW = ref componentLookup.GetRefRW(equipmentAspect.entity).ValueRW;
+
+                        ecb.SetComponent(entity, new RandomCD
                         {
-                            EntityUtility.InheritFaction(ecb, equipmentAspect.entity, entity, ppLookups.factionLookup);
+                            Value = PugRandom.InheritRngFromEntity(ref valueRW.Value)
+                        });
+                    }
+                    ComponentLookup<OwnerReferenceCD> ownerLookup = ppLookups.ownerLookup;
+                    if (ownerLookup.HasComponent(equipmentPrefab))
+                    {
+                        ecb.SetComponent(entity, new OwnerReferenceCD
+                        {
+                            owner = equipmentAspect.entity
+                        });
+                    }
+                    ComponentLookup<IsExplosiveCD> isExplosiveLookup = ppLookups.isExplosiveLookup;
+                    if (isExplosiveLookup.TryGetComponent(equipmentPrefab, out var isExplosiveCD))
+                    {
+                        if (isExplosiveCD.bombInheritsFaction)
+                        {
+                            ComponentLookup<FactionCD> factionLookup = ppLookups.factionLookup;
+                            if (factionLookup.HasComponent(equipmentPrefab))
+                            {
+                                EntityUtility.InheritFaction(ecb, equipmentAspect.entity, entity, ppLookups.factionLookup);
+                            }
+                        }
+                        BufferLookup<SummarizedConditionsBuffer> summarizedConditionsBufferLookup = lookupData.summarizedConditionsBufferLookup;
+                        if (summarizedConditionsBufferLookup.HasBuffer(equipmentPrefab))
+                        {
+                            EntityUtility.InheritConditionsForBomb(ecb, equipmentAspect.entity, entity, lookupData.summarizedConditionsBufferLookup);
                         }
                     }
-                    BufferLookup<SummarizedConditionsBuffer> summarizedConditionsBufferLookup = lookupData.summarizedConditionsBufferLookup;
-                    if (summarizedConditionsBufferLookup.HasBuffer(equipmentPrefab))
+
+                    ecb.AddComponent<DestroyEntityIfPlacementNotValidCD>(entity);
+                    if (math.any(direction != 0f))
                     {
-                        EntityUtility.InheritConditionsForBomb(ecb, equipmentAspect.entity, entity, lookupData.summarizedConditionsBufferLookup);
+                        ecb.SetComponent(entity, new DirectionCD
+                        {
+                            direction = direction
+                        });
                     }
-                }
 
-                ecb.AddComponent<DestroyEntityIfPlacementNotValidCD>(entity);
-                if (math.any(direction != 0f))
-                {
-                    ecb.SetComponent(entity, new DirectionCD
-                    {
-                        direction = direction
-                    });
+                    // The count must be kept in lockstep with the spawn: If a client skips a spawn 
+                    // but still increments the count, it will count overlapping cells (cells where the 
+                    // server ghost has not replicated down yet) as "placed". This desyncs from the server's 
+                    // actual consumption, and the discrepancy is returned as a dropped item (Observed on 08-25: 
+                    // item drops leaking during hold-drag overlap zones). On skip, consumption defers to server finalization.
+                    consumeAmount++;
                 }
-
-                consumeAmount++;
             }
 
             DynamicBuffer<GhostEffectEventBuffer> ghostEffectEventBuffer = equipmentAspect.ghostEffectEventBuffer;
@@ -500,9 +678,14 @@ namespace PlacementPlus
             var targetObjectData = PugDatabase.GetObjectData(tile.tileset, tile.tileType, sharedData.databaseBank.databaseBankBlob);
             var targetWallObjectData = PugDatabase.GetObjectData(tile.tileset, TileType.wall, sharedData.databaseBank.databaseBankBlob);
 
-            if (targetObjectData.objectID == ObjectID.None ||
-                targetObjectData.objectID == ObjectID.WallObsidianBlock ||
-                targetObjectData.objectID == ObjectID.GroundObsidianBlock) return false;
+            if (targetObjectData.objectID == ObjectID.None) return false;
+
+            // Obsidian blocking is a survival mode rule — replacement is allowed in creative mode 
+            // (Reported by Vavann25 on 08-26: silicate worked fine, but obsidian alone failed).
+            bool replaceCreative = sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative);
+            if (!replaceCreative &&
+                (targetObjectData.objectID == ObjectID.WallObsidianBlock ||
+                 targetObjectData.objectID == ObjectID.GroundObsidianBlock)) return false;
 
             ref var targetObjectInfo = ref PugDatabase.GetEntityObjectInfo(
                 targetObjectData.objectID,
@@ -513,10 +696,14 @@ namespace PlacementPlus
 
             if (tile.tileType == TileType.wall)
             {
-                if (pickaxeSlot == -1) return false;
+                // Creative mode also bypasses the pickaxe requirement (Observed on 08-26: when bypassing 
+                // only the mining power check, floors worked but walls didn't — this line was blocking it first).
+                if (!replaceCreative && pickaxeSlot == -1) return false;
 
                 var reduction = ppLookups.damageReductionLookup[itemEntity];
-                if (finalMiningDamage - reduction.reduction <= 0)
+                // Creative mode also bypasses the mining power check — because obsidian has a high 
+                // reduction value, it gets blocked here again even if the hardcoding is lifted.
+                if (!replaceCreative && finalMiningDamage - reduction.reduction <= 0)
                 {
                     DynamicBuffer<GhostEffectEventBuffer> ghostEffectEventBuffer = equipmentAspect.ghostEffectEventBuffer;
                     ref GhostEffectEventBufferPointerCD bufferPointer = ref equipmentAspect.ghostEffectEventBufferPointerCD.ValueRW;
@@ -537,13 +724,14 @@ namespace PlacementPlus
                     return false;
                 }
 
-                usedPickaxe = true;
+                // Durability marking is also omitted during the toolless creative mode bypass.
+                if (pickaxeSlot != -1) usedPickaxe = true;
             }
 
             if (tile.tileType == TileType.ground)
             {
-                if (shovelSlot == -1) return false;
-                usedShovel = true;
+                if (!replaceCreative && shovelSlot == -1) return false;
+                if (shovelSlot != -1) usedShovel = true;
             }
 
             var tileUpdateBuffer = lookupData.tileUpdateBufferLookup[sharedData.tileUpdateBufferEntity];
@@ -562,22 +750,28 @@ namespace PlacementPlus
                 sharedData.worldInfoCD.IsWorldModeEnabled(WorldMode.Creative),
                 tileUpdateBuffer);
 
-            var giveObject = targetObjectData;
-            
-            if (targetWallObjectData.objectID != ObjectID.None && tile.tileType == TileType.ground)
-                giveObject = targetWallObjectData;
-            
-            EntityUtility.CreateAndDropItem(
-                giveObject.objectID,
-                giveObject.variation,
-                1,
-                playerPosition,
-                equipmentAspect.entity,
-                sharedData.databaseBank.databaseBankBlob,
-                sharedData.ecb
-            );
+            var isInGodMode = IsFreePlacement(in equipmentAspect, sharedData, lookupData);
 
-            var isInGodMode = lookupData.godModeLookup.IsComponentEnabled(equipmentAspect.entity);
+            // God-mode destruction gives no drops in vanilla, so god-mode
+            // replacing shouldn't hand back the old tile either (user decision
+            // 2026-08-21).
+            if (!isInGodMode)
+            {
+                var giveObject = targetObjectData;
+
+                if (targetWallObjectData.objectID != ObjectID.None && tile.tileType == TileType.ground)
+                    giveObject = targetWallObjectData;
+
+                EntityUtility.CreateAndDropItem(
+                    giveObject.objectID,
+                    giveObject.variation,
+                    1,
+                    playerPosition,
+                    equipmentAspect.entity,
+                    sharedData.databaseBank.databaseBankBlob,
+                    sharedData.ecb
+                );
+            }
 
             if (doConsume && !isInGodMode)
             {
@@ -595,7 +789,7 @@ namespace PlacementPlus
                         placement.currentPrefabVariation)
                 });
 
-                if (tile.tileType == TileType.ground)
+                if (tile.tileType == TileType.ground && shovelSlot != -1)
                 {
                     HelperLogic.ConsumeEquipmentInSlot(
                         equipmentAspect,
@@ -606,7 +800,7 @@ namespace PlacementPlus
                         playerPosition);
                 }
 
-                if (tile.tileType == TileType.wall)
+                if (tile.tileType == TileType.wall && pickaxeSlot != -1)
                 {
                     HelperLogic.ConsumeEquipmentInSlot(
                         equipmentAspect,

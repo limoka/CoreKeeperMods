@@ -84,7 +84,9 @@
         "0Harmony.dll",
         "Pug.ECS.Extensions.dll",
         "Pug.Automation.dll",
-        "Pug.Automation.Components.dll"
+        "Pug.Automation.Components.dll",
+        "CommandMinion.dll",
+        "CommandMinion.Components.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [],

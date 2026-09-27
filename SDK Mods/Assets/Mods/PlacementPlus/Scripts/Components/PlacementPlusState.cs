@@ -91,16 +91,21 @@ namespace PlacementPlus.Components
         
         public PlacementMessageRPC ToggleRoofingMode(bool backwards)
         {
+            // Only these three are implemented. CHESS_PATTERN and below are
+            // defined in the enum but nothing acts on them yet, so cycling
+            // through them would just look broken.
+            const int lastImplemented = (int)RoofingToolMode.CLEAR_ROOF;
+
             int newMode = (int)roofingMode + (backwards ? -1 : 1);
 
-            if (newMode >= (int)RoofingToolMode.MAX)
+            if (newMode > lastImplemented)
             {
                 newMode = (int)RoofingToolMode.TOGGLE;
             }
 
             if (newMode < 0)
             {
-                newMode = (int)RoofingToolMode.MAX - 1;
+                newMode = lastImplemented;
             }
             roofingMode = (RoofingToolMode)newMode;
 
@@ -111,18 +116,22 @@ namespace PlacementPlus.Components
             };
         }
         
-        public PlacementMessageRPC ToggleBlockMode(bool backwards)
+        public PlacementMessageRPC ToggleBlockMode(bool backwards, bool allowRemove)
         {
+            // REMOVE only exists in creative worlds; elsewhere the cycle stops
+            // at WALL (and a leftover REMOVE state wraps back to TOGGLE).
+            int lastMode = (int)(allowRemove ? BlockMode.REMOVE : BlockMode.WALL);
+
             int newMode = (int)blockMode + (backwards ? -1 : 1);
 
-            if (newMode >= (int)BlockMode.MAX)
+            if (newMode > lastMode)
             {
                 newMode = (int)BlockMode.TOGGLE;
             }
 
             if (newMode < 0)
             {
-                newMode = (int)BlockMode.MAX - 1;
+                newMode = lastMode;
             }
 
             blockMode = (BlockMode)newMode;
