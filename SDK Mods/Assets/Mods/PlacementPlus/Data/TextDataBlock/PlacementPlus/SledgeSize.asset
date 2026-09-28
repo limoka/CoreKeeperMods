@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u5927\u9524 {0}x{0}"
+      title: "\u5927\u9524\u6253\u51FB\u8303\u56F4 {0}x{0}"
       description: 
     - m_language:
         m_address:

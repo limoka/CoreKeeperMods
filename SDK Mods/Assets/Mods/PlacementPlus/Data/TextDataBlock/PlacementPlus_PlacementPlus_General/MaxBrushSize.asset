@@ -54,8 +54,8 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u6700\u5927\u5237\u5B50\u5C3A\u5BF8"
-      description: 
+      title: "\u6700\u5927\u653E\u7F6E\u8303\u56F4"
+      description: "\u4E5F\u540C\u65F6\u8C03\u6574\u5DE5\u5177\uFF08\u94F2\u5B50\u3001\u9504\u5934\u3001\u9876\u5149\u88C5\u7F6E\u3001\u7B14\u5237\u7B49\uFF09\u7684\u6700\u5927\u5F71\u54CD\u8303\u56F4\n\uFF08\u6CE8\uFF1A\u5927\u9524\u7684\u6700\u5927\u8303\u56F4\u88AB\u5B9A\u6B7B\u57289\u683C\uFF09"
     - m_language:
         m_address:
           m_low: -2957573344710624914
@@ -67,7 +67,7 @@ MonoBehaviour:
           m_low: 681352171529052915
           m_high: 2314507893210082619
       title: Max Brush Size
-      description: 
+      description: Max range the brush will have
     - m_language:
         m_address:
           m_low: 6040640903323332866
@@ -135,7 +135,7 @@ MonoBehaviour:
         m_low: 0
         m_high: 0
     title: Max Brush Size
-    description: 
+    description: Max range the brush will have
   m_shouldBeLocalized: 1
   m_header: PlacementPlus_PlacementPlus_General
   references:

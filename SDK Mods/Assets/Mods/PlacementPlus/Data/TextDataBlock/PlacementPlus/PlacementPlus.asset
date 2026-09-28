@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: 
+      title: "\u653E\u7F6EPlus"
       description: 
     - m_language:
         m_address:
@@ -134,9 +134,9 @@ MonoBehaviour:
       m_address:
         m_low: 0
         m_high: 0
-    title: 
+    title: Placement Plus
     description: 
-  m_shouldBeLocalized: 0
+  m_shouldBeLocalized: 1
   m_header: PlacementPlus
   references:
     version: 2

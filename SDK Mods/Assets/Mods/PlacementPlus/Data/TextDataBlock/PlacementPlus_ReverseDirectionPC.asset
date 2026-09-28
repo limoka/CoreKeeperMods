@@ -139,7 +139,7 @@ MonoBehaviour:
     title: Hold to reverse direction
     description: 
   m_shouldBeLocalized: 1
-  m_header: ControlMapper
+  m_header: 
   references:
     version: 2
     RefIds: []

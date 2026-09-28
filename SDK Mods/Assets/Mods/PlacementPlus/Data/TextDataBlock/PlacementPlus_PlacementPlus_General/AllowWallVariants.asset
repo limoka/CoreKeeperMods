@@ -54,8 +54,8 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u5141\u8BB8\u5899\u9762\u8B8A\u4F53"
-      description: 
+      title: "\u5141\u8BB8\u5899\u9762\u53D8\u4F53"
+      description: "\u5141\u8BB8\u5BF9\u5E26\u6709\u5899\u58C1\u6302\u8F7D\u53D8\u4F53\u7684\u7269\u54C1\uFF08\u706B\u628A\u3001\u95E8\u3001\u706F\uFF09\u8FDB\u884C\u8303\u56F4\u653E\u7F6E\uFF0C\u5176\u671D\u5411\u53EF\u80FD\u4F1A\u6709\u5F02\u5E38"
     - m_language:
         m_address:
           m_low: -2957573344710624914
@@ -67,7 +67,9 @@ MonoBehaviour:
           m_low: 681352171529052915
           m_high: 2314507893210082619
       title: Allow Wall Variants
-      description: 
+      description: "Allow brush placement for objects that have wall-mounted variations
+        (doors, torches, lamps)\nThe base mod blocks these because the variation
+        is picked per tile \u2014 expect odd orientations"
     - m_language:
         m_address:
           m_low: 6040640903323332866
@@ -137,7 +139,9 @@ MonoBehaviour:
         m_low: 0
         m_high: 0
     title: Allow Wall Variants
-    description: 
+    description: "Allow brush placement for objects that have wall-mounted variations
+      (doors, torches, lamps)\nThe base mod blocks these because the variation is
+      picked per tile \u2014 expect odd orientations"
   m_shouldBeLocalized: 1
   m_header: PlacementPlus_PlacementPlus_General
   references:

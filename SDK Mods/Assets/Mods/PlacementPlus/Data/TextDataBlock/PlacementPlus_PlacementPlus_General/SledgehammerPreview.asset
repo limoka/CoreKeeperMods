@@ -54,7 +54,7 @@ MonoBehaviour:
         m_address:
           m_low: 8319415704751845611
           m_high: -6023042414290333943
-      title: "\u5927\u9524\u9884\u89C8"
+      title: "\u5927\u9524\u6253\u51FB\u8303\u56F4\u9884\u89C8"
       description: 
     - m_language:
         m_address:
@@ -67,7 +67,7 @@ MonoBehaviour:
           m_low: 681352171529052915
           m_high: 2314507893210082619
       title: Sledgehammer Preview
-      description: 
+      description: Show a translucent square where the sledgehammer will hit tiles
     - m_language:
         m_address:
           m_low: 6040640903323332866
@@ -136,7 +136,7 @@ MonoBehaviour:
         m_low: 0
         m_high: 0
     title: Sledgehammer Preview
-    description: 
+    description: Show a translucent square where the sledgehammer will hit tiles
   m_shouldBeLocalized: 1
   m_header: PlacementPlus_PlacementPlus_General
   references:
