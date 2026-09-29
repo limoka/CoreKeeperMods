@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: 10e4fc9543d742cda290f8e8713d0716
     name: BetterChat
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
@@ -22,16 +23,20 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/Scripts/Util.cs
+      guid: 
     - path: Scripts/Scripts/ChatWindow_Patch.cs
+      guid: 
     - path: Scripts/Scripts/ChatBackground.cs
+      guid: 
     - path: Scripts/Scripts/BetterChatMod.cs
+      guid: 
     - path: Bundles/BetterChat_Windows.assetbundle
+      guid: 
     dependencies: []
-  modPath: Assets\Mods\BetterChat
+  modPath: Assets\LimokaMods\BetterChat
   forceReimport: 1
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
-  buildBurst: 0
-  cachedBuild: 0
   assets: []
   lastBuildLinux: 0

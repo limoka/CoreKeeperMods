@@ -23,7 +23,7 @@ MonoBehaviour:
     requiredOn: 0
     files: []
     dependencies: []
-  modPath: Assets\Mods\InstantPortalCharge
+  modPath: Assets\LimokaMods\InstantPortalCharge
   forceReimport: 1
   buildBundles: 0
   cacheBundles: 0

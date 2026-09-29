@@ -77,7 +77,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\Mods\ChatCommands
+  modPath: Assets\LimokaMods\ChatCommands
   forceReimport: 1
   buildBundles: 0
   cacheBundles: 0

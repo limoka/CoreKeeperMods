@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: bb08a4c655a1441f955c1bdb39398a53
     name: CustomizeWaterPriority
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
@@ -22,14 +23,20 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Scripts/Scripts/WaterSpreadingSystem_Patch.cs
+      guid: 
     - path: Scripts/Scripts/CustomWaterSpredingSystem.cs
+      guid: 
     - path: Scripts/Scripts/CustomizeWaterPriorityMod.cs
+      guid: 
     - path: Scripts/Generated/CustomWaterSpredingSystem__System_14135272040.g.cs
+      guid: 
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\Mods\CustomizeWaterPriority
+  modPath: Assets\LimokaMods\CustomizeWaterPriority
   forceReimport: 1
   buildBundles: 0
+  cacheBundles: 0
   buildLinux: 0
-  buildBurst: 0
+  assets: []
+  lastBuildLinux: 0

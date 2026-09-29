@@ -3,7 +3,7 @@ using DummyMod;
 using HarmonyLib;
 using Interaction;
 using UnityEngine;
-
+/*
 namespace DefaultNamespace
 {
     [HarmonyPatch]
@@ -32,4 +32,4 @@ namespace DefaultNamespace
         }
         
     }
-}
+}*/

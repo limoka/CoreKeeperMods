@@ -51,7 +51,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\Mods\MovableSpawners
+  modPath: Assets\LimokaMods\MovableSpawners
   forceReimport: 0
   buildBundles: 1
   cacheBundles: 0

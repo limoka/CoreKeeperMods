@@ -93,7 +93,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\Mods\SecureAttachment
+  modPath: Assets\LimokaMods\SecureAttachment
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0

@@ -67,7 +67,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\Mods\KeepFarming
+  modPath: Assets\LimokaMods\KeepFarming
   forceReimport: 0
   buildBundles: 1
   cacheBundles: 0

@@ -15,6 +15,7 @@ MonoBehaviour:
   metadata:
     guid: 1423c764793e431d856c5373ad0ea89c
     name: 0ModReporter
+    displayName: 
     skipSafetyChecks: 0
     disableScripts: 0
     accessesExtraAssemblies: 1
@@ -22,22 +23,38 @@ MonoBehaviour:
     requiredOn: 0
     files:
     - path: Localization/Localization.csv
+      guid: 
     - path: Scripts/Scripts/UI/ModReporterWindow.cs
+      guid: 
     - path: Scripts/Scripts/UI/ModItem.cs
+      guid: 
     - path: Scripts/Scripts/UI/InfoField.cs
+      guid: 
     - path: Scripts/Scripts/UI/HoverTip.cs
+      guid: 
     - path: Scripts/Scripts/Patches/TitleScreenAnimator_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Patches/SpriteInstancingModAssetProcessor_Patch.cs
+      guid: 
     - path: Scripts/Scripts/Patches/MenuManager_Patch.cs
+      guid: 
     - path: Scripts/Scripts/ModStatus.cs
+      guid: 
     - path: Scripts/Scripts/ModReporterMod.cs
+      guid: 
     - path: Scripts/Scripts/ModInfo.cs
+      guid: 
     - path: Scripts/Scripts/InstallationKind.cs
+      guid: 
     - path: Scripts/Scripts/Extensions.cs
+      guid: 
     - path: Bundles/0ModReporter_Windows.assetbundle
+      guid: 
     dependencies: []
-  modPath: Assets\Mods\0ModReporter
+  modPath: Assets\LimokaMods\0ModReporter
   forceReimport: 1
   buildBundles: 1
+  cacheBundles: 0
   buildLinux: 1
-  buildBurst: 0
+  assets: []
+  lastBuildLinux: 0

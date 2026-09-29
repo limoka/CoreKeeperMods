@@ -22,8 +22,6 @@ MonoBehaviour:
     disableHarmonyPatching: 0
     requiredOn: 3
     files:
-    - path: Localization/Localization.csv
-      guid: 38ef78ef985efe34080aea1ee9ce7880
     - path: Scripts/Scripts/UI/DummyUI.cs
       guid: 58fcc43c6e32488daaac366b01cd83a5
     - path: Scripts/Scripts/System/Network/ServerModCommandSystem.cs
@@ -32,18 +30,36 @@ MonoBehaviour:
       guid: 40ddb3c6481f33742836d5a0b706a397
     - path: Scripts/Scripts/System/DummySystem.cs
       guid: e3c1a8c0303547048f4497e45fa918be
+    - path: Scripts/Scripts/Prefab/ModTrainingDummy.cs
+      guid: 28d35eccc7c34118b8794fc0e2232ab5
+    - path: Scripts/Scripts/Patch/PugDatabase_Patch.cs
+      guid: 1938e8b98ff44777b3dc5eb84bf5d7f2
     - path: Scripts/Scripts/DummyMod.cs
       guid: b8ccdb5522e540b99be65891b703fb2a
-    - path: Scripts/Scripts/Dummy.cs
-      guid: 28d35eccc7c34118b8794fc0e2232ab5
-    - path: Scripts/Scripts/Components/SpawnDummyAuthoring.cs
-      guid: e90cd64027ba4f37ab3a195ab7581517
     - path: Scripts/Scripts/Components/DummyDamageBuffer.cs
       guid: 7a00a9b6677943099be5abdd238fb9c4
     - path: Scripts/Scripts/Components/DummyCommandRPC.cs
       guid: 497eee5c39a348c3b4339d90e3ce3cb9
     - path: Scripts/Scripts/Components/DummyAuthoring.cs
       guid: 37e1a5c8d5db41cb8364186e3d693172
+    - path: Scripts/Generated/ClientModCommandSystem__System_10192460580.g.cs
+      guid: 
+    - path: Scripts/Generated/ClientModCommandSystem__System_11015577630.g.cs
+      guid: 
+    - path: Scripts/Generated/DummySystem__System_16429281630.g.cs
+      guid: 
+    - path: Scripts/Generated/DummySystem__System_6881734500.g.cs
+      guid: 
+    - path: Scripts/Generated/ServerModCommandSystem__System_2132424710.g.cs
+      guid: 
+    - path: Scripts/Generated/ServerModCommandSystem__System_4386721500.g.cs
+      guid: 
+    - path: Scripts/Generated/DummyMod_DummyCDSerializer.cs
+      guid: 
+    - path: Scripts/Generated/DummyMod_DummyCommandRPCCommandSerializer.cs
+      guid: 
+    - path: Scripts/Generated/GhostComponentSerializerCollection.cs
+      guid: 
     - path: Bundles/DummyMod_Windows.assetbundle
       guid: 
     - path: Bundles/DummyMod_Windows.assetbundle.manifest
@@ -55,78 +71,52 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets\Mods\DummyMod
+  modPath: Assets\LimokaMods\DummyMod
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0
   buildLinux: 1
   assets:
-  - path: Assets/Mods/DummyMod/Data/DummyMod.asset
-    hash: 52A74FE8EF2E8770AE7B822FEB7B29B2321198186B46C0F8DC8AFC85B63748E0
-  - path: Assets/Mods/DummyMod/Data/EntityAuthoringDataBlock/DummyCreature (v1).asset
-    hash: CA892A1F99F20D1655238CC43196A037C43F9F01EB4B07B734A24974A37A9452
-  - path: Assets/Mods/DummyMod/Data/EntityAuthoringDataBlock/DummyItem.asset
-    hash: 746708085F47B8CBEC52FF629E2669EA35E19C3EAF5C35C0886593001A49C541
-  - path: Assets/Mods/DummyMod/Data/GraphicalObjectDataBlock/Dummy.asset
-    hash: 6C33196EFBB009E669214239E0D1690BEB02F75FD6EEF69053016D5750220D3A
-  - path: Assets/Mods/DummyMod/Data/PoolParameterDataBlock/ModPool.asset
-    hash: 918673181E6FF14A6E103DB033D0249D77099B173480DD06E6FFCCE756A7339C
-  - path: Assets/Mods/DummyMod/Data/SpriteAsset/DummyBase.asset
-    hash: AF3D04F635B2AEB40C2CD2B32A18D1A38E52A91172E5E6ED3D0EC967BB3F90D7
-  - path: Assets/Mods/DummyMod/Data/SpriteAsset/DummyMain.asset
-    hash: C4E4381D1A9D00666D155541144CB278FE65C36B134504FEB9EFADEA1970731C
-  - path: Assets/Mods/DummyMod/Data/SpriteAsset/Shadow.asset
-    hash: 822FA5143A299EAFAB89A633E3FB64407972252901FBA82C06EC09914AF9D5EB
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/AverageDamage.asset
-    hash: E2D6DC04707C0F2E3CE6CAB95D54250CC9FDC3BCDD764F9A50B51F2DBCFDFE62
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/Dummy.asset
-    hash: 3D40014A989B54CC80EC83BFEC81A5DCC455E7BAD517E7D7E17AAE7AB195F7F8
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/KillButton.asset
-    hash: D2197563AD9F3F0DCB07DCF1A6B1B49429E446AFEB3E46E5DDCA65128AD04D5E
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/LastDamage.asset
-    hash: 09C5CD31111DB8C81BDC1C72AA46420B5FC68F705BDA9134676DF659C931A28B
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/LastDps.asset
-    hash: 2D454968914ADB570A728ACBC2C272109E5015391E2E1F4620AE90FB29FD03F2
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/MaxDamage.asset
-    hash: A88E239BFA33FFF552C7DD49AA65FACF75655E3B83C5B41193CF690E24B05A4E
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/MaxDps.asset
-    hash: 4F4ACF23F9BB462F76CEC38C4238BBE4AAE0C973DA2F8DF60333DB8FC929554C
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/MinDamage.asset
-    hash: 427F1EBD57175E052FE21D0BD467B5731AC05EFFDA8B76843555C1D3DEC40319
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/DummyMod/ResetButton.asset
-    hash: 86AFBCC276BA24F9891C0C42E797073854E00F393DCBFF732FC04A0026431C27
-  - path: Assets/Mods/DummyMod/Data/TextDataBlock/Items/DummyMod_Dummy.asset
-    hash: BD0741EBE2C3512DA4D11A43F923C7B480D19492C12D9071D7BA7775763C720E
-  - path: Assets/Mods/DummyMod/DummyMod.asset
-    hash: 688AC6818DDD7399F73CE7FDC441FD443B08FAD6875BEC00768873B3D51CDA9C
-  - path: Assets/Mods/DummyMod/DummyMod_modio.asset
-    hash: DAD11A205C70E03A29A9D89B4CC96CD657B493457BAA8A72E55AF991108601CE
-  - path: Assets/Mods/DummyMod/DummyMod_Steam.asset
-    hash: CE9F09C362948313FF25D2BE2E78D90A8E0DC842F4C0E818620BA0292C281F61
-  - path: Assets/Mods/DummyMod/Localization/Localization.csv
-    hash: F61DD4812575FA6B26A73666FBA184382CEF7FE8EBC894F682D94ECAAFC979C2
-  - path: Assets/Mods/DummyMod/Prefab/Dummy.prefab
-    hash: 93D400DC799C7A3A4346CF0A31FF125FDEC3432577ADBE74CB51F2D8B639CB2E
-  - path: Assets/Mods/DummyMod/Prefab/DummyCreature.prefab
-    hash: 17EB32C18835DDB94425F9845FBCC420C3DC64D42C1C54F763C443FBD3EB2AE8
-  - path: Assets/Mods/DummyMod/Prefab/DummyItem.prefab
-    hash: B92D2787CAAEC4024569DDBD94F8601928F72343F53BEEFC2D0928D89E9C69AD
-  - path: Assets/Mods/DummyMod/Textures/crafting_ui_hand.png
-    hash: 9C15D69BC9075732335C7A59760AEFB4772C1CE43EAF6D191D55E11235691989
-  - path: Assets/Mods/DummyMod/Textures/dummy.png
-    hash: CF9008346C0CA2506DB19AACD9A1717899B70766BEDC7667E0D8CFBB3A72E79E
-  - path: Assets/Mods/DummyMod/Textures/dummy_base.png
-    hash: 7C092531BE14F66820CA776E70840C555E2C118476F0E3F7B2EDBE10101BA730
-  - path: Assets/Mods/DummyMod/Textures/dummy_main.png
-    hash: 84C2CFF572B1EFB8F020A76B9220F5D9C72248295E4FF3693B5A316201C0C615
-  - path: Assets/Mods/DummyMod/Textures/ui_tex.png
-    hash: 91B25F663B8AE6038922299DC056D72D8FDD916DDB259D224A688B70FB4CBE41
-  - path: Assets/Mods/DummyMod/Textures/ui_text.aseprite
-    hash: BFFDBABED7EF48DD5962F1376F48B03450C9FC0039A8E4250BB78A4A04FCC2CF
-  - path: Assets/Mods/DummyMod/Textures/white_pixel.png
-    hash: BACA551D6AE5DA80726A2C7B68E82E245E02AE9DA616A35A20479FCF01B05E1D
-  - path: Assets/Mods/DummyMod/Textures/wood-button.png
-    hash: D34F4A44F4C5EBE8B683E16575FB59292A7BAD11FCC4639488E7956DA186C4E1
-  - path: Assets/Mods/DummyMod/UI/DummyUI.prefab
-    hash: 4603BAE369F66162785B4CD63A085D8488595AC88D909A619AAC7DFBCA0A6549
+  - path: Assets/LimokaMods/DummyMod/Data/DummyMod.asset
+    hash: B3A77C7607D891831DFCF3AB0A7B800801594C093D563F9411DECE07F510805A:a325eec20ec78fdc4caf62a6a9a81412
+  - path: Assets/LimokaMods/DummyMod/Data/GraphicalObjectDataBlock/Dummy.asset
+    hash: 5069FC1AEEE5CBA963DE405C171A6AAE34116E7350AC3BBCAB99AC6294A10DA6:6ee39e89fec8f490cf56d0f5a1d7852e
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/AverageDamage.asset
+    hash: E2D6DC04707C0F2E3CE6CAB95D54250CC9FDC3BCDD764F9A50B51F2DBCFDFE62:12606cabbd28c974ec0f6dd807f49bc9
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/Dummy.asset
+    hash: 3D40014A989B54CC80EC83BFEC81A5DCC455E7BAD517E7D7E17AAE7AB195F7F8:9576d854ed9f7ff865886a5c1d2755b0
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/KillButton.asset
+    hash: D2197563AD9F3F0DCB07DCF1A6B1B49429E446AFEB3E46E5DDCA65128AD04D5E:ab462488c05dc57e9cd00ad9ced234a6
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/LastDamage.asset
+    hash: 09C5CD31111DB8C81BDC1C72AA46420B5FC68F705BDA9134676DF659C931A28B:b78c532320bb16b46b6f4a4c22811c61
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/LastDps.asset
+    hash: 2D454968914ADB570A728ACBC2C272109E5015391E2E1F4620AE90FB29FD03F2:27d067b426ac04722a63e8b63400d8b4
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/MaxDamage.asset
+    hash: A88E239BFA33FFF552C7DD49AA65FACF75655E3B83C5B41193CF690E24B05A4E:1156142391f2af70fffb5e461cb72236
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/MaxDps.asset
+    hash: 4CC814E2F8B3E9191A45B348E5048226DE4AF621F55DB03B48C23CA284F69D3D:736a0b23d73f27583fc00ef3223b9957
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/MinDamage.asset
+    hash: 427F1EBD57175E052FE21D0BD467B5731AC05EFFDA8B76843555C1D3DEC40319:f87af408889c5780c49d74b2fb02ac2a
+  - path: Assets/LimokaMods/DummyMod/Data/TextDataBlock/DummyMod/ResetButton.asset
+    hash: 86AFBCC276BA24F9891C0C42E797073854E00F393DCBFF732FC04A0026431C27:ea08154d73963156e392524f1cfa771e
+  - path: Assets/LimokaMods/DummyMod/Prefab/TrainingDummy.prefab
+    hash: 80A12D25DF8163944CBDBB5A4F51C20F3854382C3BFF3DAE5F6014F342ECF98D:ef580ef9f9009687e67ffab2ae25e7b6
+  - path: Assets/LimokaMods/DummyMod/Textures/crafting_ui_hand.png
+    hash: 9C15D69BC9075732335C7A59760AEFB4772C1CE43EAF6D191D55E11235691989:776c8854560dd8bd6fa9ab012564d74f
+  - path: Assets/LimokaMods/DummyMod/Textures/dummy.png
+    hash: CF9008346C0CA2506DB19AACD9A1717899B70766BEDC7667E0D8CFBB3A72E79E:7256a869fd5ef70de38678bf3398e7c6
+  - path: Assets/LimokaMods/DummyMod/Textures/dummy_base.png
+    hash: 7C092531BE14F66820CA776E70840C555E2C118476F0E3F7B2EDBE10101BA730:77b2fb928659663c72c8cf9db148c050
+  - path: Assets/LimokaMods/DummyMod/Textures/dummy_main.png
+    hash: 84C2CFF572B1EFB8F020A76B9220F5D9C72248295E4FF3693B5A316201C0C615:2a5d0eb4073e626076a3143c7a677119
+  - path: Assets/LimokaMods/DummyMod/Textures/ui_tex.png
+    hash: 91B25F663B8AE6038922299DC056D72D8FDD916DDB259D224A688B70FB4CBE41:32b06d059eea9812458aba655c8aca66
+  - path: Assets/LimokaMods/DummyMod/Textures/ui_text.aseprite
+    hash: BFFDBABED7EF48DD5962F1376F48B03450C9FC0039A8E4250BB78A4A04FCC2CF:f1fd16927743c24311636ba10305c0b1
+  - path: Assets/LimokaMods/DummyMod/Textures/white_pixel.png
+    hash: BACA551D6AE5DA80726A2C7B68E82E245E02AE9DA616A35A20479FCF01B05E1D:462130cf9441d7e50a7265efc2dd5d71
+  - path: Assets/LimokaMods/DummyMod/Textures/wood-button.png
+    hash: D34F4A44F4C5EBE8B683E16575FB59292A7BAD11FCC4639488E7956DA186C4E1:87da97a3b217d13e5679c765edf28967
+  - path: Assets/LimokaMods/DummyMod/UI/DummyUI.prefab
+    hash: 4603BAE369F66162785B4CD63A085D8488595AC88D909A619AAC7DFBCA0A6549:3d78edce87fbe5e818bf4ceee3f749a1
   lastBuildLinux: 1

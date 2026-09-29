@@ -117,7 +117,7 @@ MonoBehaviour:
     dependencies:
     - modName: CoreLib
       required: 1
-  modPath: Assets/Mods\PlacementPlus
+  modPath: Assets\LimokaMods\PlacementPlus
   forceReimport: 1
   buildBundles: 1
   cacheBundles: 0

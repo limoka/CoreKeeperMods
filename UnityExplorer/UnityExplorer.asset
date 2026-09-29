@@ -291,7 +291,7 @@ MonoBehaviour:
     - path: Libraries/Tomlet.dll
       guid: adc81d386ffb529469ee6f61c76954b0
     dependencies: []
-  modPath: Assets\Mods\UnityExplorer
+  modPath: Assets\LimokaMods\UnityExplorer
   forceReimport: 0
   buildBundles: 0
   cacheBundles: 0

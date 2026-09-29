@@ -34,6 +34,8 @@ namespace DummyMod
                 return;
             }
 
+            ECSManager.BeforeInitialEntityConversion += ProcessPrefabs;
+
             Log.LogInfo("Mod loaded successfully");
         }
 
@@ -41,15 +43,25 @@ namespace DummyMod
 
         public void Shutdown() { }
 
-        [EntityModification(ObjectID.TrainingDummy)]
-        private static void EditTrainingDummy(Entity entity, GameObject authoring, EntityManager entityManager)
+        private static void ProcessPrefabs()
         {
-            Log.LogInfo("Modifying TrainingDummy");
-            entityManager.AddComponentData(entity, new DummyCD()
+            var prefabs = PugDatabase.entityMonobehaviours;
+            foreach (var data in prefabs)
             {
-                minDamage = int.MaxValue
-            });
-            entityManager.AddBuffer<DummyDamageBuffer>(entity);
+                if (data is not EntityMonoBehaviourData) continue;
+                var dataMono = data as EntityMonoBehaviourData;
+                
+                var objectId = dataMono.objectInfo.objectID;
+                if (objectId != ObjectID.TrainingDummy) continue;
+
+                var localInteractable = dataMono.GetComponent<LocalInteractableAuthoring>();
+                if (localInteractable != null) return;
+                
+                Log.LogInfo("Modifying TrainingDummy");
+                dataMono.gameObject.AddComponent<LocalInteractableAuthoring>();
+                dataMono.gameObject.AddComponent<DummyAuthoring>();
+                break;
+            }
         }
 
         public void ModObjectLoaded(Object obj)
