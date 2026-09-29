@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using Pug.Conversion;
 using Unity.Entities;
 using Unity.NetCode;
@@ -34,6 +35,7 @@ namespace DummyMod
 
     public class DummyAuthoring : MonoBehaviour { }
 
+    [UsedImplicitly]
     public class DummyConverter : SingleAuthoringComponentConverter<DummyAuthoring>
     {
         protected override void Convert(DummyAuthoring authoring)

@@ -48,9 +48,8 @@ namespace DummyMod
             var prefabs = PugDatabase.entityMonobehaviours;
             foreach (var data in prefabs)
             {
-                if (data is not EntityMonoBehaviourData) continue;
-                var dataMono = data as EntityMonoBehaviourData;
-                
+                if (data is not EntityMonoBehaviourData dataMono) continue;
+
                 var objectId = dataMono.objectInfo.objectID;
                 if (objectId != ObjectID.TrainingDummy) continue;
 
