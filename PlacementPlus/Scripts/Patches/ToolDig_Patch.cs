@@ -1,4 +1,5 @@
 using HarmonyLib;
+using PlacementPlus.Commands;
 using PlacementPlus.Components;
 using PlayerEquipment;
 using Unity.Mathematics;
@@ -37,6 +38,16 @@ namespace PlacementPlus
         {
             SendIfLineShape(equipmentUpdateAspect, equipmentUpdateSharedData, __result);
         }
+        
+        [HarmonyPatch(typeof(PaintToolSlot), nameof(PaintToolSlot.UpdateEquipment))]
+        [HarmonyPostfix]
+        public static void OnPaintUpdateEquipment(
+            in EquipmentUpdateAspect equipmentUpdateAspect,
+            in EquipmentUpdateSharedData equipmentUpdateSharedData,
+            bool __result)
+        {
+            SendIfLineShape(equipmentUpdateAspect, equipmentUpdateSharedData, __result);
+        }
 
         private static void SendIfLineShape(
             in EquipmentUpdateAspect aspect,
@@ -62,7 +73,7 @@ namespace PlacementPlus
 
             s_lastSentAnchor = anchor;
             s_lastSentReal = Time.realtimeSinceStartup;
-            PlacementPlusMod.commandSystem?.SendBrushPlace(aspect.entity, anchor, Commands.BrushKind.Tool);
+            PlacementPlusMod.commandSystem?.SendBrushPlace(aspect.entity, anchor, BrushKind.Tool);
         }
     }
 }

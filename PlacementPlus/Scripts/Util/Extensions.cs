@@ -14,7 +14,8 @@ namespace PlacementPlus.Util
         {
             return slot == EquipmentSlotType.ShovelSlot ||
                    slot == EquipmentSlotType.HoeSlot ||
-                   slot == EquipmentSlotType.RoofingToolSlot;
+                   slot == EquipmentSlotType.RoofingToolSlot ||
+                   slot == EquipmentSlotType.PaintToolSlot; 
         }
 
         public static int2 CutToBrush(this BrushMode mode, int2 size)

@@ -61,7 +61,8 @@ namespace PlacementPlus.Systems
                 if (info.objectType == ObjectType.Shovel ||
                     info.objectType == ObjectType.Hoe ||
                     info.objectType == ObjectType.RoofingTool ||
-                    info.objectType == ObjectType.WaterCan)
+                    info.objectType == ObjectType.WaterCan || 
+                    info.objectType == ObjectType.PaintTool)
                 {
                     info.prefabTileSize = new int2(size, size);
                     count++;

@@ -35,6 +35,18 @@ namespace PlacementPlus
         ) =>
             throw new NotImplementedException("It's a stub");
         
+        
+        
+        [HarmonyReversePatch]
+        [HarmonyPatch(typeof(PaintToolSlot), "PlaceItem")]
+        public static void PaintPlace(
+            ref NativeList<PlacementHandler.EntityAndInfoFromPlacement> diggableEntityAndInfos,
+            in EquipmentUpdateAspect equipmentUpdateAspect, 
+            EquipmentUpdateSharedData equipmentUpdateSharedData, 
+            LookupEquipmentUpdateData equipmentUpdateLookupData
+        ) =>
+            throw new NotImplementedException("It's a stub");
+        
         [HarmonyReversePatch]
         [HarmonyPatch(typeof(PaintToolSlot), "PaintIndexToTileset")]
         public static Tileset PaintIndexToTileset(

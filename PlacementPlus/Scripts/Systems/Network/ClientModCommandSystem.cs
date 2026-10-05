@@ -69,7 +69,7 @@ namespace PlacementPlus.Systems.Network
         // it also commands the server to execute it — since the server-side patch is inactive 
         // on Burst-enabled servers, this RPC is the sole execution path. 
         // anchor = The grid anchor calculated by the client.
-        public void SendBrushPlace(Entity player, int3 anchor, int kind = BrushKind.Place)
+        public void SendBrushPlace(Entity player, int3 anchor, BrushKind kind = BrushKind.Place)
         {
             brushRpcQueue.Enqueue(new BrushPlaceRPC
             {

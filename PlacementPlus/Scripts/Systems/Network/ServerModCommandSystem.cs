@@ -120,6 +120,7 @@ namespace PlacementPlus.Systems.Network
                                 objectInfo.objectType == ObjectType.Hoe ||
                                 objectInfo.objectType == ObjectType.RoofingTool ||
                                 objectInfo.objectType == ObjectType.WaterCan;
+                            
                             if (sizeByVariation)
                             {
                                 var placementSizeBuffer = SystemAPI.GetBuffer<PlacementSizeByEquipmentTypeBuffer>(rpc.player);
@@ -132,15 +133,17 @@ namespace PlacementPlus.Systems.Network
                                 // An identical block exists in the .g.cs file — that file's version is the one that actually executes.
                                 var sizeSlotType = equipmentSlot.slotType;
                                 if (sizeSlotType == (EquipmentSlotType)100)
-                                    sizeSlotType = objectInfo.objectType == ObjectType.RoofingTool
-                                        ? EquipmentSlotType.RoofingToolSlot
-                                        : objectInfo.objectType == ObjectType.PaintTool
-                                            ? EquipmentSlotType.PaintToolSlot
-                                            : objectInfo.objectType == ObjectType.Shovel
-                                                ? EquipmentSlotType.ShovelSlot
-                                                : objectInfo.objectType == ObjectType.Hoe
-                                                    ? EquipmentSlotType.HoeSlot
-                                                    : EquipmentSlotType.PlaceObjectSlot;
+                                {
+                                    sizeSlotType = objectInfo.objectType switch
+                                    {
+                                        ObjectType.RoofingTool => EquipmentSlotType.RoofingToolSlot,
+                                        ObjectType.PaintTool => EquipmentSlotType.PaintToolSlot,
+                                        ObjectType.Shovel => EquipmentSlotType.ShovelSlot,
+                                        ObjectType.Hoe => EquipmentSlotType.HoeSlot,
+                                        _ => EquipmentSlotType.PlaceObjectSlot
+                                    };
+                                }
+
                                 ref var element = ref placementSizeBuffer.GetElementForEquipment(sizeSlotType);
 
                                 var size = (int)element.sizeVariationToPlace;
@@ -227,7 +230,7 @@ namespace PlacementPlus.Systems.Network
 
                             placementState.ToggleMode(currentTick);
 
-                            // For shovel/hoe/roofing OFF behaves exactly like
+                            // For shovel/hoe/roofing/paint brush OFF behaves exactly like
                             // SQUARE (their size is the tool's own), so their
                             // cycle skips it. Mirrored in the .g.cs — that copy
                             // runs.
@@ -235,7 +238,8 @@ namespace PlacementPlus.Systems.Network
                             if (placementState.mode == BrushMode.NONE &&
                                 (orientInfo.objectType == ObjectType.Shovel ||
                                  orientInfo.objectType == ObjectType.Hoe ||
-                                 orientInfo.objectType == ObjectType.RoofingTool))
+                                 orientInfo.objectType == ObjectType.RoofingTool ||
+                                 orientInfo.objectType == ObjectType.PaintTool))
                             {
                                 placementState.ToggleMode(currentTick);
                             }

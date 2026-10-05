@@ -90,11 +90,11 @@ MonoBehaviour:
       guid: 0039f784fd9540a187c2014743e22ca9
     - path: Scripts/Scripts/Commands/BrushPlaceRPC.cs
       guid: 13ca953176ec2f64098fbf55cf43dce2
-    - path: Scripts/Generated/ClientModCommandSystem__System_19870319930.g.cs
+    - path: Scripts/Generated/ClientModCommandSystem__System_19634906890.g.cs
       guid: 
-    - path: Scripts/Generated/PlacementPlusSystem__System_17740304510.g.cs
+    - path: Scripts/Generated/PlacementPlusSystem__System_16094396030.g.cs
       guid: 
-    - path: Scripts/Generated/ServerModCommandSystem__System_2543358290.g.cs
+    - path: Scripts/Generated/ServerModCommandSystem__System_5733965810.g.cs
       guid: 
     - path: Scripts/Generated/GhostComponentSerializerCollection.cs
       guid: 
@@ -106,13 +106,13 @@ MonoBehaviour:
       guid: 
     - path: Scripts/Generated/PlacementPlus.Components_PlacementPlusStateSerializer.cs
       guid: 
-    - path: Bundles/PlacementPlus_Windows.assetbundle
-      guid: 
-    - path: Bundles/PlacementPlus_Windows.assetbundle.manifest
-      guid: 
     - path: Bundles/PlacementPlus_Linux.assetbundle
       guid: 
     - path: Bundles/PlacementPlus_Linux.assetbundle.manifest
+      guid: 
+    - path: Bundles/PlacementPlus_Windows.assetbundle
+      guid: 
+    - path: Bundles/PlacementPlus_Windows.assetbundle.manifest
       guid: 
     dependencies:
     - modName: CoreLib
@@ -120,103 +120,97 @@ MonoBehaviour:
   modPath: Assets\LimokaMods\PlacementPlus
   forceReimport: 1
   buildBundles: 1
-  cacheBundles: 0
+  cacheBundles: 1
   buildLinux: 1
   assets:
-  - path: Assets/Mods/PlacementPlus/Data/Placement Plus.asset
-    hash: CA029CCB475CEF251625D20E9EEF1F700DC7ADCC6444440CE3870A744E40831D
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ChangeOrientation.asset
-    hash: 39E617514BB577F7942514BD9091343A1CDE97408AC59C067A439D082F6CDDF9
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ChangeToolMode.asset
-    hash: 7300AFCF54373208A51DF9F2CAB198F9703201FFA72A4661DC6E40DFAB940A13
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_DecreaseSize.asset
-    hash: 676BE981CC8C97A18C38F4819B50FFB8E5EC561591732F6B68F7618AC29F4516
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_IncreaseSize.asset
-    hash: 9EC77F01CBF70B499F7769F371B04F169944069417F84F24F43647AF402E0E1F
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ReplaceButton.asset
-    hash: D7108943B5E3FB75232EADD3D257458FF23592D7C1A91396A88BD4A2385284DC
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ReverseDirection.asset
-    hash: E4742C9DDC007FC458F4AC041036B75D642A8640A5FA1001F67398C156B7E42C
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlusCategory.asset
-    hash: 734F566B710FC80C330A75AD3BE85BDBC4A4BCAF0439318D54450A83407713C3
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlusDescription.asset
-    hash: E735D628F7834DDFBBA00130BB5F0A0BF4295FFB8BEDD53C2AC5D9285642D546
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/ADD_ROOF.asset
-    hash: 6603507B35918E2A66994A4672F067F7E0D4573CE3E961996D5E1B7C09137661
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/AdminOnlyMesage.asset
-    hash: 0D81BBFA28A576DE32AACBD8120678A590DDA65034B664991937DE6B2DCEAE8E
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/BlockToolModeMessage.asset
-    hash: 80DF87F2E6F4106C9E02E4EAC0131FEEE89B2D5EC79E4EEE95BA350746DB34E7
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CHESS_PATTERN.asset
-    hash: 3E76F4F57BB96E39C093E7C545CDFD797779CAC0E941C6A046FD24491487DCBE
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CIRCLE.asset
-    hash: E1A7F889A161BCDBDAA393CCA7E035166617FD08EEF45A7850803E45043E6572
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CLEAR_ROOF.asset
-    hash: 8BF3F93D9D082ACC54EC0AF090698814567395C30BB826EABC43D7F808908E16
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/GROUND.asset
-    hash: 329791B547B2366C7CEA6332E335D13BCC258403FEF6C52EC8FA0449BAA49CEE
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/HORIZONTAL.asset
-    hash: 0B076C7262A82631FA1ECB3C09700878813FBC90203FC49EE2AD28C8B0A6EF7F
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/ModeMessage.asset
-    hash: 3B4A1DFF719B9F8804437FC7715341A4F01D81B823F9CC0D689E4B7D1DA84D44
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/NONE.asset
-    hash: 30A3336BF655F6C39A851E982CADE106D0B58BF55FC6F2872AEC9620864F6ECE
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/PlacementPlus.asset
-    hash: C9C997E5049FCC1A0BCAC7FB1D624CC8757A4F04B1ABC3747343F7B133A03B69
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RANDOM_60_P.asset
-    hash: 5E6A15196166C43B2B81461CA6DC1DBEAE294043B7062E7F23737F8EE84A727F
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RANDOM_70_P.asset
-    hash: 3D7DA925ED8961108BA5A7E11DA68CAB6B3F60CFEC196AD001DB99F424C17094
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/REMOVE.asset
-    hash: ECFBA17BECBF2CE6CE0AE7A96E9C038448B1FEDAC8AFFEC3CF1A053F0BB24E8C
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RoofingToolModeMessage.asset
-    hash: EEBDFF91AAD863D916AC5A8EFF8D4051D74538C293055EC961A269C2ECA90303
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SHAPE_ARC.asset
-    hash: 18474CA6F73EF22485D61165F69BE93EE0C7CB8040E6FECB05C0A387DA4C30D4
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SHAPE_SQUARE.asset
-    hash: 616218F2FCB736F64308CC5620C143198D181014CD7732E3A28BDB100752B9B5
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SledgeMode.asset
-    hash: D2E76B39274D72087E126C32D56C6EFFEEC91AEC17C740198729D04A9E1D9645
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SledgeSize.asset
-    hash: 76E0ACB9B43E78E3CC11C66DB98B2CC946F65071740F60245F528E099C0CA514
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SQUARE.asset
-    hash: 7D0EC50F9254B5BC1CD9C72679CBF34DF8EBE7A983305427EB96883974C6DD03
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/TOGGLE.asset
-    hash: 869326BA1E60FD4886C5E263890CBCB25B84C613ACA3641FC7A547B478FA7851
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/VERTICAL.asset
-    hash: DF09B9C460B91B5EE7EA52F20090CDB20B6CBC6B9557D70ED42DD3FC1F4C119D
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus/WALL.asset
-    hash: D85D3AD8D316EB5A3B6F4A04F05F1C1CA1FC30A301056BEE08D7A8D5EE62374D
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ChangeOrientationPC.asset
-    hash: 2A5DFCB5BF5186112702AE42FC7F8D2BEB0F1D8251A0F6D9314790556C111FF8
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ChangeToolModePC.asset
-    hash: E894130879218AF8EAE55C74B2A34BA089676D94BF3EE7757DC86C8624C6D462
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_DecreaseSizePC.asset
-    hash: 1643F0208B2253C0698F3F5F780D81DD2BE1DE04B8911D87114FAE0F8BF0A6DC
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_IncreaseSizePC.asset
-    hash: 073A830C363260BCBFA360D1E98589C2D2DA6591967042A6E99E594672DF1DD9
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus/General.asset
-    hash: BB7A354668A54727880345881D9B8320EE0B17F0469B5E22B71357A6D697C061
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/AllowWallVariants.asset
-    hash: A55AC4CD26316D1E7702FA099D5B49816D3372DE4E6BD687587B0BA29E87F6DE
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/IgnoreBuiltinExclude.asset
-    hash: FC010FFD6FE36674C25150931B8C4F3C3AD41F2A1E9FEE5F87A25DFB2A7C84CF
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/MaxBrushSize.asset
-    hash: 6A691AEE30BC98373845FA6BCF9D6D6A738391522533C79E7DE8C3AA5EEC83BC
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/ShortMessages.asset
-    hash: 04AB3855DAE5136B7B36B85BF8D92B99C5C0EF8AE98C9C859CE1387752870DF8
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/SledgehammerPreview.asset
-    hash: 2D65C708618E753052C239B830A67C5402C0A06E0825898374BBE5915EE9B568
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/SledgehammerPreviewOpacity.asset
-    hash: EF71DD28571CB004A1AF5D503BE6B1907DAACC5F7C39160B055F4B189A6549DB
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ReplaceButtonPC.asset
-    hash: 7CF396E5ABE631FF62BFE7053067A4656065CD59095F14C6CAE76377220914C8
-  - path: Assets/Mods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ReverseDirectionPC.asset
-    hash: AB7BAFE3F5FEEF485935A5E10CE8E3B50689FB62065A211209147078DB2824BD
-  - path: Assets/Mods/PlacementPlus/PlacementPlus.asset
-    hash: 1092DAEED2AAF0B10068267141C8A3F2624C652A06DB5E4FCCAE014FAA74F0EA
-  - path: Assets/Mods/PlacementPlus/PlacementPlus_modio.asset
-    hash: E48E58BA18CE1BAADEEC1DBF920B8FD6CACBB2F75955D4C994F95CD41959702F
-  - path: Assets/Mods/PlacementPlus/PlacementPlus_Steam.asset
-    hash: 6998E5D843F92FCAB8395C9E1183B2FF821F41B51B01039FF0E69AD8506262AB
+  - path: Assets/LimokaMods/PlacementPlus/Data/Placement Plus.asset
+    hash: CA029CCB475CEF251625D20E9EEF1F700DC7ADCC6444440CE3870A744E40831D:a08bebbaadeecc9b775c79e7dd361ca6
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ChangeOrientation.asset
+    hash: 39E617514BB577F7942514BD9091343A1CDE97408AC59C067A439D082F6CDDF9:98cf15aa17e39203d9935ff8e1ffdc49
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ChangeToolMode.asset
+    hash: 7300AFCF54373208A51DF9F2CAB198F9703201FFA72A4661DC6E40DFAB940A13:a9321b8c3282a1902eee2874b095271b
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_DecreaseSize.asset
+    hash: 676BE981CC8C97A18C38F4819B50FFB8E5EC561591732F6B68F7618AC29F4516:3e8ec8874c8c1f36adb469286a578e83
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_IncreaseSize.asset
+    hash: 9EC77F01CBF70B499F7769F371B04F169944069417F84F24F43647AF402E0E1F:25fdc1edac0f4c752e59ffd365c600b4
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ReplaceButton.asset
+    hash: ECD519984B089E79E5FCD9242C6578A5566BEE12190423655A185011F2045589:f17d65eeb412c10870de758bab2aa782
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlus_ReverseDirection.asset
+    hash: E4742C9DDC007FC458F4AC041036B75D642A8640A5FA1001F67398C156B7E42C:bffd45cb92df6b23b9ae2d8539a77371
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlusCategory.asset
+    hash: 734F566B710FC80C330A75AD3BE85BDBC4A4BCAF0439318D54450A83407713C3:f90291fa0b974d4bc7a813f99c143d67
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/ControlMapper/PlacementPlusDescription.asset
+    hash: E735D628F7834DDFBBA00130BB5F0A0BF4295FFB8BEDD53C2AC5D9285642D546:0643fa14e7bca2ac769e74eb72a5dd88
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/ADD_ROOF.asset
+    hash: 6603507B35918E2A66994A4672F067F7E0D4573CE3E961996D5E1B7C09137661:c4b3e74aaea9d363d8654c49e74f0313
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/AdminOnlyMesage.asset
+    hash: 0D81BBFA28A576DE32AACBD8120678A590DDA65034B664991937DE6B2DCEAE8E:1c5d91443d1e8edd13506dfb25914144
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/BlockToolModeMessage.asset
+    hash: 80DF87F2E6F4106C9E02E4EAC0131FEEE89B2D5EC79E4EEE95BA350746DB34E7:b4eef97e34ce0c734ac69871674b7aab
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CHESS_PATTERN.asset
+    hash: 3E76F4F57BB96E39C093E7C545CDFD797779CAC0E941C6A046FD24491487DCBE:7a969377d06491e5345edc8fe314f23e
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CIRCLE.asset
+    hash: E1A7F889A161BCDBDAA393CCA7E035166617FD08EEF45A7850803E45043E6572:f8160d9dfaa4bf2d72d38802ac814bd6
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/CLEAR_ROOF.asset
+    hash: 8BF3F93D9D082ACC54EC0AF090698814567395C30BB826EABC43D7F808908E16:5bd6d9f2ff8cf9005d169536b82f091c
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/GROUND.asset
+    hash: 329791B547B2366C7CEA6332E335D13BCC258403FEF6C52EC8FA0449BAA49CEE:d0bc143933504b60a38b3a05f5b422d4
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/HORIZONTAL.asset
+    hash: 0B076C7262A82631FA1ECB3C09700878813FBC90203FC49EE2AD28C8B0A6EF7F:9b3a6141d29ab6372f8f640e3f8f5b60
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/ModeMessage.asset
+    hash: 3B4A1DFF719B9F8804437FC7715341A4F01D81B823F9CC0D689E4B7D1DA84D44:423cf94673ed79c9f7a9254e8efe0c8d
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/NONE.asset
+    hash: 30A3336BF655F6C39A851E982CADE106D0B58BF55FC6F2872AEC9620864F6ECE:014142d01c8d17b1a45d5685931e3c88
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/PlacementPlus.asset
+    hash: 4B01DE682D95FBDD476C068FF67751CA70BF9D2235F08FD4C63C4F0685D5C229:63675825c554afa405b35e1441067491
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RANDOM_60_P.asset
+    hash: 5E6A15196166C43B2B81461CA6DC1DBEAE294043B7062E7F23737F8EE84A727F:0bae1f8aab5fb27b78de3ca8c3185303
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RANDOM_70_P.asset
+    hash: 3D7DA925ED8961108BA5A7E11DA68CAB6B3F60CFEC196AD001DB99F424C17094:0f57b35e196d26f1e9d71ff70e5ab1a4
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/REMOVE.asset
+    hash: ECFBA17BECBF2CE6CE0AE7A96E9C038448B1FEDAC8AFFEC3CF1A053F0BB24E8C:a09975f7742ea01cb06dc999e50885d9
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/RoofingToolModeMessage.asset
+    hash: EEBDFF91AAD863D916AC5A8EFF8D4051D74538C293055EC961A269C2ECA90303:0563447c7b4713e570e41a5d2357e3f8
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SHAPE_ARC.asset
+    hash: 18474CA6F73EF22485D61165F69BE93EE0C7CB8040E6FECB05C0A387DA4C30D4:00d3ebe2209f816072a5616bf47506ab
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SHAPE_SQUARE.asset
+    hash: 616218F2FCB736F64308CC5620C143198D181014CD7732E3A28BDB100752B9B5:4cdc6ff4490d8119773c02676423ea17
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SledgeMode.asset
+    hash: D2E76B39274D72087E126C32D56C6EFFEEC91AEC17C740198729D04A9E1D9645:a61fff9fb99db95012839f200ad3e520
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SledgeSize.asset
+    hash: BF2854692491C49ED8C64E8CAF479319D2290CA16E3A7EACDA61E026FAB0377E:8dc571583b965626b25999e87cea7f79
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/SQUARE.asset
+    hash: 7D0EC50F9254B5BC1CD9C72679CBF34DF8EBE7A983305427EB96883974C6DD03:5f78c327896f46ca5ec0a668030068a3
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/TOGGLE.asset
+    hash: 869326BA1E60FD4886C5E263890CBCB25B84C613ACA3641FC7A547B478FA7851:7f1f6772839bc583d79402ddffa044bc
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/VERTICAL.asset
+    hash: DF09B9C460B91B5EE7EA52F20090CDB20B6CBC6B9557D70ED42DD3FC1F4C119D:fcd2e6435ba9340500c0a16697d23220
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus/WALL.asset
+    hash: D85D3AD8D316EB5A3B6F4A04F05F1C1CA1FC30A301056BEE08D7A8D5EE62374D:f7496c849b10da43fecb70d91a902033
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ChangeOrientationPC.asset
+    hash: CF700E0980481D19541B6501424ED7919D6B5B916410FA40041C9F91C09E30A3:cb7744603a65c73183e94075185bbc54
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ChangeToolModePC.asset
+    hash: B98BE81FE15301E92D9311B29832D4FA325409E040BD88FDE8F9702F3FD1CB7C:dab39b670e89758c975c221ca87bd866
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_DecreaseSizePC.asset
+    hash: C5C49C323330C930722A0ED425772E8E9A76C93417B97399F2C2CD5BF6692155:04b241b03786e298c885008db54e77eb
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_IncreaseSizePC.asset
+    hash: 88849FCD647C921EA7128DABE5A68732B9865A920C65615F105EF90FE0EDF0DF:e6ae6b62ca02a2235ab8586744e038f3
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus/General.asset
+    hash: 3D51EFCFD4FE27AA978F921E6813CCD33ACDD29A20F39C447828E8C8630DF576:5ebc94fa96c6697efbed86c09e73c106
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/AllowWallVariants.asset
+    hash: CF2009B340F5600F3E62843C4C7DE93F2A1695294D965E086929FBF7EEF87E4A:06f7604641f38125dd02d508d447a404
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/IgnoreBuiltinExclude.asset
+    hash: 53027959F6489ADA81F62DBE691F94B3593E4385E1EEC216AB25FA23547F87E0:bb40530eef0c04e3a284055bdb3af477
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/MaxBrushSize.asset
+    hash: 6744E53464B72DC1D3C2DC942D259C77E4DC222735CC20A7A01254D8EFD32E1F:06b4d1e597544aaf74fd0e466342d1da
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/ShortMessages.asset
+    hash: D343358743FE8FDB551C1B91E94EA67531A19245EB3D4F9383767F9E6A8916CB:e17cb6148ce5f62f1dae1fa4219450e9
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/SledgehammerPreview.asset
+    hash: C34C8C20D85AC65AAC000CB19B0A433B5133632FF15CC0D0B832729B9F75F90C:278e3ba96e8ffcbb94da1e28db143378
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_PlacementPlus_General/SledgehammerPreviewOpacity.asset
+    hash: 8C3E1F9BA4EE63672345459F151571A8965862E9FA7210879B96E4F7E238DAF1:73281425186dfc49ae91aacf4f33b65a
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ReplaceButtonPC.asset
+    hash: BAF809F68B5D8FEBE495FFE0C33920638B6D32A27A49E15BC1EC970BC1C2B766:8f8a726c3f64cd5d46c71e643dc37fce
+  - path: Assets/LimokaMods/PlacementPlus/Data/TextDataBlock/PlacementPlus_ReverseDirectionPC.asset
+    hash: A43F919354C89D226FAED88C4F7502053CA074B270C4D1D6847F3C075E139F7C:5a4ca864cc9a4ca42994bef654b37003
   lastBuildLinux: 1

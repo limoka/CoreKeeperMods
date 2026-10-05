@@ -12,17 +12,15 @@ namespace PlacementPlus.Commands
     {
         public Entity player;
         public int3 anchor;
-        // 0 = Grid Placement, 1 = Roof Apparatus, 2 = Paintbrush, 3 = Shovel/Hoe (All share the 
-        // same "server executes on behalf" skeleton, so they use a single RPC differentiated by type).
-        public int kind;
+        public BrushKind kind;
     }
 
-    // Names for kind values — serialized and carried as ints.
-    internal static class BrushKind
+    // Names for kind values
+    public enum BrushKind : byte
     {
-        internal const int Place = 0;
-        internal const int Roof = 1;
-        internal const int Paint = 2;
-        internal const int Tool = 3;
+        None = 0,
+        Place,
+        Roof,
+        Tool
     }
 }

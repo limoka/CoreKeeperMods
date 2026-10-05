@@ -1,3 +1,4 @@
+using System;
 using CommandMinion;
 using Inventory;
 using Mods.PlacementPlus.Scripts.Util;
@@ -11,6 +12,7 @@ using Pug.Properties;
 using PugTilemap;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using Unity.NetCode;
 using Unity.Physics;
 using Unity.Transforms;
@@ -93,10 +95,13 @@ namespace PlacementPlus
                 // The window must be shorter than the tool's actual cooldown — because it must not swallow 
                 // legitimate rapid clicking that respects the cooldown (Roofing: 0.4s, Paint: 0.25s, Shovel: 0.4s), 
                 // windows are configured dynamically by type.
-                float dedupWindow = rpc.kind == Commands.BrushKind.Roof ? 0.3f :
-                    rpc.kind == Commands.BrushKind.Paint ? 0.2f :
-                    rpc.kind == Commands.BrushKind.Tool ? 0.4f : 0.5f;
-                bool dup = Unity.Mathematics.math.all(rpc.anchor == s_lastExecAnchor) &&
+                float dedupWindow = rpc.kind switch
+                {
+                    BrushKind.Roof => 0.3f,
+                    BrushKind.Tool => 0.4f,
+                    _ => 0.5f
+                };
+                bool dup = math.all(rpc.anchor == s_lastExecAnchor) &&
                            rpc.kind == s_lastExecKind &&
                            UnityEngine.Time.realtimeSinceStartup - s_lastExecReal < dedupWindow;
                 if (dup) continue;
@@ -123,7 +128,7 @@ namespace PlacementPlus
         // reassignment (Before group) and the dispatch (Update group) is absolutely vital.
         // Used for server-side double-execution defense (See Process).
         private static Unity.Mathematics.int3 s_lastExecAnchor;
-        private static int s_lastExecKind = -1;
+        private static BrushKind s_lastExecKind = BrushKind.None;
         private static float s_lastExecReal = -10f;
 
         internal static void SuppressVanillaPlacement(ref SystemState state)
@@ -291,7 +296,7 @@ namespace PlacementPlus
             }
         }
 
-        private static void ExecuteBrushPlace(ref SystemState state, EntityCommandBuffer ecb, Entity player, Unity.Mathematics.int3 anchor, int kind)
+        private static void ExecuteBrushPlace(ref SystemState state, EntityCommandBuffer ecb, Entity player, Unity.Mathematics.int3 anchor, BrushKind kind)
         {
             if (!TryBuildSharedData(ref state, ecb, out var sharedData)) return;
             var lookupData = BuildLookupData(ref state);
@@ -456,8 +461,8 @@ namespace PlacementPlus
             EquipmentUpdateSharedData sharedData,
             LookupEquipmentUpdateData lookupData,
             Entity player,
-            Unity.Mathematics.int3 anchor,
-            int kind)
+            int3 anchor,
+            BrushKind kind)
         {
             var aspectLookup = new EquipmentUpdateAspect.Lookup(ref state);
             EquipmentUpdateAspect aspect = aspectLookup[player];
@@ -478,7 +483,7 @@ namespace PlacementPlus
 
             switch (kind)
             {
-                case Commands.BrushKind.Roof:
+                case BrushKind.Roof:
                     // Roofing and paint logic internally call GetLookups(isServer) — on Burst-enabled 
                     // servers, the prefix that normally populates this is never called, so we Init directly 
                     // here (harmless since it is a reconcile-style recall).
@@ -492,19 +497,26 @@ namespace PlacementPlus
                     RoofingToolSlot_Patch.Run(aspect, sharedData, lookupData, forceRun: true);
                     aspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)100;
                     break;
-                case Commands.BrushKind.Tool:
+                case BrushKind.Tool:
                 {
                     EquipmentSystem_Patch.plusLookupsServer.Init(ref state);
                     var held = state.EntityManager.GetComponentData<EquippedObjectCD>(player);
                     var heldData = held.containedObject.objectData;
                     ref var heldInfo = ref PugDatabase.GetEntityObjectInfo(
                         heldData.objectID, sharedData.databaseBank.databaseBankBlob, heldData.variation);
-                    bool isHoe = heldInfo.objectType == ObjectType.Hoe;
+
+                    var slotType = heldInfo.objectType switch
+                    {
+                        ObjectType.Hoe => EquipmentSlotType.HoeSlot,
+                        ObjectType.Shovel => EquipmentSlotType.ShovelSlot,
+                        ObjectType.PaintTool => EquipmentSlotType.PaintToolSlot,
+                        _ => EquipmentSlotType.PlaceObjectSlot
+                    };
+                    
 
                     // Normalizing the slot during execution — because the size calculation looks up buffer 
                     // elements using the slotType (same mechanism as roofing/paint, see the ghost element trap).
-                    aspect.equipmentSlotCD.ValueRW.slotType =
-                        isHoe ? EquipmentSlotType.HoeSlot : EquipmentSlotType.ShovelSlot;
+                    aspect.equipmentSlotCD.ValueRW.slotType = slotType;
 
                     // Positions are accurate even if the server calculates them on its own (square mode remains accurate even now). 
                     // Since "shape" is the only thing we are adding, we filter and pass the list tailored to the brush layout.
@@ -512,20 +524,23 @@ namespace PlacementPlus
                     MyPlacementHandler.UpdatePlaceablePosition(
                         held.equipmentPrefab, ref digList, aspect, sharedData, lookupData, ppState);
 
-                    if (isHoe) VanillaTools.HoeDig(ref digList, aspect, sharedData, lookupData);
-                    else VanillaTools.ShovelDig(ref digList, aspect, sharedData, lookupData);
+                    switch (slotType)
+                    {
+                        case EquipmentSlotType.HoeSlot:
+                            VanillaTools.HoeDig(ref digList, aspect, sharedData, lookupData);
+                            break;
+                        case EquipmentSlotType.ShovelSlot:
+                            VanillaTools.ShovelDig(ref digList, aspect, sharedData, lookupData);
+                            break;
+                        case EquipmentSlotType.PaintToolSlot:
+                            VanillaTools.PaintPlace(ref digList, aspect, sharedData, lookupData);
+                            break;
+                    }
 
                     digList.Dispose();
                     aspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)100;
                     break;
                 }
-                case Commands.BrushKind.Paint:
-                    EquipmentSystem_Patch.plusLookupsServer.Init(ref state);
-                    aspect.equipmentSlotCD.ValueRW.slotType = EquipmentSlotType.PaintToolSlot;
-                    PaintToolSlot_Patch.PaintGrid(aspect, sharedData, lookupData, ppState,
-                        ignoreGates: true);
-                    aspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)100;
-                    break;
                 default:
                     ObjectPlacementLogic.PlaceItemGrid(aspect, sharedData, lookupData, ppLookups, ppState,
                         ignorePlacementCooldown: true);
