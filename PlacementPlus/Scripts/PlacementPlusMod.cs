@@ -96,15 +96,6 @@ namespace PlacementPlus
         public static ConfigEntry<float> sledgePreviewOpacity;
         public static ConfigEntry<bool> shortMessages;
 
-        // ── Settings deliberately NOT bound to the config file (user decision
-        // 2026-08-20: keep the config menu short). The wrapper classes keep the
-        // ".Value" shape so the generated .g.cs copies compile unchanged.
-
-        // The tool-tier cap is permanently lifted — the whole point of this
-        // build is tools at MaxBrushSize.
-        public class FixedTrue { public bool Value => true; }
-        public static readonly FixedTrue ignoreToolTierLimit = new FixedTrue();
-
         // Auto-repeat interval for held +/- keys, was cfg MinHoldTime.
         public const float MIN_HOLD_TIME = 0.15f;
 

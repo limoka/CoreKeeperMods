@@ -45,8 +45,6 @@ namespace PlacementPlus.Systems
             if (_toolsResized) return;
             _toolsResized = true;
 
-            if (PlacementPlusMod.ignoreToolTierLimit?.Value != true) return;
-
             // prefabTileSize is the hard ceiling for these tools: GetCurrentSize
             // returns it directly, and GetTileSizeFromVariation clamps to it too.
             // So it must be as large as MaxBrushSize. The "brush shrinks the area"
@@ -106,9 +104,7 @@ namespace PlacementPlus.Systems
                         return;
                     }
 
-                    state.currentMaxSize = PlacementPlusMod.ignoreToolTierLimit.Value
-                        ? maxSize
-                        : HelperLogic.GetShovelLevel(damage);
+                    state.currentMaxSize = maxSize;
                     state.CheckSize(currentTick);
                 })
                 .WithName("UpdateMaxSize")
