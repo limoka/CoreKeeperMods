@@ -1,6 +1,4 @@
-﻿using System;
-using I2.Loc;
-using PlacementPlus.Commands;
+﻿using PlacementPlus.Commands;
 using PugMod;
 using Unity.Collections;
 using Unity.Entities;

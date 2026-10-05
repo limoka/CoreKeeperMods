@@ -1,15 +1,11 @@
 ﻿using System;
-using CoreLib.Util.Extension;
 using HarmonyLib;
-using Mods.PlacementPlus.Scripts.Util;
 using PlacementPlus.Components;
 using PlacementPlus.Util;
 using PlayerEquipment;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Transforms;
-using UnityEngine;
 
 namespace PlacementPlus
 {

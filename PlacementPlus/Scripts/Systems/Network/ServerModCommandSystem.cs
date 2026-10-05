@@ -1,11 +1,8 @@
-﻿using System;
-using System.Text;
-using PlacementPlus.Commands;
+﻿using PlacementPlus.Commands;
 using PlacementPlus.Components;
 using PlayerEquipment;
 using PugTilemap;
 using Unity.Collections;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.NetCode;

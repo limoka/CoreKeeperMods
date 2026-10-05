@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using CoreLib;
 using CoreLib.Data.Configuration;
 using CoreLib.Submodule.ControlMapping;
-using CoreLib.Submodule.Localization;
 using CoreLib.Util.Extension;
-using HarmonyLib;
 using PlacementPlus.Components;
 using PlacementPlus.Systems.Network;
 using PlayerEquipment;
@@ -274,7 +272,6 @@ namespace PlacementPlus
             Log.LogInfo("Adding my components!");
             
             entitymanager.AddComponent<PlacementPlusState>(entity);
-            entitymanager.AddBuffer<ShovelDigQueueBuffer>(entity);
         }
 
         private void OnRewiredStart()

@@ -1,6 +1,5 @@
 using HarmonyLib;
 using PlacementPlus.Commands;
-using PlacementPlus.Components;
 using PlayerEquipment;
 using Unity.Mathematics;
 using UnityEngine;

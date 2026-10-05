@@ -5,7 +5,6 @@ using PlayerEquipment;
 using PlayerState;
 using Pug.UnityExtensions;
 using PugTilemap;
-using Unity.Entities;
 using Unity.Mathematics;
 
 namespace PlacementPlus

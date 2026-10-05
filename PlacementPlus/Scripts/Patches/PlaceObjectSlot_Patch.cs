@@ -1,5 +1,4 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using PlayerEquipment;
 using Pug.Properties;
 using Unity.Collections;
