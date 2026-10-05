@@ -77,6 +77,7 @@ namespace PlacementPlus.Systems
             var currentTick = networkTime.ServerTick;
 
             var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
+            ResizeToolsOnce(databaseBank);
 
             var levelLookup = SystemAPI.GetComponentLookup<LevelCD>();
             var levelEntitiesLookup = SystemAPI.GetBufferLookup<LevelEntitiesBuffer>();
