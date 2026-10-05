@@ -94,9 +94,9 @@ namespace PlacementPlus.Systems
                     ref PugDatabase.EntityObjectInfo entityObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID,
                         databaseBank.databaseBankBlob, objectData.variation);
                     
-                    var conditionsBuffer = HelperLogic.GetConditionsBuffer(objectData, ref entityObjectInfo, levelLookup, levelEntitiesLookup, givesConditionsLookup);
+                    var conditionsBuffer = Helpers.GetConditionsBuffer(objectData, ref entityObjectInfo, levelLookup, levelEntitiesLookup, givesConditionsLookup);
                     
-                    int damage = HelperLogic.GetShovelDamage(objectData, ref entityObjectInfo, conditionsBuffer);
+                    int damage = Helpers.GetShovelDamage(objectData, ref entityObjectInfo, conditionsBuffer);
                     if (damage == 0)
                     {
                         state.currentMaxSize = maxSize;

@@ -1,4 +1,5 @@
-﻿using PlacementPlus.Commands;
+﻿using Mods.PlacementPlus.Scripts.Util;
+using PlacementPlus.Commands;
 using PlacementPlus.Components;
 using PlayerEquipment;
 using PugTilemap;
@@ -12,14 +13,19 @@ namespace PlacementPlus.Systems.Network
     [WorldSystemFilter(WorldSystemFilterFlags.ServerSimulation)]
     public partial class ServerModCommandSystem : PugSimulationSystemBase
     {
-        private NativeHashMap<int, ObjectID> colorIndexLookup;
-        private int maxPaintIndex = -1;
-        private EntityArchetype responseArchetype;
+        private NativeHashMap<int, ObjectID> _colorIndexLookup;
+        private int _maxPaintIndex = -1;
+
+        private EntityArchetype _responseArchetype;
+        private EntityArchetype _achievementArchetype;
 
         protected override void OnCreate()
         {
-            responseArchetype = EntityManager.CreateArchetype(typeof(PlacementMessageRPC), typeof(SendRpcCommandRequest));
-            
+            _responseArchetype =
+                EntityManager.CreateArchetype(typeof(PlacementMessageRPC), typeof(SendRpcCommandRequest));
+            _achievementArchetype = EntityManager.CreateArchetype(typeof(AchievementSystem.AchievementRpc),
+                typeof(SendRpcCommandRequest));
+
             NeedDatabase();
             base.OnCreate();
         }
@@ -42,18 +48,18 @@ namespace PlacementPlus.Systems.Network
             // the lambda, ensuring that the lambda doesn't prematurely destroy BRUSH_PLACE entities 
             // within the exact same frame.
             // ⚠️ An identical line exists in the .g.cs file — that file's version is the one that actually executes.
-            ServerBrushExecutor.Process(ref CheckedStateRef, ecb);
+            Process(ref CheckedStateRef, ecb);
 
-            var colorIndexLookupLocal = colorIndexLookup;
+            var colorIndexLookupLocal = _colorIndexLookup;
             var databaseLocal = database;
 
             var paintToolLookup = GetComponentLookup<PaintToolCD>(true);
-            var maxPaintIndexLocal = maxPaintIndex;
-            
+            var maxPaintIndexLocal = _maxPaintIndex;
+
             var networkTime = SystemAPI.GetSingleton<NetworkTime>();
             var currentTick = networkTime.ServerTick;
 
-            var responseArchetypeLocal = responseArchetype;
+            var responseArchetypeLocal = _responseArchetype;
 
             Entities.ForEach((Entity rpcEntity, in PlacementPlusRPC rpc, in ReceiveRpcCommandRequest req) =>
                 {
@@ -61,11 +67,12 @@ namespace PlacementPlus.Systems.Network
 
                     if (!SystemAPI.HasComponent<PlacementPlusState>(rpc.player))
                     {
-                        PlacementPlusMod.Log.LogInfo($"Something is wrong! Player {rpc.player} doesn't have PlacementPlusState!");
+                        PlacementPlusMod.Log.LogInfo(
+                            $"Something is wrong! Player {rpc.player} doesn't have PlacementPlusState!");
                         ecb.DestroyEntity(rpcEntity);
                         return;
                     }
-                    
+
                     var placementState = SystemAPI.GetComponent<PlacementPlusState>(rpc.player);
                     var inventory = SystemAPI.GetBuffer<ContainedObjectsBuffer>(rpc.player);
                     var clientInput = SystemAPI.GetComponent<ClientInput>(rpc.player);
@@ -74,8 +81,9 @@ namespace PlacementPlus.Systems.Network
                     switch (rpc.commandType)
                     {
                         case ModCommandType.CHANGE_SIZE:
-                            
-                            ref var objectInfo = ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
+
+                            ref var objectInfo =
+                                ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
                             if (objectInfo.objectID == ObjectID.None) return;
 
                             Entity prefabEntity = objectInfo.prefabEntities[0];
@@ -89,7 +97,8 @@ namespace PlacementPlus.Systems.Network
                             {
                                 int sledgeAdmin = 0;
                                 if (SystemAPI.HasComponent<ConnectionAdminLevelCD>(req.SourceConnection))
-                                    sledgeAdmin = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection).adminPrivileges;
+                                    sledgeAdmin = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection)
+                                        .adminPrivileges;
 
                                 if (sledgeAdmin <= 0)
                                 {
@@ -113,16 +122,17 @@ namespace PlacementPlus.Systems.Network
                             // Tools that didn't have it (lower-tier shovels) were blocked by this gate, 
                             // making the +/- size adjustments completely unresponsive (Observed by SirSephiroth1 on 08-28).
                             bool sizeByVariation = SystemAPI.HasComponent<ResizableTileSizeCD>(prefabEntity) ||
-                                objectInfo.objectType == ObjectType.Shovel ||
-                                objectInfo.objectType == ObjectType.Hoe ||
-                                objectInfo.objectType == ObjectType.RoofingTool ||
-                                objectInfo.objectType == ObjectType.WaterCan;
-                            
+                                                   objectInfo.objectType == ObjectType.Shovel ||
+                                                   objectInfo.objectType == ObjectType.Hoe ||
+                                                   objectInfo.objectType == ObjectType.RoofingTool ||
+                                                   objectInfo.objectType == ObjectType.WaterCan;
+
                             if (sizeByVariation)
                             {
-                                var placementSizeBuffer = SystemAPI.GetBuffer<PlacementSizeByEquipmentTypeBuffer>(rpc.player);
+                                var placementSizeBuffer =
+                                    SystemAPI.GetBuffer<PlacementSizeByEquipmentTypeBuffer>(rpc.player);
                                 var equipmentSlot = SystemAPI.GetComponent<EquipmentSlotCD>(rpc.player);
-                                
+
                                 // If the size is adjusted during suppress(slotType=100), it gets saved to the ghost element (100), 
                                 // causing a desync with the client preview (which tracks the normal slot element). 
                                 // We restore the original slot using the item type to normalize the key (Observed on 08-25: 
@@ -153,17 +163,17 @@ namespace PlacementPlus.Systems.Network
                                 // Mirrored in the .g.cs — that is the copy that
                                 // actually runs.
                                 size += rpc.valueChange;
-                                
+
                                 if (size <= 0)
                                     size = 0;
                                 if (size >= objectInfo.prefabTileSize.x - 1)
                                     size = objectInfo.prefabTileSize.x - 1;
 
                                 element.sizeVariationToPlace = (byte)size;
-                                        
+
                                 break;
                             }
-                            
+
                             placementState.ChangeSize(rpc.valueChange, currentTick);
                             ecb.SetComponent(rpc.player, placementState);
                             break;
@@ -172,12 +182,14 @@ namespace PlacementPlus.Systems.Network
 
                             int adminLevel = 0;
                             if (SystemAPI.HasComponent<ConnectionAdminLevelCD>(req.SourceConnection))
-                                adminLevel = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection).adminPrivileges;
+                                adminLevel = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection)
+                                    .adminPrivileges;
 
                             // Sledgehammer: the tool-mode key toggles square/arc.
                             // Shared value like the size — admins only. Mirrored
                             // in the .g.cs, that copy runs.
-                            ref var sledgeInfo = ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
+                            ref var sledgeInfo =
+                                ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
                             if (sledgeInfo.objectType == ObjectType.Sledge)
                             {
                                 if (adminLevel <= 0)
@@ -218,7 +230,7 @@ namespace PlacementPlus.Systems.Network
                                     req.SourceConnection
                                 );
                             }
-                            
+
                             ecb.SetComponent(rpc.player, placementState);
 
                             break;
@@ -231,7 +243,8 @@ namespace PlacementPlus.Systems.Network
                             // SQUARE (their size is the tool's own), so their
                             // cycle skips it. Mirrored in the .g.cs — that copy
                             // runs.
-                            ref var orientInfo = ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
+                            ref var orientInfo =
+                                ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
                             if (placementState.mode == BrushMode.NONE &&
                                 (orientInfo.objectType == ObjectType.Shovel ||
                                  orientInfo.objectType == ObjectType.Hoe ||
@@ -257,7 +270,6 @@ namespace PlacementPlus.Systems.Network
                             placementState.replaceTiles = rpc.valueChange > 0;
                             ecb.SetComponent(rpc.player, placementState);
                             break;
-
                     }
 
                     ecb.DestroyEntity(rpcEntity);
@@ -287,7 +299,7 @@ namespace PlacementPlus.Systems.Network
                 TargetConnection = targetConnection
             });
         }
-        
+
 
         private static PlacementMessageRPC ToggleToolMode(
             NativeHashMap<int, ObjectID> colorIndexLookup,
@@ -317,7 +329,7 @@ namespace PlacementPlus.Systems.Network
             {
                 return state.ToggleRoofingMode(backwards);
             }
-            
+
             if (objectInfo.tileType == TileType.wall)
             {
                 return state.ToggleBlockMode(backwards, creativeMode);
@@ -328,9 +340,9 @@ namespace PlacementPlus.Systems.Network
 
         private void InitColorIndexLookup()
         {
-            if (colorIndexLookup.IsCreated) return;
+            if (_colorIndexLookup.IsCreated) return;
 
-            colorIndexLookup = new NativeHashMap<int, ObjectID>(16, Allocator.Persistent);
+            _colorIndexLookup = new NativeHashMap<int, ObjectID>(16, Allocator.Persistent);
 
 
             Entities.ForEach((
@@ -339,13 +351,13 @@ namespace PlacementPlus.Systems.Network
                 {
                     if (paintToolCd.paintIndex == 0) return;
 
-                    colorIndexLookup.Add(paintToolCd.paintIndex, objectDataCd.objectID);
-                    maxPaintIndex = math.max(maxPaintIndex, paintToolCd.paintIndex);
+                    _colorIndexLookup.Add(paintToolCd.paintIndex, objectDataCd.objectID);
+                    _maxPaintIndex = math.max(_maxPaintIndex, paintToolCd.paintIndex);
                 })
                 .WithAll<Prefab>()
                 .WithoutBurst()
                 .Run();
-            PlacementPlusMod.Log.LogInfo($"InitColorIndexLookup Done, {colorIndexLookup.Count} brushes!");
+            PlacementPlusMod.Log.LogInfo($"InitColorIndexLookup Done, {_colorIndexLookup.Count} brushes!");
         }
 
         private static void CyclePaintBrush(
@@ -367,6 +379,226 @@ namespace PlacementPlus.Systems.Network
                 state.lastColorIndex = 1;
 
             item.objectData.objectID = colorIndexLookup[state.lastColorIndex];
+        }
+
+        private void Process(
+            ref SystemState state,
+            EntityCommandBuffer ecb
+        )
+        {
+            UpdatePlayerCount(ref state, ecb);
+
+            // If the server prefix is active (DLL renaming, singleplayer, or hosting), the legacy path 
+            // handles placing the grid — if this logic runs as well, it causes duplicate execution 
+            // (overlapping sound effects and double consumption, observed on 08-22), so it remains dormant. 
+            // Even if the BRUSH_PLACE entity is not consumed below, the lambda's default destruction logic will clean it up.
+            if (EquipmentSystem_Patch.serverPrefixAlive) return;
+
+            var tileAccessor = CreateTileAccessor();
+            var ppStateLookup = state.GetComponentLookup<PlacementPlusState>();
+            var placementLookup = state.GetComponentLookup<PlacementCD>();
+
+            var aspectLookup = new EquipmentUpdateAspect.Lookup(ref state);
+
+            var ppLookups = new PlacementPlusLookups();
+            ppLookups.Init(ref state);
+
+            if (!Helpers.TryBuildSharedData(
+                    ref state,
+                    ecb,
+                    out var sharedData,
+                    tileAccessor,
+                    _achievementArchetype
+                )) return;
+
+            var lookupData = Helpers.BuildLookupData(ref state);
+
+            // Roofing and paint logic internally call GetLookups(isServer) — on Burst-enabled 
+            // servers, the prefix that normally populates this is never called, so we Init directly 
+            // here (harmless since it is a reconcile-style recall).
+            EquipmentSystem_Patch.plusLookupsServer.Init(ref state);
+
+            foreach (var (rpc, rpcEntity) in SystemAPI.Query<BrushPlaceRPC>()
+                         .WithAll<ReceiveRpcCommandRequest>()
+                         .WithEntityAccess())
+            {
+                ecb.DestroyEntity(rpcEntity);
+
+                Entity player = rpc.player;
+                if (player == Entity.Null) continue;
+                if (!ppStateLookup.HasComponent(player)) continue;
+                if (!placementLookup.HasComponent(player)) continue;
+
+                // Server-side duplicate defense (Double-layered with the client guard): Re-execution leaves 
+                // only side effects, amplifying prediction desyncs (Measured and observed on 08-25: 2 to 4 times per anchor). 
+                // The window must be shorter than the tool's actual cooldown — because it must not swallow 
+                // legitimate rapid clicking that respects the cooldown (Roofing: 0.4s, Paint: 0.25s, Shovel: 0.4s), 
+                // windows are configured dynamically by type.
+                float dedupWindow = rpc.kind switch
+                {
+                    BrushKind.Roof => 0.3f,
+                    BrushKind.Tool => 0.4f,
+                    _ => 0.5f
+                };
+                bool dup = math.all(rpc.anchor == _lastExecAnchor) &&
+                           rpc.kind == _lastExecKind &&
+                           UnityEngine.Time.realtimeSinceStartup - _lastExecReal < dedupWindow;
+                if (dup) continue;
+                _lastExecAnchor = rpc.anchor;
+                _lastExecKind = rpc.kind;
+                _lastExecReal = UnityEngine.Time.realtimeSinceStartup;
+
+                PlacementPlusState ppState = ppLookups.stateLookup[player];
+                EquipmentUpdateAspect aspect = aspectLookup[player];
+
+                RunBrushPlace(
+                    aspect,
+                    ppState,
+                    sharedData, 
+                    lookupData,
+                    ppLookups,
+                    rpc.anchor, 
+                    rpc.kind
+                    );
+            }
+        }
+
+        // Called "BEFORE" scheduling the lambda inside the ServerModCommandSystem.OnUpdate body 
+        // — This ensures that the lambda doesn't prematurely destroy BRUSH_PLACE entities within 
+        // the exact same frame.
+        // Connection tracking — Player count from the immediately preceding tick (See Process).
+        private int _lastPlayerCount = -1;
+
+        private void UpdatePlayerCount(ref SystemState state, EntityCommandBuffer ecb)
+        {
+            // One-time hammer setting synchronization upon connection — If a new client doesn't know 
+            // the server's values (step/shape), it will draw the preview using its own local cfg, 
+            // resulting in a "9x9 preview but 3x3 strike" desync (Observed on 08-25; it only synced properly 
+            // after pressing num+/-). Broadcast to everyone when a new player is detected — SLEDGE_SYNC 
+            // is silent, so it won't cause network/chat spam.
+            // Placed before the serverPrefixAlive guard: This is also required for DLL-renamed servers and hosts.
+
+            var playerCountQuery = state.GetEntityQuery(
+                ComponentType.ReadOnly<PlacementPlusState>(),
+                ComponentType.ReadOnly<PlayerGhost>());
+
+            int playerCount = playerCountQuery.CalculateEntityCount();
+
+            if (playerCount > _lastPlayerCount && _lastPlayerCount >= 0 &&
+                PlacementPlusMod.sledgeSize != null)
+            {
+                int packed = PlacementPlusMod.sledgeSize.Value * 2 +
+                             ((PlacementPlusMod.sledgeSquare?.Value ?? true) ? 1 : 0);
+                Entity msg = ecb.CreateEntity();
+                ecb.AddComponent(msg, new PlacementMessageRPC
+                {
+                    messageType = ModMessageType.SLEDGE_SYNC_MESSAGE,
+                    messageData = packed
+                });
+                ecb.AddComponent(msg, new SendRpcCommandRequest { TargetConnection = Entity.Null });
+            }
+
+            _lastPlayerCount = playerCount;
+        }
+
+        // Disabling vanilla server placement: EquipmentUpdateSystem's dispatch branches based on slotType, 
+        // and if the value is 100 (out of bounds), no slots are processed — we maintain this same mechanism 
+        // on the server side (the exact value PlaceItemGrid leaves at 100 upon finishing) that the legacy 
+        // mod used in dll-off mode. Through testing, we confirmed slotType is not a [GhostField], meaning it 
+        // is not replicated down to the client. However, because SelectedEquipmentChangeSystem reassigns 
+        // slotType "every single tick" (not just when it changes — a correction from Round 6 observations), 
+        // we must overwrite it every tick as well.
+        // If not disabled, vanilla will continuously place a 1x1 at its own anchor (Round 2 observation: 
+        // a conveyor 5x5 becomes 25+1, firing a rapid succession of 1x1 placements immediately after install).
+        // (We previously noted a "cannot place on wall sides" constraint here, but it was disproven through 
+        // testing after lookupData was completed — wall torch placement works fine, 08-25 round.)
+        // Called by VanillaPlacementSuppressSystem — the exact "slot" (position) between the every-tick 
+        // reassignment (Before group) and the dispatch (Update group) is absolutely vital.
+        // Used for server-side double-execution defense (See Process).
+        private int3 _lastExecAnchor;
+        private BrushKind _lastExecKind = BrushKind.None;
+        private float _lastExecReal = -10f;
+
+        private static void RunBrushPlace(
+            EquipmentUpdateAspect aspect,
+            PlacementPlusState ppState,
+            EquipmentUpdateSharedData sharedData,
+            LookupEquipmentUpdateData lookupData,
+            PlacementPlusLookups ppLookups,
+            int3 anchor,
+            BrushKind kind)
+        {
+            // The server's placementCD holds the value calculated by the vanilla 1x1 logic — 
+            // we swap the anchor with the grid anchor sent by the client (Round 1 observation: if not swapped, 
+            // only half is placed in the wrong spot). We also force canPlaceObject to true since vanilla 
+            // might have disabled it based on its own anchor — per-cell safety is authoritatively handled by 
+            // PlaceAt/ReplaceAt (placement), paintable validation (paint), and IsWallTile validation (roofing).
+            ref PlacementCD placementRef = ref aspect.placementCD.ValueRW;
+            placementRef.bestPositionToPlaceAt = anchor;
+            placementRef.canPlaceObject = true;
+            placementRef.canPlaceOnSideOfWall = false;
+            
+            switch (kind)
+            {
+                case BrushKind.Roof:
+
+                    // Normalizing the slot during execution — the same mechanism that PlaceItemGrid performs on its own. 
+                    // The size calculation (GetTileSizeFromVariation) looks up buffer elements using the slotType, 
+                    // so if it runs while left at 100 due to suppression, it reads a ghost element (100) and desyncs the size 
+                    // (Observed on 08-25: the execution logic and the preview tracked entirely different elements). 
+                    // Reverts back to 100 once finished — suppression will overwrite it again before the next tick's dispatch anyway.
+                    aspect.equipmentSlotCD.ValueRW.slotType = EquipmentSlotType.RoofingToolSlot;
+                    RoofingToolSlot_Patch.Run(aspect, sharedData, lookupData, forceRun: true);
+                    aspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)100;
+                    break;
+                case BrushKind.Tool:
+
+                    var held = aspect.equippedObjectCD.ValueRO;
+                    var heldData = held.containedObject.objectData;
+                    ref var heldInfo = ref PugDatabase.GetEntityObjectInfo(
+                        heldData.objectID, sharedData.databaseBank.databaseBankBlob, heldData.variation);
+
+                    var slotType = heldInfo.objectType switch
+                    {
+                        ObjectType.Hoe => EquipmentSlotType.HoeSlot,
+                        ObjectType.Shovel => EquipmentSlotType.ShovelSlot,
+                        ObjectType.PaintTool => EquipmentSlotType.PaintToolSlot,
+                        _ => EquipmentSlotType.PlaceObjectSlot
+                    };
+
+
+                    // Normalizing the slot during execution — because the size calculation looks up buffer 
+                    // elements using the slotType (same mechanism as roofing/paint, see the ghost element trap).
+                    aspect.equipmentSlotCD.ValueRW.slotType = slotType;
+
+                    // Positions are accurate even if the server calculates them on its own (square mode remains accurate even now). 
+                    // Since "shape" is the only thing we are adding, we filter and pass the list tailored to the brush layout.
+                    var digList = new NativeList<PlacementHandler.EntityAndInfoFromPlacement>(Allocator.Temp);
+                    MyPlacementHandler.UpdatePlaceablePosition(
+                        held.equipmentPrefab, ref digList, aspect, sharedData, lookupData, ppState);
+
+                    switch (slotType)
+                    {
+                        case EquipmentSlotType.HoeSlot:
+                            VanillaTools.HoeDig(ref digList, aspect, sharedData, lookupData);
+                            break;
+                        case EquipmentSlotType.ShovelSlot:
+                            VanillaTools.ShovelDig(ref digList, aspect, sharedData, lookupData);
+                            break;
+                        case EquipmentSlotType.PaintToolSlot:
+                            VanillaTools.PaintPlace(ref digList, aspect, sharedData, lookupData);
+                            break;
+                    }
+
+                    digList.Dispose();
+                    aspect.equipmentSlotCD.ValueRW.slotType = (EquipmentSlotType)100;
+                    break;
+
+                default:
+                    ObjectPlacementLogic.PlaceItemGrid(aspect, sharedData, lookupData, ppLookups, ppState,
+                        ignorePlacementCooldown: true);
+                    break;
+            }
         }
     }
 }

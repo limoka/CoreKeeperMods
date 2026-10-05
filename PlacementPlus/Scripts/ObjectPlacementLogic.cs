@@ -178,7 +178,7 @@ namespace PlacementPlus
                 });
             }
 
-            HelperLogic.GetBestToolsSlots(
+            Helpers.GetBestToolsSlots(
                 equipmentAspect,
                 sharedData,
                 lookupData,
@@ -191,7 +191,7 @@ namespace PlacementPlus
 
             if (usedShovel && !freePlacement)
             {
-                HelperLogic.ConsumeEquipmentInSlot(
+                Helpers.ConsumeEquipmentInSlot(
                     equipmentAspect,
                     sharedData,
                     inventoryChangeBuffers,
@@ -202,7 +202,7 @@ namespace PlacementPlus
 
             if (usedPickaxe && !freePlacement)
             {
-                HelperLogic.ConsumeEquipmentInSlot(
+                Helpers.ConsumeEquipmentInSlot(
                     equipmentAspect,
                     sharedData,
                     inventoryChangeBuffers,
@@ -613,7 +613,7 @@ namespace PlacementPlus
             ref bool usedPickaxe
         )
         {
-            int pickaxeDamage = HelperLogic.GetBestToolsSlots(
+            int pickaxeDamage = Helpers.GetBestToolsSlots(
                 equipmentAspect,
                 sharedData,
                 lookupData,
@@ -791,7 +791,7 @@ namespace PlacementPlus
 
                 if (tile.tileType == TileType.ground && shovelSlot != -1)
                 {
-                    HelperLogic.ConsumeEquipmentInSlot(
+                    Helpers.ConsumeEquipmentInSlot(
                         equipmentAspect,
                         sharedData,
                         inventoryChangeBuffers,
@@ -802,7 +802,7 @@ namespace PlacementPlus
 
                 if (tile.tileType == TileType.wall && pickaxeSlot != -1)
                 {
-                    HelperLogic.ConsumeEquipmentInSlot(
+                    Helpers.ConsumeEquipmentInSlot(
                         equipmentAspect,
                         sharedData,
                         inventoryChangeBuffers,
