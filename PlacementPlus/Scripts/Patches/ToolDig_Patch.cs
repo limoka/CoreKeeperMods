@@ -1,6 +1,7 @@
 using HarmonyLib;
 using PlacementPlus.Commands;
 using PlayerEquipment;
+using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -37,6 +38,21 @@ namespace PlacementPlus
         {
             SendIfLineShape(equipmentUpdateAspect, equipmentUpdateSharedData, __result);
         }
+
+        [HarmonyPatch(typeof(PaintToolSlot), "PlaceItem")]
+        [HarmonyPrefix]
+        private static bool OnPlaceItem(
+            ref NativeList<PlacementHandler.EntityAndInfoFromPlacement> diggableEntityAndInfos,
+            in EquipmentUpdateAspect equipmentUpdateAspect,
+            EquipmentUpdateSharedData equipmentUpdateSharedData,
+            LookupEquipmentUpdateData equipmentUpdateLookupData
+        )
+        {
+            // This prevents DivideByZeroException from PaintToolSlot when PlacementHandler_Patch2 clears out 
+            // diggableEntityAndInfos to prevent client predictions. This only happens when serverPrefixAlive is false
+            return diggableEntityAndInfos.Length != 0;
+        }
+        
         
         [HarmonyPatch(typeof(PaintToolSlot), nameof(PaintToolSlot.UpdateEquipment))]
         [HarmonyPostfix]

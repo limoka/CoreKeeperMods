@@ -24,15 +24,13 @@ MonoBehaviour:
     files:
     - path: Scripts/Scripts/Util/VanillaTools.cs
       guid: 268be0eb916163649ad51ac4a74ea399
-    - path: Scripts/Scripts/Util/ServerBrushExecutor.cs
-      guid: 108250ce796199a47bd6ade64306efa3
     - path: Scripts/Scripts/Util/ReflectionExtensions.cs
       guid: 746fa363722c44ad866abc36d9c44c50
     - path: Scripts/Scripts/Util/PlacementPlusLookups.cs
       guid: 6ae09aaa002a427c9f49b8c78423cdb6
     - path: Scripts/Scripts/Util/MyPlacementHandler.cs
       guid: 8b0cfb530e33451d9b45e146e29e414f
-    - path: Scripts/Scripts/Util/HelperLogic.cs
+    - path: Scripts/Scripts/Util/Helpers.cs
       guid: e548a6148496437eb5a24bcfbe25441e
     - path: Scripts/Scripts/Util/Extensions.cs
       guid: 85d962c54cd9ea84da18b8c6dd12f3af
@@ -52,14 +50,10 @@ MonoBehaviour:
       guid: 3d6f80fd7fa349a4fae84d20ab0f9921
     - path: Scripts/Scripts/Patches/RoofingToolSlot_Patch.cs
       guid: ebba309a6f7841feafc6f0ac7afc6656
-    - path: Scripts/Scripts/Patches/PlayerController_Patch.cs
-      guid: cd33ac0e22fb53d44bd26e44f00f0b7d
     - path: Scripts/Scripts/Patches/PlaceObjectSlot_Patch.cs
       guid: ce7832903a3fcb94a9e9bd7721fa6c68
     - path: Scripts/Scripts/Patches/PlacementHandler_Patch.cs
       guid: 4106d58cc7eee974787d845874df06dd
-    - path: Scripts/Scripts/Patches/PaintToolSlot_Patch.cs
-      guid: df162817bf08484428e5dd52d6902e55
     - path: Scripts/Scripts/Patches/MapUpdateSystem_Patch.cs
       guid: 7941a8ce5d204a10af02eea187d60ff2
     - path: Scripts/Scripts/Patches/EquipmentSystem_Patch.cs
@@ -68,22 +62,16 @@ MonoBehaviour:
       guid: 3b8f67ac9b3940cd8c2987d68d93d5b2
     - path: Scripts/Scripts/ObjectPlacementLogic.cs
       guid: 5474510d567d4aa7b78de3dbfe0d729d
-    - path: Scripts/Scripts/Data/TileData.cs
-      guid: 092616b41a8b4aa4a83e73b944d54a73
     - path: Scripts/Scripts/Data/RoofingToolMode.cs
       guid: 447ef4257fdd4f4d9be01a84979f86c6
     - path: Scripts/Scripts/Data/KeyMode.cs
       guid: 65ba73c51a7dc3c429d7b18ff395a844
-    - path: Scripts/Scripts/Data/DigShared.cs
-      guid: cf76bfba84ba4f14a4b0a057094f783f
     - path: Scripts/Scripts/Data/BrushRect.cs
       guid: 46cca507331a5e2489a19c5d754739bc
     - path: Scripts/Scripts/Data/BrushMode.cs
       guid: 2a9c6860e8b342ddbef4aa8967dd35c4
     - path: Scripts/Scripts/Data/BlockMode.cs
       guid: 01a7dd06ccf04d2f898606aaa1c032dc
-    - path: Scripts/Scripts/Components/ShovelDigQueueBuffer.cs
-      guid: 33fd235a11094e29bb51e5513946c286
     - path: Scripts/Scripts/Components/PlacementPlusState.cs
       guid: c6d0d8bde2e64b869332f9400104c15d
     - path: Scripts/Scripts/Commands/PlacementPlusRPC.cs
@@ -95,6 +83,8 @@ MonoBehaviour:
     - path: Scripts/Generated/PlacementPlusSystem__System_16094396030.g.cs
       guid: 
     - path: Scripts/Generated/ServerModCommandSystem__System_5733965810.g.cs
+      guid: 
+    - path: Scripts/Generated/VanillaPlacementSuppressSystem__System_14429608490.g.cs
       guid: 
     - path: Scripts/Generated/GhostComponentSerializerCollection.cs
       guid: 

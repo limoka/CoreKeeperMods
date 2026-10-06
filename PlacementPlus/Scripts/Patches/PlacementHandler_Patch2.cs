@@ -13,7 +13,7 @@ namespace PlacementPlus
     // The roofing gadget calls the same method; it only needs the position, the
     // tiles it changes are handled in RoofingToolSlot_Patch.
     [HarmonyPatch]
-    public static class ShovelSlot_Patch
+    public static class PlacementHandler_Patch2
     {
         [HarmonyPatch(typeof(PlacementHandler), nameof(PlacementHandler.UpdatePlaceablePosition))]
         [HarmonyPrefix]
