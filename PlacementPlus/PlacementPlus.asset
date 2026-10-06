@@ -46,12 +46,12 @@ MonoBehaviour:
       guid: 1b9da0b78bf773045a124e38a68811e6
     - path: Scripts/Scripts/Patches/ToolDig_Patch.cs
       guid: 00cb4a493926af443a2e6d2f8a80ef05
-    - path: Scripts/Scripts/Patches/ShovelSlot_Patch.cs
-      guid: 3d6f80fd7fa349a4fae84d20ab0f9921
     - path: Scripts/Scripts/Patches/RoofingToolSlot_Patch.cs
       guid: ebba309a6f7841feafc6f0ac7afc6656
     - path: Scripts/Scripts/Patches/PlaceObjectSlot_Patch.cs
       guid: ce7832903a3fcb94a9e9bd7721fa6c68
+    - path: Scripts/Scripts/Patches/PlacementHandler_Patch2.cs
+      guid: 3d6f80fd7fa349a4fae84d20ab0f9921
     - path: Scripts/Scripts/Patches/PlacementHandler_Patch.cs
       guid: 4106d58cc7eee974787d845874df06dd
     - path: Scripts/Scripts/Patches/MapUpdateSystem_Patch.cs
