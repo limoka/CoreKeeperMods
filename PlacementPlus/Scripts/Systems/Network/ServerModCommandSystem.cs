@@ -36,8 +36,6 @@ namespace PlacementPlus.Systems.Network
 
             // Apply hammer size (M1, plan-deharmony): The EquipmentUpdateSystem prefix is not called 
             // on Burst-enabled servers, so this continuously running system handles it instead. 
-            // ⚠️ An identical line exists in the .g.cs file (__OnUpdate_450AADF4) — that file's version 
-            // is the one that actually executes.
             EquipmentSystem_Patch.ApplySledgeSize(ref CheckedStateRef, isServer: true);
 
             bool guestMode = WorldInfo.guestMode;
@@ -47,7 +45,6 @@ namespace PlacementPlus.Systems.Network
             // Handle brush placement RPCs (M2, plan-deharmony) — This must occur before scheduling 
             // the lambda, ensuring that the lambda doesn't prematurely destroy BRUSH_PLACE entities 
             // within the exact same frame.
-            // ⚠️ An identical line exists in the .g.cs file — that file's version is the one that actually executes.
             Process(ref CheckedStateRef, ecb);
 
             var colorIndexLookupLocal = _colorIndexLookup;
@@ -61,221 +58,216 @@ namespace PlacementPlus.Systems.Network
 
             var responseArchetypeLocal = _responseArchetype;
 
-            Entities.ForEach((Entity rpcEntity, in PlacementPlusRPC rpc, in ReceiveRpcCommandRequest req) =>
+            foreach (var (rpc, req, rpcEntity)
+                     in SystemAPI.Query<PlacementPlusRPC, ReceiveRpcCommandRequest>()
+                         .WithEntityAccess())
+            {
+                if (rpc.commandType == ModCommandType.UNDEFINED) continue;
+
+                if (!SystemAPI.HasComponent<PlacementPlusState>(rpc.player))
                 {
-                    if (rpc.commandType == ModCommandType.UNDEFINED) return;
+                    PlacementPlusMod.Log.LogInfo(
+                        $"Something is wrong! Player {rpc.player} doesn't have PlacementPlusState!");
+                    ecb.DestroyEntity(rpcEntity);
+                    continue;
+                }
 
-                    if (!SystemAPI.HasComponent<PlacementPlusState>(rpc.player))
-                    {
-                        PlacementPlusMod.Log.LogInfo(
-                            $"Something is wrong! Player {rpc.player} doesn't have PlacementPlusState!");
-                        ecb.DestroyEntity(rpcEntity);
-                        return;
-                    }
+                var placementState = SystemAPI.GetComponent<PlacementPlusState>(rpc.player);
+                var inventory = SystemAPI.GetBuffer<ContainedObjectsBuffer>(rpc.player);
+                var clientInput = SystemAPI.GetComponent<ClientInput>(rpc.player);
+                ref var item = ref inventory.ElementAt(clientInput.equippedSlotIndex);
 
-                    var placementState = SystemAPI.GetComponent<PlacementPlusState>(rpc.player);
-                    var inventory = SystemAPI.GetBuffer<ContainedObjectsBuffer>(rpc.player);
-                    var clientInput = SystemAPI.GetComponent<ClientInput>(rpc.player);
-                    ref var item = ref inventory.ElementAt(clientInput.equippedSlotIndex);
+                switch (rpc.commandType)
+                {
+                    case ModCommandType.CHANGE_SIZE:
 
-                    switch (rpc.commandType)
-                    {
-                        case ModCommandType.CHANGE_SIZE:
+                        ref var objectInfo =
+                            ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
+                        if (objectInfo.objectID == ObjectID.None) continue;
 
-                            ref var objectInfo =
-                                ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
-                            if (objectInfo.objectID == ObjectID.None) return;
+                        Entity prefabEntity = objectInfo.prefabEntities[0];
 
-                            Entity prefabEntity = objectInfo.prefabEntities[0];
-
-                            // Sledgehammers: the hit collider is shared by every
-                            // player holding that item, so the size is a single
-                            // server-wide value — admins only (offline sessions
-                            // report max privileges, so singleplayer always
-                            // passes). Mirrored in the .g.cs — that copy runs.
-                            if (objectInfo.objectType == ObjectType.Sledge)
-                            {
-                                int sledgeAdmin = 0;
-                                if (SystemAPI.HasComponent<ConnectionAdminLevelCD>(req.SourceConnection))
-                                    sledgeAdmin = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection)
-                                        .adminPrivileges;
-
-                                if (sledgeAdmin <= 0)
-                                {
-                                    SendResponseMessage(responseArchetypeLocal, ecb,
-                                        ModMessageType.SLEDGE_SIZE_MESSAGE, -1, req.SourceConnection);
-                                    break;
-                                }
-
-                                int step = math.clamp(
-                                    PlacementPlusMod.sledgeSize.Value + rpc.valueChange, 0, 3);
-                                PlacementPlusMod.sledgeSize.Value = step;
-
-                                // Entity.Null target = broadcast, so every client
-                                // updates its synced copy.
-                                SendResponseMessage(responseArchetypeLocal, ecb,
-                                    ModMessageType.SLEDGE_SIZE_MESSAGE, step, Entity.Null);
-                                break;
-                            }
-
-                            // Tools can enter the size path even if they lack ResizableTileSizeCD — 
-                            // Tools that didn't have it (lower-tier shovels) were blocked by this gate, 
-                            // making the +/- size adjustments completely unresponsive (Observed by SirSephiroth1 on 08-28).
-                            bool sizeByVariation = SystemAPI.HasComponent<ResizableTileSizeCD>(prefabEntity) ||
-                                                   objectInfo.objectType == ObjectType.Shovel ||
-                                                   objectInfo.objectType == ObjectType.Hoe ||
-                                                   objectInfo.objectType == ObjectType.RoofingTool ||
-                                                   objectInfo.objectType == ObjectType.WaterCan;
-
-                            if (sizeByVariation)
-                            {
-                                var placementSizeBuffer =
-                                    SystemAPI.GetBuffer<PlacementSizeByEquipmentTypeBuffer>(rpc.player);
-                                var equipmentSlot = SystemAPI.GetComponent<EquipmentSlotCD>(rpc.player);
-
-                                // If the size is adjusted during suppress(slotType=100), it gets saved to the ghost element (100), 
-                                // causing a desync with the client preview (which tracks the normal slot element). 
-                                // We restore the original slot using the item type to normalize the key (Observed on 08-25: 
-                                // roofing behavior scaled properly by size, but the preview itself remained stuck at 9x9).
-                                // An identical block exists in the .g.cs file — that file's version is the one that actually executes.
-                                var sizeSlotType = equipmentSlot.slotType;
-                                if (sizeSlotType == (EquipmentSlotType)100)
-                                {
-                                    sizeSlotType = objectInfo.objectType switch
-                                    {
-                                        ObjectType.RoofingTool => EquipmentSlotType.RoofingToolSlot,
-                                        ObjectType.PaintTool => EquipmentSlotType.PaintToolSlot,
-                                        ObjectType.Shovel => EquipmentSlotType.ShovelSlot,
-                                        ObjectType.Hoe => EquipmentSlotType.HoeSlot,
-                                        _ => EquipmentSlotType.PlaceObjectSlot
-                                    };
-                                }
-
-                                ref var element = ref placementSizeBuffer.GetElementForEquipment(sizeSlotType);
-
-                                var size = (int)element.sizeVariationToPlace;
-
-                                // StartOnSmallestSize says where the game starts
-                                // the tool, not which way the size runs:
-                                // GetTileSizeFromVariation is min(var, cap) + 1,
-                                // always growing with var. Deriving the sign from
-                                // it made "+" shrink the roofing gadget.
-                                // Mirrored in the .g.cs — that is the copy that
-                                // actually runs.
-                                size += rpc.valueChange;
-
-                                if (size <= 0)
-                                    size = 0;
-                                if (size >= objectInfo.prefabTileSize.x - 1)
-                                    size = objectInfo.prefabTileSize.x - 1;
-
-                                element.sizeVariationToPlace = (byte)size;
-
-                                break;
-                            }
-
-                            placementState.ChangeSize(rpc.valueChange, currentTick);
-                            ecb.SetComponent(rpc.player, placementState);
-                            break;
-
-                        case ModCommandType.CHANGE_TOOL_MODE:
-
-                            int adminLevel = 0;
+                        // Sledgehammers: the hit collider is shared by every
+                        // player holding that item, so the size is a single
+                        // server-wide value — admins only (offline sessions
+                        // report max privileges, so singleplayer always
+                        // passes).
+                        if (objectInfo.objectType == ObjectType.Sledge)
+                        {
+                            int sledgeAdmin = 0;
                             if (SystemAPI.HasComponent<ConnectionAdminLevelCD>(req.SourceConnection))
-                                adminLevel = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection)
+                                sledgeAdmin = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection)
                                     .adminPrivileges;
 
-                            // Sledgehammer: the tool-mode key toggles square/arc.
-                            // Shared value like the size — admins only. Mirrored
-                            // in the .g.cs, that copy runs.
-                            ref var sledgeInfo =
-                                ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
-                            if (sledgeInfo.objectType == ObjectType.Sledge)
+                            if (sledgeAdmin <= 0)
                             {
-                                if (adminLevel <= 0)
-                                {
-                                    SendResponseMessage(responseArchetypeLocal, ecb,
-                                        ModMessageType.SLEDGE_SHAPE_MESSAGE, -1, req.SourceConnection);
-                                    break;
-                                }
-
-                                bool square = !PlacementPlusMod.sledgeSquare.Value;
-                                PlacementPlusMod.sledgeSquare.Value = square;
-
                                 SendResponseMessage(responseArchetypeLocal, ecb,
-                                    ModMessageType.SLEDGE_SHAPE_MESSAGE, square ? 1 : 0, Entity.Null);
+                                    ModMessageType.SLEDGE_SIZE_MESSAGE, -1, req.SourceConnection);
                                 break;
                             }
 
-                            if (guestMode && adminLevel <= 0) break;
+                            int step = math.clamp(
+                                PlacementPlusMod.sledgeSize.Value + rpc.valueChange, 0, 3);
+                            PlacementPlusMod.sledgeSize.Value = step;
 
-                            var resultMessage = ToggleToolMode(
-                                colorIndexLookupLocal,
-                                databaseLocal,
-                                paintToolLookup,
-                                ref placementState,
-                                ref item,
-                                rpc.valueChange > 0,
-                                maxPaintIndexLocal,
-                                creativeMode
-                            );
+                            // Entity.Null target = broadcast, so every client
+                            // updates its synced copy.
+                            SendResponseMessage(responseArchetypeLocal, ecb,
+                                ModMessageType.SLEDGE_SIZE_MESSAGE, step, Entity.Null);
+                            break;
+                        }
 
-                            if (resultMessage.messageType != ModMessageType.UNDEFINED)
+                        // Tools can enter the size path even if they lack ResizableTileSizeCD — 
+                        // Tools that didn't have it (lower-tier shovels) were blocked by this gate, 
+                        // making the +/- size adjustments completely unresponsive (Observed by SirSephiroth1 on 08-28).
+                        bool sizeByVariation = SystemAPI.HasComponent<ResizableTileSizeCD>(prefabEntity) ||
+                                               objectInfo.objectType == ObjectType.Shovel ||
+                                               objectInfo.objectType == ObjectType.Hoe ||
+                                               objectInfo.objectType == ObjectType.RoofingTool ||
+                                               objectInfo.objectType == ObjectType.WaterCan;
+
+                        if (sizeByVariation)
+                        {
+                            var placementSizeBuffer =
+                                SystemAPI.GetBuffer<PlacementSizeByEquipmentTypeBuffer>(rpc.player);
+                            var equipmentSlot = SystemAPI.GetComponent<EquipmentSlotCD>(rpc.player);
+
+                            // If the size is adjusted during suppress(slotType=100), it gets saved to the ghost element (100), 
+                            // causing a desync with the client preview (which tracks the normal slot element). 
+                            // We restore the original slot using the item type to normalize the key (Observed on 08-25: 
+                            // roofing behavior scaled properly by size, but the preview itself remained stuck at 9x9).
+                            var sizeSlotType = equipmentSlot.slotType;
+                            if (sizeSlotType == (EquipmentSlotType)100)
                             {
-                                SendResponseMessage(
-                                    responseArchetypeLocal,
-                                    ecb,
-                                    resultMessage.messageType,
-                                    resultMessage.messageData,
-                                    req.SourceConnection
-                                );
+                                sizeSlotType = objectInfo.objectType switch
+                                {
+                                    ObjectType.RoofingTool => EquipmentSlotType.RoofingToolSlot,
+                                    ObjectType.PaintTool => EquipmentSlotType.PaintToolSlot,
+                                    ObjectType.Shovel => EquipmentSlotType.ShovelSlot,
+                                    ObjectType.Hoe => EquipmentSlotType.HoeSlot,
+                                    _ => EquipmentSlotType.PlaceObjectSlot
+                                };
                             }
 
-                            ecb.SetComponent(rpc.player, placementState);
+                            ref var element = ref placementSizeBuffer.GetElementForEquipment(sizeSlotType);
+
+                            var size = (int)element.sizeVariationToPlace;
+
+                            // StartOnSmallestSize says where the game starts
+                            // the tool, not which way the size runs:
+                            // GetTileSizeFromVariation is min(var, cap) + 1,
+                            // always growing with var. Deriving the sign from
+                            // it made "+" shrink the roofing gadget.
+                            size += rpc.valueChange;
+
+                            if (size <= 0)
+                                size = 0;
+                            if (size >= objectInfo.prefabTileSize.x - 1)
+                                size = objectInfo.prefabTileSize.x - 1;
+
+                            element.sizeVariationToPlace = (byte)size;
 
                             break;
+                        }
 
-                        case ModCommandType.CHANGE_ORIENTATION:
+                        placementState.ChangeSize(rpc.valueChange, currentTick);
+                        ecb.SetComponent(rpc.player, placementState);
+                        break;
 
-                            placementState.ToggleMode(currentTick);
+                    case ModCommandType.CHANGE_TOOL_MODE:
 
-                            // For shovel/hoe/roofing/paint brush OFF behaves exactly like
-                            // SQUARE (their size is the tool's own), so their
-                            // cycle skips it. Mirrored in the .g.cs — that copy
-                            // runs.
-                            ref var orientInfo =
-                                ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
-                            if (placementState.mode == BrushMode.NONE &&
-                                (orientInfo.objectType == ObjectType.Shovel ||
-                                 orientInfo.objectType == ObjectType.Hoe ||
-                                 orientInfo.objectType == ObjectType.RoofingTool ||
-                                 orientInfo.objectType == ObjectType.PaintTool))
+                        int adminLevel = 0;
+                        if (SystemAPI.HasComponent<ConnectionAdminLevelCD>(req.SourceConnection))
+                            adminLevel = SystemAPI.GetComponent<ConnectionAdminLevelCD>(req.SourceConnection)
+                                .adminPrivileges;
+
+                        // Sledgehammer: the tool-mode key toggles square/arc.
+                        // Shared value like the size — admins only.
+                        ref var sledgeInfo =
+                            ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
+                        if (sledgeInfo.objectType == ObjectType.Sledge)
+                        {
+                            if (adminLevel <= 0)
                             {
-                                placementState.ToggleMode(currentTick);
+                                SendResponseMessage(responseArchetypeLocal, ecb,
+                                    ModMessageType.SLEDGE_SHAPE_MESSAGE, -1, req.SourceConnection);
+                                break;
                             }
 
-                            ecb.SetComponent(rpc.player, placementState);
+                            bool square = !PlacementPlusMod.sledgeSquare.Value;
+                            PlacementPlusMod.sledgeSquare.Value = square;
 
+                            SendResponseMessage(responseArchetypeLocal, ecb,
+                                ModMessageType.SLEDGE_SHAPE_MESSAGE, square ? 1 : 0, Entity.Null);
+                            break;
+                        }
+
+                        if (guestMode && adminLevel <= 0) break;
+
+                        var resultMessage = ToggleToolMode(
+                            colorIndexLookupLocal,
+                            databaseLocal,
+                            paintToolLookup,
+                            ref placementState,
+                            ref item,
+                            rpc.valueChange > 0,
+                            maxPaintIndexLocal,
+                            creativeMode
+                        );
+
+                        if (resultMessage.messageType != ModMessageType.UNDEFINED)
+                        {
                             SendResponseMessage(
                                 responseArchetypeLocal,
                                 ecb,
-                                ModMessageType.MODE_MESSAGE,
-                                (int)placementState.mode,
+                                resultMessage.messageType,
+                                resultMessage.messageData,
                                 req.SourceConnection
                             );
-                            break;
+                        }
 
-                        case ModCommandType.SET_REPLACE:
+                        ecb.SetComponent(rpc.player, placementState);
 
-                            placementState.replaceTiles = rpc.valueChange > 0;
-                            ecb.SetComponent(rpc.player, placementState);
-                            break;
-                    }
+                        break;
 
-                    ecb.DestroyEntity(rpcEntity);
-                })
-                .WithoutBurst()
-                .Schedule();
+                    case ModCommandType.CHANGE_ORIENTATION:
+
+                        placementState.ToggleMode(currentTick);
+
+                        // For shovel/hoe/roofing/paint brush OFF behaves exactly like
+                        // SQUARE (their size is the tool's own), so their
+                        // cycle skips it.
+                        ref var orientInfo =
+                            ref PugDatabase.GetEntityObjectInfo(item.objectID, databaseLocal, item.variation);
+                        if (placementState.mode == BrushMode.NONE &&
+                            (orientInfo.objectType == ObjectType.Shovel ||
+                             orientInfo.objectType == ObjectType.Hoe ||
+                             orientInfo.objectType == ObjectType.RoofingTool ||
+                             orientInfo.objectType == ObjectType.PaintTool))
+                        {
+                            placementState.ToggleMode(currentTick);
+                        }
+
+                        ecb.SetComponent(rpc.player, placementState);
+
+                        SendResponseMessage(
+                            responseArchetypeLocal,
+                            ecb,
+                            ModMessageType.MODE_MESSAGE,
+                            (int)placementState.mode,
+                            req.SourceConnection
+                        );
+                        break;
+
+                    case ModCommandType.SET_REPLACE:
+
+                        placementState.replaceTiles = rpc.valueChange > 0;
+                        ecb.SetComponent(rpc.player, placementState);
+                        break;
+                }
+
+                ecb.DestroyEntity(rpcEntity);
+            }
 
             base.OnUpdate();
         }
@@ -344,19 +336,15 @@ namespace PlacementPlus.Systems.Network
 
             _colorIndexLookup = new NativeHashMap<int, ObjectID>(16, Allocator.Persistent);
 
+            foreach (var (objectData, paintTool)
+                     in SystemAPI.Query<ObjectDataCD, PaintToolCD>()
+                         .WithAll<Prefab>())
+            {
+                if (paintTool.paintIndex == 0) continue;
 
-            Entities.ForEach((
-                    in ObjectDataCD objectDataCd,
-                    in PaintToolCD paintToolCd) =>
-                {
-                    if (paintToolCd.paintIndex == 0) return;
-
-                    _colorIndexLookup.Add(paintToolCd.paintIndex, objectDataCd.objectID);
-                    _maxPaintIndex = math.max(_maxPaintIndex, paintToolCd.paintIndex);
-                })
-                .WithAll<Prefab>()
-                .WithoutBurst()
-                .Run();
+                _colorIndexLookup.Add(paintTool.paintIndex, objectData.objectID);
+                _maxPaintIndex = math.max(_maxPaintIndex, paintTool.paintIndex);
+            }
             PlacementPlusMod.Log.LogInfo($"InitColorIndexLookup Done, {_colorIndexLookup.Count} brushes!");
         }
 
@@ -454,12 +442,12 @@ namespace PlacementPlus.Systems.Network
                 RunBrushPlace(
                     aspect,
                     ppState,
-                    sharedData, 
+                    sharedData,
                     lookupData,
                     ppLookups,
-                    rpc.anchor, 
+                    rpc.anchor,
                     rpc.kind
-                    );
+                );
             }
         }
 
@@ -537,7 +525,7 @@ namespace PlacementPlus.Systems.Network
             placementRef.bestPositionToPlaceAt = anchor;
             placementRef.canPlaceObject = true;
             placementRef.canPlaceOnSideOfWall = false;
-            
+
             switch (kind)
             {
                 case BrushKind.Roof:

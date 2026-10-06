@@ -78,38 +78,13 @@ namespace PlacementPlus.Systems
             var databaseBank = SystemAPI.GetSingleton<PugDatabase.DatabaseBankCD>();
             ResizeToolsOnce(databaseBank);
 
-            var levelLookup = SystemAPI.GetComponentLookup<LevelCD>();
-            var levelEntitiesLookup = SystemAPI.GetBufferLookup<LevelEntitiesBuffer>();
-            
-            var givesConditionsLookup = SystemAPI.GetBufferLookup<GivesConditionsWhenEquippedBuffer>();
-
-            Entities.ForEach((
-                    ref PlacementPlusState state,
-                    in EquippedObjectCD equippedObjectCD
-                ) =>
-                {
-                    int maxSize = PlacementPlusMod.maxSize.Value - 1;
-
-                    ObjectDataCD objectData = equippedObjectCD.containedObject.objectData;
-                    ref PugDatabase.EntityObjectInfo entityObjectInfo = ref PugDatabase.GetEntityObjectInfo(objectData.objectID,
-                        databaseBank.databaseBankBlob, objectData.variation);
-                    
-                    var conditionsBuffer = Helpers.GetConditionsBuffer(objectData, ref entityObjectInfo, levelLookup, levelEntitiesLookup, givesConditionsLookup);
-                    
-                    int damage = Helpers.GetShovelDamage(objectData, ref entityObjectInfo, conditionsBuffer);
-                    if (damage == 0)
-                    {
-                        state.currentMaxSize = maxSize;
-                        state.CheckSize(currentTick);
-                        return;
-                    }
-
-                    state.currentMaxSize = maxSize;
-                    state.CheckSize(currentTick);
-                })
-                .WithName("UpdateMaxSize")
-                .WithoutBurst()
-                .Schedule();
+            foreach (var state in SystemAPI.Query<RefRW<PlacementPlusState>>())
+            {
+                int maxSize = PlacementPlusMod.maxSize.Value - 1;
+                
+                state.ValueRW.currentMaxSize = maxSize;
+                state.ValueRW.CheckSize(currentTick);
+            }
 
             base.OnUpdate();
         }
